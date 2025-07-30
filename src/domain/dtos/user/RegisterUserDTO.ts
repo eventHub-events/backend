@@ -1,8 +1,10 @@
 export class UserRegisterDTO {
   name: string;
   email: string;
-  phone: string;
+  phone: number;
   password: string;
+  isVerified?:boolean;
+   role:string
   constructor(data: Partial<UserRegisterDTO>) {
 
 
@@ -17,9 +19,9 @@ export class UserRegisterDTO {
 
     
      //------> phone validation
-     const phoneRegex=/^[0,9]{10}$/;
+     const phoneRegex=/^[0-9]{10}$/;
 
-     if(!data.phone ||!phoneRegex.test(data.phone)){
+     if(!data.phone ||!phoneRegex.test(data.phone.toString())){
            throw new Error("Phone number must contain exactly 10 digits");
      }
 
@@ -38,6 +40,8 @@ export class UserRegisterDTO {
     this.email=data.email;
     this.phone=data.phone;
     this.password=data.password;
+    this.isVerified=false;
+    this.role=data.role ||"user"
 
   }
 

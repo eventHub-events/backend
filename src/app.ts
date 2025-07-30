@@ -1,0 +1,14 @@
+import express from "express";
+import dotenv from 'dotenv';
+import userRouts  from "../src/interface/routes/user/userRouts"
+import { DbConnection } from "./config/mongoose/DbConnection";
+dotenv.config()
+
+const app= express();
+DbConnection.connect()
+app.use(express.json())
+app.use("/api/user",userRouts );
+
+app.listen(process.env.PORT,()=>{
+  console.log("server is running ")
+})
