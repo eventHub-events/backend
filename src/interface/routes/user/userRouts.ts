@@ -10,6 +10,7 @@ import { BcryptHashService } from "../../../infrastructure/services/hashing/Bcry
 import { HashService } from "../../../infrastructure/services/hashing/HashService"
 import { NodeMailerEmailService } from "../../../infrastructure/services/nodeMailer/NodeMailerEmailService"
 import { EmailService } from "../../../infrastructure/services/nodeMailer/EmailService"
+import { ResendOtpUseCase } from "../../../application/user/auth/ResendOtp"
 const router=express.Router()
 
 const cacheService= new RedisCacheService()
@@ -25,10 +26,12 @@ const bcryptHashService=   new BcryptHashService()
 const hashService= new HashService(bcryptHashService)
 const verifyOtpUseCase= new VerifyOtpUseCase(userRepository,otpService,hashService);
 
+const resendOtpUseCase = new ResendOtpUseCase(generateOtpUseCase,nodeMailerEmailService)
+
 
 
 const authController= new AuthController(
-   registerUserUseCase,verifyOtpUseCase
+   registerUserUseCase,resendOtpUseCase,verifyOtpUseCase
 )
 
 
@@ -38,5 +41,6 @@ const authController= new AuthController(
 
 router.post("/register",(req,res)=>authController.registerUser(req,res))
 router.post("/verify-otp",(req,res)=>authController.verifyOtp(req,res))
+router.post("/resend-otp",(req,res)=>authController.resendOtp(req,res))
 
 export default router

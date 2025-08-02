@@ -9,4 +9,8 @@ export class GenerateOtpUseCase implements IGenerateOtpUseCase {
     const otp=await this._otpService.generateOtp(email,data);
     return otp;
   }
+  async reExecute(email: string): Promise<string> {
+      const otp=await this._otpService.reGenerateOtp(email)
+      return otp
+  }
 }
