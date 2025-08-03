@@ -21,7 +21,8 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
     return UserMapper.toDomain(userDoc);
   }
 
-  async verifyUser(userId: string): Promise<void> {
-
+  async verifyUser(email:string): Promise<User> {
+     const user= await UserModel.findOne({email})
+     return UserMapper.toEntity(user)
   }
 }

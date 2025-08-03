@@ -1,6 +1,6 @@
 import { IEmailService } from '../../interface/user/IEmailService';
 import { IGenerateOtpUseCase } from '../../interface/user/IGenerateOtpUseCase';
-import { IRegisterUserUseCase } from '../../interface/user/IRegisterUserUsecase';
+import { IRegisterUserUseCase } from '../../interface/user/IRegisterUserUseCase';
 import { IResendOtpUseCase } from '../../interface/user/IResendOtpUseCase';
 import { IVerifyOtpUseCase } from '../../interface/user/IVerifyOtpUseCase';
 

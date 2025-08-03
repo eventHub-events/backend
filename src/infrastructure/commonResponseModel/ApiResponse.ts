@@ -7,11 +7,11 @@ export class ApiResponse<T> {
     public errors?: string[],
   ) {}
 
-  static success<T>(message: string, data?: T, statusCode: number = 200) {
+  static success<T>(message: string,  statusCode: number = 200,data?: T,) {
     return new ApiResponse(true, statusCode, message, data);
   }
 
-  static error<T>(message:string, error?:string[], statusCode:number = 400) {
+  static error<T>(message:string,  statusCode:number = 400,error?:string[]) {
     return new ApiResponse(false, statusCode, message, error);
   }
 }

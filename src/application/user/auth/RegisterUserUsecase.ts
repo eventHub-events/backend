@@ -4,10 +4,10 @@ import { IOtpService } from '../../../infrastructure/interface/IOtpService';
 import { OtpService } from '../../../infrastructure/services/otp/OtpService';
 import { IEmailService } from '../../interface/user/IEmailService';
 import { IGenerateOtpUseCase } from '../../interface/user/IGenerateOtpUseCase';
-import { IRegisterUserUseCase } from '../../interface/user/IRegisterUserUsecase';
+import { IRegisterUserUseCase } from "../../interface/user/IRegisterUserUsecase"
 import { GenerateOtpUseCase } from './GenerateOtpUseCase';
 
-export class RegisterUserUsecase implements IRegisterUserUseCase {
+export class RegisterUserUseCase implements IRegisterUserUseCase {
   constructor(
     private _userRepo: IUserRepository,
     private _generateOtpUseCase:IGenerateOtpUseCase,

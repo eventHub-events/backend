@@ -3,12 +3,14 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import userRouts from './interface/routes/user/userRouts';
 import { DbConnection } from './config/mongoose/DbConnection';
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
 DbConnection.connect();
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({
   origin: 'http://localhost:3000', // Allow frontend origin
   credentials: true, // Allow cookies if using HTTP-only cookies
