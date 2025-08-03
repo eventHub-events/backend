@@ -3,7 +3,7 @@ import { RedisCacheService } from '../../../infrastructure/services/otp/RedisCac
 import { OtpService } from '../../../infrastructure/services/otp/OtpService';
 import { UserRepository } from '../../../infrastructure/repositories/UserRepository';
 import { GenerateOtpUseCase } from '../../../application/user/auth/GenerateOtpUseCase';
-import { RegisterUserUsecase } from '../../../application/user/auth/RegisterUserUseCase';
+import { RegisterUserUseCase } from '../../../application/user/auth/RegisterUserUseCase';
 import { VerifyOtpUseCase } from '../../../application/user/auth/VerifyOtpUseCase';
 import { AuthController } from '../../controllers/user/AuthController';
 import { BcryptHashService } from '../../../infrastructure/services/hashing/BcryptHashService';
@@ -23,7 +23,7 @@ const userRepository = new UserRepository();
 const generateOtpUseCase = new GenerateOtpUseCase(otpService);
 const nodeMailerEmailService = new NodeMailerEmailService();
 const emailService = new EmailService(nodeMailerEmailService);
-const registerUserUseCase = new RegisterUserUsecase(userRepository, generateOtpUseCase, emailService);
+const registerUserUseCase = new RegisterUserUseCase(userRepository, generateOtpUseCase, emailService);
 
 // Hashing related dependency injection
 const bcryptHashService = new BcryptHashService();
