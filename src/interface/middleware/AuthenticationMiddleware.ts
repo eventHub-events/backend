@@ -24,6 +24,8 @@ export class AuthenticationMiddleWare {
         .json(ApiResponse.error("Invalid or expired token"));
     }
   }
+  
+
   async validateRefreshToken(req: IAuthenticatedRequest, res: Response, next: NextFunction){
     try{
       const  refreshToken= req.cookies?.refreshToken

@@ -1,14 +1,16 @@
 import { Request, Response } from "express";
-import { RegisterUserUseCase } from "../../../application/user/auth/RegisterUserUseCase";
+import { RegisterUserUseCase } from "../../../application/user/auth/RegisterUserUsecase";
 import { UserRegisterDTO } from "../../../domain/dtos/user/RegisterUserDTO";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { VerifyOtpUseCase } from "../../../application/user/auth/VerifyOtpUseCase";
-import { IRegisterUserUseCase } from "../../../application/interface/user/IRegisterUserUsecase";
+import { IRegisterUserUseCase } from "../../../application/interface/user/IRegisterUserUseCase";
 import { IVerifyOtpUseCase } from "../../../application/interface/user/IVerifyOtpUseCase";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { IResendOtpUseCase } from "../../../application/interface/user/IResendOtpUseCase";
 import { ILoginUserUseCase } from "../../../application/interface/user/ILoginUserUseCase";
 import { IRefreshTokenUseCase } from "../../../application/interface/user/IRefreshTokenUseCase";
+import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
+import { User } from "../../../domain/entities/User";
 
 export class AuthController {
   constructor(
@@ -25,10 +27,11 @@ export class AuthController {
       const dto = new UserRegisterDTO(req.body);
       const result = await this._registerUserCase.execute(dto);
       res.status(HttpStatusCode.OK).json(ApiResponse.success(result.message));
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message= err instanceof Error? err.message :"Something went wrong";
       res
         .status(HttpStatusCode.BAD_REQUEST)
-        .json(ApiResponse.error(err.message));
+        .json(ApiResponse.error(message));
     }
   }
 
@@ -39,10 +42,11 @@ export class AuthController {
       console.log("email in resent otp", email);
       const result = await this._resendOtpUseCase.execute(email);
       res.status(HttpStatusCode.OK).json(ApiResponse.success(result));
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message= err instanceof Error? err.message :"Something went wrong";
       res
         .status(HttpStatusCode.BAD_REQUEST)
-        .json(ApiResponse.error(err.message));
+        .json(ApiResponse.error(message));
     }
   }
 
@@ -55,10 +59,11 @@ export class AuthController {
       return res
         .status(HttpStatusCode.OK)
         .json(ApiResponse.success("OTP verified successfully", result));
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const message= err instanceof Error? err.message :"Something went wrong";
       return res
         .status(HttpStatusCode.BAD_REQUEST)
-        .json(ApiResponse.error(err.message));
+        .json(ApiResponse.error(message));
     }
   }
   async loginUser(req: Request, res: Response) {
@@ -91,16 +96,17 @@ export class AuthController {
       return res
         .status(HttpStatusCode.OK)
         .json(ApiResponse.success("login  successful"));
-    } catch (err: any) {
+    } catch (err:unknown) {
+      const message= err instanceof Error? err.message :"Something went wrong";
       return res
         .status(HttpStatusCode.UNAUTHORIZED)
-        .json(ApiResponse.error(err.message));
+        .json(ApiResponse.error(message));
     }
   }
-  async refreshAccessToken(req:Request,res:Response){
+  async refreshAccessToken(req:IAuthenticatedRequest,res:Response){
     try{
-      const token=req.cookies
-      const accessToken= await this._generateAccessTokenUseCase.generateAccessToken(token)
+      
+      const accessToken= await this._generateAccessTokenUseCase.generateAccessToken(req.refreshToken!)
       res.cookie("authToken", accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
@@ -111,8 +117,9 @@ export class AuthController {
       return res.status(HttpStatusCode.OK).json(ApiResponse.success("Access token creation successful"))
 
 
-    }catch(err:any){
-         return res.status(HttpStatusCode.UNAUTHORIZED).json(ApiResponse.error(err.message))
+    }catch(err:unknown){
+      const message= err instanceof Error? err.message :"Something went wrong";
+         return res.status(HttpStatusCode.UNAUTHORIZED).json(ApiResponse.error(message))
 
     }
   }

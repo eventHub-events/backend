@@ -7,7 +7,7 @@ import { BaseRepository } from './BaseRepository';
 
 export class UserRepository extends BaseRepository<IUserDocument> implements IUserRepository {
   constructor() {
-    // Injecting the UserModel into the BaseRepository (Dependency Injection)
+    // ======>Injecting the UserModel into the BaseRepository (Dependency Injection)
     super(UserModel);
   }
 
