@@ -1,3 +1,4 @@
+
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -7,6 +8,7 @@ import cookieParser from "cookie-parser";
 
 dotenv.config();
 
+
 const app = express();
 DbConnection.connect();
 app.use(express.json());
@@ -14,8 +16,10 @@ app.use(cookieParser());
 app.use(cors({
   origin: 'http://localhost:3000', // Allow frontend origin
   credentials: true, // Allow cookies if using HTTP-only cookies
+ 
 }));
 app.use('/api/user', userRouts);
+
 
 app.listen(process.env.PORT, () => {
   console.log('server is running ');
