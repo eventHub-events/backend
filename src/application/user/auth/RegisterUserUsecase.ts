@@ -1,7 +1,6 @@
 import { UserRegisterDTO } from '../../../domain/dtos/user/RegisterUserDTO';
 import { IUserRepository } from '../../../domain/repositories/user/IUserRepository';
 import { IOtpService } from '../../../infrastructure/interface/IOtpService';
-import { OtpService } from '../../../infrastructure/services/otp/OtpService';
 import { IEmailService } from '../../interface/user/IEmailService';
 import { IGenerateOtpUseCase } from '../../interface/user/IGenerateOtpUseCase';
 import { IRegisterUserUseCase } from "../../interface/user/IRegisterUserUseCase"

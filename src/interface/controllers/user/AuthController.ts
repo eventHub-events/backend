@@ -69,6 +69,7 @@ export class AuthController {
   async loginUser(req: Request, res: Response) {
     try {
       const { email, password } = req.body;
+       console.log("hello  from  login")
       if (!email || !password) {
         return res
           .status(HttpStatusCode.BAD_REQUEST)

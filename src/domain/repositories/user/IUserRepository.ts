@@ -4,5 +4,5 @@ import { User } from '../../entities/User';
 export interface IUserRepository {
   createUser(user:UserRegisterDTO):Promise<User>;
   findByEmail(email:string):Promise<User | null>;
-  verifyUser(email:string):Promise<User>
+  verifyUser(email:string):Promise<User|null>
 }
