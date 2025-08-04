@@ -11,6 +11,7 @@ import { ILoginUserUseCase } from "../../../application/interface/user/ILoginUse
 import { IRefreshTokenUseCase } from "../../../application/interface/user/IRefreshTokenUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 import { User } from "../../../domain/entities/User";
+import { IUserLoginResponse } from "../../../domain/types/IUserLoginResponse";
 
 export class AuthController {
   constructor(
@@ -66,7 +67,7 @@ export class AuthController {
         .json(ApiResponse.error(message));
     }
   }
-  async loginUser(req: Request, res: Response) {
+  async loginUser(req: Request, res: Response){
     try {
       const { email, password } = req.body;
        console.log("hello  from  login")
@@ -76,7 +77,7 @@ export class AuthController {
           .json(ApiResponse.error("Email and password are required"));
       }
 
-      const { token, refreshToken } = await this._loginUserUseCase.loginUser(
+      const { token, refreshToken,user } = await this._loginUserUseCase.loginUser(
         email,
         password
       );
@@ -96,7 +97,7 @@ export class AuthController {
 
       return res
         .status(HttpStatusCode.OK)
-        .json(ApiResponse.success("login  successful"));
+        .json(ApiResponse.success("login  successful",HttpStatusCode.OK,user));
     } catch (err:unknown) {
       const message= err instanceof Error? err.message :"Something went wrong";
       return res

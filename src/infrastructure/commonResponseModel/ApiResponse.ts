@@ -11,7 +11,7 @@ export class ApiResponse<T> {
     return new ApiResponse(true, statusCode, message, data);
   }
 
-  static error<T>(message:string,  statusCode:number = 400,error?:string[]) {
-    return new ApiResponse(false, statusCode, message, error);
+  static error<T>(message:string,  statusCode:number = 400,errors?:string[]) {
+    return new ApiResponse(false, statusCode, message, undefined, errors);
   }
 }

@@ -22,7 +22,7 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
   }
 
   async verifyUser(email:string): Promise<User|null> {
-     const user= await UserModel.findOne({email})
+     const user= await UserModel.findOne({email});
      if(!user)return null
      return UserMapper.toDomain(user)
   }
