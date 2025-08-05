@@ -12,6 +12,8 @@ import { IRefreshTokenUseCase } from "../../../application/interface/user/IRefre
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 import { User } from "../../../domain/entities/User";
 import { IUserLoginResponse } from "../../../domain/types/IUserLoginResponse";
+import { ILogoutUseCase } from "../../../application/interface/user/ILogoutUseCase";
+import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
 
 export class AuthController {
   constructor(
@@ -20,7 +22,8 @@ export class AuthController {
     private _resendOtpUseCase: IResendOtpUseCase,
     private _verifyOtpUseCase: IVerifyOtpUseCase,
     private _loginUserUseCase: ILoginUserUseCase,
-    private _generateAccessTokenUseCase:IRefreshTokenUseCase
+    private _generateAccessTokenUseCase:IRefreshTokenUseCase,
+    private _logoutUserUseCase:ILogoutUseCase
   ) {}
 
   async registerUser(req: Request, res: Response): Promise<void> {
@@ -29,7 +32,7 @@ export class AuthController {
       const result = await this._registerUserCase.execute(dto);
       res.status(HttpStatusCode.OK).json(ApiResponse.success(result.message));
     } catch (err: unknown) {
-      const message= err instanceof Error? err.message :"Something went wrong";
+      const message= HandleErrorUtility.handleError(err)
       res
         .status(HttpStatusCode.BAD_REQUEST)
         .json(ApiResponse.error(message));
@@ -44,7 +47,7 @@ export class AuthController {
       const result = await this._resendOtpUseCase.execute(email);
       res.status(HttpStatusCode.OK).json(ApiResponse.success(result));
     } catch (err: unknown) {
-      const message= err instanceof Error? err.message :"Something went wrong";
+      const message= HandleErrorUtility.handleError(err,"Something went wrong")
       res
         .status(HttpStatusCode.BAD_REQUEST)
         .json(ApiResponse.error(message));
@@ -59,9 +62,10 @@ export class AuthController {
       console.log("result after verification", result);
       return res
         .status(HttpStatusCode.OK)
-        .json(ApiResponse.success("OTP verified successfully", result));
+        .json(ApiResponse.success("OTP verified successfully", HttpStatusCode.OK,result));
     } catch (err: unknown) {
-      const message= err instanceof Error? err.message :"Something went wrong";
+     
+      const message= HandleErrorUtility.handleError(err,"something went wrong")
       return res
         .status(HttpStatusCode.BAD_REQUEST)
         .json(ApiResponse.error(message));
@@ -99,12 +103,40 @@ export class AuthController {
         .status(HttpStatusCode.OK)
         .json(ApiResponse.success("login  successful",HttpStatusCode.OK,user));
     } catch (err:unknown) {
-      const message= err instanceof Error? err.message :"Something went wrong";
+     
+      const message= HandleErrorUtility.handleError(err,"Something went wrong")
+
       return res
         .status(HttpStatusCode.UNAUTHORIZED)
         .json(ApiResponse.error(message));
     }
   }
+
+      async  logout(req:Request,res:Response){
+
+        try{
+          const result=await this._logoutUserUseCase.execute()
+          res.clearCookie("authToken",{
+            httpOnly:true,
+            secure: process.env.NODE_ENV === "production",
+              sameSite: "strict",
+
+          })
+          res.clearCookie("refreshToken",{
+            httpOnly:true,
+            secure: process.env.NODE_ENV === "production",
+              sameSite: "strict",
+          })
+          return res.status(HttpStatusCode.OK).json(ApiResponse.success(result,HttpStatusCode.OK,result))
+
+        }catch(err:unknown){
+              const errorMessage= HandleErrorUtility.handleError(err,"Logout failed")
+              return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(ApiResponse.error(errorMessage,HttpStatusCode.INTERNAL_SERVER_ERROR))
+        }
+
+    }
+
+
   async refreshAccessToken(req:IAuthenticatedRequest,res:Response){
     try{
       
@@ -120,7 +152,10 @@ export class AuthController {
 
 
     }catch(err:unknown){
-      const message= err instanceof Error? err.message :"Something went wrong";
+      
+      
+      const message= HandleErrorUtility.handleError(err,"Something went wrong")
+
          return res.status(HttpStatusCode.UNAUTHORIZED).json(ApiResponse.error(message))
 
     }

@@ -13,7 +13,7 @@ import { ITokenService } from "../../interface/user/ITokenService";
 async loginUser(email: string, password: string): Promise<IUserLoginResponse> {
         
     const userDoc= await this._userRepository.verifyUser(email)
-    console.log("user in login use case",user)
+    console.log("user in login use case",userDoc)
       if(!userDoc)  throw new Error("user is not found")
         const hashedPassword= userDoc.password
       const  isPasswordValid= await this._hashService.compare(password,hashedPassword)
