@@ -3,7 +3,7 @@ import { RegisterUserUseCase } from "../../../application/user/auth/RegisterUser
 import { UserRegisterDTO } from "../../../domain/dtos/user/RegisterUserDTO";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { VerifyOtpUseCase } from "../../../application/user/auth/VerifyOtpUseCase";
-import { IRegisterUserUseCase } from "../../../application/interface/user/IRegisterUserUseCase";
+import { IRegisterUserUseCase } from "../../../application/interface/user/IRegisterUserUsecase";
 import { IVerifyOtpUseCase } from "../../../application/interface/user/IVerifyOtpUseCase";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { IResendOtpUseCase } from "../../../application/interface/user/IResendOtpUseCase";

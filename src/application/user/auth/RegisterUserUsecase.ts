@@ -3,7 +3,8 @@ import { IUserRepository } from '../../../domain/repositories/user/IUserReposito
 import { IOtpService } from '../../../infrastructure/interface/IOtpService';
 import { IEmailService } from '../../interface/user/IEmailService';
 import { IGenerateOtpUseCase } from '../../interface/user/IGenerateOtpUseCase';
-import { IRegisterUserUseCase } from "../../interface/user/IRegisterUserUseCase"
+import { IRegisterUserUseCase } from '../../interface/user/IRegisterUserUsecase';
+
 import { GenerateOtpUseCase } from './GenerateOtpUseCase';
 
 export class RegisterUserUseCase implements IRegisterUserUseCase {

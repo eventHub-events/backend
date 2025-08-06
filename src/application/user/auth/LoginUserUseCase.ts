@@ -28,7 +28,8 @@ async loginUser(email: string, password: string): Promise<IUserLoginResponse> {
           id:userDoc.id,
           name:userDoc.name,
           email:userDoc.email,
-          role:userDoc.role
+          role:userDoc.role,
+          isVerified:userDoc.isVerified
         }
         
        return {token,refreshToken,user}
