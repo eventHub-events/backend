@@ -1,0 +1,4 @@
+[2025-08-07 01:05:09] ERROR: Error seeding admin Name must start with a capital letter, contain only letters, and be max 15 characters
+[2025-08-07 01:06:14] ERROR: Error seeding admin Password must be 8–16 characters and include 1 uppercase, 1 lowercase, 1 number, and 1 special character
+[2025-08-07 01:07:06] ERROR: Error seeding admin Password must be 8–16 characters and include 1 uppercase, 1 lowercase, 1 number, and 1 special character
+[2025-08-07 01:07:55] ERROR: Error seeding admin Password must be 8–16 characters and include 1 uppercase, 1 lowercase, 1 number, and 1 special character
