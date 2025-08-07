@@ -5,3 +5,7 @@
 [2025-08-07 01:12:26] INFO: admin created :admin@eventhub.com
 [2025-08-07 09:22:27] INFO: Admin already exists: admin@eventhub.com
 [2025-08-07 09:23:41] INFO: admin created :admin@eventhub.com
+[2025-08-07 12:17:14] INFO: Admin already exists: admin@eventhub.com
+[2025-08-07 12:17:34] ERROR: Error seeding admin Password must be 8–16 characters and include 1 uppercase, 1 lowercase, 1 number, and 1 special character
+[2025-08-07 12:19:24] ERROR: Error seeding admin Password must be 8–16 characters and include 1 uppercase, 1 lowercase, 1 number, and 1 special character
+[2025-08-07 12:19:51] INFO: admin created :admin@eventhub.com

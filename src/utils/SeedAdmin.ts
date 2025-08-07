@@ -4,6 +4,8 @@ import { ILoggerService } from "../application/interface/common/ILoggerService";
 import { IHashService } from "../application/interface/user/IHashService";
 import { DbConnection } from "../config/mongoose/DbConnection";
 import { IUserRepository } from "../domain/repositories/user/IUserRepository";
+import dotenv from "dotenv"
+dotenv.config()
 
 
 
@@ -17,9 +19,9 @@ export class SeedAdmin implements ISeedAdmin{
 
   constructor(private _userRepo:IUserRepository,private _hashService:IHashService,private _logger:ILoggerService
   ){
-this.name = process.env.ADMIN_NAME || "SuperAdmin";
-    this.email = process.env.ADMIN_EMAIL || "admin@eventhub.com";
-    this.password = process.env.ADMIN_PASSWORD || "Pulser@1234"
+this.name = process.env.ADMIN_NAME ||""
+    this.email = process.env.ADMIN_EMAIL ||""
+    this.password = process.env.ADMIN_PASSWORD ||""
     
 
   }
@@ -29,10 +31,10 @@ this.name = process.env.ADMIN_NAME || "SuperAdmin";
  await DbConnection.connect()
       const existingAdmin= await this._userRepo.verifyUser(this.email);
       if(existingAdmin?.role==="admin"){
-        console.log("admin already exists",existingAdmin.email)
         this._logger.info(`Admin already exists: ${existingAdmin.email}`);
         return;
       }
+      console.log("admin email",this.email,this.password)
       const adminDTO = new UserRegisterDTO({
         name: this.name,
         email: this.email,

@@ -74,6 +74,7 @@ export class AuthController {
   async loginUser(req: Request, res: Response){
     try {
       const { email, password } = req.body;
+      console.log("admin email and password",email,password)
        console.log("hello  from  login")
       if (!email || !password) {
         return res

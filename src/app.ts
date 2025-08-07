@@ -5,6 +5,7 @@ import cors from 'cors';
 import userRouts from './interface/routes/user/userRouts';
 import { DbConnection } from './config/mongoose/DbConnection';
 import cookieParser from "cookie-parser";
+import adminRoutes from "./interface/routes/admin/adminRoutes"
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ app.use(cors({
  
 }));
 app.use('/api/user', userRouts);
+app.use('/api/admin',adminRoutes)
 
 
 app.listen(process.env.PORT, () => {
