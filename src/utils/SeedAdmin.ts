@@ -1,4 +1,4 @@
-import { partial } from "zod/v4/core/util.cjs";
+
 import { ISeedAdmin } from "../application/interface/admin/ISeedAdmin";
 import { ILoggerService } from "../application/interface/common/ILoggerService";
 import { IHashService } from "../application/interface/user/IHashService";
@@ -6,7 +6,7 @@ import { DbConnection } from "../config/mongoose/DbConnection";
 import { IUserRepository } from "../domain/repositories/user/IUserRepository";
 
 
-import { User } from "../domain/entities/User";
+
 import { UserRegisterDTO } from "../domain/dtos/user/RegisterUserDTO";
 
 export class SeedAdmin implements ISeedAdmin{
@@ -42,9 +42,9 @@ this.name = process.env.ADMIN_NAME || "SuperAdmin";
         role: "admin",
       });
     
-      adminDTO.password = await this._hashService.hash(adminDTO.password);
+      adminDTO.password = await this._hashService.hash(this.password);
       
-      const result=await this._userRepo.createUser(adminDTO)
+      await this._userRepo.createUser(adminDTO)
      
       this._logger.info(`admin created :${this.email}`);
     
