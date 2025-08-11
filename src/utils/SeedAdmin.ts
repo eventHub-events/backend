@@ -46,7 +46,8 @@ this.name = process.env.ADMIN_NAME ||""
     
       adminDTO.password = await this._hashService.hash(this.password);
       
-      await this._userRepo.createUser(adminDTO)
+      const result=await this._userRepo.createUser(adminDTO)
+      console.log("result is ",result)
      
       this._logger.info(`admin created :${this.email}`);
     

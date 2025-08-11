@@ -1,9 +1,13 @@
+
+import { Types } from "mongoose";
 export interface User {
-  id?:string;
+  _id?:string;
   name:string;
   email:string;
   password:string;
   phone:number;
   isVerified:boolean
-  role:string
+  role:string,
+  isBlocked:boolean,
+  createdAt?:Date
 }

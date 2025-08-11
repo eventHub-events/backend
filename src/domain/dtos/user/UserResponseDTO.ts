@@ -1,8 +1,10 @@
 export interface UserResponseDTO {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   phone: number;
-  isVerified: boolean;
+  isVerified?: boolean;
   role: string;
+  isBlocked:boolean;
+  createdAt?:Date
 }

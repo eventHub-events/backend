@@ -1,4 +1,5 @@
 export class UserRegisterDTO {
+  
   name: string;
 
   email: string;
@@ -10,6 +11,7 @@ export class UserRegisterDTO {
   isVerified?:boolean;
 
   role:string;
+  isBlocked:boolean;
 
   constructor(data: Partial<UserRegisterDTO>) {
     const nameRegex = /^[A-Z][a-zA-Z]{0,14}$/;
@@ -43,7 +45,8 @@ export class UserRegisterDTO {
     this.email = data.email;
     this.phone = data.phone;
     this.password = data.password;
-    this.isVerified = false;
+    this.isVerified = data.isVerified ?? false;
     this.role = data.role || 'user';
+    this.isBlocked=data.isBlocked || false
   }
 }

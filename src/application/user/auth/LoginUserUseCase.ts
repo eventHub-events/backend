@@ -13,6 +13,7 @@ import { ITokenService } from "../../interface/user/ITokenService";
 async loginUser(email: string, password: string): Promise<IUserLoginResponse> {
         
     const userDoc= await this._userRepository.verifyUser(email)
+    console.log("admin  userDoc",userDoc)
     console.log("user in login use case",userDoc)
       if(!userDoc)  throw new Error("user is not found")
         const hashedPassword= userDoc.password
@@ -24,6 +25,7 @@ async loginUser(email: string, password: string): Promise<IUserLoginResponse> {
         
         const token= await this._tokenService.generateToken(payload)
         const refreshToken= await this._tokenService.generateRefreshToken(payload)
+
         const user={
           id:userDoc.id,
           name:userDoc.name,
@@ -31,7 +33,7 @@ async loginUser(email: string, password: string): Promise<IUserLoginResponse> {
           role:userDoc.role,
           isVerified:userDoc.isVerified
         }
-        
+       
        return {token,refreshToken,user}
 
       

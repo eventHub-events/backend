@@ -9,3 +9,6 @@
 [2025-08-07 12:17:34] ERROR: Error seeding admin Password must be 8–16 characters and include 1 uppercase, 1 lowercase, 1 number, and 1 special character
 [2025-08-07 12:19:24] ERROR: Error seeding admin Password must be 8–16 characters and include 1 uppercase, 1 lowercase, 1 number, and 1 special character
 [2025-08-07 12:19:51] INFO: admin created :admin@eventhub.com
+[2025-08-07 17:06:15] INFO: admin created :admin@eventhub.com
+[2025-08-07 17:11:30] INFO: admin created :admin@eventhub.com
+[2025-08-07 18:10:41] INFO: admin created :admin@eventhub.com

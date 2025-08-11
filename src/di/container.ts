@@ -25,7 +25,7 @@ import { LogoutUserUseCase } from '../application/user/auth/LogoutUserUseCase';
 
 const cacheService = new RedisCacheService();
 const otpService = new OtpService(cacheService);
-const userRepository = new UserRepository();
+export const userRepository = new UserRepository();
 const generateOtpUseCase = new GenerateOtpUseCase(otpService);
 const nodeMailerEmailService = new NodeMailerEmailService();
 const emailService = new EmailService(nodeMailerEmailService);
