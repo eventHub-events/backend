@@ -1,4 +1,4 @@
-import {
+import mongoose, {
   Model, Document, FilterQuery, UpdateQuery,
 } from 'mongoose';
 
@@ -22,9 +22,10 @@ export class BaseRepository< T extends Document > {
   }
 
   async update(id:string, data:UpdateQuery<T>):Promise<T | null> {
-    return this.model.findByIdAndUpdate(id, data, { new: true }).exec();
+   
+         return await this.model.findByIdAndUpdate(id,data,{new:true}).exec();
+       
   }
-
   async delete(id:string):Promise<void> {
     await this.model.findByIdAndDelete(id).exec();
   }

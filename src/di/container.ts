@@ -27,7 +27,8 @@ import { WinstonLoggerService } from '../infrastructure/services/logger/loggerSe
 
 const cacheService = new RedisCacheService();
 const otpService = new OtpService(cacheService);
-export const userRepository = new UserRepository();
+const loggerService= new WinstonLoggerService()
+export const userRepository = new UserRepository(loggerService);
 const generateOtpUseCase = new GenerateOtpUseCase(otpService);
 const nodeMailerEmailService = new NodeMailerEmailService();
 const emailService = new EmailService(nodeMailerEmailService);

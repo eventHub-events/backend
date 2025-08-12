@@ -14,7 +14,7 @@ export class VerifyOtpUseCase implements IVerifyOtpUseCase {
   ) {}
 
   async execute(email:string, otp:string) {
-    console.log('ptp in verifyotpusecaseis', otp);
+    console.log('otp is', otp);
     const userData = await this._otpService.verifyOtp(email, otp);
     userData.isVerified = true;
     userData.password = await this._hashService.hash(userData.password);

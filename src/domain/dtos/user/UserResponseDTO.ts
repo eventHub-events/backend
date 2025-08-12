@@ -5,6 +5,7 @@ export interface UserResponseDTO {
   phone: number;
   isVerified?: boolean;
   role: string;
+  kycStatus?:string
   isBlocked:boolean;
   createdAt?:Date
 }
