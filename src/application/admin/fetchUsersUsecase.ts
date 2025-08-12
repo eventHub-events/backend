@@ -1,7 +1,11 @@
+
 import { UserResponseDTO } from "../../domain/dtos/user/UserResponseDTO";
 import { IUserRepository } from "../../domain/repositories/user/IUserRepository";
-import { IUsersDocument } from "../../infrastructure/interface/IUsersDocument";
+
 import { IFetchUserUseCase } from "../interface/admin/IFetchUsersUseCase";
+
+import { HandleErrorUtility } from "../../utils/HandleErrorUtility";
+import { IUserUpdateDTO } from "../../domain/dtos/user/userUpdateDTO";
 
 export class FetchUserUseCase implements IFetchUserUseCase{
   constructor(private _userRepo:IUserRepository){}
@@ -15,5 +19,17 @@ export class FetchUserUseCase implements IFetchUserUseCase{
        
        return null
     }
+  }
+async updateUser(id: string,data:IUserUpdateDTO):Promise<UserResponseDTO|string>  {
+      try{
+        console.log(id,data)
+        const result= await this._userRepo.updateUser(id,data)
+        console.log("result is ",result)
+        return result
+        
+      }catch (err:unknown){
+         const error=HandleErrorUtility.handleError(err)
+         return  error
+      }
   }
 }

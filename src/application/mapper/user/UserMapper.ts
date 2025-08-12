@@ -12,7 +12,8 @@ export class UserMapper {
       password: dto.password,
       isVerified: dto.isVerified ?? false,
       role: dto.role || 'user',
-      isBlocked:dto.isBlocked
+      isBlocked:dto.isBlocked,
+      kycStatus:dto.kycStatus
     };
   }
   // we use this method for converting the the dto  to entity for saving to  mongo db//
@@ -26,6 +27,7 @@ export class UserMapper {
       password: raw.password,
       isVerified: raw.isVerified,
       role: raw.role,
+      kycStatus:raw.kycStatus,
       isBlocked:raw.isBlocked
     };
   }
@@ -42,6 +44,7 @@ export class UserMapper {
       isVerified: entity.isVerified,
       role: entity.role ?? 'user',
       isBlocked:entity.isBlocked,
+      kycStatus:entity.kycStatus,
       createdAt:entity.createdAt
     };
   }

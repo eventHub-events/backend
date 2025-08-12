@@ -9,6 +9,7 @@ export interface IUserDocument extends Document {
   isVerified: boolean;
   isBlocked:boolean;
   role: string;
+  kycStatus:string;
   createdAt?:Date
 }
 
@@ -18,6 +19,7 @@ const UserSchema: Schema<IUserDocument> = new Schema({
   password: { type: String, required: true },
   phone: { type: Number, required: true },
   isVerified: { type: Boolean, default: false },
+  kycStatus:{type:String,default:"N/A"},
   isBlocked:{type:Boolean,default:false},
 
   role: { type: String, default: 'user' },

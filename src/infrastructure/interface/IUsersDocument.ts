@@ -9,6 +9,7 @@ export interface IUsersDocument  {
   phone: number;
   isVerified: boolean;
   isBlocked:boolean;
+  kycStatus:string;
   role: string;
   createdAt?:Date
 }

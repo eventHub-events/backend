@@ -23,6 +23,7 @@ static toResponse(users:IUsersDocument[]):Omit<UserResponseDTO, "phone" | "passw
    email:user.email,
    role:user.role,
    isBlocked:user.isBlocked,
+   kycStatus:user.kycStatus,
    createdAt:user.createdAt!,
    
    
