@@ -15,6 +15,7 @@ export class OtpService implements IOtpService {
         600,
         JSON.stringify({ otp, data }),
       );
+      
 
       return otp;
     } catch (err) {

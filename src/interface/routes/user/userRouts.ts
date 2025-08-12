@@ -10,5 +10,6 @@ router.post('/resend-otp', (req, res) => authController.resendOtp(req, res));
 router.post("/login",(req,res)=>authController.loginUser(req,res))
 router.post ("/logout",(req,res)=>authController.logout(req,res))
 router.post("/refreshToken",authenticationMiddleWare.validateRefreshToken.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>authController.refreshAccessToken(req,res))
+router.post("/forgetPassWord",(req:IAuthenticatedRequest,res)=>authController.forgetPassWord(req,res))
 
 export default router;

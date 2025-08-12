@@ -34,4 +34,5 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
       if(users.length===0) return null
       return UsersMapper.toResponse(users)
   }
+  
 }

@@ -14,6 +14,7 @@ import { User } from "../../../domain/entities/User";
 import { IUserLoginResponse } from "../../../domain/types/IUserLoginResponse";
 import { ILogoutUseCase } from "../../../application/interface/user/ILogoutUseCase";
 import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
+import { IForgetPasswordUseCase } from "../../../application/interface/user/IForgetPasswordUsecase";
 
 export class AuthController {
   constructor(
@@ -23,7 +24,8 @@ export class AuthController {
     private _verifyOtpUseCase: IVerifyOtpUseCase,
     private _loginUserUseCase: ILoginUserUseCase,
     private _generateAccessTokenUseCase:IRefreshTokenUseCase,
-    private _logoutUserUseCase:ILogoutUseCase
+    private _logoutUserUseCase:ILogoutUseCase,
+    private  _forgetPasswordUseCase:IForgetPasswordUseCase
   ) {}
 
   async registerUser(req: Request, res: Response): Promise<void> {
@@ -160,5 +162,16 @@ export class AuthController {
          return res.status(HttpStatusCode.UNAUTHORIZED).json(ApiResponse.error(message))
 
     }
+  }
+  async forgetPassWord(req:IAuthenticatedRequest,res:Response){
+    try{
+
+      const {id,email}=req.body;
+      const result= await this._forgetPasswordUseCase.forgetPassword(id,email)
+       if(result) res.status(HttpStatusCode.OK).json(ApiResponse.success(result,HttpStatusCode.OK))
+    }catch(err){
+          res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(ApiResponse.error(HandleErrorUtility.handleError(err),HttpStatusCode.INTERNAL_SERVER_ERROR))
+    }
+
   }
 }

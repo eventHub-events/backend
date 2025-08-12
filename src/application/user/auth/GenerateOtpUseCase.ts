@@ -14,4 +14,8 @@ export class GenerateOtpUseCase implements IGenerateOtpUseCase {
     const otp = await this._otpService.reGenerateOtp(email);
     return otp;
   }
+  async executeForForgetPassword(email:string,user:UserRegisterDTO):Promise<string>{
+    const otp= await this._otpService.generateOtp(email,user)
+    return otp
+  }
 }
