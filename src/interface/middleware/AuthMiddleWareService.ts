@@ -1,11 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { HttpStatusCode } from "../../infrastructure/interface/enums/HttpStatusCode";
-import { ApiResponse } from "../../infrastructure/commonResponseModel/ApiResponse";
-import { boolean, jwt } from "zod";
+
+
 import { ITokenService } from "../../application/interface/user/ITokenService";
 import { IAuthMiddleware } from "../../application/interface/user/IAuthMiddleware";
-import { IAuthenticatedRequest } from "../../infrastructure/interface/IAuthenticatedRequest";
-import { JwtPayload } from "jsonwebtoken";
 import { IDecodedUserPayload } from "../../domain/types/IDecodedUserPayload";
 
 export class AuthMiddlewareService implements IAuthMiddleware {

@@ -1,4 +1,4 @@
-import { IUserTokenPayload } from "../../../infrastructure/interface/IUserTokenPayload";
+
 import { IRefreshTokenUseCase } from "../../interface/user/IRefreshTokenUseCase";
 import { ITokenService } from "../../interface/user/ITokenService";
 

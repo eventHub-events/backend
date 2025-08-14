@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import nodemailer, { createTransport, Transporter } from 'nodemailer';
+import  { createTransport, Transporter } from 'nodemailer';
 import { IEmailService } from '../../../application/interface/user/IEmailService';
 
 dotenv.config();

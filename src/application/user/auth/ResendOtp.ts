@@ -1,8 +1,7 @@
 import { IEmailService } from '../../interface/user/IEmailService';
 import { IGenerateOtpUseCase } from '../../interface/user/IGenerateOtpUseCase';
-import { IRegisterUserUseCase } from '../../interface/user/IRegisterUserUseCase';
 import { IResendOtpUseCase } from '../../interface/user/IResendOtpUseCase';
-import { IVerifyOtpUseCase } from '../../interface/user/IVerifyOtpUseCase';
+
 
 export class ResendOtpUseCase implements IResendOtpUseCase {
   constructor(private _otpService:IGenerateOtpUseCase, private _emailService: IEmailService) {}

@@ -1,4 +1,4 @@
-import mongoose, { Document, ObjectId, Schema, Types } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IUserDocument extends Document {
 

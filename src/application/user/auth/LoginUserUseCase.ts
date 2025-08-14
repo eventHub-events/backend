@@ -20,14 +20,14 @@ async loginUser(email: string, password: string): Promise<IUserLoginResponse> {
       const  isPasswordValid= await this._hashService.compare(password,hashedPassword)
         
         if(!isPasswordValid) throw new Error("Invalid password")
-          const payload:IUserTokenPayload={id:userDoc.id!,role:userDoc.role}
+          const payload:IUserTokenPayload={id:userDoc._id!,role:userDoc.role}
        
         
         const token= await this._tokenService.generateToken(payload)
         const refreshToken= await this._tokenService.generateRefreshToken(payload)
 
         const user={
-          id:userDoc.id,
+          id:userDoc._id,
           name:userDoc.name,
           email:userDoc.email,
           role:userDoc.role,

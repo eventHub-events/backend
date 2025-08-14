@@ -1,8 +1,7 @@
 import { Request, Response } from "express";
-import { RegisterUserUseCase } from "../../../application/user/auth/RegisterUserUsecase";
 import { UserRegisterDTO } from "../../../domain/dtos/user/RegisterUserDTO";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
-import { VerifyOtpUseCase } from "../../../application/user/auth/VerifyOtpUseCase";
+
 import { IRegisterUserUseCase } from "../../../application/interface/user/IRegisterUserUsecase";
 import { IVerifyOtpUseCase } from "../../../application/interface/user/IVerifyOtpUseCase";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
@@ -10,11 +9,11 @@ import { IResendOtpUseCase } from "../../../application/interface/user/IResendOt
 import { ILoginUserUseCase } from "../../../application/interface/user/ILoginUserUseCase";
 import { IRefreshTokenUseCase } from "../../../application/interface/user/IRefreshTokenUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
-import { User } from "../../../domain/entities/User";
-import { IUserLoginResponse } from "../../../domain/types/IUserLoginResponse";
 import { ILogoutUseCase } from "../../../application/interface/user/ILogoutUseCase";
 import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
 import { IForgetPasswordUseCase } from "../../../application/interface/user/IForgetPasswordUsecase";
+import { IResetPasswordUseCase } from "../../../application/interface/user/IResetPasswordUseCase";
+import { ForgetPasswordDTO } from "../../../domain/dtos/user/ForgetPasswordDTO";
 
 export class AuthController {
   constructor(
@@ -25,7 +24,8 @@ export class AuthController {
     private _loginUserUseCase: ILoginUserUseCase,
     private _generateAccessTokenUseCase:IRefreshTokenUseCase,
     private _logoutUserUseCase:ILogoutUseCase,
-    private  _forgetPasswordUseCase:IForgetPasswordUseCase
+    private  _forgetPasswordUseCase:IForgetPasswordUseCase,
+    private  _resetPasswordUseCase:IResetPasswordUseCase
   ) {}
 
   async registerUser(req: Request, res: Response): Promise<void> {
@@ -166,12 +166,24 @@ export class AuthController {
   async forgetPassWord(req:IAuthenticatedRequest,res:Response){
     try{
 
-      const {id,email}=req.body;
-      const result= await this._forgetPasswordUseCase.forgetPassword(id,email)
-       if(result) res.status(HttpStatusCode.OK).json(ApiResponse.success(result,HttpStatusCode.OK))
+      
+      const forgetPasswordDTO= new ForgetPasswordDTO(req.body)
+      const result= await this._forgetPasswordUseCase.forgetPassword(forgetPasswordDTO)
+       if(result) res.status(HttpStatusCode.OK).json(ApiResponse.success(result.message,HttpStatusCode.OK))
     }catch(err){
           res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(ApiResponse.error(HandleErrorUtility.handleError(err),HttpStatusCode.INTERNAL_SERVER_ERROR))
     }
 
+  }
+  async resetPassword(req:IAuthenticatedRequest,res:Response){
+    try{
+        const{id,password}=req.body
+            const updatedUser= await this._resetPasswordUseCase.resetPassword(id,password)
+        
+        if(updatedUser)return res.status(HttpStatusCode.OK).json(ApiResponse.success("password reset successful",HttpStatusCode.OK,updatedUser))
+      
+    }catch(error){
+         res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(ApiResponse.error(HandleErrorUtility.handleError(error),HttpStatusCode.OK))
+    }
   }
 }

@@ -1,10 +1,10 @@
-import { UserResponseDTO } from '../../../domain/dtos/user/UserResponseDTO';
+
 import { IUserRepository } from '../../../domain/repositories/user/IUserRepository';
 import { IOtpService } from '../../../infrastructure/interface/IOtpService';
 import { IHashService } from '../../interface/user/IHashService';
 import { IVerifyOtpUseCase } from '../../interface/user/IVerifyOtpUseCase';
 import { UserMapper } from '../../mapper/user/UserMapper';
-import { User } from '../../../domain/entities/User';
+
 
 export class VerifyOtpUseCase implements IVerifyOtpUseCase {
   constructor(

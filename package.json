@@ -6,7 +6,10 @@
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "build": "tsc",
     "start": "node dist/app.js",
-     "seed:admin": "ts-node src/utils/SeedAdminRunner.ts"
+     "seed:admin": "ts-node src/utils/SeedAdminRunner.ts",
+     "lint": "eslint \"src/**/*.{ts,js}\""
+
+
   },
   "keywords": [],
   "author": "",

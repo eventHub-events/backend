@@ -1,4 +1,4 @@
-import { UpdateQuery } from 'mongoose';
+
 import { UserMapper } from '../../application/mapper/user/UserMapper';
 import { UsersMapper } from '../../application/mapper/user/usersMapper';
 import { UserRegisterDTO } from '../../domain/dtos/user/RegisterUserDTO';
@@ -23,6 +23,7 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
   }
 
   async createUser(user: UserRegisterDTO): Promise<User> {
+    
     const userDoc = await super.create(UserMapper.toEntity(user));
     return UserMapper.toDomain(userDoc);
   }

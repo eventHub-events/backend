@@ -1,6 +1,5 @@
-import { UserResponseDTO } from "../../../domain/dtos/user/UserResponseDTO";
-
+import { ForgetPasswordDTO } from "../../../domain/dtos/user/ForgetPasswordDTO"
 export interface IForgetPasswordUseCase{
-  forgetPassword(id:string,email:string):Promise<string>
+  forgetPassword(dto:ForgetPasswordDTO):Promise<{message:string}>
 
 }

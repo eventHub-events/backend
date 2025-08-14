@@ -17,11 +17,11 @@ import { TokenService } from '../infrastructure/services/JwT/TokenService';
 import { JWTToken } from '../infrastructure/services/JwT/JWTToken';
 import { AuthMiddlewareService } from "../interface/middleware/AuthMiddleWareService";
 import { AuthenticationMiddleWare } from "../interface/middleware/AuthenticationMiddleware";
-import { IAuthenticatedRequest } from '../infrastructure/interface/IAuthenticatedRequest';
 import { RefreshTokenUseCase } from '../application/user/auth/GenerateRefreshTokenUseCase';
 import { LogoutUserUseCase } from '../application/user/auth/LogoutUserUseCase';
 import { ForgetPasswordUseCase } from '../application/user/auth/ForgetPasswordUseCase';
 import { WinstonLoggerService } from '../infrastructure/services/logger/loggerService';
+import { ResetPasswordUseCase } from '../application/user/auth/ResetPasswordUseCase';
 
 
 
@@ -49,7 +49,8 @@ export const authenticationMiddleWare = new AuthenticationMiddleWare(authMiddlew
 const resendOtpUseCase = new ResendOtpUseCase(generateOtpUseCase, nodeMailerEmailService);
 const loginUserUseCase   = new LoginUserUseCase(tokenService,hashService,userRepository)
 const logoutUserUseCase= new LogoutUserUseCase()
-const loggerService= new WinstonLoggerService()
-const forgetPasswordUseCase = new ForgetPasswordUseCase(generateOtpUseCase,userRepository,loggerService,emailService)
 
-export const authController = new AuthController(registerUserUseCase, resendOtpUseCase, verifyOtpUseCase,loginUserUseCase,refreshTokenUseCase,logoutUserUseCase,forgetPasswordUseCase );
+const forgetPasswordUseCase = new ForgetPasswordUseCase(generateOtpUseCase,userRepository,loggerService,emailService)
+const resetPasswordUseCase =new ResetPasswordUseCase(userRepository,hashService)
+
+export const authController = new AuthController(registerUserUseCase, resendOtpUseCase, verifyOtpUseCase,loginUserUseCase,refreshTokenUseCase,logoutUserUseCase,forgetPasswordUseCase,resetPasswordUseCase );

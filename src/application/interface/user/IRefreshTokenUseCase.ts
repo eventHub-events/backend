@@ -1,4 +1,4 @@
-import { IUserTokenPayload } from "../../../infrastructure/interface/IUserTokenPayload"
+
 
 
 export interface IRefreshTokenUseCase{

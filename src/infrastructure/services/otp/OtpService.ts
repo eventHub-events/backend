@@ -1,5 +1,4 @@
 
-import { UserRegisterDTO } from '../../../domain/dtos/user/RegisterUserDTO';
 import { ICacheService } from '../../interface/ICacheService';
 import { IOtpService } from '../../interface/IOtpService';
 
@@ -10,7 +9,7 @@ export class OtpService implements IOtpService {
     try {
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-      const result = await this._cache.set(
+       await this._cache.set(
         `otp:${email}`,
         600,
         JSON.stringify({ otp, data }),

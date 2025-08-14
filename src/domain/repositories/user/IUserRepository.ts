@@ -1,8 +1,7 @@
-import { UpdateQuery } from 'mongoose';
+
 import { UserRegisterDTO } from '../../dtos/user/RegisterUserDTO';
 import { UserResponseDTO } from '../../dtos/user/UserResponseDTO';
 import { User } from '../../entities/User';
-import { IUserDocument } from '../../../infrastructure/db/models/UserModel';
 import { IUserUpdateDTO } from '../../dtos/user/userUpdateDTO';
 
 export interface IUserRepository {

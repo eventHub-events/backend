@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { IAuthMiddleware } from "../../application/interface/user/IAuthMiddleware";
 import { HttpStatusCode } from "../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../infrastructure/commonResponseModel/ApiResponse";

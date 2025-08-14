@@ -6,8 +6,12 @@ import { IResetPasswordUseCase } from "../../interface/user/IResetPasswordUseCas
 export class ResetPasswordUseCase implements IResetPasswordUseCase{
   constructor(private _useRepo:IUserRepository, private _hashingService:IHashService){}
   async resetPassword(id: string, password: string): Promise<UserResponseDTO> {
-    const hashedPasword=this._hashingService.hash(password)
-    const updatedUser= this._useRepo.
-      
+    const hashedPassword=await this._hashingService.hash(password)
+    console.log("has",hashedPassword,password)
+    const data={password:hashedPassword}
+    console.log("data",data)
+    const updatedUser= await this._useRepo.updateUser(id,data)
+    console.log("updated user",updatedUser)
+      return updatedUser
   }
 }
