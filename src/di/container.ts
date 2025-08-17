@@ -21,22 +21,23 @@ import { RefreshTokenUseCase } from '../application/user/auth/GenerateRefreshTok
 import { LogoutUserUseCase } from '../application/user/auth/LogoutUserUseCase';
 import { ForgetPasswordUseCase } from '../application/user/auth/ForgetPasswordUseCase';
 import { WinstonLoggerService } from '../infrastructure/services/logger/loggerService';
-import { ResetPasswordUseCase } from '../application/user/auth/ResetPasswordUseCase';
+import { VerifyResetPasswordOtpUseCase } from '../application/user/auth/ResetPasswordUseCase';
+import { ChangePasswordUseCase } from '../application/user/auth/ChangePasswordUseCase';
 
 
 
 const cacheService = new RedisCacheService();
-const otpService = new OtpService(cacheService);
 const loggerService= new WinstonLoggerService()
 export const userRepository = new UserRepository(loggerService);
-const generateOtpUseCase = new GenerateOtpUseCase(otpService);
 const nodeMailerEmailService = new NodeMailerEmailService();
 const emailService = new EmailService(nodeMailerEmailService);
-const registerUserUseCase = new RegisterUserUseCase(userRepository, generateOtpUseCase, emailService);
 
 // Hashing related dependency injection
 const bcryptHashService = new BcryptHashService();
 const hashService = new HashService(bcryptHashService);
+const otpService = new OtpService(cacheService,hashService);
+const generateOtpUseCase = new GenerateOtpUseCase(otpService);
+const registerUserUseCase = new RegisterUserUseCase(userRepository, generateOtpUseCase, emailService);
 const verifyOtpUseCase = new VerifyOtpUseCase(userRepository, otpService, hashService);
 const jwtToken = new JWTToken()
 const tokenService  = new TokenService(jwtToken)
@@ -50,7 +51,8 @@ const resendOtpUseCase = new ResendOtpUseCase(generateOtpUseCase, nodeMailerEmai
 const loginUserUseCase   = new LoginUserUseCase(tokenService,hashService,userRepository)
 const logoutUserUseCase= new LogoutUserUseCase()
 
-const forgetPasswordUseCase = new ForgetPasswordUseCase(generateOtpUseCase,userRepository,loggerService,emailService)
-const resetPasswordUseCase =new ResetPasswordUseCase(userRepository,hashService)
+const forgetPasswordUseCase = new ForgetPasswordUseCase(generateOtpUseCase,userRepository,loggerService,emailService,cacheService)
+const verifyResetPasswordOtpUseCase =new VerifyResetPasswordOtpUseCase(otpService,hashService,tokenService,cacheService)
+const changePasswordUseCase=new ChangePasswordUseCase(userRepository,tokenService,hashService,loggerService)
 
-export const authController = new AuthController(registerUserUseCase, resendOtpUseCase, verifyOtpUseCase,loginUserUseCase,refreshTokenUseCase,logoutUserUseCase,forgetPasswordUseCase,resetPasswordUseCase );
+export const authController = new AuthController(registerUserUseCase, resendOtpUseCase, verifyOtpUseCase,loginUserUseCase,refreshTokenUseCase,logoutUserUseCase,forgetPasswordUseCase,verifyResetPasswordOtpUseCase,changePasswordUseCase );

@@ -4,6 +4,7 @@ import { IHashService } from '../../../application/interface/user/IHashService';
 
 export class BcryptHashService implements IHashService {
   async hash(data:string):Promise<string> {
+    console.log("dataaaa",data)
     return bcrypt.hash(data, 10);
   }
 

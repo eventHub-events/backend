@@ -10,4 +10,5 @@ export interface IUserRepository {
   verifyUser(email:string):Promise<User|null>
   findAllUsers():Promise<Omit<UserResponseDTO, "phone" | "password">[]|null>
   updateUser(id: string, data: IUserUpdateDTO):Promise<UserResponseDTO>
+  updateUserData(email:string,data:IUserUpdateDTO):Promise<UserResponseDTO>
 }

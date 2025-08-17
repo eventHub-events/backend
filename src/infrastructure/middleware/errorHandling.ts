@@ -6,7 +6,7 @@ import { HttpStatusCode } from "../interface/enums/HttpStatusCode";
 
 export class ErrorHandlingMiddleware{
 
-static handleError(err:any,req:Request,res:Response,next:NextFunction){
+static handleError(err:Error|CustomError,req:Request,res:Response,next:NextFunction){
         if(err instanceof CustomError){
           return res.status(err.statusCode).json({
             success:false,

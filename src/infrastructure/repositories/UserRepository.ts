@@ -50,4 +50,14 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
   const domainUser = UserMapper.toDomain(result);
   return UserMapper.toResponse(domainUser);
   }
+  async updateUserData(email:string,data:IUserUpdateDTO):Promise<UserResponseDTO>{
+    this._loggerService.info(`Updating user with email :${email}`)
+    const result= await super.findOneAndUpdate({email},data)
+    if(!result){
+      this._loggerService.error(`User with email ${email} not found`)
+      throw new Error("Error in updating password")
+    }
+    const domainUser=UserMapper.toDomain(result);
+    return UserMapper.toResponse(domainUser)
+  }
 }

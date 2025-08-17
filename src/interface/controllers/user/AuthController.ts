@@ -12,8 +12,11 @@ import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthen
 import { ILogoutUseCase } from "../../../application/interface/user/ILogoutUseCase";
 import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
 import { IForgetPasswordUseCase } from "../../../application/interface/user/IForgetPasswordUsecase";
-import { IResetPasswordUseCase } from "../../../application/interface/user/IResetPasswordUseCase";
+import { IVerifyResetPasswordOtpUseCase } from "../../../application/interface/user/IResetPasswordOTPUseCase";
 import { ForgetPasswordDTO } from "../../../domain/dtos/user/ForgetPasswordDTO";
+import { ResetPasswordOtpDTO } from "../../../domain/dtos/user/ResetPasswordDTO";
+import { IChangePasswordUseCase } from "../../../application/interface/user/IChangePasswordUsecase";
+import { ChangePasswordDTO } from "../../../domain/dtos/user/ChangePasswordDTO";
 
 export class AuthController {
   constructor(
@@ -25,7 +28,8 @@ export class AuthController {
     private _generateAccessTokenUseCase:IRefreshTokenUseCase,
     private _logoutUserUseCase:ILogoutUseCase,
     private  _forgetPasswordUseCase:IForgetPasswordUseCase,
-    private  _resetPasswordUseCase:IResetPasswordUseCase
+    private  _VerifyResetPasswordUseCase:IVerifyResetPasswordOtpUseCase,
+    private  _changePasswordUseCase:IChangePasswordUseCase
   ) {}
 
   async registerUser(req: Request, res: Response): Promise<void> {
@@ -130,7 +134,7 @@ export class AuthController {
             secure: process.env.NODE_ENV === "production",
               sameSite: "strict",
           })
-          return res.status(HttpStatusCode.OK).json(ApiResponse.success(result,HttpStatusCode.OK,result))
+          return res.status(HttpStatusCode.OK).json(ApiResponse.success(result,HttpStatusCode.OK))
 
         }catch(err:unknown){
               const errorMessage= HandleErrorUtility.handleError(err,"Logout failed")
@@ -165,8 +169,6 @@ export class AuthController {
   }
   async forgetPassWord(req:IAuthenticatedRequest,res:Response){
     try{
-
-      
       const forgetPasswordDTO= new ForgetPasswordDTO(req.body)
       const result= await this._forgetPasswordUseCase.forgetPassword(forgetPasswordDTO)
        if(result) res.status(HttpStatusCode.OK).json(ApiResponse.success(result.message,HttpStatusCode.OK))
@@ -175,15 +177,51 @@ export class AuthController {
     }
 
   }
-  async resetPassword(req:IAuthenticatedRequest,res:Response){
+  async verifyResetPasswordOtp(req:IAuthenticatedRequest,res:Response){
     try{
-        const{id,password}=req.body
-            const updatedUser= await this._resetPasswordUseCase.resetPassword(id,password)
+        console.log("hiiiiii")
+        console.log("rew",req.body.otp)
+        const dto= new ResetPasswordOtpDTO(req.body)
+        console.log("dto in verify reset",dto)
+            const {user,token}= await this._VerifyResetPasswordUseCase.resetPassword(dto)
+            console.log
+
         
-        if(updatedUser)return res.status(HttpStatusCode.OK).json(ApiResponse.success("password reset successful",HttpStatusCode.OK,updatedUser))
+        if(user){
+            res.cookie("resetToken", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 5 * 60 * 1000,
+      });
+
+          return res.status(HttpStatusCode.OK).json(ApiResponse.success("Otp verification  successful",HttpStatusCode.OK,user))
+        }
       
     }catch(error){
-         res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(ApiResponse.error(HandleErrorUtility.handleError(error),HttpStatusCode.OK))
+         res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(ApiResponse.error(HandleErrorUtility.handleError(error),HttpStatusCode.INTERNAL_SERVER_ERROR))
     }
   }
+  async changePassword(req:IAuthenticatedRequest,res:Response){
+    try{
+      const token= req.resetToken
+      if (!token) {
+  return res
+    .status(HttpStatusCode.UNAUTHORIZED)
+    .json(ApiResponse.error("Reset token missing or expired", HttpStatusCode.UNAUTHORIZED));
+}
+      const passwordUpdateDTO= new ChangePasswordDTO(req.body)
+      const input={
+        data:passwordUpdateDTO,
+        token
+      }
+      const result= await this._changePasswordUseCase.changePassword(input)
+      return res.status(HttpStatusCode.OK).json(ApiResponse.success("Password changed successfully",HttpStatusCode.OK,result))
+
+    }catch(err){
+         res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(ApiResponse.error(HandleErrorUtility.handleError(err),HttpStatusCode.INTERNAL_SERVER_ERROR))
+    }
+
+  }
+
 }

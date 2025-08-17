@@ -22,7 +22,7 @@ export class BaseRepository< T extends Document > {
   }
 
   async update(id:string, data:UpdateQuery<T>):Promise<T | null> {
-     console.log("ii,pa",id,data)
+     
          const result=await this.model.findByIdAndUpdate(id,data,{new:true}).exec();
         
          return result
@@ -30,5 +30,9 @@ export class BaseRepository< T extends Document > {
   }
   async delete(id:string):Promise<void> {
     await this.model.findByIdAndDelete(id).exec();
+  }
+  async findOneAndUpdate(filter: FilterQuery<T>,data:UpdateQuery<T>):Promise<T |null>{
+    const result= await this.model.findOneAndUpdate(filter,data,{new :true}).exec()
+    return result
   }
 }

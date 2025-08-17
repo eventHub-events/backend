@@ -3,7 +3,11 @@ import { IUserTokenPayload } from "../../interface/IUserTokenPayload";
 
 export class TokenService{
   constructor(private _tokenService :ITokenService){}
-  async generateToken(payload:IUserTokenPayload):Promise<string>{
+  async generateToken(payload:IUserTokenPayload|{email:string}):Promise<string>{
+    const token= await this._tokenService.generateToken(payload)
+    return token
+  }
+    async generateResetToken(payload:IUserTokenPayload|{email:string}):Promise<string>{
     const token= await this._tokenService.generateToken(payload)
     return token
   }

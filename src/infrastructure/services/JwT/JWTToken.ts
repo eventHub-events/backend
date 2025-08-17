@@ -28,6 +28,20 @@ export class JWTToken implements ITokenService{
 
        
    }
+
+    async generateResetToken(payload:object): Promise<string> {
+    try{
+      const token=  jwt.sign(payload,JWT_SECRET,{expiresIn:"5m"})
+      return token
+
+    }catch(err:unknown){
+        if(err instanceof Error){
+          throw new Error(err.message||"Error in generating access token")
+        }
+        throw new Error("Error in  generating access token")
+    }
+  }
+   
    async generateRefreshToken(payload: object): Promise<string> {
     try{
       

@@ -1,18 +1,26 @@
 
 import { ICacheService } from '../../interface/ICacheService';
 import { IOtpService } from '../../interface/IOtpService';
+import crypto from "crypto"
+
+import { IHashService } from '../../../application/interface/user/IHashService';
+import { UserRegisterDTO } from '../../../domain/dtos/user/RegisterUserDTO';
+import { UserResponseDTO } from '../../../domain/dtos/user/UserResponseDTO';
 
 export class OtpService implements IOtpService {
-  constructor(private _cache: ICacheService) {}
+  constructor(private _cache: ICacheService, private _hashService:IHashService) {}
 
-  async generateOtp(email: string, data: any): Promise<string> {
+  async generateOtp(email: string, data: UserRegisterDTO): Promise<string> {
     try {
-      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const otp =  crypto.randomInt(100000, 999999).toString()
+     console.log("daaaa",data)
+      const hashedOtp= await this._hashService.hash(otp)
+    
 
        await this._cache.set(
         `otp:${email}`,
         600,
-        JSON.stringify({ otp, data }),
+        JSON.stringify({ otp:hashedOtp, data }),
       );
       
 
@@ -23,28 +31,39 @@ export class OtpService implements IOtpService {
   }
 
   async reGenerateOtp(email: string): Promise<string> {
-    console.log('regenerate otp');
-    console.log('email in  regenerate otp', email);
+  
     const data = await this._cache.get(`otp:${email}`);
 
     if (!data) throw new Error('User not found or OTP expired');
     const parsed = JSON.parse(data);
-    console.log('data in regenerate otp', data);
+ const otp = crypto.randomInt(100000, 999999).toString();
+  const hashedOtp = await this._hashService.hash(otp);
+  await this._cache.set(
+    `otp:${email}`,
+    600,
+    JSON.stringify({ otp: hashedOtp,data: parsed.data })
+  );
 
-    return parsed.data;
+  return otp;
+
+   
   }
 
-  async verifyOtp(email: string, otp: any): Promise<string> {
+  async verifyOtp(email: string, otp: string): Promise<UserResponseDTO> {
     try {
-      console.log('verify otp  service otp', email, otp);
+   
       const stored = await this._cache.get(`otp:${email}`);
-      console.log('storedData is ', stored);
+    
 
       if (!stored) throw new Error('OTP expired or not found');
       const { otp: savedOtp, data } = JSON.parse(stored);
-      if (savedOtp !== otp) {
+      const result=await this._hashService.compare(otp,savedOtp);
+      
+
+      if (!result) {
         throw new Error('Invalid otp');
       }
+      
       await this._cache.del(`otp:${email}`);
       return data;
     } catch (err) {
