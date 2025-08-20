@@ -14,10 +14,12 @@ export class AuthenticationMiddleWare {
       const  resetToken=req.cookies?.resetToken??null
       console.log("reset token",resetToken)
       if (!accessToken) {
+        console.log("no  access token")
         return res
           .status(HttpStatusCode.UNAUTHORIZED)
           .json(ApiResponse.error("Unauthorized", HttpStatusCode.UNAUTHORIZED));
       }
+      
       const decoded= await this._authMiddlewareService.authenticateUser(accessToken)
       req.user=decoded
       req.resetToken=resetToken

@@ -2,10 +2,11 @@ export interface IUserLoginResponse{
   token:string;
   refreshToken:string;
   user:{
-    id:string,
+    id?:string,
     name:string,
     email:string,
-    role:string
+    role:string,
+    isBlocked:boolean
   }
 
 }

@@ -80,8 +80,8 @@ export class AuthController {
   async loginUser(req: Request, res: Response){
     try {
       const { email, password } = req.body;
-      console.log("admin email and password",email,password)
-       console.log("hello  from  login")
+    
+       
       if (!email || !password) {
         return res
           .status(HttpStatusCode.BAD_REQUEST)
@@ -123,17 +123,14 @@ export class AuthController {
 
         try{
           const result=await this._logoutUserUseCase.execute()
-          res.clearCookie("authToken",{
-            httpOnly:true,
-            secure: process.env.NODE_ENV === "production",
-              sameSite: "strict",
 
-          })
-          res.clearCookie("refreshToken",{
-            httpOnly:true,
-            secure: process.env.NODE_ENV === "production",
-              sameSite: "strict",
-          })
+           const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict"  as const,
+    };
+          res.clearCookie("authToken",cookieOptions)
+          res.clearCookie("refreshToken",cookieOptions)
           return res.status(HttpStatusCode.OK).json(ApiResponse.success(result,HttpStatusCode.OK))
 
         }catch(err:unknown){
@@ -146,8 +143,11 @@ export class AuthController {
 
   async refreshAccessToken(req:IAuthenticatedRequest,res:Response){
     try{
-      
-      const accessToken= await this._generateAccessTokenUseCase.generateAccessToken(req.refreshToken!)
+      console.log("hello from  refreshToken")
+      const {refreshToken}= req.cookies
+
+      const accessToken= await this._generateAccessTokenUseCase.generateAccessToken(refreshToken)
+      console.log("access token is as ",accessToken)
       res.cookie("authToken", accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
