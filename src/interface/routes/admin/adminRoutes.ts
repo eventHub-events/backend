@@ -4,7 +4,7 @@
 import { authController, authenticationMiddleWare } from "../../../di/container"
 import { usersListController } from "../../../di/admin/containersList"
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticateRequest"
-import { AuthController } from "../../controllers/user/AuthController"
+
 
 
  router.post("/login",(req,res)=>authController.loginUser(req,res))

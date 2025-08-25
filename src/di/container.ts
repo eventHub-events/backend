@@ -45,7 +45,7 @@ const refreshTokenUseCase = new RefreshTokenUseCase(tokenService)
 
 
 const authMiddlewareService= new AuthMiddlewareService(tokenService)
-export const authenticationMiddleWare = new AuthenticationMiddleWare(authMiddlewareService)
+export const authenticationMiddleWare = new AuthenticationMiddleWare(authMiddlewareService,refreshTokenUseCase)
 
 const resendOtpUseCase = new ResendOtpUseCase(generateOtpUseCase, nodeMailerEmailService);
 const loginUserUseCase   = new LoginUserUseCase(tokenService,hashService,userRepository)

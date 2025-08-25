@@ -19,10 +19,13 @@ export class LoginUserUseCase implements ILoginUserUseCase {
     password: string
   ): Promise<IUserLoginResponse> {
     const userDoc = await this._userRepository.verifyUser(email);
+ 
 
     if (!userDoc) throw new Error("user is not found");
+    console.log("userDoc",userDoc)
     if(userDoc.isBlocked) throw new Error("you are not allowed to login")
     const hashedPassword = userDoc.password;
+  console.log("hashed password",hashedPassword)
     const isPasswordValid = await this._hashService.compare(
       password,
       hashedPassword
@@ -31,6 +34,7 @@ export class LoginUserUseCase implements ILoginUserUseCase {
     if (!isPasswordValid) throw new Error("Invalid password");
     const payload: IUserTokenPayload = { id: userDoc._id!, role: userDoc.role };
 
+console.log("payload is",payload)
     const token = await this._tokenService.generateToken(payload);
     const refreshToken = await this._tokenService.generateRefreshToken(payload);
 

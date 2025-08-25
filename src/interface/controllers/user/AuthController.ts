@@ -88,6 +88,7 @@ export class AuthController {
           .json(ApiResponse.error("Email and password are required"));
       }
 
+      console.log("user is login ",email,password)
       const { token, refreshToken,user } = await this._loginUserUseCase.loginUser(
         email,
         password
@@ -110,8 +111,10 @@ export class AuthController {
         .status(HttpStatusCode.OK)
         .json(ApiResponse.success("login  successful",HttpStatusCode.OK,user));
     } catch (err:unknown) {
+  
      
-      const message= HandleErrorUtility.handleError(err,"Something went wrong")
+      const message=err instanceof Error? HandleErrorUtility.handleError(err):"something went wrong"
+      
 
       return res
         .status(HttpStatusCode.UNAUTHORIZED)
