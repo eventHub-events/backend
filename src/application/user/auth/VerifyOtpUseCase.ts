@@ -11,7 +11,10 @@ export class VerifyOtpUseCase implements IVerifyOtpUseCase {
     private _userRepo:IUserRepository,
     private _otpService:IOtpService,
     private _hashService:IHashService,
+
   ) {}
+
+  
 
   async execute(email:string, otp:string) {
     console.log('otp is', otp);
@@ -23,4 +26,6 @@ export class VerifyOtpUseCase implements IVerifyOtpUseCase {
     const savedUser = await this._userRepo.createUser(userEntity);
     return UserMapper.toResponse(savedUser);
   }
+
+
 }

@@ -27,7 +27,7 @@ import { ChangePasswordUseCase } from '../application/user/auth/ChangePasswordUs
 
 
 const cacheService = new RedisCacheService();
-const loggerService= new WinstonLoggerService()
+export const loggerService= new WinstonLoggerService()
 export const userRepository = new UserRepository(loggerService);
 const nodeMailerEmailService = new NodeMailerEmailService();
 const emailService = new EmailService(nodeMailerEmailService);
