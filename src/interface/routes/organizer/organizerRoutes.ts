@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 import { authController, authenticationMiddleWare } from "../../../di/container";
-import { organizerProfileController } from "../../../di/organizer/container";
+import { documentController, organizerProfileController } from "../../../di/organizer/container";
+
 
 const router= express.Router()
 
@@ -12,6 +13,8 @@ router.post("/changePassword",authenticationMiddleWare.authenticateChangePasswor
 router.post("/organizerProfile",(req:Request,res:Response)=>organizerProfileController.createProfile(req,res))
 router.patch("/organizerProfile/:id",(req:Request,res:Response)=>organizerProfileController.updateOrganizerProfile(req,res))
 router.get("/organizerProfile/:id",(req:Request,res:Response)=>organizerProfileController.getOrganizerProfile(req,res))
+
+router.post("/document/presigned-url",(req:Request,res:Response)=>documentController.getPresignedUrl(req,res))
 
 
 export default router
