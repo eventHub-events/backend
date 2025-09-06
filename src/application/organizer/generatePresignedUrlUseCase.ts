@@ -8,4 +8,7 @@ export class GeneratePresignedUrlUseCase implements IGeneratePresignedUrlUseCase
       const key=`organizer-documents/${Date.now()}-${fileName}`;
       return this._s3Service.generatePresignedUrl(key,contentType)
   }
+  async getViewUrl(key: string): Promise<string> {
+      return  this._s3Service.generateViewUrl(key);
+  }
 }

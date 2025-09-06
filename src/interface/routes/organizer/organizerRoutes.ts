@@ -14,7 +14,11 @@ router.post("/organizerProfile",(req:Request,res:Response)=>organizerProfileCont
 router.patch("/organizerProfile/:id",(req:Request,res:Response)=>organizerProfileController.updateOrganizerProfile(req,res))
 router.get("/organizerProfile/:id",(req:Request,res:Response)=>organizerProfileController.getOrganizerProfile(req,res))
 
-router.post("/document/presigned-url",(req:Request,res:Response)=>documentController.getPresignedUrl(req,res))
+
+router.post("/upload-document", (req, res) => documentController.saveDocument(req, res));
+router.get("/uploaded-documents/:organizerId", (req, res) => documentController.getDocuments(req, res));
+
+
 
 
 export default router

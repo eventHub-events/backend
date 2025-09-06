@@ -1,4 +1,4 @@
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { IS3Service } from "../../interface/IS3Service";
 import {config} from "dotenv";
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
@@ -24,9 +24,22 @@ async generatePresignedUrl(key: string, contentType: string): Promise<string> {
       Bucket: this.bucketName,
       Key: key,
       ContentType: contentType,
+      ACL: "public-read",
     });
 
     const signedUrl = await getSignedUrl(this._s3Client, command, { expiresIn: 300 }); // 5 mins
+    return signedUrl;
+  }
+  async generateViewUrl(key: string): Promise<string> {
+    const command = new GetObjectCommand({
+      Bucket: this.bucketName,
+      Key: key,
+    });
+
+    const signedUrl = await getSignedUrl(this._s3Client, command, {
+      expiresIn: 300, // 5 minutes
+    });
+
     return signedUrl;
   }
 

@@ -3,10 +3,12 @@ import mongoose,{Document as MongooseDocument, Schema} from "mongoose";
 
 export interface UploadDocument extends MongooseDocument{
   organizerId:string;
+  name:string;  
   type:string;
   url:string;
   uploadedAt:Date;
   status:"Pending" | " Approved" |"rejected";
+   verified: boolean;
   reviewedBy?:string;
   reviewedAt?:Date;
   reason?:string;
@@ -19,6 +21,9 @@ organizerId:{
   type:mongoose.Schema.Types.ObjectId,
   ref:"User",
   required:true
+},
+name:{
+  type:String
 },
 type:{
   type:String
@@ -33,6 +38,10 @@ status:{
   type:String,
   enum:["Pending","Approved","Rejected"],
   default:"Pending"
+},
+verified:{
+   type:Boolean,
+   default:false
 },
 reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin', default: null },
   reviewedAt: { type: Date, default: null },
