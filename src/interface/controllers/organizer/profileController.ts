@@ -9,10 +9,7 @@ export class OrganizerProfileController{
   constructor(private _organizerProfileUseCase:IOrganizerProfileUseCase){}
    async createProfile(req:Request,res:Response){
     try{
-      console.log("hello  from createProfile controlr")
-      console.log(req.body)
       
-
       const profileDto= new OrganizerProfileDTO(req.body)
       const profileData= await  this._organizerProfileUseCase.registerOrganizerProfile(profileDto)
         if(profileData){
@@ -32,6 +29,7 @@ export class OrganizerProfileController{
       try{
          const {id}=req.params
              if(!id)return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("Organizer id is required",HttpStatusCode.BAD_REQUEST))
+              console.log("reeeee",req.body)
         const updateProfileDto= new OrganizerProfileDTO(req.body)
       console.log("uodared",updateProfileDto)
       if(!updateProfileDto) return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("update profile details are empty",HttpStatusCode.BAD_REQUEST))
