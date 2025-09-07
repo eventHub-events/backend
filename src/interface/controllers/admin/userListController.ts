@@ -10,9 +10,14 @@ export class UserListController{
   async  fetchUsers(req:Request,res:Response){
     try{
        console.log("hello from  user list controller")
-      const users= await this._fetchUserUseCase.fetchUsers()
+       const page=parseInt(req.query.page as string) || 1;
+       const limit= parseInt(req.query.limit as string) ||5;
+       console.log("pp",page,limit)
+      const result= await this._fetchUserUseCase.fetchUsers({page,limit})
+      if(!result)  return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("Users not found",HttpStatusCode.BAD_REQUEST))
+        const{users,total}=result
       console.log("users in as",users)
-      return res.status(HttpStatusCode.OK).json(ApiResponse.success("fetched UserList successfully",HttpStatusCode.OK,users))
+      return res.status(HttpStatusCode.OK).json(ApiResponse.success("fetched UserList successfully",HttpStatusCode.OK,{users,total}))
 
     }catch(err:unknown){
       const error= HandleErrorUtility.handleError(err)

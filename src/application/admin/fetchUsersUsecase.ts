@@ -6,14 +6,16 @@ import { IFetchUserUseCase } from "../interface/admin/IFetchUsersUseCase";
 
 import { HandleErrorUtility } from "../../utils/HandleErrorUtility";
 import { IUserUpdateDTO } from "../../domain/dtos/user/userUpdateDTO";
+import { PaginationDTO } from "../../domain/dtos/common/PaginationDTO";
 
 export class FetchUserUseCase implements IFetchUserUseCase{
   constructor(private _userRepo:IUserRepository){}
-  async fetchUsers(): Promise<Omit<UserResponseDTO,"phone" |"password">[]| null> {
+  async fetchUsers(pagination:PaginationDTO): Promise<{users:Omit<UserResponseDTO, "phone" | "password">[],total:number}|null> {
     try{
-      const usersList= await this._userRepo.findAllUsers()
+      const usersList= await this._userRepo.findAllUsers(pagination)
       if(!usersList) throw new Error("Error in  fetching user")
-        return usersList
+        const{users,total}=usersList
+        return {users,total}
         
     }catch(err:unknown){
        
