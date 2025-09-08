@@ -1,6 +1,7 @@
 import  {
   Model, Document, FilterQuery, UpdateQuery,
 } from 'mongoose';
+import { IUserDocument } from '../db/models/UserModel';
 
 export class BaseRepository< T extends Document > {
   constructor(private model:Model<T>) {}
@@ -27,6 +28,19 @@ export class BaseRepository< T extends Document > {
         
          return result
        
+  }  async findOneWithPopulate<P>(
+    filter: FilterQuery<T>, 
+    populateFields: string[]
+  ): Promise<(T & P) | null> {
+    let query = this.model.findOne(filter);
+    for (const field of populateFields) {
+      query = query.populate({
+        path:field,
+        select: "name email phone"
+      });
+    }
+    const result = await query.exec();
+    return result as (T & P) | null; 
   }
   async paginate(filter:FilterQuery<T>={},page:number=1,limit:number=5):Promise<{data:T[];total:number}>{
     const skip=(page-1)*limit;

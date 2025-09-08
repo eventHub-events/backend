@@ -17,9 +17,11 @@ export class JWTToken implements ITokenService{
    async generateToken(payload:object): Promise<string> {
     try{
       const token=  jwt.sign(payload,JWT_SECRET,{expiresIn:JWT_EXPIRY})
+      console.log("token is ",token)
       return token
 
     }catch(err:unknown){
+      console.log("errrror is ",err)
         if(err instanceof Error){
           throw new Error(err.message||"Error in generating access token")
         }
@@ -72,7 +74,19 @@ export class JWTToken implements ITokenService{
     }
 
     async verifyRefreshToken(token: string): Promise<IUserTokenPayload> {
-        return jwt.verify(token,JWT_SECRET) as IUserTokenPayload
+
+         try{
+
+      return  jwt.verify(token,JWT_SECRET)as IUserTokenPayload
+     
+    }catch(error:unknown){
+
+       if(error  instanceof Error){
+          throw new Error(error.message||"Invalid or expired token")
+        }
+        
+        throw new Error("Invalid or expired token")
+    }
     }
 
    }
