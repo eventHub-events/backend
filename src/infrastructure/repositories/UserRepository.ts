@@ -10,6 +10,7 @@ import { IUsersDocument } from '../interface/IUsersDocument';
 import { BaseRepository } from './BaseRepository';
 import { IUserUpdateDTO } from '../../domain/dtos/user/userUpdateDTO';
 import { ILoggerService } from '../../application/interface/common/ILoggerService';
+import { PaginationDTO } from '../../domain/dtos/common/PaginationDTO';
 
 export class UserRepository extends BaseRepository<IUserDocument> implements IUserRepository {
   constructor(private _loggerService:ILoggerService) {
@@ -33,10 +34,18 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
      if(!user)return null
      return UserMapper.toDomain(user)
   }
-  async findAllUsers(): Promise<Omit<UserResponseDTO, "phone" | "password">[]|null>{
-      const users:IUsersDocument[]=await super.findAll({role:{$ne:"admin"}})
-      if(users.length===0) return null
-      return UsersMapper.toResponse(users)
+  async findAllUsers(pagination:PaginationDTO): Promise<{users:Omit<UserResponseDTO, "phone" | "password">[],total:number}|null>{
+
+    const{page=1,limit=5}=pagination;
+    const{data,total}=await this.paginate({role:{$ne:"admin"}},page,limit)
+
+    if(data?.length===0) return null
+    
+      const users=UsersMapper.toResponse(data)
+      
+  
+      
+      return  {users,total}
   }
   async updateUser(id: string, data: IUserUpdateDTO): Promise<UserResponseDTO> {
   this._loggerService.info(`Updating user with ID:${id}`)
