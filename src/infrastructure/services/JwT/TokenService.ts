@@ -20,6 +20,6 @@ export class TokenService{
     return verificationResult
   }
   async verifyRefreshToken(token:string):Promise<IUserTokenPayload>{
-    return await this.verifyRefreshToken(token)
+    return await this._tokenService.verifyRefreshToken(token)
   }
 }
