@@ -4,5 +4,5 @@ import { userRepository } from "../container";
 
 
 
-const  fetchUserUseCase= new FetchUserUseCase(userRepository)
+export const  fetchUserUseCase= new FetchUserUseCase(userRepository)
 export const usersListController= new UserListController(fetchUserUseCase)

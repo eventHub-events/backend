@@ -10,7 +10,7 @@ import adminRoutes from "./interface/routes/admin/adminRoutes"
 import { ErrorHandlingMiddleware } from './infrastructure/middleware/errorHandling';
 import  http  from 'http';
 import { AdminSocketService } from './infrastructure/websocket/adminSocketService';
-import { userManagementUseCase } from './di/admin/containersList';
+import { fetchUserUseCase } from './di/admin/containersList';
 import { UserSocketService } from './infrastructure/websocket/userSocketService';
 import { Server } from 'socket.io';
 
@@ -28,7 +28,7 @@ const  io= new Server(server,{
       })
       const adminNamespace = io.of("/admin");
 const userNamespace = io.of("/user");
-  const adminSocketService= new AdminSocketService(adminNamespace,io,userNamespace,userManagementUseCase)
+  const adminSocketService= new AdminSocketService(adminNamespace,io,userNamespace,fetchUserUseCase)
   const userSocketService= new UserSocketService(userNamespace)
 
 // initializeWebSocket(server);
