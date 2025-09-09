@@ -1,7 +1,7 @@
 import  {
   Model, Document, FilterQuery, UpdateQuery,
 } from 'mongoose';
-import { IUserDocument } from '../db/models/UserModel';
+
 
 export class BaseRepository< T extends Document > {
   constructor(private model:Model<T>) {}

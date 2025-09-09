@@ -1,12 +1,8 @@
-
-import {  UserManagementUseCase } from "../../application/admin/UserManagementUsecase";
-
+import { FetchUserUseCase } from "../../application/admin/fetchUsersUsecase";
 import { UserListController } from "../../interface/controllers/admin/userListController";
 import { userRepository } from "../container";
 
 
 
-
-export const  userManagementUseCase= new UserManagementUseCase(userRepository)
-
-export const usersListController= new UserListController(userManagementUseCase)
+const  fetchUserUseCase= new FetchUserUseCase(userRepository)
+export const usersListController= new UserListController(fetchUserUseCase)

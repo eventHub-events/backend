@@ -6,7 +6,7 @@ import { UserResponseDTO } from '../../domain/dtos/user/UserResponseDTO';
 import { User } from '../../domain/entities/User';
 import { IUserRepository } from '../../domain/repositories/user/IUserRepository';
 import UserModel, { IUserDocument } from '../db/models/UserModel';
-import { IUsersDocument } from '../interface/IUsersDocument';
+
 import { BaseRepository } from './BaseRepository';
 import { IUserUpdateDTO } from '../../domain/dtos/user/userUpdateDTO';
 import { ILoggerService } from '../../application/interface/common/ILoggerService';
