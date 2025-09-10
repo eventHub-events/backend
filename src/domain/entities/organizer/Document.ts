@@ -9,5 +9,5 @@ export interface UploadDocument{
   reviewedBy?:string;
   reviewedAt?:Date;
   reason?:string;
-  status:"Pending"|"Approved"|"Rejected";
+  status:"Pending"|"Approved" |"Rejected";
 }

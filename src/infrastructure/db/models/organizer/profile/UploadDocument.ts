@@ -7,7 +7,7 @@ export interface UploadDocument extends MongooseDocument{
   type:string;
   url:string;
   uploadedAt:Date;
-  status:"Pending" | " Approved" |"rejected";
+  status:"Pending"|"Approved" |"Rejected";
    verified: boolean;
   reviewedBy?:string;
   reviewedAt?:Date;

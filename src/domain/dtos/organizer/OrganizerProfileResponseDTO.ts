@@ -10,4 +10,13 @@ export interface OrganizerProfileResponseDTO{
   totalEarnings:number;
   kycVerified:boolean;
   profilePicture:string;
+  organizerDocs:{
+    organizerId:string;
+  name:string;  
+  type:string;
+  url:string;
+  uploadedAt:Date;
+  status:"Pending"|"Approved" |"Rejected";
+   verified: boolean;
+  }
 }
