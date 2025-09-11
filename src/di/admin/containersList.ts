@@ -17,5 +17,5 @@ const downloadPdfUseCase= new DownloadPdfUseCase(pdfService)
 export const downloadPdfController= new DownloadPdfController(downloadPdfUseCase)
 
 // organizer verification related//
-const organizerVerificationUseCase= new OrganizerVerificationUseCase(organizerProfileRepository,uploadDocumentRepository);
+const organizerVerificationUseCase= new OrganizerVerificationUseCase(organizerProfileRepository,uploadDocumentRepository,userRepository);
 export const organizerVerificationController= new OrganizerVerificationController(organizerVerificationUseCase)

@@ -1,13 +1,16 @@
 import { OrganizerVerificationResponseDTO } from "../../domain/dtos/admin/OrganizerVerificationResponseDTO";
+import { UserResponseDTO } from "../../domain/dtos/user/UserResponseDTO";
 import { IOrganizerProfileRepository } from "../../domain/repositories/organizer/IOrganizerProfileRepository";
 import { IUploadDocumentRepository } from "../../domain/repositories/organizer/IUploadDocumentRepository";
+import { IUserRepository } from "../../domain/repositories/user/IUserRepository";
 import { HandleErrorUtility } from "../../utils/HandleErrorUtility";
 import { IOrganizerVerificationUseCase } from "../interface/admin/IOrganizerVerificationUseCase";
 
 export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCase{
   constructor(
     private _organizerProfileRepo:IOrganizerProfileRepository,
-    private  _uploadDocumentRepo:IUploadDocumentRepository
+    private  _uploadDocumentRepo:IUploadDocumentRepository,
+    private _userRepository :IUserRepository
   ){}
 
   async getOrganizerVerificationDetails(organizerId: string): Promise<OrganizerVerificationResponseDTO> {
@@ -33,6 +36,15 @@ export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCa
         
 
       }
+  }
+  async getPendingOrganizers(role: string, kycVerified: "Pending"): Promise<UserResponseDTO> {
+       try{
+        const pendingOrganizer= await this._userRepository.findAllUsers({role:"organizer",kycVerified:"pending"})
+
+       }catch(error:unknown){
+        
+       }
+      
   }
 
 }

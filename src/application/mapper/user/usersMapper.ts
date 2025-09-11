@@ -1,36 +1,16 @@
+import { UserResponseDTO } from "../../../domain/dtos/user/UserResponseDTO";
+import { IUserDocument } from "../../../infrastructure/db/models/UserModel";
+import { IUserMapper } from "../../interface/user/IUserMapper";
+import { IUsersMapper } from "../../interface/user/IUsersMapper";
 
-import { Types } from "mongoose"
-import { UserResponseDTO } from "../../../domain/dtos/user/UserResponseDTO"
-import { IUsersDocument } from "../../../infrastructure/interface/IUsersDocument"
-
-
-
-
-
-
-
-
-export  class UsersMapper{
-
-
-
-  
-static toResponse(users:IUsersDocument[]):Omit<UserResponseDTO, "phone" | "password">[]{
-  const revised= users.map((user)=>({
-    
-  _id: user._id instanceof Types.ObjectId ? user._id.toString() : String(user._id),
-   name:user.name,
-   email:user.email,
-   role:user.role,
-   isBlocked:user.isBlocked,
-   kycStatus:user.kycStatus,
-   createdAt:user.createdAt!,
-   
-   
-   })
-  )
-  return revised
-
-}
+export  class UsersMapper implements IUsersMapper{
+  constructor(private _userMapper:IUserMapper){}
+  toResponse(users: IUserDocument[]): UserResponseDTO[] {
+      return users.map((userDoc)=>{
+        const domainUser=this._userMapper.toDomain(userDoc);
+        const response= this._userMapper.toResponse(domainUser)
+         return response
+      })
+  }
 
 }

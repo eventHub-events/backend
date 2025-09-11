@@ -23,12 +23,16 @@ import { ForgetPasswordUseCase } from '../application/user/auth/ForgetPasswordUs
 import { WinstonLoggerService } from '../infrastructure/services/logger/loggerService';
 import { VerifyResetPasswordOtpUseCase } from '../application/user/auth/ResetPasswordUseCase';
 import { ChangePasswordUseCase } from '../application/user/auth/ChangePasswordUseCase';
+import { UserMapper } from '../application/mapper/user/UserMapper';
+import { UsersMapper } from '../application/mapper/user/usersMapper';
 
 
 
 const cacheService = new RedisCacheService();
 export const loggerService= new WinstonLoggerService()
-export const userRepository = new UserRepository(loggerService);
+const userMapper = new UserMapper();
+const usersMapper= new UsersMapper(userMapper)
+export const userRepository = new UserRepository(loggerService,userMapper,usersMapper);
 const nodeMailerEmailService = new NodeMailerEmailService();
 const emailService = new EmailService(nodeMailerEmailService);
 
