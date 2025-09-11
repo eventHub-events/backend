@@ -15,6 +15,7 @@ import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthen
 
   //organizer verification  related
   router.get("/organizers/:organizerId/verification",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>organizerVerificationController.fetchOrganizerVerificationDetails(req,res))
+  router.get("/pending-organizers",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>organizerVerificationController.fetchPendingOrganizers(req,res))
 
  
 

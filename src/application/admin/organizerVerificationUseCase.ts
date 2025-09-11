@@ -37,11 +37,18 @@ export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCa
 
       }
   }
-  async getPendingOrganizers(role: string, kycVerified: "Pending"): Promise<UserResponseDTO> {
+  async getPendingOrganizers():Promise<{ users: Omit<UserResponseDTO, "phone" | "password">[] } >{
        try{
-        const pendingOrganizer= await this._userRepository.findAllUsers({role:"organizer",kycVerified:"pending"})
+        const pendingOrganizer= await this._userRepository.findAllWithFilter({role:"organizer",kycVerified:"pending"})
+        if(!pendingOrganizer) throw new Error("Pending organizers doesn't  exist");
+        return pendingOrganizer
+         
+        
+
 
        }catch(error:unknown){
+        const err = HandleErrorUtility.handleError(error);
+        throw err;
         
        }
       

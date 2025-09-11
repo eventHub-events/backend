@@ -32,4 +32,15 @@ res.status(HttpStatusCode.Ok).json(ApiResponse.success("Organizer Verification  
     }
 
   }
-}
+  async fetchPendingOrganizers(req:Request,res:Response){
+    try{
+     const pendingUsers= await this._organizerVerificationUseCase.getPendingOrganizers()
+        res.status(HttpStatusCode.Ok).json(ApiResponse.success("Pending organizers fetched successfully",HttpStatusCode.Ok,pendingUsers))
+    }catch(err:unknown){
+       const error=HandleErrorUtility.handleError(err)
+      return res.status(HttpStatusCode.InternalServerError).json(ApiResponse.error(error,HttpStatusCode.InternalServerError))
+    }
+
+    }
+  }
+
