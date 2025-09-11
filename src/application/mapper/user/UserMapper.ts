@@ -21,7 +21,7 @@ export class UserMapper  implements IUserMapper{
 
    toDomain(raw: IUserDocument) {
     return {
-      _id: raw._id?.toString(),
+      id: raw._id?.toString(),
       name: raw.name,
       email: raw.email,
       phone: raw.phone,
@@ -29,7 +29,8 @@ export class UserMapper  implements IUserMapper{
       isVerified: raw.isVerified,
       role: raw.role,
       kycStatus:raw.kycStatus,
-      isBlocked:raw.isBlocked
+      isBlocked:raw.isBlocked,
+      createdAt:raw.createdAt
     };
   }
 
@@ -38,7 +39,7 @@ export class UserMapper  implements IUserMapper{
  toResponse(entity: User):UserResponseDTO {
     console.log(entity.email, entity.isVerified);
     return {
-      _id: entity._id ?? '',
+      id: entity.id ?? '',
       name: entity.name,
       email: entity.email,
       phone: entity.phone,

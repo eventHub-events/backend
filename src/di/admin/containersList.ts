@@ -1,6 +1,8 @@
 import { DownloadPdfUseCase } from "../../application/admin/downloadPdfUseCase";
 import { FetchUserUseCase } from "../../application/admin/fetchUsersUsecase";
 import { OrganizerVerificationUseCase } from "../../application/admin/organizerVerificationUseCase";
+import { UserQueryRepository } from "../../infrastructure/repositories/UserQueryRepository";
+
 import { PdfService } from "../../infrastructure/services/pdfService/pdfService";
 import { DownloadPdfController } from "../../interface/controllers/admin/DownloadPefController";
 import { OrganizerVerificationController } from "../../interface/controllers/admin/OrganizerVerificationController";
@@ -17,5 +19,6 @@ const downloadPdfUseCase= new DownloadPdfUseCase(pdfService)
 export const downloadPdfController= new DownloadPdfController(downloadPdfUseCase)
 
 // organizer verification related//
-const organizerVerificationUseCase= new OrganizerVerificationUseCase(organizerProfileRepository,uploadDocumentRepository,userRepository);
+const userQueryRepository= new UserQueryRepository()
+const organizerVerificationUseCase= new OrganizerVerificationUseCase(organizerProfileRepository,uploadDocumentRepository,userRepository,userQueryRepository);
 export const organizerVerificationController= new OrganizerVerificationController(organizerVerificationUseCase)
