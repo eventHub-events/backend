@@ -39,5 +39,14 @@ export class UploadDocumentRepository extends BaseRepository<UploadDocument> imp
           }
        
      }
+     async findAndDeleteDocument(documentId:string):Promise<void>{
+                try{
+                   await super.delete(documentId)
+                 
+                }catch(err:unknown){
+                    throw new Error("Error in removing Document")
+          }
+                }
+
+     }
    
-}

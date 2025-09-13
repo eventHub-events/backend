@@ -31,9 +31,8 @@ export class DocumentController{
       const { organizerId, url, type, name } = req.body;
    
       const dto = new UploadDocumentDTO(organizerId,  type,url, name);
-      console.log("dtoooo",dto)
       const savedDoc = await this._uploadDocumentUseCase.saveUploadedDocument(dto);
-      console.log("saaaa",savedDoc)
+
       return res.status(HttpStatusCode.CREATED).json(ApiResponse.success("Document saved", HttpStatusCode.CREATED, savedDoc));
     } catch (err) {
       return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(ApiResponse.error("Error saving document", HttpStatusCode.INTERNAL_SERVER_ERROR));
@@ -68,6 +67,21 @@ export class DocumentController{
     const error = HandleErrorUtility.handleError(err);
     return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(error);
   }
+}
+async deleteDocument(req:Request,res:Response):Promise<Response>{
+       try{
+         const {documentId}=req.params;
+         console.log("organizer and doc",documentId)
+         console.log("hello  from  delete")
+         if(!documentId){
+          return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("OrganizerId is required",HttpStatusCode.BAD_REQUEST))
+         }
+          await this._uploadDocumentUseCase.deleteUploadedDocument(documentId)
+          return res.status(HttpStatusCode.OK).json(ApiResponse.success("Document deleted successfully",HttpStatusCode.OK))
+       }catch(err){
+          const error = HandleErrorUtility.handleError(err);
+    return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(error);
+       }
 }
 
 }

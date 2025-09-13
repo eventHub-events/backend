@@ -5,4 +5,5 @@ import { UploadDocument } from "../../../infrastructure/db/models/organizer/prof
 export interface IUploadDocumentUseCase{
 saveUploadedDocument(dto: UploadDocumentDTO): Promise<UploadDocumentResponseDTO> ;
   getUploadedDocuments(organizerId: string): Promise<UploadDocument[]>;
+  deleteUploadedDocument(documentId:string):Promise<void>
 }

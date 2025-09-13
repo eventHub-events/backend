@@ -8,5 +8,6 @@ export interface IUploadDocumentRepository{
   saveDocumentData(DTO: UploadDocumentDTO): Promise<UploadDocumentResponseDTO>
    findByOrganizerId(organizerId: string): Promise<UploadDocument[]>;
   findAndUpdate(organizerId: string,data:Partial<UploadDocument>): Promise<UpdatedUploadDocumentResponseDTO>
+  findAndDeleteDocument(documentId:string):Promise<void>
   
 }

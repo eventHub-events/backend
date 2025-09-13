@@ -17,6 +17,7 @@ router.get("/organizerProfile/:id",(req:Request,res:Response)=>organizerProfileC
 
 router.post("/upload-document", (req, res) => documentController.saveDocument(req, res));
 router.get("/uploaded-documents/:organizerId", (req, res) => documentController.getDocuments(req, res));
+router.delete("/uploaded-document/:documentId/deletion",(req:Request,res:Response)=>documentController.deleteDocument(req,res))
 
 
 

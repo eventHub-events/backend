@@ -12,4 +12,8 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase{
      async getUploadedDocuments(organizerId: string): Promise<UploadDocument[]> {
           return await this._uploadDocumentRepo.findByOrganizerId(organizerId);
      }
+     async deleteUploadedDocument(documentId:string):Promise<void>{
+          return await this._uploadDocumentRepo.findAndDeleteDocument(documentId)
+
+     }
 }
