@@ -49,7 +49,7 @@ export class OtpService implements IOtpService {
    
   }
 
-  async verifyOtp(email: string, otp: string): Promise<UserResponseDTO> {
+  async verifyOtp(email: string, otp: string): Promise<UserRegisterDTO> {
     try {
    
       const stored = await this._cache.get(`otp:${email}`);

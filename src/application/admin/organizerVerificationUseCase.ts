@@ -1,4 +1,7 @@
+import { UpdateOrganizerOverallVerificationStatusDTO } from "../../domain/dtos/admin/OrganizerOverallVerificationDTO";
 import { OrganizerVerificationResponseDTO } from "../../domain/dtos/admin/OrganizerVerificationResponseDTO";
+import { UpdatedUploadDocumentResponseDTO } from "../../domain/dtos/admin/UpdatedUploadedDocumentDTO";
+import { UploadDocumentUpdateDTO } from "../../domain/dtos/admin/UploadDocumentUpdationDTO";
 import { UserWithOrganizerProfileDTO } from "../../domain/dtos/admin/UserWithOrganizerProfileDTO";
 import { UserResponseDTO } from "../../domain/dtos/user/UserResponseDTO";
 import { IOrganizerProfileRepository } from "../../domain/repositories/organizer/IOrganizerProfileRepository";
@@ -65,6 +68,29 @@ export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCa
         throw  new Error(error)
 
       }
+  }
+
+  async updateDocumentStatus(organizerId: string, data: UploadDocumentUpdateDTO): Promise<UpdatedUploadDocumentResponseDTO> {
+    try{
+      return this._uploadDocumentRepo.findAndUpdate(organizerId,data)
+
+    }catch(err:unknown){
+       const error=HandleErrorUtility.handleError(err);
+        throw  new Error(error)
+
+    }
+      
+  }
+  async  updateOverallVerificationStatus(organizerId: string, data: UpdateOrganizerOverallVerificationStatusDTO): Promise<string> {
+    try{
+         const{user,profile}=data;
+     const result= await Promise.all([this._userRepository.updateUser(organizerId,user),this._organizerProfileRepo.updateProfile(organizerId,profile)])   
+     return "Organizer overall status updated successfully"  
+    }catch(error){
+       const err=HandleErrorUtility.handleError(error);
+        throw  new Error(err)
+    }
+    
   }
 
 }

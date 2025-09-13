@@ -11,8 +11,12 @@ export class BaseRepository< T extends Document > {
   }
 
   async findById(id:string):Promise<T | null> {
+
     return this.model.findById(id).exec();
+
+
   }
+
 
   async findOne(filter :FilterQuery<T>):Promise<T | null> {
     return this.model.findOne(filter).exec();
@@ -41,6 +45,7 @@ export class BaseRepository< T extends Document > {
     }
     const result = await query.exec();
     return result as (T & P) | null; 
+    
   }
   async paginate(filter:FilterQuery<T>={},page:number=1,limit:number=5):Promise<{data:T[];total:number}>{
     const skip=(page-1)*limit;

@@ -3,4 +3,5 @@ export interface IUserMinimal {
   name: string;
   email: string;
   phone: number;
+  isVerified:boolean;
 }

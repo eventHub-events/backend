@@ -27,6 +27,7 @@ organizerId: {
         name: profile.organizerId.name,
         email: profile.organizerId.email,
         phone: profile.organizerId.phone,
+        isVerified:profile.organizerId.isVerified
        
        
       },
@@ -37,7 +38,8 @@ organizerId: {
   bio:profile.bio,
   kycVerified:profile.kycVerified,
   trustScore:profile.trustScore,
-  totalEarnings:profile.totalEarnings
+  totalEarnings:profile.totalEarnings,
+ 
 
 
   }

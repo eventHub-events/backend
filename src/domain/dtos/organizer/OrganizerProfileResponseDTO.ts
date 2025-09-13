@@ -10,7 +10,7 @@ export interface OrganizerProfileResponseDTO{
   totalEarnings:number;
   kycVerified:boolean;
   profilePicture:string;
-  organizerDocs:{
+  organizerDocs?:{
     organizerId:string;
   name:string;  
   type:string;

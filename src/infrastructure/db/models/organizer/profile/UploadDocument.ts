@@ -43,7 +43,7 @@ verified:{
    type:Boolean,
    default:false
 },
-reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin', default: null },
+reviewedBy: { type: String, default: null },
   reviewedAt: { type: Date, default: null },
   reason: { type: String, default: '' }
 },{timestamps:true})

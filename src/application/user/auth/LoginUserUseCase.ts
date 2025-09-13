@@ -1,6 +1,5 @@
 import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
 import { IUserLoginResponse } from "../../../domain/types/IUserLoginResponse";
-import { ICacheService } from "../../../infrastructure/interface/ICacheService";
 import { IUserTokenPayload } from "../../../infrastructure/interface/IUserTokenPayload";
 import { IHashService } from "../../interface/user/IHashService";
 import { ILoginUserUseCase } from "../../interface/user/ILoginUserUseCase";
@@ -32,14 +31,14 @@ export class LoginUserUseCase implements ILoginUserUseCase {
     );
 
     if (!isPasswordValid) throw new Error("Invalid password");
-    const payload: IUserTokenPayload = { id: userDoc._id!, role: userDoc.role };
+    const payload: IUserTokenPayload = { id: userDoc.id!, role: userDoc.role };
 
 console.log("payload is",payload)
     const token = await this._tokenService.generateToken(payload);
     const refreshToken = await this._tokenService.generateRefreshToken(payload);
 
     const user = {
-      id: userDoc._id,
+      id: userDoc.id,
       name: userDoc.name,
       email: userDoc.email,
       role: userDoc.role,

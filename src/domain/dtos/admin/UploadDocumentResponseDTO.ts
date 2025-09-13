@@ -6,4 +6,5 @@ export interface UploadDocumentResponseDTO{
   uploadedAt:Date;
   status:"Pending"|"Approved"|"Rejected";
   verified:boolean;
+  
 }
