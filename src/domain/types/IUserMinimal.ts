@@ -4,4 +4,6 @@ export interface IUserMinimal {
   email: string;
   phone: number;
   isVerified:boolean;
+  kycStatus:"Pending"|"Approved"|"Rejected";
+  
 }

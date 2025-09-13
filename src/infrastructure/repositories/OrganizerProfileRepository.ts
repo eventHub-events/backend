@@ -19,6 +19,7 @@ export class  OrganizerProfileRepository extends BaseRepository<IOrganizerProfil
  async findByOrganizerId(id: string): Promise<OrganizerProfileResponseDTO | null> {
       this.logger.info(`Finding the Organizer Profile with Id:${id}`)
       const profileDoc= await super.findOneWithPopulate({organizerId:id},["organizerId"]);
+      console.log("new Profile Doc",profileDoc)
       console.log("heel",profileDoc);
       
       return profileDoc ? OrganizerProfileMapper.toResponse( profileDoc as IOrganizerProfile & { organizerId: IUserMinimal }):null

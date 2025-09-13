@@ -27,7 +27,8 @@ organizerId: {
         name: profile.organizerId.name,
         email: profile.organizerId.email,
         phone: profile.organizerId.phone,
-        isVerified:profile.organizerId.isVerified
+        isVerified:profile.organizerId.isVerified,
+        kycStatus:profile.organizerId.kycStatus
        
        
       },

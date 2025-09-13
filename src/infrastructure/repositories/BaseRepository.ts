@@ -40,7 +40,7 @@ export class BaseRepository< T extends Document > {
     for (const field of populateFields) {
       query = query.populate({
         path:field,
-        select: "name email phone"
+        select: "name email phone isVerified kycStatus"
       });
     }
     const result = await query.exec();
