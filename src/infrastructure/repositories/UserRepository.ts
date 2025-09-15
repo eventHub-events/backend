@@ -52,10 +52,31 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
   async findAllUsers(
     pagination: PaginationDTO
   ): Promise<{ users: Omit<UserResponseDTO, "phone" | "password">[]; total: number } | null> {
-    const { page = 1, limit = 5 } = pagination;
-    const { data, total } = await this.paginate({ role: { $ne: "admin" } }, page, limit);
+    const { page = 1, limit = 5 ,search,role,status} = pagination;
+    const filter:FilterQuery<User>={
+      role:{$ne:"admin"},
 
-    if (data.length === 0) return null;
+    };
+    if(search){
+        filter.$or=[
+          {name:{$regex:search,$options:"i"}},
+          {email:{$regex:search,$options:"i"}},
+        ]
+    }
+    if(role){
+      if(role==="organizer"){
+
+        filter.role=role;
+      }else if(role==="attendee"){
+         filter.role="user"
+      }
+    }
+    if(status === "active"){
+      filter.isBlocked=false;
+    }else if(status==="suspended"){
+      filter.isBlocked = true;
+    }
+    const { data, total } = await this.paginate(filter, page, limit);
 
     const users = this._usersMapper.toResponse(data); 
     return { users, total };
