@@ -29,12 +29,12 @@ export class OrganizerProfileController{
       try{
          const {id}=req.params
              if(!id)return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("Organizer id is required",HttpStatusCode.BAD_REQUEST))
-              console.log("reeeee",req.body)
+          
         const updateProfileDto= new OrganizerProfileDTO(req.body)
-      console.log("uodared",updateProfileDto)
+    
       if(!updateProfileDto) return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("update profile details are empty",HttpStatusCode.BAD_REQUEST))
         const updatedProfileData= await this._organizerProfileUseCase.updateOrganizerProfile(id,updateProfileDto)
-      console.log("uodarednnnn",updatedProfileData)
+    
          if(updatedProfileData){
          return res.status(HttpStatusCode.CREATED).json(ApiResponse.success("profile data creation successful",HttpStatusCode.CREATED,updatedProfileData))
         }
