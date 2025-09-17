@@ -1,7 +1,10 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 import { authController, authenticationMiddleWare } from "../../../di/container";
-import { documentController, organizerProfileController } from "../../../di/organizer/container";
+import { documentController, organizerAccountSecurityController, organizerProfileController } from "../../../di/organizer/container";
+import { ZodPasswordValidator } from "../../../infrastructure/middleware/zodValidator";
+import { passwordSchema } from "../../../infrastructure/validaton/schemas/changePasswordSchema";
+import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
 
 
 const router= express.Router()
@@ -13,6 +16,7 @@ router.post("/changePassword",authenticationMiddleWare.authenticateChangePasswor
 router.post("/organizerProfile",(req:Request,res:Response)=>organizerProfileController.createProfile(req,res))
 router.patch("/organizerProfile/:id",(req:Request,res:Response)=>organizerProfileController.updateOrganizerProfile(req,res))
 router.get("/organizerProfile/:id",(req:Request,res:Response)=>organizerProfileController.getOrganizerProfile(req,res))
+router.patch("/updatePassword/:organizerId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),ZodPasswordValidator.validate(passwordSchema),(req:IAuthenticatedRequest,res:Response,next:NextFunction)=> organizerAccountSecurityController.updatePassword(req,res,next) )
 
 
 router.post("/upload-document", (req, res) => documentController.saveDocument(req, res));

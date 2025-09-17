@@ -10,6 +10,8 @@ import { PaginationDTO } from '../../domain/dtos/common/PaginationDTO';
 import { FilterQuery } from 'mongoose';
 import { IUserMapper } from '../../application/interface/user/IUserMapper';
 import { IUsersMapper } from '../../application/interface/user/IUsersMapper';
+import { CustomError } from '../errors/errorClass';
+import { HttpStatusCode } from '../interface/enums/HttpStatusCode';
 
 
 export class UserRepository extends BaseRepository<IUserDocument> implements IUserRepository {
@@ -24,6 +26,10 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
   async findByEmail(email: string): Promise<User | null> {
     const userDoc = await super.findOne({ email });
     return userDoc ? this._userMapper.toDomain(userDoc) : null;
+  }
+  async findUserById(id: string): Promise<IUserDocument | null> {
+      const userDoc=await super.findById(id);
+      return userDoc
   }
 
   async createUser(user: UserRegisterDTO): Promise<User> {
@@ -88,7 +94,7 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
 
     if (!result) {
       this._loggerService.error(`User with ID ${id} not found`);
-      throw new Error("Error in updating UserData");
+      throw new CustomError(`User with Id${id} not found`,HttpStatusCode.NOT_FOUND);
     }
 
     this._loggerService.info(`User updated successfully: ${id}`);

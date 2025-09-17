@@ -38,7 +38,7 @@ const emailService = new EmailService(nodeMailerEmailService);
 
 // Hashing related dependency injection
 const bcryptHashService = new BcryptHashService();
-const hashService = new HashService(bcryptHashService);
+export const hashService = new HashService(bcryptHashService);
 const otpService = new OtpService(cacheService,hashService);
 const generateOtpUseCase = new GenerateOtpUseCase(otpService);
 const registerUserUseCase = new RegisterUserUseCase(userRepository, generateOtpUseCase, emailService);

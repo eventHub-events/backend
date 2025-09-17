@@ -28,8 +28,8 @@ const  io= new Server(server,{
       })
       const adminNamespace = io.of("/admin");
 const userNamespace = io.of("/user");
-  const adminSocketService= new AdminSocketService(adminNamespace,io,userNamespace,fetchUserUseCase)
-  const userSocketService= new UserSocketService(userNamespace)
+ export const adminSocketService= new AdminSocketService(adminNamespace,io,userNamespace,fetchUserUseCase)
+ export  const userSocketService= new UserSocketService(userNamespace)
 
 // initializeWebSocket(server);
 DbConnection.connect();
@@ -44,6 +44,7 @@ app.use(cors({
 app.use('/api/user', userRouts);
 app.use('/api/organizer',organizerRoutes)
 app.use('/api/admin',adminRoutes)
+app.use(ErrorHandlingMiddleware.handleError);
 
 
 server.listen(process.env.PORT, () => {
