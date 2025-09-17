@@ -25,7 +25,8 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
 
   async findByEmail(email: string): Promise<User | null> {
     const userDoc = await super.findOne({ email });
-    return userDoc ? this._userMapper.toDomain(userDoc) : null;
+     return userDoc ? this._userMapper.toDomain(userDoc) : null;
+    // return userDoc? userDoc :null ;
   }
   async findUserById(id: string): Promise<IUserDocument | null> {
       const userDoc=await super.findById(id);
@@ -33,13 +34,14 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
   }
 
   async createUser(user: UserRegisterDTO): Promise<User> {
-    const userDoc = await super.create(this._userMapper.toEntity(user));
-    return this._userMapper.toDomain(userDoc);
+    const userDoc = await super.create(user);
+    return userDoc
   }
 
   async verifyUser(email: string): Promise<User | null> {
     const user = await super.findOne({ email });
-    return user ? this._userMapper.toDomain(user) : null;
+    return user ? user :null;
+    
   }
 
   async findAllWithFilter(

@@ -41,7 +41,7 @@ export class UserRegisterDTO {
     if (!data.password || !passwordRegex.test(data.password)) {
       throw new Error('Password must be 8–16 characters and include 1 uppercase, 1 lowercase, 1 number, and 1 special character');
     }
-
+    
     this.name = data.name;
     this.email = data.email;
     this.phone = data.phone;

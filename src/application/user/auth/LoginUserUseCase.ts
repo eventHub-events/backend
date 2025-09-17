@@ -22,7 +22,7 @@ export class LoginUserUseCase implements ILoginUserUseCase {
 
     if (!userDoc) throw new Error("user is not found");
     console.log("userDoc",userDoc)
-    if(userDoc.isBlocked) throw new Error("you are not allowed to login")
+    if(userDoc.isBlocked) throw new Error("you have been blocked by  admin .")
     const hashedPassword = userDoc.password;
   console.log("hashed password",hashedPassword)
     const isPasswordValid = await this._hashService.compare(
