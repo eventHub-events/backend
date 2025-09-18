@@ -18,8 +18,11 @@ import { hashService } from "../common/commonContainers";
 // import { hashService,} from "../container";
 
  const loggerService=  new WinstonLoggerService ()
+ const userMapper = new UserMapper();
+const usersMapper= new UsersMapper(userMapper)
+const userRepository  = new UserRepository(loggerService,userMapper,usersMapper)
 export const organizerProfileRepository= new OrganizerProfileRepository(loggerService)
-const  organizerProfileUseCase = new  OrganizerProfileUseCase(organizerProfileRepository)
+const  organizerProfileUseCase = new  OrganizerProfileUseCase(organizerProfileRepository, userRepository)
 export const organizerProfileController = new  OrganizerProfileController(organizerProfileUseCase)
 
 const s3Service= new S3Service();
@@ -29,9 +32,8 @@ export const uploadDocumentRepository=new UploadDocumentRepository(loggerService
 const  uploadDocumentUseCase   = new UploadDocumentUseCase(uploadDocumentRepository)
 export const documentController= new DocumentController(generatePresignedUrlUseCase,uploadDocumentUseCase)
 export const organizerBlankProfileCreationUseCase = new OrganizerBlankProfileCreationUseCase (organizerProfileRepository)
-const userMapper = new UserMapper();
-const usersMapper= new UsersMapper(userMapper)
-const userRepository  = new UserRepository(loggerService,userMapper,usersMapper)
+
+
  const organizerAccountSecurityUseCase = new OrganizerAccountSecurityUseCase(userRepository,hashService)
  export const  organizerAccountSecurityController = new OrganizerAccountSecurityController(organizerAccountSecurityUseCase)
 

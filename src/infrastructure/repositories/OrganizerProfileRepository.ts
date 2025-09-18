@@ -25,15 +25,17 @@ export class  OrganizerProfileRepository extends BaseRepository<IOrganizerProfil
       
       return profileDoc ? OrganizerProfileMapper.toResponse( profileDoc as IOrganizerProfile & { organizerId: IUserMinimal }):null
   }
-  async updateProfile(id: string, data: Partial<OrganizerProfileDTO>): Promise<OrganizerProfileResponseDTO> {
+  async updateProfile(id: string, data: Partial<OrganizerProfileDTO>): Promise<IOrganizerProfile> {
       this.logger.info(`Updating Organizer Profile with id:${id}`)
       const updated=await super.findOneAndUpdate({organizerId:id},data)
+      console.log("updated is",   updated)
       if(!updated){
         this.logger.error(`No profile found with organizerId:${id}`);
         throw new Error("Profile  not found");
 
       }
-      return  OrganizerProfileMapper.toResponse(updated as IOrganizerProfile & {organizerId:IUserMinimal})
+      //  return  OrganizerProfileMapper.toResponse(updated as IOrganizerProfile & {organizerId:IUserMinimal})
+       return updated
 
   }
 }

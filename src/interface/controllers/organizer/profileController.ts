@@ -25,15 +25,15 @@ export class OrganizerProfileController{
     
     }
 
-    async  updateOrganizerProfile(req:Request,res:Response){
+    async  updateOrganizerProfile(req:Request,res:Response): Promise <Response>{
       try{
          const {id}=req.params
              if(!id)return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("Organizer id is required",HttpStatusCode.BAD_REQUEST))
           
-        const updateProfileDto= new OrganizerProfileDTO(req.body)
+        const profileData = req .body;
     
-      if(!updateProfileDto) return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("update profile details are empty",HttpStatusCode.BAD_REQUEST))
-        const updatedProfileData= await this._organizerProfileUseCase.updateOrganizerProfile(id,updateProfileDto)
+      if(!profileData) return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("update profile details are empty",HttpStatusCode.BAD_REQUEST))
+        const updatedProfileData = await this._organizerProfileUseCase.updateOrganizerProfile(id,profileData)
     
          if(updatedProfileData){
          return res.status(HttpStatusCode.CREATED).json(ApiResponse.success("profile data creation successful",HttpStatusCode.CREATED,updatedProfileData))
