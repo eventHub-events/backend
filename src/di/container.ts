@@ -25,6 +25,8 @@ import { VerifyResetPasswordOtpUseCase } from '../application/user/auth/ResetPas
 import { ChangePasswordUseCase } from '../application/user/auth/ChangePasswordUseCase';
 import { UserMapper } from '../application/mapper/user/UserMapper';
 import { UsersMapper } from '../application/mapper/user/usersMapper';
+import { organizerBlankProfileCreationUseCase } from './organizer/container';
+import { OrganizerProfileCreator } from '../application/organizer/profile/organizerProfileCreator';
 
 
 
@@ -42,7 +44,10 @@ export const hashService = new HashService(bcryptHashService);
 const otpService = new OtpService(cacheService,hashService);
 const generateOtpUseCase = new GenerateOtpUseCase(otpService);
 const registerUserUseCase = new RegisterUserUseCase(userRepository, generateOtpUseCase, emailService);
-const verifyOtpUseCase = new VerifyOtpUseCase(userRepository, otpService, hashService,userMapper );
+const profileCreators = {
+    organizer : new OrganizerProfileCreator(organizerBlankProfileCreationUseCase)
+}
+const verifyOtpUseCase = new VerifyOtpUseCase(userRepository, otpService, hashService,userMapper,profileCreators);
 const jwtToken = new JWTToken()
 const tokenService  = new TokenService(jwtToken)
 const refreshTokenUseCase = new RefreshTokenUseCase(tokenService)

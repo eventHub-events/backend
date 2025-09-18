@@ -29,7 +29,9 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
     // return userDoc? userDoc :null ;
   }
   async findUserById(id: string): Promise<IUserDocument | null> {
+    console.log("ID ",id)
       const userDoc=await super.findById(id);
+      console.log("usreee doc",userDoc);
       return userDoc
   }
 

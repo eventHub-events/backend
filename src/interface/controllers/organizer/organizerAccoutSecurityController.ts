@@ -10,6 +10,7 @@ export class OrganizerAccountSecurityController{
   async updatePassword(req:Request,res:Response, next: NextFunction):Promise<Response |void>{
     try{
         const {organizerId} = req.params;
+        console.log("id is org",organizerId)
     if(!organizerId){
      throw new CustomError("OrganizerId is required", HttpStatusCode.BAD_REQUEST);
   

@@ -1,5 +1,6 @@
 import { ILoggerService } from "../../application/interface/common/ILoggerService";
 import { OrganizerProfileMapper } from "../../application/mapper/organizer/OrganizerProfileMapper";
+import { BlankOrganizerProfileDTO } from "../../domain/dtos/organizer/BlackOrganizerProfileDTO";
 import { OrganizerProfileDTO } from "../../domain/dtos/organizer/OrganizerProfileDTO";
 import { OrganizerProfileResponseDTO } from "../../domain/dtos/organizer/OrganizerProfileResponseDTO";
 import { IOrganizerProfileRepository } from "../../domain/repositories/organizer/IOrganizerProfileRepository";
@@ -11,8 +12,8 @@ export class  OrganizerProfileRepository extends BaseRepository<IOrganizerProfil
   constructor(private logger :ILoggerService){
     super(OrganizerProfileModel)
   }
-  async createProfile(profileData: OrganizerProfileDTO): Promise<OrganizerProfileResponseDTO> {
-      this.logger.info(`Creating Organizer profile for id:${profileData.organizerId}`)
+  async createProfile(profileData: OrganizerProfileDTO | BlankOrganizerProfileDTO): Promise<OrganizerProfileResponseDTO> {
+       this.logger.info(`Creating Organizer profile for id:${profileData.organizerId }`)
       const profileDoc=await super.create(OrganizerProfileMapper.toDomain(profileData));
       return OrganizerProfileMapper.toResponse( profileDoc as IOrganizerProfile & { organizerId: IUserMinimal })
   }

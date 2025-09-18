@@ -19,13 +19,16 @@ export class OrganizerAccountSecurityUseCase implements IOrganizerAccountSecurit
   async changePassword(organizerId: string, passwordData: OrganizerChangePasswordDTO): Promise<string> {
   try {
     const { currentPassword, newPassword } = passwordData;
+    
 
     if (!newPassword) {
       throw new CustomError("New password is required", HttpStatusCode.BAD_REQUEST);
     }
 
     // 1. Fetch the user
+    console.log("orrrr",organizerId)
     const organizer = await this._userRepository.findUserById(organizerId);
+    console.log("organizer is ",organizer)
     if (!organizer) {
       throw new CustomError("Organizer not found", HttpStatusCode.NOT_FOUND);
     }
