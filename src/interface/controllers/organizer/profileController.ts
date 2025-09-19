@@ -65,11 +65,11 @@ export class OrganizerProfileController{
     }
 
 
-    async getOrganizerProfile(req:Request,res:Response){
+    async fetchOrganizerProfile(req:Request,res:Response){
          try{
             const {id}=req.params
              if(!id)return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("Organizer id is required",HttpStatusCode.BAD_REQUEST))
-             const profileData= await this._organizerProfileUseCase.organizerProfile(id)
+             const profileData= await this._organizerProfileUseCase.getOrganizerProfile(id)
             console.log("profile data is ",profileData)
              if(!profileData){
               return res.status(HttpStatusCode.NOT_FOUND).json(ApiResponse.error("Error in  fetching profile data",HttpStatusCode.NOT_FOUND))

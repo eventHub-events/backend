@@ -70,9 +70,13 @@ organizerId: {
 static  toUpdateResponseForm( updatedProfileData: IOrganizerProfile,updatedBasicData: UserResponseDTO ) : UpdatedOrganizerProfileFormResponseDTO{
     
   return {
-    name :updatedBasicData.name ,
+    name  : updatedBasicData.name ,
     email : updatedBasicData. email,
     phone : updatedBasicData.phone.toString() ,
+    id    : updatedBasicData.id,
+    role  : updatedBasicData.role,
+     isBlocked :updatedBasicData.isBlocked,
+    isVerified: updatedBasicData.isVerified,
      location :updatedProfileData.location,
   organization:updatedProfileData.organization,
   website:updatedProfileData.website,

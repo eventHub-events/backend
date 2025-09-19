@@ -15,7 +15,7 @@ router.post('/resetPasswordOtp',(req:IAuthenticatedRequest,res)=>authController.
 router.post("/changePassword",authenticationMiddleWare.authenticateChangePassword.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>authController.changePassword(req,res))
 router.post("/organizerProfile",(req:Request,res:Response)=>organizerProfileController.createProfile(req,res))
 router.patch("/organizerProfile/:id",(req:Request,res:Response,next:NextFunction)=>organizerProfileController.updateOrganizerProfile(req,res,next))
-router.get("/organizerProfile/:id",(req:Request,res:Response)=>organizerProfileController.getOrganizerProfile(req,res))
+router.get("/organizerProfile/:id",(req:Request,res:Response)=>organizerProfileController.fetchOrganizerProfile(req,res))
 router.patch("/updatePassword/:organizerId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),ZodPasswordValidator.validate(passwordSchema),(req:IAuthenticatedRequest,res:Response,next:NextFunction)=> organizerAccountSecurityController.updatePassword(req,res,next) )
 
 
