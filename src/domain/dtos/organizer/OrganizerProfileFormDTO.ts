@@ -1,6 +1,4 @@
-import { IOrganizerProfile } from "../../../infrastructure/db/models/organizer/profile/OrganizerProfile";
-import { UserRepository } from "../../../infrastructure/repositories/UserRepository";
-import { UserResponseDTO } from "../user/UserResponseDTO";
+
 import { OrganizerProfileDTO } from "./OrganizerProfileDTO";
 
 export type OrganizerProfileFormDTO = {

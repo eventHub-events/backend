@@ -3,6 +3,8 @@ import {  UpdatedOrganizerProfileFormResponseDTO } from "../../domain/dtos/organ
 import { OrganizerProfileResponseDTO } from "../../domain/dtos/organizer/OrganizerProfileResponseDTO";
 import { IOrganizerProfileRepository } from "../../domain/repositories/organizer/IOrganizerProfileRepository";
 import { IUserRepository } from "../../domain/repositories/user/IUserRepository";
+import { CustomError } from "../../infrastructure/errors/errorClass";
+import { HttpStatusCode } from "../../infrastructure/interface/enums/HttpStatusCode";
 import { organizerProfileSchema } from "../../infrastructure/validaton/schemas/organizer/organizerProfileSchema";
 import { IOrganizerProfileUseCase } from "../interface/organizer/IOrganizerProfileUseCase";
 import { OrganizerProfileMapper } from "../mapper/organizer/OrganizerProfileMapper";
@@ -17,16 +19,26 @@ export class  OrganizerProfileUseCase implements IOrganizerProfileUseCase{
   }
   async updateOrganizerProfile(id:string,data: Partial<OrganizerProfileDTO>): Promise<UpdatedOrganizerProfileFormResponseDTO > {
   
-
-      data.phone =   data.phone?.toString();
+       
+   
+     
      const validatedData = organizerProfileSchema.parse(data);
+    
+
+
      const  dto   =    new OrganizerProfileDTO(validatedData)
+     console.log("type of phone", typeof dto.phone)
      const  updateDetails =  OrganizerProfileMapper. toUpdateForm(dto)
 
          const{profileData,organizerBasicData} = updateDetails ;
-    
-      const updatedData= await this._organizerProfileRepo.updateProfile(id,profileData);
-      const updatedBasicData = await this._userRepo.updateUser(id,organizerBasicData) ;
+
+      const  [updatedData,updatedBasicData] = await Promise.all([ this._organizerProfileRepo.updateProfile(id,profileData),  this._userRepo.updateUser(id,organizerBasicData)])
+
+      if(!updatedData ||  !updatedBasicData) {
+          throw new CustomError("Profile  update failed",HttpStatusCode.INTERNAL_SERVER_ERROR)
+      }
+       
+
       const finalData = OrganizerProfileMapper.toUpdateResponseForm(updatedData, updatedBasicData)
 
      

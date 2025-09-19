@@ -21,9 +21,16 @@ export const organizerProfileSchema = z. object({
    .optional()
    ,
    phone: z
-   .string()
-    .regex(/^[6-9]\d{9}$/, { message: "Phone number must be a valid 10-digit Indian number" })
-    .optional(),
+    .union([
+      z.string().regex(/^\d{10}$/, "Phone must be 10 digits"),
+      z.number()
+    ])
+    .optional()
+    .transform((val) => {
+      // Always return number
+      if (typeof val === "string") return Number(val);
+      return val;
+    }),
 
   location: z.string().max(30, "Location must be at most 30 characters").optional(),
 

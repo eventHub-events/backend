@@ -6,6 +6,8 @@ import { OrganizerProfileResponseDTO } from "../../domain/dtos/organizer/Organiz
 import { IOrganizerProfileRepository } from "../../domain/repositories/organizer/IOrganizerProfileRepository";
 import { IUserMinimal } from "../../domain/types/IUserMinimal";
 import OrganizerProfileModel, { IOrganizerProfile } from "../db/models/organizer/profile/OrganizerProfile";
+import { CustomError } from "../errors/errorClass";
+import { HttpStatusCode } from "../interface/enums/HttpStatusCode";
 import { BaseRepository } from "./BaseRepository";
 
 export class  OrganizerProfileRepository extends BaseRepository<IOrganizerProfile> implements IOrganizerProfileRepository{
@@ -20,9 +22,7 @@ export class  OrganizerProfileRepository extends BaseRepository<IOrganizerProfil
  async findByOrganizerId(id: string): Promise<OrganizerProfileResponseDTO | null> {
       this.logger.info(`Finding the Organizer Profile with Id:${id}`)
       const profileDoc= await super.findOneWithPopulate({organizerId:id},["organizerId"]);
-      console.log("new Profile Doc",profileDoc)
-      console.log("heel",profileDoc);
-      
+     
       return profileDoc ? OrganizerProfileMapper.toResponse( profileDoc as IOrganizerProfile & { organizerId: IUserMinimal }):null
   }
   async updateProfile(id: string, data: Partial<OrganizerProfileDTO>): Promise<IOrganizerProfile> {
@@ -31,10 +31,12 @@ export class  OrganizerProfileRepository extends BaseRepository<IOrganizerProfil
       console.log("updated is",   updated)
       if(!updated){
         this.logger.error(`No profile found with organizerId:${id}`);
-        throw new Error("Profile  not found");
+        // throw new Error("Profile  not found");
+
+        throw new CustomError("Profile not found", HttpStatusCode.NOT_FOUND);
 
       }
-      //  return  OrganizerProfileMapper.toResponse(updated as IOrganizerProfile & {organizerId:IUserMinimal})
+    
        return updated
 
   }

@@ -62,7 +62,7 @@ organizerId: {
   const organizerBasicData = {
        name: profile.name,
         email: profile.email,
-        phone: profile.phone,
+        phone: Number(profile.phone),
   }
 
   return {profileData ,organizerBasicData}

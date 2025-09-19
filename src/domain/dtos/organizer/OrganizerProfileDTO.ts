@@ -1,7 +1,7 @@
 export class OrganizerProfileDTO {
   name?:string;
   email?:string;
-  phone?:string;
+  phone?:number;
   organizerId?: string;
   location?: string;
   organization?: string;

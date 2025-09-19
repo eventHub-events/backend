@@ -4,7 +4,7 @@ import { authController, authenticationMiddleWare } from "../../../di/container"
 import { documentController, organizerAccountSecurityController, organizerProfileController } from "../../../di/organizer/container";
 import { ZodPasswordValidator } from "../../../infrastructure/middleware/zodValidator";
 import { passwordSchema } from "../../../infrastructure/validaton/schemas/changePasswordSchema";
-import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
+// import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
 
 
 const router= express.Router()
@@ -14,7 +14,7 @@ router.post("/forgetPassWord",(req:IAuthenticatedRequest,res)=>authController.fo
 router.post('/resetPasswordOtp',(req:IAuthenticatedRequest,res)=>authController.verifyResetPasswordOtp(req,res))
 router.post("/changePassword",authenticationMiddleWare.authenticateChangePassword.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>authController.changePassword(req,res))
 router.post("/organizerProfile",(req:Request,res:Response)=>organizerProfileController.createProfile(req,res))
-router.patch("/organizerProfile/:id",(req:Request,res:Response)=>organizerProfileController.updateOrganizerProfile(req,res))
+router.patch("/organizerProfile/:id",(req:Request,res:Response,next:NextFunction)=>organizerProfileController.updateOrganizerProfile(req,res,next))
 router.get("/organizerProfile/:id",(req:Request,res:Response)=>organizerProfileController.getOrganizerProfile(req,res))
 router.patch("/updatePassword/:organizerId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),ZodPasswordValidator.validate(passwordSchema),(req:IAuthenticatedRequest,res:Response,next:NextFunction)=> organizerAccountSecurityController.updatePassword(req,res,next) )
 
