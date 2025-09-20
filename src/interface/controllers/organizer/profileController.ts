@@ -8,23 +8,24 @@ import { CustomError } from "../../../infrastructure/errors/errorClass";
 
 export class OrganizerProfileController{
   constructor(private _organizerProfileUseCase:IOrganizerProfileUseCase){}
-   async createProfile(req:Request,res:Response){
-    try{
+  
+  //  async createProfile(req: Request, res: Response, next: NextFunction): Promise< Response | void >{
+  //   try{
       
-      const profileDto= new OrganizerProfileDTO(req.body)
-      const profileData= await  this._organizerProfileUseCase.registerOrganizerProfile(profileDto)
-        if(profileData){
-         return res.status(HttpStatusCode.CREATED).json(ApiResponse.success("profile data creation successful",HttpStatusCode.CREATED,profileData))
-        }
-        return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("Failed to create Profile",HttpStatusCode.BAD_REQUEST))
-    }catch(err:unknown){
-      const error=HandleErrorUtility.handleError(err)
-      return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(ApiResponse.error(error,HttpStatusCode.INTERNAL_SERVER_ERROR))
+  //     const profileDto= new OrganizerProfileDTO(req.body)
+  //     const profileData= await  this._organizerProfileUseCase.registerOrganizerProfile(profileDto)
+  //       if(profileData){
+  //        return res.status(HttpStatusCode.CREATED).json(ApiResponse.success("profile data creation successful",HttpStatusCode.CREATED,profileData))
+  //       }
+  //       return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("Failed to create Profile",HttpStatusCode.BAD_REQUEST))
+  //   }catch(err:unknown){
+  //     const error=HandleErrorUtility.handleError(err)
+  //     return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(ApiResponse.error(error,HttpStatusCode.INTERNAL_SERVER_ERROR))
 
-    }
+  //   }
     
     
-    }
+  //   }
 
     async  updateOrganizerProfile(req:Request,res:Response , next :NextFunction): Promise <Response|void>{
       try{
@@ -65,20 +66,27 @@ export class OrganizerProfileController{
     }
 
 
-    async fetchOrganizerProfile(req:Request,res:Response){
+    async fetchOrganizerProfile(req:Request,res:Response,next: NextFunction): Promise< Response | void >{
          try{
-            const {id}=req.params
-             if(!id)return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("Organizer id is required",HttpStatusCode.BAD_REQUEST))
-             const profileData= await this._organizerProfileUseCase.getOrganizerProfile(id)
-            console.log("profile data is ",profileData)
+            const {id}=req.params ;
+
+             if(!id){
+
+                throw new CustomError("Organizer ID is  required", HttpStatusCode.BAD_REQUEST)
+
+             }
+             const profileData = await this._organizerProfileUseCase.getOrganizerProfile(id)
+
              if(!profileData){
-              return res.status(HttpStatusCode.NOT_FOUND).json(ApiResponse.error("Error in  fetching profile data",HttpStatusCode.NOT_FOUND))
+               
+              throw new CustomError("Error in  fetching profile data",HttpStatusCode.NOT_FOUND)
+
             }
             return res.status(HttpStatusCode.OK).json(ApiResponse.success("Profiled Data fetched successfully",HttpStatusCode.OK,profileData))
              
          } catch(err:unknown){
-              const error= HandleErrorUtility.handleError(err)
-              return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(ApiResponse.error(error,HttpStatusCode.INTERNAL_SERVER_ERROR))
+
+             next (err)
          }
        
    }

@@ -10,7 +10,7 @@ import { IOrganizer } from "../../entities/IOrganizer";
 
 
 export interface IOrganizerProfileRepository{
-  createProfile(profileData:OrganizerProfileDTO |BlankOrganizerProfileDTO ):Promise<OrganizerProfileResponseDTO>
+  createProfile(profileData:OrganizerProfileDTO |BlankOrganizerProfileDTO ):Promise< IOrganizerProfile >
   findByOrganizerId(id:string):Promise<(IOrganizerProfile & {organizerId :IUserDocument})| null>
   updateProfile(id:string,data: Partial<OrganizerProfileDTO>):Promise<IOrganizerProfile>;
   // updateProfile(id:string,data:Partial<OrganizerProfileDTO>):Promise<OrganizerProfileResponseDTO>;

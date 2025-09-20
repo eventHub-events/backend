@@ -17,10 +17,16 @@ export class  OrganizerProfileRepository extends BaseRepository<IOrganizerProfil
   constructor(private logger :ILoggerService){
     super(OrganizerProfileModel)
   }
-  async createProfile(profileData: OrganizerProfileDTO | BlankOrganizerProfileDTO): Promise<OrganizerProfileResponseDTO> {
+  async createProfile(profileData: OrganizerProfileDTO | BlankOrganizerProfileDTO): Promise < IOrganizerProfile > {
+    // (profileData: OrganizerProfileDTO | BlankOrganizerProfileDTO): Promise<OrganizerProfileResponseDTO>
+
        this.logger.info(`Creating Organizer profile for id:${profileData.organizerId }`)
+
       const profileDoc=await super.create(OrganizerProfileMapper.toDomain(profileData));
-      return OrganizerProfileMapper.toResponse( profileDoc as IOrganizerProfile & { organizerId: IUserMinimal })
+      console.log("newwww profileDoc",profileDoc)
+      return profileDoc
+
+      // return OrganizerProfileMapper.toResponse( profileDoc as IOrganizerProfile & { organizerId: IUserMinimal })
   }
  async findByOrganizerId(id: string): Promise<(IOrganizerProfile & {organizerId :IUserDocument})| null> {
       this.logger.info(`Finding the Organizer Profile with Id:${id}`)

@@ -14,11 +14,11 @@ import { OrganizerProfileMapper } from "../mapper/organizer/OrganizerProfileMapp
 export class  OrganizerProfileUseCase implements IOrganizerProfileUseCase{
   constructor(private _organizerProfileRepo:IOrganizerProfileRepository, private  _userRepo : IUserRepository){}
 
-  async registerOrganizerProfile(data: OrganizerProfileDTO): Promise<OrganizerProfileResponseDTO> {
+//   async registerOrganizerProfile(data: OrganizerProfileDTO): Promise<OrganizerProfileResponseDTO> {
 
-      const profileData= await this._organizerProfileRepo.createProfile(data);
-      return profileData
-  }
+//       const profileData= await this._organizerProfileRepo.createProfile(data);
+//       return profileData
+//   }
   async updateOrganizerProfile(id:string,data: Partial<OrganizerProfileDTO>): Promise<UpdatedOrganizerProfileFormResponseDTO > {
   
        
@@ -47,7 +47,12 @@ export class  OrganizerProfileUseCase implements IOrganizerProfileUseCase{
   }
   async getOrganizerProfile(id: string): Promise<OrganizerProfileResponseDTO|null> {
 
-      const profileData= await this._organizerProfileRepo.findByOrganizerId(id);
+      const profileData = await this._organizerProfileRepo.findByOrganizerId(id);
+
+       if(!profileData){
+            throw new CustomError("Failed to fetch organizer profile",HttpStatusCode.INTERNAL_SERVER_ERROR)
+       }
+
        return profileData ? OrganizerProfileMapper.toResponse( profileData as IOrganizerProfile & { organizerId: IUserMinimal }):null ;
 
      

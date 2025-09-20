@@ -4,7 +4,7 @@ import { OrganizerProfileResponseDTO } from "../../../domain/dtos/organizer/Orga
 
 
 export interface IOrganizerProfileUseCase{
-    registerOrganizerProfile(data:OrganizerProfileDTO):Promise<OrganizerProfileResponseDTO>
+    // registerOrganizerProfile(data:OrganizerProfileDTO):Promise<OrganizerProfileResponseDTO>
     updateOrganizerProfile(id:string,data:Partial<OrganizerProfileDTO>):Promise<UpdatedOrganizerProfileFormResponseDTO>
     getOrganizerProfile(id:string):Promise<OrganizerProfileResponseDTO|null>
 
