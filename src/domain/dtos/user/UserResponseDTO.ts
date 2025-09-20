@@ -3,7 +3,7 @@ export interface UserResponseDTO {
   name: string;
   email: string;
   phone: number;
-  isVerified?: boolean;
+  isVerified: boolean;
   role: string;
   kycStatus?:string
   isBlocked:boolean;

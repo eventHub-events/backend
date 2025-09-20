@@ -2,8 +2,9 @@ import { Types } from "mongoose";
 import { OrganizerProfileDTO } from "../../../domain/dtos/organizer/OrganizerProfileDTO";
 import { IOrganizerProfile } from "../../../infrastructure/db/models/organizer/profile/OrganizerProfile";
 import { OrganizerProfileResponseDTO } from "../../../domain/dtos/organizer/OrganizerProfileResponseDTO";
-import { User } from "../../../domain/entities/User";
 import { IUserMinimal } from "../../../domain/types/IUserMinimal";
+import { OrganizerProfileFormDTO, UpdatedOrganizerProfileFormResponseDTO } from "../../../domain/dtos/organizer/OrganizerProfileFormDTO";
+import { UserResponseDTO } from "../../../domain/dtos/user/UserResponseDTO";
 
 export class OrganizerProfileMapper{
 static toDomain(profileData:OrganizerProfileDTO):IOrganizerProfile{
@@ -14,7 +15,7 @@ static toDomain(profileData:OrganizerProfileDTO):IOrganizerProfile{
   website:profileData.website ||"",
   profilePicture:profileData.profilePicture ||"",
   bio:profileData.bio||"",
-    kycVerified: profileData.kycVerified ?? false,
+    // kycVerified: profileData.kycVerified ?? false,
       trustScore: profileData.trustScore ?? 0,
       totalEarnings: profileData.totalEarnings ?? 0,
 
@@ -47,5 +48,45 @@ organizerId: {
 
 
  }
+ static toUpdateForm(profile:OrganizerProfileDTO): OrganizerProfileFormDTO{
+  const profileData = {
+          location :profile.location,
+  organization:profile.organization,
+  website:profile.website,
+  profilePicture:profile.profilePicture,
+  bio:profile.bio,
+  trustScore:profile.trustScore,
+  totalEarnings:profile.totalEarnings,
+ 
+  }
+  const organizerBasicData = {
+       name: profile.name,
+        email: profile.email,
+        phone: Number(profile.phone),
+  }
 
+  return {profileData ,organizerBasicData}
+ }
+static  toUpdateResponseForm( updatedProfileData: IOrganizerProfile,updatedBasicData: UserResponseDTO ) : UpdatedOrganizerProfileFormResponseDTO{
+    
+  return {
+    name  : updatedBasicData.name ,
+    email : updatedBasicData. email,
+    phone : updatedBasicData.phone.toString() ,
+    id    : updatedBasicData.id,
+    role  : updatedBasicData.role,
+     isBlocked :updatedBasicData.isBlocked,
+    isVerified: updatedBasicData.isVerified,
+     location :updatedProfileData.location,
+  organization:updatedProfileData.organization,
+  website:updatedProfileData.website,
+  profilePicture:updatedProfileData.profilePicture,
+  bio:updatedProfileData.bio,
+  trustScore:updatedProfileData.trustScore,
+  totalEarnings: updatedProfileData.totalEarnings,
+  organizerId:updatedBasicData.id
+
+
+  }
+}
 }
