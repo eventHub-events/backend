@@ -1,11 +1,23 @@
-import { DocumentStatus } from "../../enums/organizer/documentstatus";
+// 
+
+import { DocumentStatus } from "../../enums/organizer/documentStatus";
+
+
 
 export interface UploadDocumentResponseDTO {
-  organizerId: string;
-  name: string;
-  type: string;
-  url: string;
-  uploadedAt?: Date;
-  status?: DocumentStatus;
-  verified?: boolean;
+
+    id?           : string;  
+    organizerId   : string;
+    name          : string;
+    type          : string;
+    url           : string;
+    uploadedAt?   : Date;
+    status?       : DocumentStatus;
+    verified?     : boolean;
+    reason?       : string;
+    reviewedAt?   : Date;
+    reviewedBy?   : string;
+
+
 }
+

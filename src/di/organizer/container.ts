@@ -1,4 +1,5 @@
 import { OrganizerUploadDocumentMapper } from "../../application/mapper/admin/OrganizerUploadDocumentMapper";
+import { UploadDocumentsMapper } from "../../application/mapper/admin/UploadDocumentsMapper";
 import { UserMapper } from "../../application/mapper/user/UserMapper";
 import { UsersMapper } from "../../application/mapper/user/usersMapper";
 import { GeneratePresignedUrlUseCase } from "../../application/organizer/generatePresignedUrlUseCase";
@@ -28,8 +29,9 @@ export const organizerProfileController = new  OrganizerProfileController(organi
 const s3Service= new S3Service();
 const generatePresignedUrlUseCase = new GeneratePresignedUrlUseCase(s3Service);
 const organizerUploadDocumentMapper= new OrganizerUploadDocumentMapper()
+const uploadDocumentsMapper        = new UploadDocumentsMapper(organizerUploadDocumentMapper)
 export const uploadDocumentRepository=new UploadDocumentRepository(loggerService,organizerUploadDocumentMapper);
-const  uploadDocumentUseCase   = new UploadDocumentUseCase(uploadDocumentRepository, organizerUploadDocumentMapper )
+const  uploadDocumentUseCase   = new UploadDocumentUseCase(uploadDocumentRepository, organizerUploadDocumentMapper, uploadDocumentsMapper )
 export const documentController= new DocumentController(generatePresignedUrlUseCase,uploadDocumentUseCase)
 export const organizerBlankProfileCreationUseCase = new OrganizerBlankProfileCreationUseCase (organizerProfileRepository)
 

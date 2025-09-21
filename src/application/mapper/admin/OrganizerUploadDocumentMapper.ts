@@ -8,31 +8,36 @@ import { IOrganizerUploadDocumentMapper } from "../../interface/admin/IOrganizer
 
 export class OrganizerUploadDocumentMapper implements IOrganizerUploadDocumentMapper {
 
- toResponse(UploadDocument:UploadDocument):UploadDocumentResponseDTO{
+ toResponse( UploadDocument: UploadDocument ): UploadDocumentResponseDTO {
 
   return {
-    organizerId:UploadDocument.organizerId.toString(),
-    name:UploadDocument.fileName,
-    type:UploadDocument.type,
-    url:UploadDocument.url,
-    uploadedAt:UploadDocument.uploadedAt,
-    status:UploadDocument.status,
-    verified:UploadDocument.verified,
+    organizerId  :   UploadDocument.organizerId.toString(),
+    id           :   UploadDocument.id?.toString(),
+    name         :   UploadDocument.fileName,
+    type         :   UploadDocument.type,
+    url          :   UploadDocument.url,
+    uploadedAt   :   UploadDocument.uploadedAt,
+    status       :   UploadDocument.status,
+    verified     :   UploadDocument.verified,
+    reason       :   UploadDocument.reason,
+    reviewedAt   :   UploadDocument.reviewedAt,
+    reviewedBy   :    UploadDocument.reviewedBy
+
     
   }
 }
-   toResponseToAdmin(UploadDocument:UploadDocument):UpdatedUploadDocumentResponseDTO{
+   toResponseToAdmin( UploadDocument: UploadDocument): UpdatedUploadDocumentResponseDTO {
    return{
     organizerId  :  UploadDocument.organizerId.toString(),
     name         :  UploadDocument.fileName,
-    type:UploadDocument.type,
-    url:UploadDocument.url,
-    uploadedAt:UploadDocument.uploadedAt,
-    status:UploadDocument.status,
-    verified:UploadDocument.verified,
-     reviewedBy:UploadDocument.reviewedBy,
-  reviewedAt:UploadDocument.reviewedAt,
-reason:UploadDocument.reason
+    type         :  UploadDocument.type,
+    url          :  UploadDocument.url,
+    uploadedAt   :  UploadDocument.uploadedAt,
+    status       :  UploadDocument.status,
+    verified     :  UploadDocument.verified,
+    reviewedBy   :  UploadDocument.reviewedBy,
+    reviewedAt   :  UploadDocument.reviewedAt,
+    reason       :  UploadDocument.reason
 
    }  
 
