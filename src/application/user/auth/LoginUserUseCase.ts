@@ -1,5 +1,6 @@
 import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
 import { IUserLoginResponse } from "../../../domain/types/IUserLoginResponse";
+import { KycStatus } from "../../../infrastructure/db/models/UserModel";
 import { IUserTokenPayload } from "../../../infrastructure/interface/IUserTokenPayload";
 import { IHashService } from "../../interface/user/IHashService";
 import { ILoginUserUseCase } from "../../interface/user/ILoginUserUseCase";
@@ -44,6 +45,8 @@ console.log("payload is",payload)
       role: userDoc.role,
       isBlocked: userDoc.isBlocked,
       isVerified: userDoc.isVerified,
+      isKycResubmitted :userDoc.isKycResubmitted,
+      kycStatus : userDoc.kycStatus,
     };
 
 

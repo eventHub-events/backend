@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { IGeneratePresignedUrlUseCase } from "../../../application/interface/organizer/IGeneratePresignedUrlUseCase";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
@@ -26,12 +26,14 @@ export class DocumentController{
     return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(error)
   }
   }
-  async saveDocument(req: Request, res: Response) {
+  async saveDocument(req: Request, res: Response,next :NextFunction):Promise< Response | void > {
     try {
-      const { organizerId, url, type, name } = req.body;
+      // const { organizerId, url, type, name } = req.body;
+      console.log("req",req.body)
    
-      const dto = new UploadDocumentDTO(organizerId,  type,url, name);
-      const savedDoc = await this._uploadDocumentUseCase.saveUploadedDocument(dto);
+      // const dto = new UploadDocumentDTO(organizerId, type , url , name);
+      // const savedDoc = await this._uploadDocumentUseCase.saveUploadedDocument(dto);
+      const savedDoc = await this._uploadDocumentUseCase.saveUploadedDocument(req.body);
 
       return res.status(HttpStatusCode.CREATED).json(ApiResponse.success("Document saved", HttpStatusCode.CREATED, savedDoc));
     } catch (err) {
