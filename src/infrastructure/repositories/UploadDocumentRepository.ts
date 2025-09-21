@@ -6,6 +6,8 @@ import { IUploadDocumentRepository } from "../../domain/repositories/organizer/I
 import UploadDocumentModel, {
   IUploadDocument,
 } from "../db/models/organizer/profile/UploadDocument";
+import { CustomError } from "../errors/errorClass";
+import { HttpStatusCode } from "../interface/enums/HttpStatusCode";
 import { BaseRepository } from "./BaseRepository";
 
 export class UploadDocumentRepository
@@ -26,7 +28,7 @@ export class UploadDocumentRepository
     const created = (await super.create(documentData)) as UploadDocument & {
       _id: string;
     };
-    console.log("created  data is", created);
+ 
 
     return new UploadDocument(
       created.organizerId,
@@ -66,16 +68,29 @@ export class UploadDocumentRepository
   async findAndUpdate(
     organizerId: string,
     data: Partial<UploadDocument>
-  ): Promise<UpdatedUploadDocumentResponseDTO> {
-    try {
-      const updatedDoc = await super.update(organizerId, data);
-      if (!updatedDoc) throw new Error("Error in  updating document");
-      const updated = this._uploadDocumentMapper.toResponseToAdmin(updatedDoc);
+  ): Promise< UploadDocument> {
+    
+      const updatedDoc = await super.update(organizerId, data)as UploadDocument & {
+      _id: string;
+    };
+      if (!updatedDoc) throw new CustomError("Error in  updating document",HttpStatusCode.INTERNAL_SERVER_ERROR);
+       return new UploadDocument(
+      updatedDoc.organizerId,
+      updatedDoc.fileName,
+      updatedDoc.type,
+      updatedDoc.url,
+     updatedDoc._id.toString(),
+      updatedDoc.uploadedAt,
+      updatedDoc.verified,
+      updatedDoc.status,
+      updatedDoc.reason,
+     updatedDoc.reviewedBy,
+      updatedDoc.reviewedAt
+    );
 
-      return updated;
-    } catch (err: unknown) {
-      throw new Error("Error in Updating Document");
-    }
+      // const updated = this._uploadDocumentMapper.toResponseToAdmin(updatedDoc);
+
+      // return updated;
   }
   
   async findAndDeleteDocument(documentId: string): Promise<void> {

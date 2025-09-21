@@ -33,5 +33,7 @@ export const organizerUploadDocumentSchema = z.object({
 
 
     })
-    export type organizerUploadDocumentSchemaType =  z.infer<typeof organizerUploadDocumentSchema >;
+    export type organizerUploadDocumentSchemaType        =  z.infer<typeof organizerUploadDocumentSchema >;
+    export const organizerUploadDocumentUpdateSchema     =  organizerUploadDocumentSchema.partial();
+    export type  organizerUploadDocumentUpdateSchemaType = z.infer< typeof organizerUploadDocumentUpdateSchema >;
 

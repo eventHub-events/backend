@@ -73,8 +73,7 @@ export class DocumentController{
 async deleteDocument(req:Request,res:Response):Promise<Response>{
        try{
          const {documentId}=req.params;
-         console.log("organizer and doc",documentId)
-         console.log("hello  from  delete")
+        
          if(!documentId){
           return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("OrganizerId is required",HttpStatusCode.BAD_REQUEST))
          }
@@ -85,5 +84,6 @@ async deleteDocument(req:Request,res:Response):Promise<Response>{
     return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(error);
        }
 }
+
 
 }
