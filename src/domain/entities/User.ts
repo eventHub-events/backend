@@ -1,3 +1,4 @@
+import { KycStatus } from "../../infrastructure/db/models/UserModel";
 
 
 export interface User {
@@ -6,9 +7,10 @@ export interface User {
   email:string;
   password:string;
   phone:number;
-  isVerified:boolean
-  role:string,
-  kycStatus:string
-  isBlocked:boolean,
-  createdAt?:Date
+  isVerified:boolean;
+  role:string;
+  kycStatus:KycStatus;
+  isBlocked:boolean;
+  isKycResubmitted : boolean;
+  createdAt?:Date;
 }

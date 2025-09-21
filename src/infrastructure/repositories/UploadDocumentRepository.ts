@@ -2,26 +2,38 @@ import { IOrganizerUploadDocumentMapper } from "../../application/interface/admi
 import { ILoggerService } from "../../application/interface/common/ILoggerService";
 import { UpdatedUploadDocumentResponseDTO } from "../../domain/dtos/admin/UpdatedUploadedDocumentDTO";
 import { UploadDocumentResponseDTO } from "../../domain/dtos/admin/UploadDocumentResponseDTO";
-import { UploadDocumentDTO } from "../../domain/dtos/organizer/DocumentDTO";;
+import { UploadDocument } from "../../domain/entities/organizer/Document";
+;
 import { IUploadDocumentRepository } from "../../domain/repositories/organizer/IUploadDocumentRepository";
-import UploadDocumentModel, { UploadDocument } from "../db/models/organizer/profile/UploadDocument";
+import UploadDocumentModel, { IUploadDocument }  from "../db/models/organizer/profile/UploadDocument";
 import { BaseRepository } from "./BaseRepository";
 
-export class UploadDocumentRepository extends BaseRepository<UploadDocument> implements IUploadDocumentRepository{
-     constructor(private _logger:ILoggerService,private _uploadDocumentMapper:IOrganizerUploadDocumentMapper){
+export class UploadDocumentRepository extends BaseRepository<IUploadDocument> implements IUploadDocumentRepository{
+     constructor( private _logger: ILoggerService, private _uploadDocumentMapper: IOrganizerUploadDocumentMapper ){
       super(UploadDocumentModel)
      }
-     async saveDocumentData(DTO: UploadDocumentDTO): Promise<UploadDocumentResponseDTO> {
-         const created:UploadDocument= await super.create({
-      organizerId: DTO.organizerId,
-      type: DTO.type,
-      url: DTO.url,
-      uploadedAt: new Date(),
-      verified: false
-    })
-    const uploadDocs=this._uploadDocumentMapper.toResponse(created)
+     async saveDocumentData( documentData : UploadDocument ): Promise< UploadDocument> {
+//         
+       const  created  = await super.create( documentData ) as UploadDocument & { _id: string };
+       console.log("created  data is",created)
+        
+//     const uploadDocs=this._uploadDocumentMapper.toResponse( documentData);
+       return new UploadDocument(
+            created.organizerId,
+            created. fileName,
+            created. type,
+            created. url,
+            created. _id.toString(), 
+            created. uploadedAt,
+            created. verified,
+            created. status,
+            created. reason,
+            created. reviewedBy,
+            created. reviewedAt
+
+       )
   
-    return uploadDocs
+    
      }
      async findByOrganizerId(organizerId: string): Promise<UploadDocument[]> {
          const documents = await UploadDocumentModel.find({ organizerId });

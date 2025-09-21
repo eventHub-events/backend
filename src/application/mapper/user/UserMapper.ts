@@ -14,7 +14,8 @@ export class UserMapper  implements IUserMapper{
       isVerified: dto.isVerified ?? false,
       role: dto.role || 'user',
       isBlocked:dto.isBlocked,
-      kycStatus:dto.kycStatus
+      kycStatus:dto.kycStatus,
+      isKycResubmitted :dto.isKycResubmitted
     };
   }
   // we use this method for converting the the dto  to entity for saving to  mongo db//
@@ -30,7 +31,8 @@ export class UserMapper  implements IUserMapper{
       role: raw.role,
       kycStatus:raw.kycStatus,
       isBlocked:raw.isBlocked,
-      createdAt:raw.createdAt
+      createdAt:raw.createdAt,
+      isKycResubmitted : raw.isKycResubmitted
     };
   }
 

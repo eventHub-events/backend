@@ -39,6 +39,7 @@ export class OrganizerProfileController{
 
              }
         const profileData = req .body;
+       
     
       if(!profileData) {
 

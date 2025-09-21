@@ -1,6 +1,8 @@
 import { UpdatedUploadDocumentResponseDTO } from "../../../domain/dtos/admin/UpdatedUploadedDocumentDTO";
 import { UploadDocumentResponseDTO } from "../../../domain/dtos/admin/UploadDocumentResponseDTO";
-import { UploadDocument } from "../../../infrastructure/db/models/organizer/profile/UploadDocument";
+import { UploadDocumentDTO } from "../../../domain/dtos/organizer/DocumentDTO";
+import { UploadDocument } from "../../../domain/entities/organizer/Document";
+
 import { IOrganizerUploadDocumentMapper } from "../../interface/admin/IOrganizerUploadDocumentMapper";
 
 
@@ -10,7 +12,7 @@ export class OrganizerUploadDocumentMapper implements IOrganizerUploadDocumentMa
 
   return {
     organizerId:UploadDocument.organizerId.toString(),
-    name:UploadDocument.name,
+    name:UploadDocument.fileName,
     type:UploadDocument.type,
     url:UploadDocument.url,
     uploadedAt:UploadDocument.uploadedAt,
@@ -21,8 +23,8 @@ export class OrganizerUploadDocumentMapper implements IOrganizerUploadDocumentMa
 }
    toResponseToAdmin(UploadDocument:UploadDocument):UpdatedUploadDocumentResponseDTO{
    return{
-    organizerId:UploadDocument.organizerId.toString(),
-    name:UploadDocument.name,
+    organizerId  :  UploadDocument.organizerId.toString(),
+    name         :  UploadDocument.fileName,
     type:UploadDocument.type,
     url:UploadDocument.url,
     uploadedAt:UploadDocument.uploadedAt,
@@ -33,5 +35,18 @@ export class OrganizerUploadDocumentMapper implements IOrganizerUploadDocumentMa
 reason:UploadDocument.reason
 
    }  
+
+  
+   }
+
+    toEntity( dto: UploadDocumentDTO) : UploadDocument {
+      return {
+        organizerId : dto.organizerId ,
+        fileName    : dto .name ,
+        type        : dto.type,
+        url         : dto. url,
+       uploadedAt   : new Date()
+      }
+
    }
 } 

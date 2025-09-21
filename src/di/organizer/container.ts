@@ -29,7 +29,7 @@ const s3Service= new S3Service();
 const generatePresignedUrlUseCase = new GeneratePresignedUrlUseCase(s3Service);
 const organizerUploadDocumentMapper= new OrganizerUploadDocumentMapper()
 export const uploadDocumentRepository=new UploadDocumentRepository(loggerService,organizerUploadDocumentMapper);
-const  uploadDocumentUseCase   = new UploadDocumentUseCase(uploadDocumentRepository)
+const  uploadDocumentUseCase   = new UploadDocumentUseCase(uploadDocumentRepository, organizerUploadDocumentMapper )
 export const documentController= new DocumentController(generatePresignedUrlUseCase,uploadDocumentUseCase)
 export const organizerBlankProfileCreationUseCase = new OrganizerBlankProfileCreationUseCase (organizerProfileRepository)
 
