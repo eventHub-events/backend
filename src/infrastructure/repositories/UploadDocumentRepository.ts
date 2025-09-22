@@ -1,6 +1,5 @@
 import { IOrganizerUploadDocumentMapper } from "../../application/interface/admin/IOrganizerUploadDocumentMapper";
 import { ILoggerService } from "../../application/interface/common/ILoggerService";
-import { UpdatedUploadDocumentResponseDTO } from "../../domain/dtos/admin/UpdatedUploadedDocumentDTO";
 import { UploadDocument } from "../../domain/entities/organizer/Document";
 import { IUploadDocumentRepository } from "../../domain/repositories/organizer/IUploadDocumentRepository";
 import UploadDocumentModel, {
@@ -28,6 +27,8 @@ export class UploadDocumentRepository
     const created = (await super.create(documentData)) as UploadDocument & {
       _id: string;
     };
+
+   
  
 
     return new UploadDocument(
@@ -93,11 +94,10 @@ export class UploadDocumentRepository
       // return updated;
   }
   
-  async findAndDeleteDocument(documentId: string): Promise<void> {
-    try {
+  async findAndDeleteDocument(documentId: string): Promise< string > {
+    
       await super.delete(documentId);
-    } catch (err: unknown) {
-      throw new Error("Error in removing Document");
-    }
+      return "Document deleted successfully"
+    
   }
 }
