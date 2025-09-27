@@ -25,7 +25,7 @@ static handleError(err:Error|CustomError |ZodError,req:Request,res:Response, nex
       errors: err.issues.map((e) => `${e.path.join(".")} - ${e.message}`),
     });
   }
-
+           console.log("eerrrrrrrrr")
         res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
           success:false,
           statusCode:HttpStatusCode.INTERNAL_SERVER_ERROR,

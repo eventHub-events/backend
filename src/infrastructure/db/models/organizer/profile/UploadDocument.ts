@@ -1,5 +1,5 @@
 import mongoose,{Document as MongooseDocument, Schema} from "mongoose"; 
-import { DocumentStatus } from "../../../../../domain/enums/organizer/documentstatus";
+import { DocumentStatus } from "../../../../../domain/enums/organizer/documentStatus";
 
 
 export interface IUploadDocument extends MongooseDocument{

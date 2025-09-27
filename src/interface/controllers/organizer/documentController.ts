@@ -29,7 +29,7 @@ export class DocumentController{
   async saveDocument(req: Request, res: Response,next :NextFunction):Promise< Response | void > {
 
     try {
-     
+     console.log("reeeee",req.body)
       const savedDoc = await this._uploadDocumentUseCase.saveUploadedDocument(req.body);
 
       return res.status(HttpStatusCode.CREATED).json(ApiResponse.success("Document saved", HttpStatusCode.CREATED, savedDoc));
@@ -82,6 +82,7 @@ export class DocumentController{
 async deleteDocument( req: Request,res: Response, next: NextFunction ):Promise< Response |void>{
        try{
          const {documentId}=req.params;
+         console.log("document id is",documentId)
 
          if(!documentId){
             throw new CustomError("DocumentId is required",HttpStatusCode.BAD_REQUEST)

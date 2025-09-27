@@ -1,6 +1,6 @@
 
 
-import { DocumentStatus } from "../../enums/organizer/documentstatus";
+import { DocumentStatus } from "../../enums/organizer/documentStatus";
 
 export class UploadDocument {
   constructor (

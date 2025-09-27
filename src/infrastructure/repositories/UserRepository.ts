@@ -12,21 +12,23 @@ import { IUserMapper } from '../../application/interface/user/IUserMapper';
 import { IUsersMapper } from '../../application/interface/user/IUsersMapper';
 import { CustomError } from '../errors/errorClass';
 import { HttpStatusCode } from '../interface/enums/HttpStatusCode';
+import { IUserEntityFactory } from '../../application/interface/factories/IUserEntityFactory';
 
 
 export class UserRepository extends BaseRepository<IUserDocument> implements IUserRepository {
   constructor(
     private _loggerService: ILoggerService,
     private _userMapper: IUserMapper,
-    private _usersMapper: IUsersMapper 
+    private _usersMapper: IUsersMapper,
+    private _userEntityFactory: IUserEntityFactory
   ) {
     super(UserModel);
   }
 
-  async findByEmail(email: string): Promise<User | null> {
-    const userDoc = await super.findOne({ email });
-     return userDoc ? this._userMapper.toDomain(userDoc) : null;
-    // return userDoc? userDoc :null ;
+  async findByEmail(email: string): Promise< User | null> {
+    const userDoc = await super.findOne({ email }) as IUserDocument & {_id : string}
+    //  return userDoc ? this._userMapper.toDomain(userDoc) : null;
+     return userDoc? this._userEntityFactory.toDomain(userDoc) :null ;
   }
   async findUserById(id: string): Promise<IUserDocument | null> {
     console.log("ID ",id)
@@ -106,16 +108,16 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
     return this._userMapper.toResponse(domainUser);
   }
 
-  async updateUserData(email: string, data: IUserUpdateDTO): Promise<UserResponseDTO> {
+  async updateUserData(email: string, data: Partial<User>): Promise<User> {
     this._loggerService.info(`Updating user with email: ${email}`);
-    const result = await super.findOneAndUpdate({ email }, data);
+    const result = await super.findOneAndUpdate({ email }, data) as IUserDocument & {_id : string};
 
     if (!result) {
       this._loggerService.error(`User with email ${email} not found`);
-      throw new Error("Error in updating password");
+      throw new CustomError("Error in updating password",HttpStatusCode.INTERNAL_SERVER_ERROR);
     }
+    return this._userEntityFactory.toDomain(result)
+   
 
-    const domainUser = this._userMapper.toDomain(result);
-    return this._userMapper.toResponse(domainUser);
   }
 }

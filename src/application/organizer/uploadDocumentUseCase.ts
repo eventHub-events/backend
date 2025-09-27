@@ -48,14 +48,16 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
       async deleteUploadedDocument(documentId:string):Promise< string >{
 
            const deleteDocument = await this._uploadDocumentRepo.findAndDeleteDocument(documentId)
+           console.log("deleted document  is ",deleteDocument)
            
            if(!deleteDocument) throw new CustomError("Document not found or could not be deleted",HttpStatusCode.NOT_FOUND);
            return deleteDocument
 
       }
       async updateUploadedDocument(  documentId:string, dto: UpdateDocumentRequestDTO ): Promise < UploadDocumentResponseDTO > {
-
+             console.log("request bpdy",dto)
           const validatedDto     =    organizerUploadDocumentUpdateSchema.parse(dto);
+          console.log("validatedDto",validatedDto)
 
           if(!validatedDto.url){
                
