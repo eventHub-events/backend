@@ -64,6 +64,7 @@ export class AuthenticationMiddleWare {
   ) {
     try {
       const resetToken = req.cookies?.resetToken ?? null;
+      console.log("reset token is ",resetToken)
       if (!resetToken) {
         return res
           .status(HttpStatusCode.UNAUTHORIZED)
@@ -74,9 +75,9 @@ export class AuthenticationMiddleWare {
             )
           );
       }
-      const decoded = await this._authMiddlewareService.authenticateUser(
-        resetToken
-      );
+   console.log("Middleware: before authenticateUser");
+const decoded = await this._authMiddlewareService.authenticateUser(resetToken);
+console.log("Middleware: after authenticateUser");
       req.user = decoded;
       req.resetToken = resetToken;
       next();

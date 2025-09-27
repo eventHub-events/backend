@@ -1,9 +1,9 @@
 import { UploadDocumentResponseDTO } from "../../../domain/dtos/admin/UploadDocumentResponseDTO";
 import { UploadDocumentDTO } from "../../../domain/dtos/organizer/DocumentDTO";
-import { UploadDocument } from "../../../infrastructure/db/models/organizer/profile/UploadDocument";
-
+import { UpdateDocumentRequestDTO } from "../../../domain/dtos/organizer/UpdateDocumentRequestDto";
 export interface IUploadDocumentUseCase{
 saveUploadedDocument(dto: UploadDocumentDTO): Promise<UploadDocumentResponseDTO> ;
-  getUploadedDocuments(organizerId: string): Promise<UploadDocument[]>;
-  deleteUploadedDocument(documentId:string):Promise<void>
+ getUploadedDocuments(organizerId: string): Promise<UploadDocumentResponseDTO[]>
+ deleteUploadedDocument(documentId:string):Promise< string >
+ updateUploadedDocument(  documentId:string, dto: UpdateDocumentRequestDTO ): Promise < UploadDocumentResponseDTO >
 }

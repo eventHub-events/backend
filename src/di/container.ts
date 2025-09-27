@@ -22,11 +22,14 @@ import { LogoutUserUseCase } from '../application/user/auth/LogoutUserUseCase';
 import { ForgetPasswordUseCase } from '../application/user/auth/ForgetPasswordUseCase';
 import { WinstonLoggerService } from '../infrastructure/services/logger/loggerService';
 import { VerifyResetPasswordOtpUseCase } from '../application/user/auth/ResetPasswordUseCase';
-import { ChangePasswordUseCase } from '../application/user/auth/ChangePasswordUseCase';
+
 import { UserMapper } from '../application/mapper/user/UserMapper';
 import { UsersMapper } from '../application/mapper/user/usersMapper';
 import { organizerBlankProfileCreationUseCase } from './organizer/container';
 import { OrganizerProfileCreator } from '../application/organizer/profile/organizerProfileCreator';
+import { UserEntityFactory } from '../infrastructure/factories/UserEntityFactory';
+import { PasswordController } from '../interface/controllers/user/PasswordController';
+import { ChangePasswordUseCase } from '../application/user/auth/ChangePasswordUseCase';
 
 
 
@@ -34,7 +37,8 @@ const cacheService = new RedisCacheService();
 export const loggerService= new WinstonLoggerService()
 const userMapper = new UserMapper();
 const usersMapper= new UsersMapper(userMapper)
-export const userRepository = new UserRepository(loggerService,userMapper,usersMapper);
+const userEntityFactory = new UserEntityFactory()
+export const userRepository = new UserRepository(loggerService,userMapper,usersMapper,userEntityFactory);
 const nodeMailerEmailService = new NodeMailerEmailService();
 const emailService = new EmailService(nodeMailerEmailService);
 
@@ -60,8 +64,11 @@ const resendOtpUseCase = new ResendOtpUseCase(generateOtpUseCase, nodeMailerEmai
 const loginUserUseCase   = new LoginUserUseCase(tokenService,hashService,userRepository)
 const logoutUserUseCase= new LogoutUserUseCase()
 
-const forgetPasswordUseCase = new ForgetPasswordUseCase(generateOtpUseCase,userRepository,loggerService,emailService,cacheService)
-const verifyResetPasswordOtpUseCase =new VerifyResetPasswordOtpUseCase(otpService,hashService,tokenService,cacheService)
-const changePasswordUseCase=new ChangePasswordUseCase(userRepository,tokenService,hashService,loggerService)
+const forgetPasswordUseCase = new ForgetPasswordUseCase(generateOtpUseCase,userRepository,loggerService,emailService,cacheService);
+const verifyResetPasswordOtpUseCase =new VerifyResetPasswordOtpUseCase(otpService,hashService,tokenService,cacheService);
+// const changePasswordUseCase=new ChangePasswordUseCase(userRepository,tokenService,hashService,loggerService,userMapper);
+const changePasswordUseCase =  new ChangePasswordUseCase(userRepository,tokenService,hashService,loggerService,userMapper)
 
-export const authController = new AuthController(registerUserUseCase, resendOtpUseCase, verifyOtpUseCase,loginUserUseCase,refreshTokenUseCase,logoutUserUseCase,forgetPasswordUseCase,verifyResetPasswordOtpUseCase,changePasswordUseCase );
+export const passwordController  = new PasswordController(forgetPasswordUseCase,verifyResetPasswordOtpUseCase,changePasswordUseCase)
+
+export const authController = new AuthController(registerUserUseCase, resendOtpUseCase, verifyOtpUseCase,loginUserUseCase,refreshTokenUseCase,logoutUserUseCase, );

@@ -1,5 +1,5 @@
-import { authController } from '../../../di/container';
-import express from 'express';
+import { authController, passwordController } from '../../../di/container';
+import express, { NextFunction, Response } from 'express';
 import { authenticationMiddleWare } from '../../../di/container';
 import { IAuthenticatedRequest } from '../../../infrastructure/interface/IAuthenticatedRequest';
 const router = express.Router();
@@ -10,9 +10,13 @@ router.post('/resend-otp', (req, res) => authController.resendOtp(req, res));
 router.post("/login",(req,res)=>authController.loginUser(req,res))
 router.post ("/logout",(req,res)=>authController.logout(req,res))
 router.post("/refreshToken",(req:IAuthenticatedRequest,res)=>authController.refreshAccessToken(req,res))
-router.post("/forgetPassWord",(req:IAuthenticatedRequest,res)=>authController.forgetPassWord(req,res))
-router.post('/resetPasswordOtp',(req:IAuthenticatedRequest,res)=>authController.verifyResetPasswordOtp(req,res))
-router.post("/changePassword",authenticationMiddleWare.authenticateChangePassword.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>authController.changePassword(req,res))
+
+router.post("/forgetPassword" ,(req:IAuthenticatedRequest,res:Response,next:NextFunction)=>passwordController.requestForgetPassword(req,res,next))
+
+
+router.post('/resetPasswordOtp',(req:IAuthenticatedRequest,res,next:NextFunction)=>passwordController.verifyResetPasswordOtp(req,res,next))
+
+router.post("/changePassword",authenticationMiddleWare.authenticateChangePassword.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res: Response,next:NextFunction)=>passwordController.changePassword(req,res,next))
 
 
 export default router;

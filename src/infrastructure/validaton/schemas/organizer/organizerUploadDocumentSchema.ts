@@ -1,7 +1,9 @@
 import { z } from "zod";
+import { DocumentStatus } from "../../../../domain/enums/organizer/documentStatus";
 export const documentTypes = ["AadharCard", "PANCard", "BusinessCertificate"] as const;
 
 const allowedExtensions = ["jpg", "jpeg", "png"];
+
 
 export const organizerUploadDocumentSchema = z.object({
   name: z
@@ -29,9 +31,17 @@ export const organizerUploadDocumentSchema = z.object({
     ,
     organizerId: z
       .string()
-      .min(1,"organizerId is required")
+      .min(1,"organizerId is required"),
+
+     status: z
+      .enum(DocumentStatus,{
+        message :"Invalid Document status"
+      })
+      .optional()
 
 
     })
-    export type organizerUploadDocumentSchemaType =  z.infer<typeof organizerUploadDocumentSchema >;
+    export type organizerUploadDocumentSchemaType        =  z.infer<typeof organizerUploadDocumentSchema >;
+    export const organizerUploadDocumentUpdateSchema     =  organizerUploadDocumentSchema.partial();
+    export type  organizerUploadDocumentUpdateSchemaType = z.infer< typeof organizerUploadDocumentUpdateSchema >;
 
