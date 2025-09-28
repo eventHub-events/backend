@@ -1,7 +1,7 @@
 import { IDomainFactory } from "../../application/interface/factories/IDomainFactory";
 import { User } from "../../domain/entities/User";
 import { UserDbModel } from "../../domain/types/UserTypes";
-import { IUserDocument } from "../db/models/UserModel";
+
 
 export class UserEntityFactory implements IDomainFactory< UserDbModel, User> {
   toDomain(dbModel: UserDbModel): User{

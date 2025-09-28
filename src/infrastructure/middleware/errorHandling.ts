@@ -1,7 +1,8 @@
 import { NextFunction, Request ,Response} from "express";
 import { CustomError } from "../errors/errorClass";
 import { HttpStatusCode } from "../interface/enums/HttpStatusCode";
-import { ZodError } from "zod";
+import {  ZodError } from "zod";
+import  jwt  from  "jsonwebtoken"
 
 
 
@@ -17,13 +18,31 @@ static handleError(err:Error|CustomError |ZodError,req:Request,res:Response, nex
             errors:err.errors ||[]
           })
         }
-        if (err instanceof ZodError) {
+
+     if (err instanceof jwt.TokenExpiredError) {
+    return res.status(HttpStatusCode.UNAUTHORIZED).json({
+      success: false,
+      message: 'Token has expired',
+      code: 'TOKEN_EXPIRED'
+    });
+  }
+  if (err instanceof jwt.TokenExpiredError) {
+    return res.status(HttpStatusCode.UNAUTHORIZED).json({
+      success: false,
+      message: 'Token has expired',
+      code: 'TOKEN_EXPIRED'
+    });
+  }
+
+    if (err instanceof ZodError) {
+
     return res.status(HttpStatusCode.BAD_REQUEST).json({
       success: false,
       statusCode: HttpStatusCode.BAD_REQUEST,
       message: "Validation Error",
       errors: err.issues.map((e) => `${e.path.join(".")} - ${e.message}`),
     });
+
   }
            console.log("eerrrrrrrrr")
         res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
