@@ -7,12 +7,10 @@ import { IVerifyOtpUseCase } from "../../../application/interface/user/IVerifyOt
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { IResendOtpUseCase } from "../../../application/interface/user/IResendOtpUseCase";
 import { ILoginUserUseCase } from "../../../application/interface/user/ILoginUserUseCase";
-import { IRefreshTokenUseCase } from "../../../application/interface/user/IRefreshTokenUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 import { ILogoutUseCase } from "../../../application/interface/user/ILogoutUseCase";
 import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
 
-// import { ChangePasswordDTO } from "../../../domain/dtos/user/ChangePasswordDTO";
 
 export class AuthController {
   constructor(
@@ -21,7 +19,6 @@ export class AuthController {
     private _resendOtpUseCase: IResendOtpUseCase,
     private _verifyOtpUseCase: IVerifyOtpUseCase,
     private _loginUserUseCase: ILoginUserUseCase,
-    private _generateAccessTokenUseCase:IRefreshTokenUseCase,
     private _logoutUserUseCase:ILogoutUseCase,
    
   ) {}
@@ -138,34 +135,5 @@ export class AuthController {
         }
 
     }
-
-
-  async refreshAccessToken(req:IAuthenticatedRequest,res:Response){
-    try{
-      console.log("hello from  refreshToken")
-      const {refreshToken}= req.cookies
-
-      const accessToken= await this._generateAccessTokenUseCase.generateAccessToken(refreshToken)
-      console.log("access token is as ",accessToken)
-      res.cookie("authToken", accessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 15 * 60 * 1000,
-      });
-
-      return res.status(HttpStatusCode.OK).json(ApiResponse.success("Access token creation successful"))
-
-
-    }catch(err:unknown){
-      
-      
-      const message= HandleErrorUtility.handleError(err,"Something went wrong")
-
-         return res.status(HttpStatusCode.UNAUTHORIZED).json(ApiResponse.error(message))
-
-    }
-  }
- 
 
 }

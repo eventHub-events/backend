@@ -7,7 +7,9 @@ import { CustomError } from "../../../infrastructure/errors/errorClass";
 
 
 export class DocumentController{
-  constructor(private _generatePresignedUrlUseCase:IGeneratePresignedUrlUseCase, private _uploadDocumentUseCase:IUploadDocumentUseCase){}
+  constructor(
+    private _generatePresignedUrlUseCase:IGeneratePresignedUrlUseCase,
+    private _uploadDocumentUseCase:IUploadDocumentUseCase){}
 
   // async getPresignedUrl(req:Request,res:Response){
  

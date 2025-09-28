@@ -14,7 +14,7 @@ export class TokenController {
 
   async refreshAccessToken(req:IAuthenticatedRequest,res:Response, next: NextFunction){
       try{
-       
+       console.log("get into this route")
         const {refreshToken}= req.cookies;             
   
         const accessToken =  await this._generateAccessTokenUseCase.generateAccessToken(refreshToken)

@@ -3,7 +3,9 @@ import { UsersMapper } from "../../application/mapper/user/usersMapper";
 import { ChangePasswordUseCase } from "../../application/user/auth/ChangePasswordUseCase";
 import { ForgetPasswordUseCase } from "../../application/user/auth/ForgetPasswordUseCase";
 import { GenerateOtpUseCase } from "../../application/user/auth/GenerateOtpUseCase";
+import { RefreshTokenUseCase } from "../../application/user/auth/GenerateRefreshTokenUseCase";
 import { VerifyResetPasswordOtpUseCase } from "../../application/user/auth/ResetPasswordUseCase";
+import { TokenConfig } from "../../infrastructure/config/user/tokenConfig";
 import { UserEntityFactory } from "../../infrastructure/factories/UserEntityFactory";
 import { UserRepository } from "../../infrastructure/repositories/UserRepository";
 import { BcryptHashService } from "../../infrastructure/services/hashing/BcryptHashService";
@@ -16,12 +18,16 @@ import { NodeMailerEmailService } from "../../infrastructure/services/nodeMailer
 import { OtpService } from "../../infrastructure/services/otp/OtpService";
 import { RedisCacheService } from "../../infrastructure/services/otp/RedisCacheService";
 import { PasswordController } from "../../interface/controllers/user/PasswordController";
+import { TokenController } from "../../interface/controllers/user/TokenController";
 
 const cacheService = new RedisCacheService();
 export const loggerService= new WinstonLoggerService()
 const bcryptHashService = new BcryptHashService();
-const jwtToken = new JWTToken()
-const tokenService  = new TokenService(jwtToken)
+export const tokenConfig  = new TokenConfig()
+const jwtToken = new JWTToken(tokenConfig)
+const tokenService  = new TokenService(jwtToken);
+const refreshTokenUseCase  = new RefreshTokenUseCase(tokenService);
+export const tokenController   = new TokenController(refreshTokenUseCase)
 
 export const hashService = new HashService(bcryptHashService);
 const otpService = new OtpService(cacheService,hashService);

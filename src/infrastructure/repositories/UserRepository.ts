@@ -12,6 +12,7 @@ import { IUserMapper } from '../../application/interface/user/IUserMapper';
 import { IUsersMapper } from '../../application/interface/user/IUsersMapper';
 import { CustomError } from '../errors/errorClass';
 import { HttpStatusCode } from '../interface/enums/HttpStatusCode';
+
 import { IDomainFactory } from '../../application/interface/factories/IDomainFactory';
 import { UserDbModel } from '../../domain/types/UserTypes';
 
@@ -29,7 +30,7 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
   async findByEmail(email: string): Promise< User | null> {
     const userDoc = await super.findOne({ email }) as IUserDocument & {_id : string}
     //  return userDoc ? this._userMapper.toDomain(userDoc) : null;
-     return userDoc? this._userEntityFactory.toDomain(userDoc) :null ;
+     return userDoc? this._userEntityFactory.toDomain(userDoc): null ;
   }
   async findUserById(id: string): Promise<IUserDocument | null> {
     console.log("ID ",id)

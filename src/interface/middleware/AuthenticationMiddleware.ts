@@ -116,12 +116,13 @@ console.log("Middleware: after authenticateUser");
       req.refreshToken = refreshToken;
       req.user = decoded;
       next();
-    } catch (err) {
+    } catch (err: unknown) {
+      const errMessage = err instanceof Error? err.message : "Invalid or expired refresh token" 
       return res
         .status(HttpStatusCode.UNAUTHORIZED)
         .json(
           ApiResponse.error(
-            "Invalid or expired refresh token",
+           errMessage,
             HttpStatusCode.UNAUTHORIZED
           )
         );

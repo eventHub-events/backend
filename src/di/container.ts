@@ -30,6 +30,7 @@ import { OrganizerProfileCreator } from '../application/organizer/profile/organi
 import { UserEntityFactory } from '../infrastructure/factories/UserEntityFactory';
 import { PasswordController } from '../interface/controllers/user/PasswordController';
 import { ChangePasswordUseCase } from '../application/user/auth/ChangePasswordUseCase';
+import { tokenConfig } from './common/commonContainers';
 
 
 
@@ -52,7 +53,7 @@ const profileCreators = {
     organizer : new OrganizerProfileCreator(organizerBlankProfileCreationUseCase)
 }
 const verifyOtpUseCase = new VerifyOtpUseCase(userRepository, otpService, hashService,userMapper,profileCreators);
-const jwtToken = new JWTToken()
+const jwtToken = new JWTToken(tokenConfig)
 const tokenService  = new TokenService(jwtToken)
 const refreshTokenUseCase = new RefreshTokenUseCase(tokenService)
 
