@@ -12,7 +12,8 @@ import { IUserMapper } from '../../application/interface/user/IUserMapper';
 import { IUsersMapper } from '../../application/interface/user/IUsersMapper';
 import { CustomError } from '../errors/errorClass';
 import { HttpStatusCode } from '../interface/enums/HttpStatusCode';
-import { IUserEntityFactory } from '../../application/interface/factories/IUserEntityFactory';
+import { IDomainFactory } from '../../application/interface/factories/IDomainFactory';
+import { UserDbModel } from '../../domain/types/UserTypes';
 
 
 export class UserRepository extends BaseRepository<IUserDocument> implements IUserRepository {
@@ -20,7 +21,7 @@ export class UserRepository extends BaseRepository<IUserDocument> implements IUs
     private _loggerService: ILoggerService,
     private _userMapper: IUserMapper,
     private _usersMapper: IUsersMapper,
-    private _userEntityFactory: IUserEntityFactory
+    private _userEntityFactory: IDomainFactory< UserDbModel, User>
   ) {
     super(UserModel);
   }

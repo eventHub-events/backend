@@ -101,7 +101,7 @@ export class AuthController {
         maxAge: 7 * 24 * 60 * 60 * 1000
       });
 
-      console.log("neeee user",user)
+     
 
       return res
         .status(HttpStatusCode.OK)

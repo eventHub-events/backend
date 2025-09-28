@@ -1,24 +1,25 @@
 import { IDomainFactory } from "../../application/interface/factories/IDomainFactory";
 import { User } from "../../domain/entities/User";
+import { UserDbModel } from "../../domain/types/UserTypes";
 import { IUserDocument } from "../db/models/UserModel";
 
-export class UserEntityFactory implements IDomainFactory< IUserDocument, User> {
-  toDomain(dbModel: IUserDocument & {_id :string}): User{
-    return {
-        id: dbModel._id?.toString(),
-      name: dbModel.name,
-      email: dbModel.email,
-      phone: dbModel.phone,
-      password: dbModel.password,
-      isVerified: dbModel.isVerified,
-      role: dbModel.role,
-      kycStatus:dbModel.kycStatus,
-      isBlocked:dbModel.isBlocked,
-      createdAt:dbModel.createdAt,
-      isKycResubmitted : dbModel.isKycResubmitted
-    }
+export class UserEntityFactory implements IDomainFactory< UserDbModel, User> {
+  toDomain(dbModel: UserDbModel): User{
+    return new User(
+      dbModel.name,
+      dbModel.email,
+      dbModel.password,
+      dbModel.phone,
+      dbModel.isVerified,
+      dbModel.role,
+      dbModel.kycStatus,
+      dbModel.isBlocked,
+      dbModel.isKycResubmitted,
+      dbModel._id?.toString(),
+      dbModel.createdAt,
+    )
   }
-  toDomainList(dbModels: (IUserDocument & {_id: string})[]): User[] {
+  toDomainList(dbModels: (UserDbModel)[]): User[] {
       return dbModels.map((model) => this.toDomain(model))
   }
 }
