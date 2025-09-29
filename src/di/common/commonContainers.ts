@@ -17,8 +17,8 @@ import { EmailService } from "../../infrastructure/services/nodeMailer/EmailServ
 import { NodeMailerEmailService } from "../../infrastructure/services/nodeMailer/NodeMailerEmailService";
 import { OtpService } from "../../infrastructure/services/otp/OtpService";
 import { RedisCacheService } from "../../infrastructure/services/otp/RedisCacheService";
-import { PasswordController } from "../../interface/controllers/user/PasswordController";
-import { TokenController } from "../../interface/controllers/user/TokenController";
+import { PasswordController } from "../../interfaceAdapter/controllers/user/PasswordController";
+import { TokenController } from "../../interfaceAdapter/controllers/user/TokenController";
 
 const cacheService = new RedisCacheService();
 export const loggerService= new WinstonLoggerService()

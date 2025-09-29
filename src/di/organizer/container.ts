@@ -14,9 +14,9 @@ import { UploadDocumentRepository } from "../../infrastructure/repositories/Uplo
 import { UserRepository } from "../../infrastructure/repositories/UserRepository";
 import { WinstonLoggerService } from "../../infrastructure/services/logger/loggerService";
 import { S3Service } from "../../infrastructure/services/S3Service/S3Service";
-import { DocumentController } from "../../interface/controllers/organizer/documentController";
-import { OrganizerAccountSecurityController } from "../../interface/controllers/organizer/organizerAccoutSecurityController";
-import { OrganizerProfileController } from "../../interface/controllers/organizer/profileController";
+import { DocumentController } from "../../interfaceAdapter/controllers/organizer/documentController";
+import { OrganizerAccountSecurityController } from "../../interfaceAdapter/controllers/organizer/organizerAccoutSecurityController";
+import { OrganizerProfileController } from "../../interfaceAdapter/controllers/organizer/profileController";
 import { hashService } from "../common/commonContainers";
 // import { hashService,} from "../container";
 

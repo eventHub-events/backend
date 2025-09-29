@@ -2,11 +2,11 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
-import userRouts from './interface/routes/user/userRouts';
-import organizerRoutes from "./interface/routes/organizer/organizerRoutes"
+import userRouts from './interfaceAdapter/routes/user/userRouts';
+import organizerRoutes from "./interfaceAdapter/routes/organizer/organizerRoutes"
 import { DbConnection } from './config/mongoose/DbConnection';
 import cookieParser from "cookie-parser";
-import adminRoutes from "./interface/routes/admin/adminRoutes"
+import adminRoutes from "./interfaceAdapter/routes/admin/adminRoutes"
 import { ErrorHandlingMiddleware } from './infrastructure/middleware/errorHandling';
 import  http  from 'http';
 import { AdminSocketService } from './infrastructure/websocket/adminSocketService';
