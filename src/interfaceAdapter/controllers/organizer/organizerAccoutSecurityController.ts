@@ -7,7 +7,7 @@ import { CustomError } from "../../../infrastructure/errors/errorClass";
 export class OrganizerAccountSecurityController{
   constructor( private _organizerAccountSecurityUseCase: IOrganizerAccountSecurityUseCase ){}
 
-  async updatePassword(req:Request,res:Response, next: NextFunction):Promise<Response |void>{
+  async updatePassword(req:Request, res:Response, next: NextFunction): Promise<Response |void>{
     try{
         const {organizerId} = req.params;
         console.log("id is org",organizerId)

@@ -12,7 +12,8 @@ export class UserListController{
        console.log("hello from  user list controller")
        console.log("request  query isn",req.query)
        const page=parseInt(req.query.page as string) || 1;
-       const limit= parseInt(req.query.limit as string) ||5;
+        const limit= parseInt(req.query.limit as string) ||5;
+      
      
 
       const { search, status, role } = req.query;

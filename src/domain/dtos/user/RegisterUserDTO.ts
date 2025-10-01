@@ -15,7 +15,7 @@ export class UserRegisterDTO {
   role:string;
   isBlocked:boolean;
   kycStatus:KycStatus;
-  isKycResubmitted :boolean;
+  isKycResubmitted? :boolean;
 
   constructor(data: Partial<UserRegisterDTO>) {
     const nameRegex = /^[A-Z][a-zA-Z]{0,14}$/;

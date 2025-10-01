@@ -13,6 +13,7 @@ import { IUploadDocumentUseCase } from "../interface/organizer/IUploadDocumentUs
 
 
 
+
 export class UploadDocumentUseCase implements IUploadDocumentUseCase {
      constructor( 
           private _uploadDocumentRepo       :  IUploadDocumentRepository ,
@@ -34,9 +35,9 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
           
            
      }
-      async getUploadedDocuments( organizerId: string ): Promise< UploadDocumentResponseDTO []> {
+      async getUploadedDocuments( organizerId: string ): Promise<UploadDocumentResponseDTO[]> {
 
-           const documents = await this._uploadDocumentRepo.findByOrganizerId(organizerId);
+           const documents = await this._uploadDocumentRepo.findDocuments(organizerId);
 
            if(!documents || documents.length ===0 ){
                return [];
@@ -45,9 +46,9 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
            return this._multipleDocumentsMapper.toResponse( documents );
 
       }
-      async deleteUploadedDocument(documentId:string):Promise< string >{
+      async deleteUploadedDocument(documentId:string):Promise<string>{
 
-           const deleteDocument = await this._uploadDocumentRepo.findAndDeleteDocument(documentId)
+           const deleteDocument = await this._uploadDocumentRepo.deleteDocument(documentId)
            console.log("deleted document  is ",deleteDocument)
            
            if(!deleteDocument) throw new CustomError("Document not found or could not be deleted",HttpStatusCode.NOT_FOUND);
@@ -66,7 +67,7 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
           
           const  updateData  =    this._singleDocumentMapper.toEntityForUpdate(validatedDto)
           
-          const  updatedDocument          =  await this._uploadDocumentRepo.findAndUpdate( documentId , updateData)
+          const  updatedDocument          =  await this._uploadDocumentRepo.updateDocument( documentId , updateData)
 
           if(!updatedDocument ) {
                throw new CustomError( "Document not found or could not be updated",HttpStatusCode.NOT_FOUND )

@@ -7,6 +7,7 @@ import { OrganizerAccountSecurityUseCase } from "../../application/organizer/org
 import { OrganizerProfileUseCase } from "../../application/organizer/organizerProfileUseCase";
 import { OrganizerBlankProfileCreationUseCase } from "../../application/organizer/profile/organizerBlankProfileCreationUseCase";
 import { UploadDocumentUseCase } from "../../application/organizer/uploadDocumentUseCase";
+import { OrganizerProfileEntityFactory } from "../../infrastructure/factories/OrganizerProfileEntityFactory";
 import { UploadDocumentFactory } from "../../infrastructure/factories/UploadDocumentFactory";
 import { UserEntityFactory } from "../../infrastructure/factories/UserEntityFactory";
 import { OrganizerProfileRepository } from "../../infrastructure/repositories/OrganizerProfileRepository";
@@ -14,18 +15,19 @@ import { UploadDocumentRepository } from "../../infrastructure/repositories/Uplo
 import { UserRepository } from "../../infrastructure/repositories/UserRepository";
 import { WinstonLoggerService } from "../../infrastructure/services/logger/loggerService";
 import { S3Service } from "../../infrastructure/services/S3Service/S3Service";
-import { DocumentController } from "../../interface/controllers/organizer/documentController";
-import { OrganizerAccountSecurityController } from "../../interface/controllers/organizer/organizerAccoutSecurityController";
-import { OrganizerProfileController } from "../../interface/controllers/organizer/profileController";
+import { DocumentController } from "../../interfaceAdapter/controllers/organizer/documentController";
+import { OrganizerAccountSecurityController } from "../../interfaceAdapter/controllers/organizer/organizerAccoutSecurityController";
+import { OrganizerProfileController } from "../../interfaceAdapter/controllers/organizer/profileController";
 import { hashService } from "../common/commonContainers";
-// import { hashService,} from "../container";
+
 
  const loggerService=  new WinstonLoggerService ()
  const userMapper = new UserMapper();
 const usersMapper= new UsersMapper(userMapper)
 const userEntityFactory = new UserEntityFactory()
 const userRepository  = new UserRepository(loggerService,userMapper,usersMapper,userEntityFactory)
-export const organizerProfileRepository= new OrganizerProfileRepository(loggerService)
+const organizerProfileEntityFactory = new OrganizerProfileEntityFactory()
+export const organizerProfileRepository= new OrganizerProfileRepository(loggerService, organizerProfileEntityFactory)
 const  organizerProfileUseCase = new  OrganizerProfileUseCase(organizerProfileRepository, userRepository)
 export const organizerProfileController = new  OrganizerProfileController(organizerProfileUseCase)
 

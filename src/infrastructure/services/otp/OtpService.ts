@@ -5,7 +5,7 @@ import crypto from "crypto"
 
 import { IHashService } from '../../../application/interface/user/IHashService';
 import { UserRegisterDTO } from '../../../domain/dtos/user/RegisterUserDTO';
-import { UserResponseDTO } from '../../../domain/dtos/user/UserResponseDTO';
+
 
 export class OtpService implements IOtpService {
   constructor(private _cache: ICacheService, private _hashService:IHashService) {}
@@ -49,7 +49,7 @@ export class OtpService implements IOtpService {
    
   }
 
-  async verifyOtp(email: string, otp: string): Promise<UserRegisterDTO | UserResponseDTO> {
+  async verifyOtp(email: string, otp: string): Promise<UserRegisterDTO> {
     try {
    
       const stored = await this._cache.get(`otp:${email}`);

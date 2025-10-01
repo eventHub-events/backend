@@ -1,35 +1,55 @@
-import { Types } from "mongoose";
+
 import { OrganizerProfileDTO } from "../../../domain/dtos/organizer/OrganizerProfileDTO";
-import { IOrganizerProfile } from "../../../infrastructure/db/models/organizer/profile/OrganizerProfile";
+// import { IOrganizerProfile } from "../../../infrastructure/db/models/organizer/profile/OrganizerProfile";
 import { OrganizerProfileResponseDTO } from "../../../domain/dtos/organizer/OrganizerProfileResponseDTO";
-import { IUserMinimal } from "../../../domain/types/IUserMinimal";
-import { OrganizerProfileFormDTO, UpdatedOrganizerProfileFormResponseDTO } from "../../../domain/dtos/organizer/OrganizerProfileFormDTO";
-import { UserResponseDTO } from "../../../domain/dtos/user/UserResponseDTO";
+// import { IUserMinimal } from "../../../domain/types/IUserMinimal";
+import {  UpdatedOrganizerProfileFormResponseDTO } from "../../../domain/dtos/organizer/OrganizerProfileFormDTO";
+// import { UserResponseDTO } from "../../../domain/dtos/user/UserResponseDTO";
+import { OrganizerProfile } from "../../../domain/entities/organizer/OrganizerProfile";
+import { User } from "../../../domain/entities/User";
+
+
 
 export class OrganizerProfileMapper{
-static toDomain(profileData:OrganizerProfileDTO):IOrganizerProfile{
+static toDomainForUpdate(profileData:OrganizerProfileDTO): Partial< OrganizerProfile >{
  return {
-  organizerId:new Types.ObjectId(profileData.organizerId),
-  location:profileData.location ||"" ,
-  organization:profileData.organization ||"",
-  website:profileData.website ||"",
-  profilePicture:profileData.profilePicture ||"",
-  bio:profileData.bio||"",
-    // kycVerified: profileData.kycVerified ?? false,
-      trustScore: profileData.trustScore ?? 0,
-      totalEarnings: profileData.totalEarnings ?? 0,
+   location:profileData.location ||"" ,
+   organization:profileData.organization ||"",
+   website:profileData.website ||"",
+   profilePicture:profileData.profilePicture ||"",
+   bio:profileData.bio||"",
+  //  kycVerified: profileData.kycVerified ?? false,
+   totalEarnings: profileData.totalEarnings ?? 0,
+   trustScore: profileData.trustScore ?? 0,
+   
 
- } as IOrganizerProfile
+ } 
 }
- static toResponse(profile:IOrganizerProfile& {organizerId:IUserMinimal}):OrganizerProfileResponseDTO{
+static toDomain(profileData: OrganizerProfileDTO) : OrganizerProfile {
+
+  return new OrganizerProfile(
+    profileData.location || "",
+    profileData.organization || "",
+    profileData.website || "",
+    profileData.profilePicture || "",
+    profileData.bio || "",
+    profileData.totalEarnings ?? 0,
+    profileData.trustScore ?? 0,
+    profileData.organizerId, 
+    false 
+  )
+ 
+}
+
+ static toResponse(profile: OrganizerProfile, user: User):OrganizerProfileResponseDTO{
   return{
 organizerId: {
-        _id: profile.organizerId._id.toString(),
-        name: profile.organizerId.name,
-        email: profile.organizerId.email,
-        phone: profile.organizerId.phone,
-        isVerified:profile.organizerId.isVerified,
-        kycStatus:profile.organizerId.kycStatus
+        _id: user.id!,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        isVerified: user.isVerified,
+        kycStatus: user.kycStatus
        
        
       },
@@ -48,7 +68,7 @@ organizerId: {
 
 
  }
- static toUpdateForm(profile:OrganizerProfileDTO): OrganizerProfileFormDTO{
+ static toUpdateForm(profile:OrganizerProfileDTO): {profileData:Partial< OrganizerProfile> , organizerBasicData:Partial<User >}{
   const profileData = {
           location :profile.location,
   organization:profile.organization,
@@ -58,22 +78,22 @@ organizerId: {
   trustScore:profile.trustScore,
   totalEarnings:profile.totalEarnings,
  
-  }
+  } as Partial<OrganizerProfile>
   const organizerBasicData = {
        name: profile.name,
         email: profile.email,
         phone: Number(profile.phone),
-  }
+  } as Partial< User >
 
   return {profileData ,organizerBasicData}
  }
-static  toUpdateResponseForm( updatedProfileData: IOrganizerProfile,updatedBasicData: UserResponseDTO ) : UpdatedOrganizerProfileFormResponseDTO{
+static  toUpdateResponseForm( updatedProfileData: OrganizerProfile,updatedBasicData: User ) : UpdatedOrganizerProfileFormResponseDTO{
     
   return {
     name  : updatedBasicData.name ,
     email : updatedBasicData. email,
     phone : updatedBasicData.phone.toString() ,
-    id    : updatedBasicData.id,
+    id    : updatedBasicData?.id,
     role  : updatedBasicData.role,
      isBlocked :updatedBasicData.isBlocked,
     isVerified: updatedBasicData.isVerified,

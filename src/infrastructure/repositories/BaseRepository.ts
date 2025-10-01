@@ -32,7 +32,8 @@ export class BaseRepository< T extends Document > {
         
          return result
        
-  }  async findOneWithPopulate<P>(
+  } 
+   async findOneWithPopulate<P>(
     filter: FilterQuery<T>, 
     populateFields: string[]
   ): Promise<(T & P) | null> {
@@ -40,7 +41,7 @@ export class BaseRepository< T extends Document > {
     for (const field of populateFields) {
       query = query.populate({
         path:field,
-        select: "name email phone isVerified kycStatus"
+        // select: "name email phone isVerified kycStatus"
       });
     }
     const result = await query.exec();

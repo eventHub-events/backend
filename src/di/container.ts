@@ -6,7 +6,7 @@ import { GenerateOtpUseCase } from '../application/user/auth/GenerateOtpUseCase'
 import { RegisterUserUseCase } from '../application/user/auth/RegisterUserUsecase';
 import { VerifyOtpUseCase } from '../application/user/auth/VerifyOtpUseCase';
 
-import { AuthController } from '../interface/controllers/user/AuthController';
+import { AuthController } from '../interfaceAdapter/controllers/user/AuthController';
 import { BcryptHashService } from '../infrastructure/services/hashing/BcryptHashService';
 import { HashService } from '../infrastructure/services/hashing/HashService';
 import { NodeMailerEmailService } from '../infrastructure/services/nodeMailer/NodeMailerEmailService';
@@ -15,8 +15,8 @@ import { ResendOtpUseCase } from '../application/user/auth/ResendOtp';
 import { LoginUserUseCase } from '../application/user/auth/LoginUserUseCase';
 import { TokenService } from '../infrastructure/services/JwT/TokenService';
 import { JWTToken } from '../infrastructure/services/JwT/JWTToken';
-import { AuthMiddlewareService } from "../interface/middleware/AuthMiddleWareService";
-import { AuthenticationMiddleWare } from "../interface/middleware/AuthenticationMiddleware";
+import { AuthMiddlewareService } from "../interfaceAdapter/middleware/AuthMiddleWareService";
+import { AuthenticationMiddleWare } from "../interfaceAdapter/middleware/AuthenticationMiddleware";
 import { RefreshTokenUseCase } from '../application/user/auth/GenerateRefreshTokenUseCase';
 import { LogoutUserUseCase } from '../application/user/auth/LogoutUserUseCase';
 import { ForgetPasswordUseCase } from '../application/user/auth/ForgetPasswordUseCase';
@@ -28,8 +28,9 @@ import { UsersMapper } from '../application/mapper/user/usersMapper';
 import { organizerBlankProfileCreationUseCase } from './organizer/container';
 import { OrganizerProfileCreator } from '../application/organizer/profile/organizerProfileCreator';
 import { UserEntityFactory } from '../infrastructure/factories/UserEntityFactory';
-import { PasswordController } from '../interface/controllers/user/PasswordController';
+import { PasswordController } from '../interfaceAdapter/controllers/user/PasswordController';
 import { ChangePasswordUseCase } from '../application/user/auth/ChangePasswordUseCase';
+import { tokenConfig } from './common/commonContainers';
 
 
 
@@ -52,7 +53,7 @@ const profileCreators = {
     organizer : new OrganizerProfileCreator(organizerBlankProfileCreationUseCase)
 }
 const verifyOtpUseCase = new VerifyOtpUseCase(userRepository, otpService, hashService,userMapper,profileCreators);
-const jwtToken = new JWTToken()
+const jwtToken = new JWTToken(tokenConfig)
 const tokenService  = new TokenService(jwtToken)
 const refreshTokenUseCase = new RefreshTokenUseCase(tokenService)
 
@@ -71,4 +72,5 @@ const changePasswordUseCase =  new ChangePasswordUseCase(userRepository,tokenSer
 
 export const passwordController  = new PasswordController(forgetPasswordUseCase,verifyResetPasswordOtpUseCase,changePasswordUseCase)
 
-export const authController = new AuthController(registerUserUseCase, resendOtpUseCase, verifyOtpUseCase,loginUserUseCase,refreshTokenUseCase,logoutUserUseCase, );
+// export const authController = new AuthController(registerUserUseCase, resendOtpUseCase, verifyOtpUseCase,loginUserUseCase,refreshTokenUseCase,logoutUserUseCase, );
+export const authController = new AuthController(registerUserUseCase, resendOtpUseCase, verifyOtpUseCase,loginUserUseCase,logoutUserUseCase, );

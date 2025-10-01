@@ -4,9 +4,9 @@ import { OrganizerVerificationUseCase } from "../../application/admin/organizerV
 import { UserQueryRepository } from "../../infrastructure/repositories/UserQueryRepository";
 
 import { PdfService } from "../../infrastructure/services/pdfService/pdfService";
-import { DownloadPdfController } from "../../interface/controllers/admin/DownloadPefController";
-import { OrganizerVerificationController } from "../../interface/controllers/admin/OrganizerVerificationController";
-import { UserListController } from "../../interface/controllers/admin/userListController";
+import { DownloadPdfController } from "../../interfaceAdapter/controllers/admin/DownloadPefController";
+import { OrganizerVerificationController } from "../../interfaceAdapter/controllers/admin/OrganizerVerificationController";
+import { UserListController } from "../../interfaceAdapter/controllers/admin/userListController";
 import { userRepository } from "../container";
 import { organizerProfileRepository, uploadDocumentRepository } from "../organizer/container";
 

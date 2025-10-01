@@ -1,9 +1,9 @@
-  import mongoose, { Document, Schema, Types, model } from "mongoose";
-  import { IOrganizer } from "../../../../../domain/entities/IOrganizer";
+  import mongoose, { Document, Schema, Types } from "mongoose";
+  // import { IOrganizer } from "../../../../../domain/entities/IOrganizer";
 import { IUserMinimal } from "../../../../../domain/types/IUserMinimal";
 
   export interface IOrganizerProfile extends Document {
-    organizerId: Types.ObjectId |IUserMinimal
+    organizerId: Types.ObjectId | IUserMinimal
     location: string;
     organization: string;
     website: string;

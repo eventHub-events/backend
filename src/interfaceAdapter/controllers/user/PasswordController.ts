@@ -57,14 +57,13 @@ export class  PasswordController {
  }
   async  changePassword(req:IAuthenticatedRequest,res:Response,next: NextFunction): Promise< Response|void >{
      try{
-      console.log("hhhhii")
        const token= req.resetToken
        if (!token) {
  
            throw new CustomError("Reset token missing or expired",HttpStatusCode.UNAUTHORIZED);
 
- }
-     console.log("hiiiii")
+        }
+     
        const result= await this._changePasswordUseCase.changePassword(req.body, token)
        return res.status(HttpStatusCode.OK).json(ApiResponse.success("Password changed successfully",HttpStatusCode.OK,result))
  
@@ -73,5 +72,5 @@ export class  PasswordController {
      }
  
    }
-
+              
 }

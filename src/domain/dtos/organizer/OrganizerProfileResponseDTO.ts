@@ -1,3 +1,4 @@
+import { KycStatus } from "../../../infrastructure/db/models/UserModel";
 import { IUserMinimal } from "../../types/IUserMinimal";
 
 export interface OrganizerProfileResponseDTO{
@@ -8,7 +9,7 @@ export interface OrganizerProfileResponseDTO{
   website:string;
   trustScore:number;
   totalEarnings:number;
-  kycVerified:boolean;
+  kycVerified?:boolean;
   profilePicture:string;
   organizerDocs?:{
     organizerId:string;
@@ -16,7 +17,7 @@ export interface OrganizerProfileResponseDTO{
   type:string;
   url:string;
   uploadedAt:Date;
-  status:"Pending"|"Approved" |"Rejected";
+  kycStatus: KycStatus;
    verified: boolean;
   }
 }
