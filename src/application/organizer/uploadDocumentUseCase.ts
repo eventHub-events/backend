@@ -13,6 +13,7 @@ import { IUploadDocumentUseCase } from "../interface/organizer/IUploadDocumentUs
 
 
 
+
 export class UploadDocumentUseCase implements IUploadDocumentUseCase {
      constructor( 
           private _uploadDocumentRepo       :  IUploadDocumentRepository ,
@@ -34,7 +35,7 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
           
            
      }
-      async getUploadedDocuments( organizerId: string ): Promise< UploadDocumentResponseDTO []> {
+      async getUploadedDocuments( organizerId: string ): Promise<UploadDocumentResponseDTO[]> {
 
            const documents = await this._uploadDocumentRepo.findDocuments(organizerId);
 
@@ -45,7 +46,7 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
            return this._multipleDocumentsMapper.toResponse( documents );
 
       }
-      async deleteUploadedDocument(documentId:string):Promise< string >{
+      async deleteUploadedDocument(documentId:string):Promise<string>{
 
            const deleteDocument = await this._uploadDocumentRepo.deleteDocument(documentId)
            console.log("deleted document  is ",deleteDocument)

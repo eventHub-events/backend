@@ -1,33 +1,15 @@
 import { NextFunction, Request, Response } from "express";
 import { IOrganizerProfileUseCase } from "../../../application/interface/organizer/IOrganizerProfileUseCase";
-import { OrganizerProfileDTO } from "../../../domain/dtos/organizer/OrganizerProfileDTO";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
-import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 
 export class OrganizerProfileController{
-  constructor(private _organizerProfileUseCase:IOrganizerProfileUseCase){}
+  constructor(private _organizerProfileUseCase: IOrganizerProfileUseCase){}
   
-  //  async createProfile(req: Request, res: Response, next: NextFunction): Promise< Response | void >{
-  //   try{
-      
-  //     const profileDto= new OrganizerProfileDTO(req.body)
-  //     const profileData= await  this._organizerProfileUseCase.registerOrganizerProfile(profileDto)
-  //       if(profileData){
-  //        return res.status(HttpStatusCode.CREATED).json(ApiResponse.success("profile data creation successful",HttpStatusCode.CREATED,profileData))
-  //       }
-  //       return res.status(HttpStatusCode.BAD_REQUEST).json(ApiResponse.error("Failed to create Profile",HttpStatusCode.BAD_REQUEST))
-  //   }catch(err:unknown){
-  //     const error=HandleErrorUtility.handleError(err)
-  //     return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json(ApiResponse.error(error,HttpStatusCode.INTERNAL_SERVER_ERROR))
+  
 
-  //   }
-    
-    
-  //   }
-
-    async  updateOrganizerProfile(req:Request,res:Response , next :NextFunction): Promise <Response|void>{
+    async  updateOrganizerProfile(req:Request, res:Response , next :NextFunction): Promise <Response|void>{
       try{
          const {id}=req.params ;
          
@@ -51,7 +33,7 @@ export class OrganizerProfileController{
 
 
         
-          throw new CustomError("Failed to create Profile",HttpStatusCode.BAD_REQUEST)
+          throw new CustomError("Failed to update Profile",HttpStatusCode.BAD_REQUEST)
 
         }
         return res.status(HttpStatusCode.CREATED).json(ApiResponse.success("profile data creation successful",HttpStatusCode.CREATED,updatedProfileData))

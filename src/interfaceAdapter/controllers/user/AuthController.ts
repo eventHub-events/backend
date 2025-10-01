@@ -115,7 +115,7 @@ export class AuthController {
     }
   }
 
-      async  logout(req:Request,res:Response){
+      async  logout(req:IAuthenticatedRequest,res:Response){
 
         try{
           const result=await this._logoutUserUseCase.execute()
