@@ -7,7 +7,8 @@ import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStat
 import { organizerUploadDocumentSchema, organizerUploadDocumentUpdateSchema } from "../../../infrastructure/validaton/schemas/organizer/organizerUploadDocumentSchema";
 import { IOrganizerUploadDocumentMapper } from "../../interface/admin/IOrganizerUploadDocumentMapper";
 import { IUploadDocumentsMapper } from "../../interface/organizer/IUploadDocumentsMapper";
-import { IUploadDocumentUseCase } from "../../interface/organizer/IUploadDocumentUseCase";
+import { IUploadDocumentUseCase } from "../../interface/organizer/IUploadDocumentUseCase_temp";
+
 
 
 
