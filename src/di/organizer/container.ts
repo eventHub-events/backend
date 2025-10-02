@@ -2,11 +2,11 @@ import { OrganizerUploadDocumentMapper } from "../../application/mapper/admin/Or
 import { UploadDocumentsMapper } from "../../application/mapper/admin/UploadDocumentsMapper";
 import { UserMapper } from "../../application/mapper/user/UserMapper";
 import { UsersMapper } from "../../application/mapper/user/usersMapper";
-import { GeneratePresignedUrlUseCase } from "../../application/organizer/generatePresignedUrlUseCase";
-import { OrganizerAccountSecurityUseCase } from "../../application/organizer/organizerAccountsecurityUseCase";
-import { OrganizerProfileUseCase } from "../../application/organizer/organizerProfileUseCase";
-import { OrganizerBlankProfileCreationUseCase } from "../../application/organizer/profile/organizerBlankProfileCreationUseCase";
-import { UploadDocumentUseCase } from "../../application/organizer/uploadDocumentUseCase";
+import { GeneratePresignedUrlUseCase } from "../../application/usecases/organizer/generatePresignedUrlUseCase";
+import { OrganizerAccountSecurityUseCase } from "../../application/usecases/organizer/organizerAccountsecurityUseCase";
+import { OrganizerProfileUseCase } from "../../application/usecases/organizer/organizerProfileUseCase";
+import { OrganizerBlankProfileCreationUseCase } from "../../application/usecases/organizer/profile/organizerBlankProfileCreationUseCase";
+import { UploadDocumentUseCase } from "../../application/usecases/organizer/uploadDocumentUseCase";
 import { OrganizerProfileEntityFactory } from "../../infrastructure/factories/OrganizerProfileEntityFactory";
 import { UploadDocumentFactory } from "../../infrastructure/factories/UploadDocumentFactory";
 import { UserEntityFactory } from "../../infrastructure/factories/UserEntityFactory";

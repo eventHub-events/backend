@@ -1,6 +1,7 @@
-import { DownloadPdfUseCase } from "../../application/admin/downloadPdfUseCase";
-import { FetchUserUseCase } from "../../application/admin/fetchUsersUsecase";
-import { OrganizerVerificationUseCase } from "../../application/admin/organizerVerificationUseCase";
+import { OrganizerVerificationMapper } from "../../application/mapper/organizer/OrganizerVerificationMapper";
+import { DownloadPdfUseCase } from "../../application/usecases/admin/downloadPdfUseCase";
+import { FetchUserUseCase } from "../../application/usecases/admin/fetchUsersUsecase";
+import { OrganizerVerificationUseCase } from "../../application/usecases/admin/organizerVerificationUseCase";
 import { UserQueryRepository } from "../../infrastructure/repositories/UserQueryRepository";
 
 import { PdfService } from "../../infrastructure/services/pdfService/pdfService";
@@ -12,13 +13,15 @@ import { organizerProfileRepository, uploadDocumentRepository } from "../organiz
 
 
 
-export const  fetchUserUseCase= new FetchUserUseCase(userRepository)
-export const usersListController= new UserListController(fetchUserUseCase)
-const pdfService= new PdfService()
-const downloadPdfUseCase= new DownloadPdfUseCase(pdfService)
-export const downloadPdfController= new DownloadPdfController(downloadPdfUseCase)
+export const  fetchUserUseCase= new FetchUserUseCase(userRepository);
+export const usersListController= new UserListController(fetchUserUseCase);
+const pdfService= new PdfService();
+const downloadPdfUseCase= new DownloadPdfUseCase(pdfService);
+export const downloadPdfController= new DownloadPdfController(downloadPdfUseCase);
+const organizerVerificationMapper = new OrganizerVerificationMapper()
+
 
 // organizer verification related//
 const userQueryRepository= new UserQueryRepository()
-const organizerVerificationUseCase= new OrganizerVerificationUseCase(organizerProfileRepository,uploadDocumentRepository,userRepository,userQueryRepository);
+const organizerVerificationUseCase= new OrganizerVerificationUseCase(organizerProfileRepository, uploadDocumentRepository, userRepository, userQueryRepository, organizerVerificationMapper);
 export const organizerVerificationController= new OrganizerVerificationController(organizerVerificationUseCase)

@@ -25,7 +25,7 @@ export class User {
     public role : string,
     public kycStatus: KycStatus,
     public isBlocked: boolean,
-    public isKycResubmitted: boolean,
+    public isKycResubmitted?: boolean,
     public id?: string, 
     public createdAt?: Date
 

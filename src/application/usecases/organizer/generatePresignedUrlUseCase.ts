@@ -1,5 +1,5 @@
-import { IS3Service } from "../../infrastructure/interface/IS3Service";
-import { IGeneratePresignedUrlUseCase } from "../interface/organizer/IGeneratePresignedUrlUseCase";
+import { IS3Service } from "../../../infrastructure/interface/IS3Service";
+import { IGeneratePresignedUrlUseCase } from "../../interface/organizer/IGeneratePresignedUrlUseCase";
 
 
 export class GeneratePresignedUrlUseCase implements IGeneratePresignedUrlUseCase{

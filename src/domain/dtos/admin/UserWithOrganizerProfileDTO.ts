@@ -1,16 +1,14 @@
-export interface UserWithOrganizerProfileDTO{
-  _id:string;
-  name:string;
+export interface CompleteOrganizerDetailResponseDTO{
   email:string;
   role:string;
   kycStatus:string;
-  createdAt:Date;
+  createdAt?:Date;
   organizerProfile?:{
     organization:string;
     bio:string;
     location:string;
     website:string;
-    trustScore?:string;
+    trustScore?:number;
     totalEarnings?:number;
     profilePicture?:string
   }

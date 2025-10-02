@@ -45,7 +45,16 @@ export class  OrganizerProfileRepository extends BaseRepository<IOrganizerProfil
       return this._organizerProfileEntityFactory.toCompositeDomain(doc);
      
   }
+  async getOrganizerProfile(organizerId: string): Promise<OrganizerProfile> {
 
+      this._logger.info(`Finding the organizer profile with Id: ${organizerId}`);
+
+      const profileDoc  = await super.findOne({organizerId}) as OrganizerProfileDbModel;
+      return this._organizerProfileEntityFactory.toDomain(profileDoc);
+
+
+    
+  }
   async updateProfile(id: string, data: Partial< OrganizerProfile >): Promise< OrganizerProfile > {
 
       this._logger.info(`Updating Organizer Profile with id:${id}`);

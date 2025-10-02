@@ -1,15 +1,17 @@
-import { UserWithOrganizerProfileDTO } from "../../domain/dtos/admin/UserWithOrganizerProfileDTO";
+
+import { UserRole } from "../../domain/enums/user/userRoles";
 import { IUserQueryRepository } from "../../domain/repositories/user/IUserQueryRepository";
-import UserModel from "../db/models/UserModel";
+import { OrganizerProfileWithUser } from "../../domain/types/OrganizerTypes";
+import UserModel, { KycStatus } from "../db/models/UserModel";
 
 export class UserQueryRepository implements IUserQueryRepository {
-  async findPendingOrganizersWithProfile(): Promise<UserWithOrganizerProfileDTO[]> {
+  async findPendingOrganizersWithProfile(): Promise< OrganizerProfileWithUser[]> {
     try {
       return UserModel.aggregate([
         {
           $match: {
-            role: "organizer",
-            kycStatus: "Pending",
+            role: UserRole.ORGANIZER,
+            kycStatus: KycStatus.Pending,
           },
         },
         {
@@ -48,7 +50,7 @@ export class UserQueryRepository implements IUserQueryRepository {
               totalEarnings: "$organizerProfile.totalEarnings",
               profilePicture: "$organizerProfile.profilePicture",
             },
-          },
+          } ,
         },
       ]);
     } catch (err) {

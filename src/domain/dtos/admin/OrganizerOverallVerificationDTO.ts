@@ -1,11 +1,13 @@
 import {z} from "zod";
+import { KycStatus } from "../../../infrastructure/db/models/UserModel";
 
- type KycStatus = "Pending" | "Approved" | "Rejected";
+
+ const kycStatusEnum = z.enum(["Pending", "Approved", "Rejected"]as const)
 
 
   const  UpdateOrganizerOverallVerificationStatusSchema = z.object({
   user: z.object({
-    kycStatus: z.enum(["Pending", "Approved", "Rejected"]), 
+    kycStatus: kycStatusEnum,
     isVerified: z.boolean(),
   }),
   profile: z.object({
@@ -27,7 +29,10 @@ export class UpdateOrganizerOverallVerificationStatusDTO{
 
   private constructor(data: UpdateOrganizerOverallVerificationStatusDTOInput ){
     
-     this.user = data.user;
+     this.user = {
+    kycStatus: data.user.kycStatus as KycStatus, 
+    isVerified: data.user.isVerified,
+  };
      this.profile = data.profile;
   } 
   static create(data: unknown): UpdateOrganizerOverallVerificationStatusDTO{

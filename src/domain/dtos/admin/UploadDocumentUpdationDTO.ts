@@ -1,5 +1,7 @@
+import { DocumentStatus } from "../../enums/organizer/documentStatus";
+
 export interface UploadDocumentUpdateDTO{
-  status:"Pending"|"Approved" |"Rejected";
+  status:DocumentStatus
   verified:boolean;
   reviewedBy:string;
   reviewedAt:Date;

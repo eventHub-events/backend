@@ -1,13 +1,13 @@
 
-import { UserResponseDTO } from "../../domain/dtos/user/UserResponseDTO";
-import { IUserRepository } from "../../domain/repositories/user/IUserRepository";
+import { UserResponseDTO } from "../../../domain/dtos/user/UserResponseDTO";
+import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
 
 
 
-import { HandleErrorUtility } from "../../utils/HandleErrorUtility";
-import { IUserUpdateDTO } from "../../domain/dtos/user/userUpdateDTO";
-import { PaginationDTO } from "../../domain/dtos/common/PaginationDTO";
-import { IFetchUserUseCase } from "../interface/admin/IFetchUsersUseCase";
+import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
+import { IUserUpdateDTO } from "../../../domain/dtos/user/userUpdateDTO";
+import { PaginationDTO } from "../../../domain/dtos/common/PaginationDTO";
+import { IFetchUserUseCase } from "../../interface/admin/IFetchUsersUseCase";
 
 export class FetchUserUseCase implements IFetchUserUseCase{
   constructor(private _userRepo:IUserRepository){}

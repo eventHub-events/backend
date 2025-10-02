@@ -2,34 +2,34 @@
 import { RedisCacheService } from '../infrastructure/services/otp/RedisCacheService';
 import { OtpService } from '../infrastructure/services/otp/OtpService';
 import { UserRepository } from '../infrastructure/repositories/UserRepository';
-import { GenerateOtpUseCase } from '../application/user/auth/GenerateOtpUseCase';
-import { RegisterUserUseCase } from '../application/user/auth/RegisterUserUsecase';
-import { VerifyOtpUseCase } from '../application/user/auth/VerifyOtpUseCase';
+import { GenerateOtpUseCase } from '../application/usecases/user/auth/GenerateOtpUseCase';
+import { RegisterUserUseCase } from '../application/usecases/user/auth/RegisterUserUsecase';
+import { VerifyOtpUseCase } from '../application/usecases/user/auth/VerifyOtpUseCase';
 
 import { AuthController } from '../interfaceAdapter/controllers/user/AuthController';
 import { BcryptHashService } from '../infrastructure/services/hashing/BcryptHashService';
 import { HashService } from '../infrastructure/services/hashing/HashService';
 import { NodeMailerEmailService } from '../infrastructure/services/nodeMailer/NodeMailerEmailService';
 import { EmailService } from '../infrastructure/services/nodeMailer/EmailService';
-import { ResendOtpUseCase } from '../application/user/auth/ResendOtp';
-import { LoginUserUseCase } from '../application/user/auth/LoginUserUseCase';
+import { ResendOtpUseCase } from '../application/usecases/user/auth/ResendOtp';
+import { LoginUserUseCase } from '../application/usecases/user/auth/LoginUserUseCase';
 import { TokenService } from '../infrastructure/services/JwT/TokenService';
 import { JWTToken } from '../infrastructure/services/JwT/JWTToken';
 import { AuthMiddlewareService } from "../interfaceAdapter/middleware/AuthMiddleWareService";
 import { AuthenticationMiddleWare } from "../interfaceAdapter/middleware/AuthenticationMiddleware";
-import { RefreshTokenUseCase } from '../application/user/auth/GenerateRefreshTokenUseCase';
-import { LogoutUserUseCase } from '../application/user/auth/LogoutUserUseCase';
-import { ForgetPasswordUseCase } from '../application/user/auth/ForgetPasswordUseCase';
+import { RefreshTokenUseCase } from '../application/usecases/user/auth/GenerateRefreshTokenUseCase';
+import { LogoutUserUseCase } from '../application/usecases/user/auth/LogoutUserUseCase';
+import { ForgetPasswordUseCase } from '../application/usecases/user/auth/ForgetPasswordUseCase';
 import { WinstonLoggerService } from '../infrastructure/services/logger/loggerService';
-import { VerifyResetPasswordOtpUseCase } from '../application/user/auth/ResetPasswordUseCase';
+import { VerifyResetPasswordOtpUseCase } from '../application/usecases/user/auth/ResetPasswordUseCase';
 
 import { UserMapper } from '../application/mapper/user/UserMapper';
 import { UsersMapper } from '../application/mapper/user/usersMapper';
 import { organizerBlankProfileCreationUseCase } from './organizer/container';
-import { OrganizerProfileCreator } from '../application/organizer/profile/organizerProfileCreator';
+import { OrganizerProfileCreator } from '../application/usecases/organizer/profile/organizerProfileCreator';
 import { UserEntityFactory } from '../infrastructure/factories/UserEntityFactory';
 import { PasswordController } from '../interfaceAdapter/controllers/user/PasswordController';
-import { ChangePasswordUseCase } from '../application/user/auth/ChangePasswordUseCase';
+import { ChangePasswordUseCase } from '../application/usecases/user/auth/ChangePasswordUseCase';
 import { tokenConfig } from './common/commonContainers';
 
 

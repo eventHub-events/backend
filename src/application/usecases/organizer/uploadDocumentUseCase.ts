@@ -1,13 +1,13 @@
-import { UploadDocumentResponseDTO } from "../../domain/dtos/admin/UploadDocumentResponseDTO";
-import { UploadDocumentDTO } from "../../domain/dtos/organizer/DocumentDTO";
-import { UpdateDocumentRequestDTO } from "../../domain/dtos/organizer/UpdateDocumentRequestDto";
-import { IUploadDocumentRepository } from "../../domain/repositories/organizer/IUploadDocumentRepository";
-import { CustomError } from "../../infrastructure/errors/errorClass";
-import { HttpStatusCode } from "../../infrastructure/interface/enums/HttpStatusCode";
-import { organizerUploadDocumentSchema, organizerUploadDocumentUpdateSchema } from "../../infrastructure/validaton/schemas/organizer/organizerUploadDocumentSchema";
-import { IOrganizerUploadDocumentMapper } from "../interface/admin/IOrganizerUploadDocumentMapper";
-import { IUploadDocumentsMapper } from "../interface/organizer/IUploadDocumentsMapper";
-import { IUploadDocumentUseCase } from "../interface/organizer/IUploadDocumentUseCase";
+import { UploadDocumentResponseDTO } from "../../../domain/dtos/admin/UploadDocumentResponseDTO";
+import { UploadDocumentDTO } from "../../../domain/dtos/organizer/DocumentDTO";
+import { UpdateDocumentRequestDTO } from "../../../domain/dtos/organizer/UpdateDocumentRequestDto";
+import { IUploadDocumentRepository } from "../../../domain/repositories/organizer/IUploadDocumentRepository";
+import { CustomError } from "../../../infrastructure/errors/errorClass";
+import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
+import { organizerUploadDocumentSchema, organizerUploadDocumentUpdateSchema } from "../../../infrastructure/validaton/schemas/organizer/organizerUploadDocumentSchema";
+import { IOrganizerUploadDocumentMapper } from "../../interface/admin/IOrganizerUploadDocumentMapper";
+import { IUploadDocumentsMapper } from "../../interface/organizer/IUploadDocumentsMapper";
+import { IUploadDocumentUseCase } from "../../interface/organizer/IUploadDocumentUseCase";
 
 
 
@@ -19,6 +19,7 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
           private _uploadDocumentRepo       :  IUploadDocumentRepository ,
           private _singleDocumentMapper     :  IOrganizerUploadDocumentMapper,
           private _multipleDocumentsMapper  :  IUploadDocumentsMapper
+
      ){}
      async saveUploadedDocument(  dto: UploadDocumentDTO ): Promise< UploadDocumentResponseDTO > {
 
@@ -49,17 +50,15 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
       async deleteUploadedDocument(documentId:string):Promise<string>{
 
            const deleteDocument = await this._uploadDocumentRepo.deleteDocument(documentId)
-           console.log("deleted document  is ",deleteDocument)
-           
+          
            if(!deleteDocument) throw new CustomError("Document not found or could not be deleted",HttpStatusCode.NOT_FOUND);
            return deleteDocument
 
       }
       async updateUploadedDocument(  documentId:string, dto: UpdateDocumentRequestDTO ): Promise < UploadDocumentResponseDTO > {
-             console.log("request bpdy",dto)
+            
           const validatedDto     =    organizerUploadDocumentUpdateSchema.parse(dto);
-          console.log("validatedDto",validatedDto)
-
+       
           if(!validatedDto.url){
                
               throw new CustomError("Document Url is required",HttpStatusCode.BAD_REQUEST)

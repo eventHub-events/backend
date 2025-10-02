@@ -1,10 +1,10 @@
 
-import { OrganizerChangePasswordDTO } from "../../domain/dtos/organizer/OrganizerChangePasswordDTO";
-import { IUserRepository } from "../../domain/repositories/user/IUserRepository";
-import { CustomError } from "../../infrastructure/errors/errorClass";
-import { HttpStatusCode } from "../../infrastructure/interface/enums/HttpStatusCode";
-import { IOrganizerAccountSecurityUseCase } from "../interface/organizer/IOrganizerAccountSecurityUseCase";
-import { IHashService } from "../interface/user/IHashService";
+import { OrganizerChangePasswordDTO } from "../../../domain/dtos/organizer/OrganizerChangePasswordDTO";
+import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
+import { CustomError } from "../../../infrastructure/errors/errorClass";
+import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
+import { IOrganizerAccountSecurityUseCase } from "../../interface/organizer/IOrganizerAccountSecurityUseCase";
+import { IHashService } from "../../interface/user/IHashService";
 
 export class OrganizerAccountSecurityUseCase implements IOrganizerAccountSecurityUseCase{
 
