@@ -1,10 +1,10 @@
 import { UserMapper } from "../../application/mapper/user/UserMapper";
 import { UsersMapper } from "../../application/mapper/user/usersMapper";
-import { ChangePasswordUseCase } from "../../application/user/auth/ChangePasswordUseCase";
-import { ForgetPasswordUseCase } from "../../application/user/auth/ForgetPasswordUseCase";
-import { GenerateOtpUseCase } from "../../application/user/auth/GenerateOtpUseCase";
-import { RefreshTokenUseCase } from "../../application/user/auth/GenerateRefreshTokenUseCase";
-import { VerifyResetPasswordOtpUseCase } from "../../application/user/auth/ResetPasswordUseCase";
+import { ChangePasswordUseCase } from "../../application/usecases/user/auth/ChangePasswordUseCase";
+import { ForgetPasswordUseCase } from "../../application/usecases/user/auth/ForgetPasswordUseCase";
+import { GenerateOtpUseCase } from "../../application/usecases/user/auth/GenerateOtpUseCase";
+import { RefreshTokenUseCase } from "../../application/usecases/user/auth/GenerateRefreshTokenUseCase";
+import { VerifyResetPasswordOtpUseCase } from "../../application/usecases/user/auth/ResetPasswordUseCase";
 import { TokenConfig } from "../../infrastructure/config/user/tokenConfig";
 import { UserEntityFactory } from "../../infrastructure/factories/UserEntityFactory";
 import { UserRepository } from "../../infrastructure/repositories/UserRepository";
@@ -32,7 +32,7 @@ export const tokenController   = new TokenController(refreshTokenUseCase)
 export const hashService = new HashService(bcryptHashService);
 const otpService = new OtpService(cacheService,hashService);
 const nodeMailerEmailService = new NodeMailerEmailService();
-const emailService = new EmailService(nodeMailerEmailService);
+export const emailService = new EmailService(nodeMailerEmailService);
 const generateOtpUseCase = new GenerateOtpUseCase(otpService);
 const userMapper = new UserMapper();
 const usersMapper= new UsersMapper(userMapper)

@@ -8,7 +8,8 @@ export const passwordSchema= z.object({
   password:z.string().min(8,"Current password must be at least 8 characters").regex(/[A-Z]/, "Must include at least one uppercase letter")
       .regex(/[a-z]/, "Must include at least one lowercase letter")
       .regex(/[0-9]/, "Must include at least one number")
-      .regex(/[^a-zA-Z0-9]/, "Must include at least one special character"),
+      .regex(/[^a-zA-Z0-9]/, "Must include at least one special character")
+      .optional(),
   newPassword:z.string().min(8,"New password must be at least 8 characters").regex(/[A-Z]/, "Must include at least one uppercase letter")
       .regex(/[a-z]/, "Must include at least one lowercase letter")
       .regex(/[0-9]/, "Must include at least one number")

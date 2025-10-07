@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { IGeneratePresignedUrlUseCase } from "../../../application/interface/organizer/IGeneratePresignedUrlUseCase";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
-import { IUploadDocumentUseCase } from "../../../application/interface/organizer/IUploadDocumentUseCase";
+import { IUploadDocumentUseCase } from "../../../application/interface/organizer/IUploadDocumentUseCase_temp";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 
 

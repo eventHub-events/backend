@@ -1,10 +1,10 @@
 
-import { IUserRepository } from '../../../domain/repositories/user/IUserRepository';
-import { IOtpService } from '../../../infrastructure/interface/IOtpService';
-import { IProfileCreator } from '../../interface/common/IProfileCreator';
-import { IHashService } from '../../interface/user/IHashService';
-import { IUserMapper } from '../../interface/user/IUserMapper';
-import { IVerifyOtpUseCase } from '../../interface/user/IVerifyOtpUseCase';
+import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
+import { IOtpService } from '../../../../infrastructure/interface/IOtpService';
+import { IProfileCreator } from '../../../interface/common/IProfileCreator';
+import { IHashService } from '../../../interface/user/IHashService';
+import { IUserMapper } from '../../../interface/user/IUserMapper';
+import { IVerifyOtpUseCase } from '../../../interface/user/IVerifyOtpUseCase';
 
 
 

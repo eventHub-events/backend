@@ -44,7 +44,7 @@ app.use(cors({
 app.use('/api/user', userRouts);
 app.use('/api/organizer',organizerRoutes)
 app.use('/api/admin',adminRoutes)
-  app.use(ErrorHandlingMiddleware.handleError);
+   app.use(ErrorHandlingMiddleware.handleError);
 
 
 server.listen(process.env.PORT, () => {
