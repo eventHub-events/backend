@@ -1,6 +1,8 @@
 import { UploadDocumentResponseDTO } from "../../../domain/dtos/admin/UploadDocumentResponseDTO";
+import { UserWithDocumentsResponseDTO } from "../../../domain/dtos/admin/UserWithDocumentsResponseDTO";
 import { UserResponseDTO } from "../../../domain/dtos/user/UserResponseDTO";
 import { UploadDocument } from "../../../domain/entities/organizer/Document";
+import { User } from "../../../domain/entities/User";
 import { IOrganizerUploadDocumentMapper } from "../../interface/admin/IOrganizerUploadDocumentMapper";
 import { IUploadDocumentsMapper } from "../../interface/organizer/IUploadDocumentsMapper";
 
@@ -11,9 +13,18 @@ export class UploadDocumentsMapper implements IUploadDocumentsMapper {
 
   ){}
 
-  toResponse(documentData: UploadDocument[] ):UploadDocumentResponseDTO[] {
+  toResponse(documentData: UploadDocument[],userData: User ): UserWithDocumentsResponseDTO {
 
-    return documentData.map(doc => this._documentMapper.toResponse(doc));
+    const userDocs= documentData.map(doc => this._documentMapper.toResponse(doc));
+    return {
+       id               : userData.id,
+       name             : userData.name,
+       isVerified       : userData.isVerified,
+       kycStatus        : userData.kycStatus,
+       isKycResubmitted : userData.isKycResubmitted,
+       documents  : userDocs
+
+    }
       
   }
 

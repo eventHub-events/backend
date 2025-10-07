@@ -1,7 +1,9 @@
 import { UploadDocumentResponseDTO } from "../../../domain/dtos/admin/UploadDocumentResponseDTO";
+import { UserWithDocumentsResponseDTO } from "../../../domain/dtos/admin/UserWithDocumentsResponseDTO";
 import { UploadDocumentDTO } from "../../../domain/dtos/organizer/DocumentDTO";
 import { UpdateDocumentRequestDTO } from "../../../domain/dtos/organizer/UpdateDocumentRequestDto";
 import { IUploadDocumentRepository } from "../../../domain/repositories/organizer/IUploadDocumentRepository";
+import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { organizerUploadDocumentSchema, organizerUploadDocumentUpdateSchema } from "../../../infrastructure/validaton/schemas/organizer/organizerUploadDocumentSchema";
@@ -19,7 +21,8 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
      constructor( 
           private _uploadDocumentRepo       :  IUploadDocumentRepository ,
           private _singleDocumentMapper     :  IOrganizerUploadDocumentMapper,
-          private _multipleDocumentsMapper  :  IUploadDocumentsMapper
+          private _multipleDocumentsMapper  :  IUploadDocumentsMapper,
+          private _userRepo                 :  IUserRepository
 
      ){}
      async saveUploadedDocument(  dto: UploadDocumentDTO ): Promise< UploadDocumentResponseDTO > {
@@ -37,15 +40,21 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
           
            
      }
-      async getUploadedDocuments( organizerId: string ): Promise<UploadDocumentResponseDTO[]> {
+      async getUploadedDocuments( organizerId: string ): Promise<UserWithDocumentsResponseDTO> {
 
-           const documents = await this._uploadDocumentRepo.findDocuments(organizerId);
-
-           if(!documents || documents.length ===0 ){
-               return [];
-           }
+      
+           const[docs, User] = await Promise.all([this._uploadDocumentRepo.findDocuments(organizerId), this._userRepo.findUserById(organizerId)]);
+          
            
-           return this._multipleDocumentsMapper.toResponse( documents );
+           if(!User){
+               throw new CustomError("Failure in  fetching Userdata", HttpStatusCode.INTERNAL_SERVER_ERROR);
+           }
+
+            if(!docs || docs.length ===0 ){
+                return this._multipleDocumentsMapper.toResponse([], User);
+            }
+           
+            return this._multipleDocumentsMapper.toResponse( docs, User );
 
       }
       async deleteUploadedDocument(documentId:string):Promise<string>{

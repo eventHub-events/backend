@@ -17,6 +17,7 @@ export class OrganizerVerificationController {
   ): Promise<Response> {
     try {
       const { organizerId } = req.params;
+      console.log("id is",organizerId)
       if (!organizerId) {
         return res
           .status(HttpStatusCode.BadRequest)

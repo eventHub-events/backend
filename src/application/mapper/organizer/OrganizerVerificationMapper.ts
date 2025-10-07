@@ -15,7 +15,7 @@ export class OrganizerVerificationMapper implements IOrganizerVerificationMapper
 
     const  mappedDocs = Docs.map((doc) => {
       return {
-        organizerId : doc.id,
+        id          : doc.id,
         name        : doc.fileName,
         type        : doc.type,
         url         : doc.url,
@@ -52,10 +52,11 @@ export class OrganizerVerificationMapper implements IOrganizerVerificationMapper
       website        : organizer.profile.website,
       trustScore     : organizer.profile.trustScore,
       totalEarnings  : organizer.profile.totalEarnings,
-      profilePicture : organizer.profile.profilePicture
+      profilePicture : organizer.profile.profilePicture,
+      organizerId    : organizer.profile.organizerId?.toString()
     }
      return {
-         id             : organizer.profile.organizerId,
+         id             : organizer.user.id,
          name           : organizer.user.name,
          email          : organizer.user.email,
          role           : organizer.user.role,

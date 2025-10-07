@@ -11,7 +11,7 @@ import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthen
  router.post("/logout",(req,res)=>authController.logout(req,res))
  router.get("/usersList",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>usersListController.fetchUsers(req,res))
  router.post("/updateUser",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req,res)=>usersListController.UpdateUser(req,res))
-  router.get("/download-pdf",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req,res)=>downloadPdfController.downloadPdf(req,res))
+  router.post("/download-pdf",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req,res)=>downloadPdfController.downloadPdf(req,res))
 
   //organizer verification  related
   router.get("/organizers/:organizerId/verification",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>organizerVerificationController.fetchOrganizerVerificationDetails(req,res))

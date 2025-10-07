@@ -5,7 +5,7 @@ import { OrganizerVerificationUseCase } from "../../application/usecases/admin/o
 import { UserQueryRepository } from "../../infrastructure/repositories/UserQueryRepository";
 
 import { PdfService } from "../../infrastructure/services/pdfService/pdfService";
-import { DownloadPdfController } from "../../interfaceAdapter/controllers/admin/DownloadPefController";
+import { DownloadPdfController } from "../../interfaceAdapter/controllers/admin/DownloadPdfController";
 import { OrganizerVerificationController } from "../../interfaceAdapter/controllers/admin/OrganizerVerificationController";
 import { UserListController } from "../../interfaceAdapter/controllers/admin/userListController";
 import { userRepository } from "../container";

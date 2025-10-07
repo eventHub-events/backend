@@ -25,7 +25,9 @@ export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCa
   ){}
 
   async getOrganizerVerificationDetails(organizerId: string): Promise<OrganizerVerificationResponseDTO> {
+
       try{
+        console.log("hello  from  get")
         const   organizerDetails = await this._organizerProfileRepo.getProfileWithUser(organizerId);
 
         const organizerDocs= await this._uploadDocumentRepo.findDocuments(organizerId);
@@ -33,8 +35,11 @@ export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCa
         if(!organizerDetails || !organizerDocs) throw new Error("Organizer profile or  organizerDocs is missing");
 
         const{profile, user}  = organizerDetails;
+        console.log("organizer Verification  details is",organizerDetails)
         
-         return this._verificationMapper.toResponse(profile, user, organizerDocs)
+         const result =  this._verificationMapper.toResponse(profile, user, organizerDocs);
+         console.log(result)
+         return result;
       
       }catch(error:unknown){
         const err= HandleErrorUtility.handleError(error)
@@ -60,9 +65,13 @@ export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCa
       
   }
   async getPendingOrganizersWithProfile(): Promise<CompleteOrganizerDetailResponseDTO[]> {
+   
       try{
         const organizerDetails = await this._userQueryRepo.findPendingOrganizersWithProfile()
-        return this._verificationMapper.toOrganizerDetailsResponse(organizerDetails)
+       
+        const  result = this._verificationMapper.toOrganizerDetailsResponse(organizerDetails);
+        
+        return result
 
       }catch(err:unknown){
         const error=HandleErrorUtility.handleError(err);
@@ -87,7 +96,7 @@ export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCa
   async  updateOverallVerificationStatus(organizerId: string, data: UpdateOrganizerOverallVerificationStatusDTO): Promise<string> {
     try{
          const{user,profile}=data;
-     const result= await Promise.all([this._userRepository.updateUser(organizerId,user),this._organizerProfileRepo.updateProfile(organizerId,profile)])   
+      await Promise.all([this._userRepository.updateUser(organizerId,user),this._organizerProfileRepo.updateProfile(organizerId,profile)])   
      return "Organizer overall status updated successfully" ;
 
     }catch(error){
