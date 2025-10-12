@@ -3,6 +3,8 @@ import express, { NextFunction, Response } from 'express';
 import { authenticationMiddleWare } from '../../../di/container';
 import { IAuthenticatedRequest } from '../../../infrastructure/interface/IAuthenticatedRequest';
 import { tokenController } from '../../../di/common/commonContainers';
+import { InputDataValidator } from '../../../infrastructure/middleware/zodMiddleware/inputDataValidator';
+import {  UserProfileUpdateSchema } from '../../../infrastructure/validation/schemas/user/userProfileSchema';
 const router = express.Router();
 
 router.post('/register', (req, res) => authController.registerUser(req, res));
@@ -21,7 +23,7 @@ router.post("/changePassword",authenticationMiddleWare.authenticateChangePasswor
 
 // user profile related
 router.get("/:userId/profile",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => userProfileController.fetchUserProfile(req,res,next ));
-router.patch("/:profileId/profile",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction ) => userProfileController.updateUserProfile(req,res,next))
+router.patch("/:profileId/profile",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),InputDataValidator.validate(UserProfileUpdateSchema),(req: IAuthenticatedRequest, res: Response, next: NextFunction ) => userProfileController.updateUserProfile(req,res,next))
 
 
 export default router;

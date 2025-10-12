@@ -3,7 +3,7 @@ import { UserResponseDTO } from "../../../../domain/dtos/user/UserResponseDTO";
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
 import { CustomError } from "../../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../../infrastructure/interface/enums/HttpStatusCode";
-import { userForgetPassWordSchema } from "../../../../infrastructure/validaton/schemas/changePasswordSchema";
+import { userForgetPassWordSchema } from "../../../../infrastructure/validation/schemas/changePasswordSchema";
 import { ILoggerService } from "../../../interface/common/ILoggerService";
 import { IChangePasswordUseCase } from "../../../interface/user/IChangePasswordUsecase";
 import { IHashService } from "../../../interface/user/IHashService";

@@ -5,6 +5,7 @@ import { IUserProfileRepository } from "../../../../domain/repositories/user/IUs
 import { UserProfileDbModel } from "../../../../domain/types/UserTypes";
 import UserProfileModel, { IUserProfileDocument } from "../../../db/models/user/UserProfile";
 import { BaseRepository } from "../../BaseRepository";
+import { DataFetchError, UpdateFailedError } from "../../../../domain/errors/userProfile";
 
 /**
  * @class UserProfileRepository
@@ -39,14 +40,14 @@ export class UserProfileRepository extends BaseRepository<IUserProfileDocument> 
  async  updateProfile(profileId: string, profileData: Partial<UserProfileEntity>): Promise<UserProfileEntity> {
 
      const updatedData  = await super.update(profileId,profileData) as UserProfileDbModel;
-     if(!updatedData) throw new Error("User profile update failed")
+     if(!updatedData) throw new UpdateFailedError("User profile update failed")
      return this._profileEntityFactory.toDomainFromDbModel(updatedData)
       
   }
   async fetchProfile(userId: string): Promise<UserProfileEntity> {
 
     const result = await super.findOne({user:userId}) as UserProfileDbModel;
-    if(!result) throw new Error("Error in  fetching user profile document")
+    if(!result) throw new DataFetchError("Error in  fetching user profile document")
 
    return this._profileEntityFactory.toDomainFromDbModel(result) 
       

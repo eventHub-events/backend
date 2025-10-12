@@ -37,6 +37,7 @@ import { UserProfileEntityFactory } from '../infrastructure/factories/UserProfil
 import { UserProfileUseCase } from '../application/usecases/user/profile/UserProfileUseCase';
 import { UserProfileController } from '../interfaceAdapter/controllers/user/UserProfileController';
 import { UserProfileCreator } from '../application/service/user/UserProfileCreator';
+import { ErrorMapperService } from '../infrastructure/errors/userProfileErrorMapper';
 
 
 
@@ -54,7 +55,8 @@ const userProfileMapper = new UserProfileMapper();
 const userProfileEntityFactory = new UserProfileEntityFactory();
 const userProfileRepository = new UserProfileRepository(userProfileEntityFactory);
 const userProfileUseCase = new UserProfileUseCase(userRepository, userProfileRepository, userProfileMapper);
-export const userProfileController = new UserProfileController(userProfileUseCase);
+const errorMapperService  = new ErrorMapperService()
+export const userProfileController = new UserProfileController(userProfileUseCase, errorMapperService);
 
 
 // Hashing related dependency injection
