@@ -8,7 +8,7 @@ import { ILoggerService } from "../../../interface/common/ILoggerService";
 import { IChangePasswordUseCase } from "../../../interface/user/IChangePasswordUsecase";
 import { IHashService } from "../../../interface/user/IHashService";
 import { ITokenService } from "../../../interface/user/ITokenService";
-import { IUserMapper } from "../../../interface/user/IUserMapper";
+import { IUserMapper } from "../../../interface/user/mapper/IUserMapper";
 
 export class ChangePasswordUseCase implements IChangePasswordUseCase{
   constructor(

@@ -4,7 +4,7 @@ import { UserResponseDTO } from '../../dtos/user/UserResponseDTO';
 import { User } from '../../entities/User';
 import { PaginationDTO } from '../../dtos/common/PaginationDTO';
 import { FilterQuery } from 'mongoose';
-import { IUserDocument } from '../../../infrastructure/db/models/UserModel';
+import { IUserDocument } from '../../../infrastructure/db/models/user/UserModel';
 
 export interface IUserRepository {
   createUser(user:Partial<IUserDocument>):Promise<User>;

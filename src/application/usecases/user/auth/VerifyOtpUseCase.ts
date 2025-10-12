@@ -3,7 +3,7 @@ import { IUserRepository } from '../../../../domain/repositories/user/IUserRepos
 import { IOtpService } from '../../../../infrastructure/interface/IOtpService';
 import { IProfileCreator } from '../../../interface/common/IProfileCreator';
 import { IHashService } from '../../../interface/user/IHashService';
-import { IUserMapper } from '../../../interface/user/IUserMapper';
+import { IUserMapper } from '../../../interface/user/mapper/IUserMapper';
 import { IVerifyOtpUseCase } from '../../../interface/user/IVerifyOtpUseCase';
 
 

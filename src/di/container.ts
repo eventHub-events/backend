@@ -31,6 +31,12 @@ import { UserEntityFactory } from '../infrastructure/factories/UserEntityFactory
 import { PasswordController } from '../interfaceAdapter/controllers/user/PasswordController';
 import { ChangePasswordUseCase } from '../application/usecases/user/auth/ChangePasswordUseCase';
 import { tokenConfig } from './common/commonContainers';
+import { UserProfileMapper } from '../application/mapper/user/UserProfileMapper';
+import { UserProfileRepository } from '../infrastructure/repositories/user/profile/UserProfileRepository';
+import { UserProfileEntityFactory } from '../infrastructure/factories/UserProfileEntityFactory';
+import { UserProfileUseCase } from '../application/usecases/user/profile/UserProfileUseCase';
+import { UserProfileController } from '../interfaceAdapter/controllers/user/UserProfileController';
+import { UserProfileCreator } from '../application/service/user/UserProfileCreator';
 
 
 
@@ -43,6 +49,14 @@ export const userRepository = new UserRepository(loggerService,userMapper,usersM
 const nodeMailerEmailService = new NodeMailerEmailService();
 const emailService = new EmailService(nodeMailerEmailService);
 
+// user profile related dependency  injection
+const userProfileMapper = new UserProfileMapper();
+const userProfileEntityFactory = new UserProfileEntityFactory();
+const userProfileRepository = new UserProfileRepository(userProfileEntityFactory);
+const userProfileUseCase = new UserProfileUseCase(userRepository, userProfileRepository, userProfileMapper);
+export const userProfileController = new UserProfileController(userProfileUseCase);
+
+
 // Hashing related dependency injection
 const bcryptHashService = new BcryptHashService();
 export const hashService = new HashService(bcryptHashService);
@@ -50,7 +64,8 @@ const otpService = new OtpService(cacheService,hashService);
 const generateOtpUseCase = new GenerateOtpUseCase(otpService);
 const registerUserUseCase = new RegisterUserUseCase(userRepository, generateOtpUseCase, emailService);
 const profileCreators = {
-    organizer : new OrganizerProfileCreator(organizerBlankProfileCreationUseCase)
+    organizer : new OrganizerProfileCreator(organizerBlankProfileCreationUseCase),
+    user: new UserProfileCreator(userProfileRepository)
 }
 const verifyOtpUseCase = new VerifyOtpUseCase(userRepository, otpService, hashService,userMapper,profileCreators);
 const jwtToken = new JWTToken(tokenConfig)
@@ -72,5 +87,6 @@ const changePasswordUseCase =  new ChangePasswordUseCase(userRepository,tokenSer
 
 export const passwordController  = new PasswordController(forgetPasswordUseCase,verifyResetPasswordOtpUseCase,changePasswordUseCase)
 
-// export const authController = new AuthController(registerUserUseCase, resendOtpUseCase, verifyOtpUseCase,loginUserUseCase,refreshTokenUseCase,logoutUserUseCase, );
+
 export const authController = new AuthController(registerUserUseCase, resendOtpUseCase, verifyOtpUseCase,loginUserUseCase,logoutUserUseCase, );
+

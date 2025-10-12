@@ -1,4 +1,4 @@
-import { KycStatus } from "../../../infrastructure/db/models/UserModel";
+import { KycStatus } from "../../../infrastructure/db/models/user/UserModel";
 import { IUserMinimal } from "../../types/IUserMinimal";
 
 export interface OrganizerProfileResponseDTO{

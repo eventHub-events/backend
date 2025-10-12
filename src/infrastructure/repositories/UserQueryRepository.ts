@@ -2,7 +2,7 @@
 import { UserRole } from "../../domain/enums/user/userRoles";
 import { IUserQueryRepository } from "../../domain/repositories/user/IUserQueryRepository";
 import { OrganizerProfileWithUser } from "../../domain/types/OrganizerTypes";
-import UserModel, { KycStatus } from "../db/models/UserModel";
+import UserModel, { KycStatus } from "../db/models/user/UserModel";
 
 export class UserQueryRepository implements IUserQueryRepository {
   async findPendingOrganizersWithProfile(): Promise< OrganizerProfileWithUser[]> {

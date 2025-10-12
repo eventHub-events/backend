@@ -9,7 +9,7 @@ import { IOrganizerProfileRepository } from "../../../domain/repositories/organi
 import { IUploadDocumentRepository } from "../../../domain/repositories/organizer/IUploadDocumentRepository";
 import { IUserQueryRepository } from "../../../domain/repositories/user/IUserQueryRepository";
 import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
-import { KycStatus } from "../../../infrastructure/db/models/UserModel";
+import { KycStatus } from "../../../infrastructure/db/models/user/UserModel";
 import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
 import { IOrganizerVerificationMapper } from "../../interface/admin/IOrganizerVerificationMapper";
 import { IOrganizerVerificationUseCase } from "../../interface/admin/IOrganizerVerificationUseCase";

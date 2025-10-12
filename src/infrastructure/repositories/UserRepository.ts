@@ -2,13 +2,13 @@ import { UserRegisterDTO } from '../../domain/dtos/user/RegisterUserDTO';
 import { UserResponseDTO } from '../../domain/dtos/user/UserResponseDTO';
 import { User } from '../../domain/entities/User';
 import { IUserRepository } from '../../domain/repositories/user/IUserRepository';
-import UserModel, { IUserDocument } from '../db/models/UserModel';
+import UserModel, { IUserDocument } from '../db/models/user/UserModel';
 import { BaseRepository } from './BaseRepository';
 import { ILoggerService } from '../../application/interface/common/ILoggerService';
 import { PaginationDTO } from '../../domain/dtos/common/PaginationDTO';
 import { FilterQuery } from 'mongoose';
-import { IUserMapper } from '../../application/interface/user/IUserMapper';
-import { IUsersMapper } from '../../application/interface/user/IUsersMapper';
+import { IUserMapper } from '../../application/interface/user/mapper/IUserMapper';
+import { IUsersMapper } from '../../application/interface/user/mapper/IUsersMapper';
 import { CustomError } from '../errors/errorClass';
 import { HttpStatusCode } from '../interface/enums/HttpStatusCode';
 

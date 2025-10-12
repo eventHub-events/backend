@@ -1,5 +1,5 @@
 import {z} from "zod";
-import { KycStatus } from "../../../infrastructure/db/models/UserModel";
+import { KycStatus } from "../../../infrastructure/db/models/user/UserModel";
 
 
  const kycStatusEnum = z.enum(["Pending", "Approved", "Rejected"]as const)

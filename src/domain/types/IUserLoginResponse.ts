@@ -1,4 +1,4 @@
-import { KycStatus } from "../../infrastructure/db/models/UserModel";
+import { KycStatus } from "../../infrastructure/db/models/user/UserModel";
 
 export interface IUserLoginResponse{
   token:string;
@@ -10,7 +10,7 @@ export interface IUserLoginResponse{
     role:string,
     isBlocked:boolean,
     kycStatus : KycStatus,
-    isKycResubmitted : boolean
+    isKycResubmitted? : boolean
   }
 
 }
