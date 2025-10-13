@@ -28,7 +28,15 @@ export class DocumentController{
   // }
   // }
 
-  async saveDocument(req: Request, res: Response,next :NextFunction):Promise< Response | void > {
+
+/**
+ * 
+ * @param req 
+ * @param res 
+ * @param next 
+ * @returns 
+ */
+  async saveDocument(req: Request, res: Response,next : NextFunction): Promise< Response | void > {
 
     try {
      console.log("reeeee",req.body)
@@ -42,6 +50,7 @@ export class DocumentController{
 
     }
 }
+
  async getDocuments(req: Request, res: Response, next: NextFunction) {
     try {
       const { organizerId } = req.params;

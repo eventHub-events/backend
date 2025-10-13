@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { KycStatus } from "../../../db/models/UserModel";
+import { KycStatus } from "../../../db/models/user/UserModel";
 
 
 export const verificationRequestDataSchema = z.object({

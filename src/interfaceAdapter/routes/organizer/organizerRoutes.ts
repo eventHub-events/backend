@@ -3,7 +3,7 @@ import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthen
 import { authenticationMiddleWare } from "../../../di/container";
 import { documentController, documentVerificationRequestController, organizerAccountSecurityController, organizerProfileController } from "../../../di/organizer/container";
 import { ZodPasswordValidator } from "../../../infrastructure/middleware/zodValidator";
-import { passwordSchema } from "../../../infrastructure/validaton/schemas/changePasswordSchema";
+import { passwordSchema } from "../../../infrastructure/validation/schemas/changePasswordSchema";
 import { passwordController } from "../../../di/common/commonContainers";
 // import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
 

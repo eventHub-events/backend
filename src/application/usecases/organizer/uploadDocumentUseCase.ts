@@ -6,7 +6,7 @@ import { IUploadDocumentRepository } from "../../../domain/repositories/organize
 import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
-import { organizerUploadDocumentSchema, organizerUploadDocumentUpdateSchema } from "../../../infrastructure/validaton/schemas/organizer/organizerUploadDocumentSchema";
+import { organizerUploadDocumentSchema, organizerUploadDocumentUpdateSchema } from "../../../infrastructure/validation/schemas/organizer/organizerUploadDocumentSchema";
 import { IOrganizerUploadDocumentMapper } from "../../interface/admin/IOrganizerUploadDocumentMapper";
 import { IUploadDocumentsMapper } from "../../interface/organizer/IUploadDocumentsMapper";
 import { IUploadDocumentUseCase } from "../../interface/organizer/IUploadDocumentUseCase_temp";

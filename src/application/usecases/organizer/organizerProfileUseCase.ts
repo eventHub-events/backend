@@ -5,7 +5,7 @@ import { IOrganizerProfileRepository } from "../../../domain/repositories/organi
 import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
-import { organizerProfileSchema } from "../../../infrastructure/validaton/schemas/organizer/organizerProfileSchema";
+import { organizerProfileSchema } from "../../../infrastructure/validation/schemas/organizer/organizerProfileSchema";
 import { IOrganizerProfileUseCase } from "../../interface/organizer/IOrganizerProfileUseCase";
 import { OrganizerProfileMapper } from "../../mapper/organizer/OrganizerProfileMapper";
 
