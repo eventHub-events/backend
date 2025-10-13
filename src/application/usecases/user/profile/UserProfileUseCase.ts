@@ -25,6 +25,7 @@ export class UserProfileUseCase implements IUserProfileUseCase {
   async editProfileData(profileId: string, data: UserProfileEditRequestDTO): Promise<UserProfileResponseDTO> {
    
       const userId = data.user?.userId;
+      console.log("userId is", data)
       if(!userId) throw new ForbiddenError("userId is required");
       const {profile, user} = this._profileMapper.toDomainForUpdate(data);
 

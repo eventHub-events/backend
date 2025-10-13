@@ -1,52 +1,38 @@
 import { z } from "zod";
 
-// ---------------- REGEX RULES ----------------
 const nameRegex = /^[A-Z][a-zA-Z]{0,14}$/;
 const phoneRegex = /^[0-9]{10}$/;
 const addressRegex = /^[A-Z][A-Za-z0-9\s,]{0,34}$/;
 const cityStateCountryRegex = /^[A-Z][a-zA-Z]{0,14}$/;
 const pinRegex = /^[0-9]{6}$/;
 
-// ---------------- SCHEMA ----------------
-export const userProfileSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Name is required")
-    .regex(nameRegex, "Must start with a capital letter, only English letters, max 15 characters"),
-
-  phone: z
-    .string()
-    .min(1, "Phone number is required")
-    .regex(phoneRegex, "Phone must contain exactly 10 digits"),
-
-  address: z.object({
-    line1: z
-      .string()
-      .min(1, "Address is required")
-      .regex(addressRegex, "Must start with a capital letter, max 35 characters").optional(),
-    line2: z.string()
-    .min(1, "Address is required")
-      .regex(addressRegex, "Must start with a capital letter, max 35 characters").
-    optional(),
-    city: z
-      .string()
-      .min(1, "City is required")
-      .regex(cityStateCountryRegex, "Must start with a capital letter, only letters, max 15 characters").optional(),
-    state: z
-      .string()
-      .min(1, "State is required")
-      .regex(cityStateCountryRegex, "Must start with a capital letter, only letters, max 15 characters").optional(),
-    country: z
-      .string()
-      .min(1, "Country is required")
-      .regex(cityStateCountryRegex, "Must start with a capital letter, only letters, max 15 characters").optional(),
-    pin: z
-      .string()
-      .min(1, "PIN Code is required")
-      .regex(pinRegex, "PIN Code must contain exactly 6 digits").optional(),
-  }),
+const addressSchema = z.object({
+  line1: z.string().regex(addressRegex, "Must start with capital, max 35 characters").optional(),
+  line2: z.string().regex(addressRegex, "Must start with capital, max 35 characters").optional(),
+  city: z.string().regex(cityStateCountryRegex, "Invalid city format").optional(),
+  state: z.string().regex(cityStateCountryRegex, "Invalid state format").optional(),
+  country: z.string().regex(cityStateCountryRegex, "Invalid country format").optional(),
+  pin: z.string().regex(pinRegex, "PIN Code must be 6 digits").optional(),
 });
 
-export type UserProfileSchemaType = z.infer<typeof userProfileSchema>;
-export const UserProfileUpdateSchema = userProfileSchema.partial();
-export type UserProfileUpdateSchemaType = z.infer<typeof UserProfileUpdateSchema>;
+export const userProfileUpdateSchema = z.object({
+  user: z
+    .object({
+      name: z.string().regex(nameRegex, "Invalid name").optional(),
+      email: z.string().email().optional(),
+      phone: z.string().regex(phoneRegex, "Phone must be 10 digits").optional(),
+      userId: z.string().min(1, "userId is required").optional(),
+    })
+    .optional(),
+  profile: z
+    .object({
+      address: addressSchema.optional(),
+      image: z.string().optional(),
+      memberSince: z.string().optional(),
+      twoFAEnabled: z.boolean().optional(),
+      favorites: z.array(z.string()).optional(),
+    })
+    .optional(),
+});
+
+export type UserProfileUpdateSchemaType = z.infer<typeof userProfileUpdateSchema>;
