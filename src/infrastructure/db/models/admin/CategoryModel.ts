@@ -7,6 +7,9 @@ export interface ICategoryDocument extends Document {
   color?:string;
   tags: string[];
   isBlocked: boolean;
+  isDeleted: boolean;
+  createdAt: Date;
+  updatedAt: Date
 }
 
 const CategorySchema = new Schema<ICategoryDocument>({
@@ -30,6 +33,10 @@ const CategorySchema = new Schema<ICategoryDocument>({
       set: (tags: string[]) => tags.map(tag => tag.trim().toLowerCase())
     },
     isBlocked: {
+      type: Boolean,
+      default: false
+    },
+    isDeleted: {
       type: Boolean,
       default: false
     }
