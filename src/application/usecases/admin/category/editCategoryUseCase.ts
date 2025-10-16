@@ -10,8 +10,9 @@ export class EditCategoryUseCase implements IEditCategoryUseCase {
        private _categoryMapper : ICategoryMapper
   ){}
  async execute(categoryId: string, data: CategoryEditRequestDTO): Promise<CategoryResponseDTO> {
-
-      const categoryEntity = this._categoryMapper.toEntityForCreation(data);
+       console.log("data ", data)
+      const categoryEntity = this._categoryMapper.toEntityForUpdate(data);
+      console.log("caca", categoryEntity)
       const updatedDoc = await this._categoryRepo.editCategory(categoryId,categoryEntity)
       return this._categoryMapper.toResponseDTO(updatedDoc)
   }

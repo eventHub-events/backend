@@ -1,3 +1,4 @@
+import { DeleteCategoryRequestDTO } from "../../../../domain/dtos/admin/category/DeleteCategoryReqDTO";
 import { ICategoryRepository } from "../../../../domain/repositories/admin/ICategoryRepository";
 import { IDeleteCategoryUseCase } from "../../../interface/admin/category/IDeleteCategoryUseCase";
 

@@ -3,6 +3,7 @@ export interface CreateCategoryRequestDTO {
       color: string;
       tags:string[];
       description?:string;
+      
 
 
 }

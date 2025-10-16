@@ -22,7 +22,7 @@ const CategorySchema = new Schema<ICategoryDocument>({
     description : {
       type: String,
       trim: true,
-      maxlength: 200
+      maxlength: 100
     },
     color: {
       type: String,

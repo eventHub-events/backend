@@ -1,5 +1,6 @@
 import { CategoryResponseDTO } from "../../../domain/dtos/admin/category/CategoryResponseDTO";
 import { CreateCategoryRequestDTO } from "../../../domain/dtos/admin/category/CreateCategoryRequestDTO";
+import { UpdateCategoryRequestDTO } from "../../../domain/dtos/admin/category/UpdateCategoryRequestDTO";
 import { CategoryEntity } from "../../../domain/entities/admin/Category";
 import { categoryDbModel } from "../../../domain/types/AdminDbTypes";
 import { ICategoryMapper } from "../../interface/mapper/admin/ICategoryMapper";
@@ -25,8 +26,21 @@ export class  CategoryMapper implements ICategoryMapper {
         dto.name,
         dto.color,
         dto.tags,
-        dto.description
+        dto.description,
+        
 
      )
+  }
+  toEntityForUpdate(dto: UpdateCategoryRequestDTO): Partial<CategoryEntity> {
+       
+    return {
+         name: dto.name,
+         color: dto.color,
+         tags: dto.tags,
+         description: dto.description,
+         isBlocked:dto.isBlocked,
+
+         
+    }
   }
 }
