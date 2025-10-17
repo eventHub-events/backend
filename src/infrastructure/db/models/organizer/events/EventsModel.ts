@@ -40,8 +40,11 @@ export interface IEvent extends Document {
   tags?:string[];
   waitingListEnabled?: boolean;
   waitingList?: IWaitingListEntry[];
-  isBlocked?: boolean,
-  blockedReason?: string
+  isBlocked?: boolean;
+  blockedReason?: string;
+  reviews?: Types.ObjectId;
+  averageRating?: number;
+  reviewCount?: number;
   
 }
 
@@ -167,7 +170,21 @@ const EventSchema = new Schema<IEvent>({
 waitingList: {
    type: [WaitingListSchema],
    default:[]
+},
+
+reviews: {
+   type: Schema.Types.ObjectId,
+   ref: "User"
+},
+averageRating: {
+    type: Number,
+    default: 0
+},
+reviewCount: {
+   type: Number,
+   default:0
 }
+
 
 },{timestamps: true}
 )
