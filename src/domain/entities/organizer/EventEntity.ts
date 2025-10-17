@@ -44,7 +44,7 @@ import { IWaitingListEntry } from "../../valueObject/organizer/WaitingListEntry"
 
 
    constructor(props: {
-    organizerId: string;
+    organizerId: Types.ObjectId;
     title: string;
     type: EventType;
     categoryId: Types.ObjectId;
@@ -81,7 +81,7 @@ import { IWaitingListEntry } from "../../valueObject/organizer/WaitingListEntry"
     createdAt?: Date;
     updatedAt?: Date;
    }) {
-        this.organizerId = new Types.ObjectId(props.organizerId);
+        this.organizerId = props.organizerId
     this.title = props.title;
     this.type = props.type;
     this.categoryId = props.categoryId;
