@@ -4,4 +4,6 @@ import { EventUpdateDTO } from "../../../../../domain/DTOs/organizer/events/Even
 import { EventEntity } from "../../../../../domain/entities/organizer/EventEntity";
 import { IBaseMapper } from "../../../common/IBaseMapper";
 
-export interface IEventMapper extends IBaseMapper<EventEntity, EventCreationRequestDTO, EventResponseDTO, EventUpdateDTO> {}
+export interface IEventMapper extends IBaseMapper<EventEntity, EventCreationRequestDTO, EventResponseDTO, EventUpdateDTO> {
+   toResponseDTOList (entities: EventEntity[]): EventResponseDTO[];
+}

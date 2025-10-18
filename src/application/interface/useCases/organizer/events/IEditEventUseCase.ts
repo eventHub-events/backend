@@ -2,7 +2,7 @@ import { EventResponseDTO } from "../../../../../domain/DTOs/organizer/events/Ev
 import { EventUpdateDTO } from "../../../../../domain/DTOs/organizer/events/EventUpdateDTO";
 import { EventEntity } from "../../../../../domain/entities/organizer/EventEntity";
 
-export interface IEditEventUseCase {
+export interface IUpdateEventUseCase {
   execute(eventId: string, data: EventUpdateDTO) : Promise<EventResponseDTO>;
 
 }

@@ -2,10 +2,10 @@ import { EventResponseDTO } from "../../../../domain/DTOs/organizer/events/Event
 import { EventUpdateDTO } from "../../../../domain/DTOs/organizer/events/EventUpdateDTO";
 import { EventEntity } from "../../../../domain/entities/organizer/EventEntity";
 import { IEventRepository } from "../../../../domain/repositories/organizer/IEventsRepository";
-import { IEditEventUseCase } from "../../../interface/useCases/organizer/events/IEditEventUseCase";
+import {  IUpdateEventUseCase } from "../../../interface/useCases/organizer/events/IEditEventUseCase";
 import { IEventMapper } from "../../../interface/useCases/organizer/events/IEventMapper";
 
-export class EditEventUseCase implements IEditEventUseCase {
+export class UpdateEventUseCase implements IUpdateEventUseCase {
   constructor(
        private _EventRepository: IEventRepository,
        private _eventMapper: IEventMapper

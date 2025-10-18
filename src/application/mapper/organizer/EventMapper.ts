@@ -63,4 +63,8 @@ export class EventMapper implements IEventMapper  {
 
      }
  }
+ toResponseDTOList (entities: EventEntity[]): EventResponseDTO[] {
+   return   entities.map((event) => this.toResponseDTO(event))
+ }
+ 
 }
