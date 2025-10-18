@@ -7,9 +7,9 @@ import { HttpStatusCode } from "../../../../infrastructure/interface/enums/HttpS
 import { ICacheService } from "../../../../infrastructure/interface/ICacheService";
 import { IOtpService } from "../../../../infrastructure/interface/IOtpService";
 
-import { IHashService } from "../../../interface/user/IHashService";
-import {  IVerifyResetPasswordOtpUseCase } from "../../../interface/user/IResetPasswordOTPUseCase";
-import { ITokenService } from "../../../interface/user/ITokenService";
+import { IHashService } from "../../../interface/useCases/user/IHashService";
+import {  IVerifyResetPasswordOtpUseCase } from "../../../interface/useCases/user/IResetPasswordOTPUseCase";
+import { ITokenService } from "../../../interface/useCases/user/ITokenService";
 
 export class VerifyResetPasswordOtpUseCase implements IVerifyResetPasswordOtpUseCase{
   constructor(private _otpService : IOtpService,

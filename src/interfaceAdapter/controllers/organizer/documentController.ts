@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { IGeneratePresignedUrlUseCase } from "../../../application/interface/organizer/IGeneratePresignedUrlUseCase";
+import { IGeneratePresignedUrlUseCase } from "../../../application/interface/useCases/organizer/IGeneratePresignedUrlUseCase";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
-import { IUploadDocumentUseCase } from "../../../application/interface/organizer/IUploadDocumentUseCase_temp";
+import { IUploadDocumentUseCase } from "../../../application/interface/useCases/organizer/IUploadDocumentUseCase_temp";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 
 

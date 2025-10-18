@@ -1,7 +1,7 @@
 
-import { ISeedAdmin } from "../application/interface/admin/ISeedAdmin";
+import { ISeedAdmin } from "../application/interface/useCases/admin/ISeedAdmin";
 import { ILoggerService } from "../application/interface/common/ILoggerService";
-import { IHashService } from "../application/interface/user/IHashService";
+import { IHashService } from "../application/interface/useCases/user/IHashService";
 import { DbConnection } from "../config/mongoose/DbConnection";
 import { IUserRepository } from "../domain/repositories/user/IUserRepository";
 import dotenv from "dotenv"

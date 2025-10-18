@@ -7,8 +7,8 @@ import { BaseRepository } from './BaseRepository';
 import { ILoggerService } from '../../application/interface/common/ILoggerService';
 import { PaginationDTO } from '../../domain/DTOs/common/PaginationDTO';
 import { FilterQuery } from 'mongoose';
-import { IUserMapper } from '../../application/interface/user/mapper/IUserMapper';
-import { IUsersMapper } from '../../application/interface/user/mapper/IUsersMapper';
+import { IUserMapper } from '../../application/interface/useCases/user/mapper/IUserMapper';
+import { IUsersMapper } from '../../application/interface/useCases/user/mapper/IUsersMapper';
 import { CustomError } from '../errors/errorClass';
 import { HttpStatusCode } from '../interface/enums/HttpStatusCode';
 

@@ -1,6 +1,6 @@
 import { CategoryEntity } from "../../../../domain/entities/admin/Category";
 import { ICategoryRepository } from "../../../../domain/repositories/admin/ICategoryRepository";
-import { IFetchCategoryUseCase } from "../../../interface/admin/category/IFetchCategoryUseCase";
+import { IFetchCategoryUseCase } from "../../../interface/useCases/admin/category/IFetchCategoryUseCase";
 import { ICategoryMapper } from "../../../interface/mapper/admin/ICategoryMapper";
 
 export  class FetchCategoryUseCase implements IFetchCategoryUseCase {

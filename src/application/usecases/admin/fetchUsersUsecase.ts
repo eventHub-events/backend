@@ -7,7 +7,7 @@ import { IUserRepository } from "../../../domain/repositories/user/IUserReposito
 import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
 import { IUserUpdateDTO } from "../../../domain/DTOs/user/userUpdateDTO";
 import { PaginationDTO } from "../../../domain/DTOs/common/PaginationDTO";
-import { IFetchUserUseCase } from "../../interface/admin/IFetchUsersUseCase";
+import { IFetchUserUseCase } from "../../interface/useCases/admin/IFetchUsersUseCase";
 
 export class FetchUserUseCase implements IFetchUserUseCase{
   constructor(private _userRepo:IUserRepository){}

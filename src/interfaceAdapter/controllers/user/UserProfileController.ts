@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
-import { IUserProfileUseCase } from "../../../application/interface/user/IUserProfileUseCase";
+import { IUserProfileUseCase } from "../../../application/interface/useCases/user/IUserProfileUseCase";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { IErrorMapper } from "../../../application/interface/common/errorMappers/IErrorMapper";
 

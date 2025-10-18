@@ -1,8 +1,8 @@
 import { EventCreationRequestDTO } from "../../../../domain/DTOs/organizer/events/EventCreationRequestDTO";
 import { EventResponseDTO } from "../../../../domain/DTOs/organizer/events/EventResponseDTO";
 import { IEventRepository } from "../../../../domain/repositories/organizer/IEventsRepository";
-import { ICreateEventUseCase } from "../../../interface/organizer/events/ICreateEventUseCase";
-import { IEventMapper } from "../../../interface/organizer/events/IEventMapper";
+import { ICreateEventUseCase } from "../../../interface/useCases/organizer/events/ICreateEventUseCase";
+import { IEventMapper } from "../../../interface/useCases/organizer/events/IEventMapper";
 
 
 export class CreateEventUseCase implements ICreateEventUseCase {
@@ -14,8 +14,8 @@ export class CreateEventUseCase implements ICreateEventUseCase {
 
        const eventEntity = this._eventMapper.toEntity(data);
 
-     const eventData =  await this._eventRepository.createEvent(eventEntity);
+      const eventData =  await this._eventRepository.createEvent(eventEntity);
 
-     return this._eventMapper.toResponseDTO(eventData);
+    return this._eventMapper.toResponseDTO(eventData);
    }
 }

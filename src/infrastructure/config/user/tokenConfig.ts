@@ -1,4 +1,4 @@
-import { ITokenConfig } from "../../../application/interface/user/ITokenConfig";
+import { ITokenConfig } from "../../../application/interface/useCases/user/ITokenConfig";
 import { CustomError } from "../../errors/errorClass";
 import { HttpStatusCode } from "../../interface/enums/HttpStatusCode";
 import dotenv from "dotenv";

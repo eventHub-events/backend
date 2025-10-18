@@ -1,7 +1,7 @@
-import { ITokenService } from "../../../application/interface/user/ITokenService";
+import { ITokenService } from "../../../application/interface/useCases/user/ITokenService";
 import jwt from "jsonwebtoken";
 import { IUserTokenPayload } from "../../interface/IUserTokenPayload";
-import { ITokenConfig } from "../../../application/interface/user/ITokenConfig";
+import { ITokenConfig } from "../../../application/interface/useCases/user/ITokenConfig";
 
 
 export class JWTToken implements ITokenService{

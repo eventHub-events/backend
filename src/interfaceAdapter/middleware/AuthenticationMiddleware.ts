@@ -1,9 +1,9 @@
 import { NextFunction, Response } from "express";
-import { IAuthMiddleware } from "../../application/interface/user/IAuthMiddleware";
+import { IAuthMiddleware } from "../../application/interface/useCases/user/IAuthMiddleware";
 import { HttpStatusCode } from "../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../infrastructure/commonResponseModel/ApiResponse";
 import { IAuthenticatedRequest } from "../../infrastructure/interface/IAuthenticatedRequest";
-import { IRefreshTokenUseCase } from "../../application/interface/user/IRefreshTokenUseCase";
+import { IRefreshTokenUseCase } from "../../application/interface/useCases/user/IRefreshTokenUseCase";
 
 export class AuthenticationMiddleWare {
   constructor(

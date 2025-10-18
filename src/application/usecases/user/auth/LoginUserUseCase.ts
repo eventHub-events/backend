@@ -2,9 +2,9 @@ import { IUserRepository } from "../../../../domain/repositories/user/IUserRepos
 import { IUserLoginResponse } from "../../../../domain/types/IUserLoginResponse";
 
 import { IUserTokenPayload } from "../../../../infrastructure/interface/IUserTokenPayload";
-import { IHashService } from "../../../interface/user/IHashService";
-import { ILoginUserUseCase } from "../../../interface/user/ILoginUserUseCase";
-import { ITokenService } from "../../../interface/user/ITokenService";
+import { IHashService } from "../../../interface/useCases/user/IHashService";
+import { ILoginUserUseCase } from "../../../interface/useCases/user/ILoginUserUseCase";
+import { ITokenService } from "../../../interface/useCases/user/ITokenService";
 
 export class LoginUserUseCase implements ILoginUserUseCase {
   constructor(

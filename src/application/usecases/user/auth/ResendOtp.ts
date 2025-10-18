@@ -1,6 +1,6 @@
-import { IEmailService } from '../../../interface/user/IEmailService';
-import { IGenerateOtpUseCase } from '../../../interface/user/IGenerateOtpUseCase';
-import { IResendOtpUseCase } from '../../../interface/user/IResendOtpUseCase';
+import { IEmailService } from '../../../interface/useCases/user/IEmailService';
+import { IGenerateOtpUseCase } from '../../../interface/useCases/user/IGenerateOtpUseCase';
+import { IResendOtpUseCase } from '../../../interface/useCases/user/IResendOtpUseCase';
 
 
 export class ResendOtpUseCase implements IResendOtpUseCase {

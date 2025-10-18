@@ -3,9 +3,9 @@ import { UserRegisterResponseDTO } from '../../../../domain/DTOs/user/UserRegist
 import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
 import { CustomError } from '../../../../infrastructure/errors/errorClass';
 import { HttpStatusCode } from '../../../../infrastructure/interface/enums/HttpStatusCode';
-import { IEmailService } from '../../../interface/user/IEmailService';
-import { IGenerateOtpUseCase } from '../../../interface/user/IGenerateOtpUseCase';
-import { IRegisterUserUseCase } from '../../../interface/user/IRegisterUserUsecase';
+import { IEmailService } from '../../../interface/useCases/user/IEmailService';
+import { IGenerateOtpUseCase } from '../../../interface/useCases/user/IGenerateOtpUseCase';
+import { IRegisterUserUseCase } from '../../../interface/useCases/user/IRegisterUserUsecase';
 
 
 

@@ -4,7 +4,7 @@ import { UploadDocumentDTO } from "../../../domain/DTOs/organizer/DocumentDTO";
 import { UpdateDocumentRequestDTO } from "../../../domain/DTOs/organizer/UpdateDocumentRequestDto";
 import { UploadDocument } from "../../../domain/entities/organizer/Document";
 
-import { IOrganizerUploadDocumentMapper } from "../../interface/admin/IOrganizerUploadDocumentMapper";
+import { IOrganizerUploadDocumentMapper } from "../../interface/useCases/admin/IOrganizerUploadDocumentMapper";
 
 
 export class OrganizerUploadDocumentMapper implements IOrganizerUploadDocumentMapper {

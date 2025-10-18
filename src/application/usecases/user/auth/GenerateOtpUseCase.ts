@@ -1,6 +1,6 @@
 import { UserRegisterDTO } from '../../../../domain/DTOs/user/RegisterUserDTO';
 import { IOtpService } from '../../../../infrastructure/interface/IOtpService';
-import { IGenerateOtpUseCase } from '../../../interface/user/IGenerateOtpUseCase';
+import { IGenerateOtpUseCase } from '../../../interface/useCases/user/IGenerateOtpUseCase';
 
 export class GenerateOtpUseCase implements IGenerateOtpUseCase {
   constructor(private _otpService:IOtpService) {}

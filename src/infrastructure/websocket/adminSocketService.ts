@@ -2,7 +2,7 @@ import { Socket ,Server, Namespace} from "socket.io";
 import { BaseSocketService } from "./baseSocketService";
 import http from "http";
 
-import { IUserManagementUseCase } from "../../application/interface/admin/IUserManagementUseCase";
+import { IUserManagementUseCase } from "../../application/interface/useCases/admin/IUserManagementUseCase";
 
 export class AdminSocketService extends BaseSocketService  {
   private _ioServer:Server;

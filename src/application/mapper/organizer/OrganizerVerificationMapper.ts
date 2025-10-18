@@ -7,7 +7,7 @@ import { UploadDocument } from "../../../domain/entities/organizer/Document";
 import { OrganizerProfile } from "../../../domain/entities/organizer/OrganizerProfile";
 import { User } from "../../../domain/entities/User";
 import { OrganizerProfileWithUser } from "../../../domain/types/OrganizerTypes";
-import { IOrganizerVerificationMapper } from "../../interface/admin/IOrganizerVerificationMapper";
+import { IOrganizerVerificationMapper } from "../../interface/useCases/admin/IOrganizerVerificationMapper";
 
 export class OrganizerVerificationMapper implements IOrganizerVerificationMapper {
 

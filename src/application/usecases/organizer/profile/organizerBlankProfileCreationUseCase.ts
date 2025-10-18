@@ -7,7 +7,7 @@ import { IOrganizerProfileRepository } from "../../../../domain/repositories/org
 // import { IOrganizerProfile } from "../../../infrastructure/db/models/organizer/profile/OrganizerProfile";
 import { CustomError } from "../../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../../infrastructure/interface/enums/HttpStatusCode";
-import { IOrganizerBlankProfileCreationUseCase } from "../../../interface/organizer/IOrganizerBlankProfileCreationUseCase";
+import { IOrganizerBlankProfileCreationUseCase } from "../../../interface/useCases/organizer/IOrganizerBlankProfileCreationUseCase";
 import { OrganizerProfileMapper } from "../../../mapper/organizer/OrganizerProfileMapper";
 
 

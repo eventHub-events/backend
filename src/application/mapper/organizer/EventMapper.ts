@@ -3,7 +3,7 @@ import { EventCreationRequestDTO } from "../../../domain/DTOs/organizer/events/E
 import { EventResponseDTO } from "../../../domain/DTOs/organizer/events/EventResponseDTO";
 import { EventUpdateDTO } from "../../../domain/DTOs/organizer/events/EventUpdateDTO";
 import { EventEntity } from "../../../domain/entities/organizer/EventEntity";
-import { IEventMapper } from "../../interface/organizer/events/IEventMapper";
+import { IEventMapper } from "../../interface/useCases/organizer/events/IEventMapper";
 
 export class EventMapper implements IEventMapper  {
 

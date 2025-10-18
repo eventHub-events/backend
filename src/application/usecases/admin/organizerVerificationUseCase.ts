@@ -11,8 +11,8 @@ import { IUserQueryRepository } from "../../../domain/repositories/user/IUserQue
 import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
 import { KycStatus } from "../../../infrastructure/db/models/user/UserModel";
 import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
-import { IOrganizerVerificationMapper } from "../../interface/admin/IOrganizerVerificationMapper";
-import { IOrganizerVerificationUseCase } from "../../interface/admin/IOrganizerVerificationUseCase";
+import { IOrganizerVerificationMapper } from "../../interface/useCases/admin/IOrganizerVerificationMapper";
+import { IOrganizerVerificationUseCase } from "../../interface/useCases/admin/IOrganizerVerificationUseCase";
 
 
 export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCase{

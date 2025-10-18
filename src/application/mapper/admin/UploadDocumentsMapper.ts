@@ -3,8 +3,8 @@ import { UserWithDocumentsResponseDTO } from "../../../domain/DTOs/admin/UserWit
 import { UserResponseDTO } from "../../../domain/DTOs/user/UserResponseDTO";
 import { UploadDocument } from "../../../domain/entities/organizer/Document";
 import { User } from "../../../domain/entities/User";
-import { IOrganizerUploadDocumentMapper } from "../../interface/admin/IOrganizerUploadDocumentMapper";
-import { IUploadDocumentsMapper } from "../../interface/organizer/IUploadDocumentsMapper";
+import { IOrganizerUploadDocumentMapper } from "../../interface/useCases/admin/IOrganizerUploadDocumentMapper";
+import { IUploadDocumentsMapper } from "../../interface/useCases/organizer/IUploadDocumentsMapper";
 
 export class UploadDocumentsMapper implements IUploadDocumentsMapper {
 

@@ -1,5 +1,5 @@
 import { IProfileCreator } from "../../../interface/common/IProfileCreator";
-import { IOrganizerBlankProfileCreationUseCase } from "../../../interface/organizer/IOrganizerBlankProfileCreationUseCase";
+import { IOrganizerBlankProfileCreationUseCase } from "../../../interface/useCases/organizer/IOrganizerBlankProfileCreationUseCase";
 
 export class  OrganizerProfileCreator implements IProfileCreator {
 constructor(

@@ -6,9 +6,9 @@ import { CustomError } from "../../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../../infrastructure/interface/enums/HttpStatusCode";
 import { ICacheService } from "../../../../infrastructure/interface/ICacheService";
 import { ILoggerService } from "../../../interface/common/ILoggerService";
-import { IEmailService } from "../../../interface/user/IEmailService";
-import { IForgetPasswordUseCase } from "../../../interface/user/IForgetPasswordUsecase";
-import { IGenerateOtpUseCase } from "../../../interface/user/IGenerateOtpUseCase";
+import { IEmailService } from "../../../interface/useCases/user/IEmailService";
+import { IForgetPasswordUseCase } from "../../../interface/useCases/user/IForgetPasswordUsecase";
+import { IGenerateOtpUseCase } from "../../../interface/useCases/user/IGenerateOtpUseCase";
 
 
 export class ForgetPasswordUseCase implements IForgetPasswordUseCase {

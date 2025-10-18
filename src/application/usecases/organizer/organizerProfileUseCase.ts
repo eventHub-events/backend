@@ -6,7 +6,7 @@ import { IUserRepository } from "../../../domain/repositories/user/IUserReposito
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { organizerProfileSchema } from "../../../infrastructure/validation/schemas/organizer/organizerProfileSchema";
-import { IOrganizerProfileUseCase } from "../../interface/organizer/IOrganizerProfileUseCase";
+import { IOrganizerProfileUseCase } from "../../interface/useCases/organizer/IOrganizerProfileUseCase";
 import { OrganizerProfileMapper } from "../../mapper/organizer/OrganizerProfileMapper";
 
 export class  OrganizerProfileUseCase implements IOrganizerProfileUseCase{

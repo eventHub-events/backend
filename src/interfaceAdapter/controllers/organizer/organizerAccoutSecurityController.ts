@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { IOrganizerAccountSecurityUseCase } from "../../../application/interface/organizer/IOrganizerAccountSecurityUseCase";
+import { IOrganizerAccountSecurityUseCase } from "../../../application/interface/useCases/organizer/IOrganizerAccountSecurityUseCase";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
