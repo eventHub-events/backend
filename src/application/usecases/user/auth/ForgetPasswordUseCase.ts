@@ -1,5 +1,5 @@
-import { ForgetPasswordDTO } from "../../../../domain/dtos/user/ForgetPasswordDTO";
-import { ForgetPasswordResponseDTO } from "../../../../domain/dtos/user/ForgetPasswordResponseDTO";
+import { ForgetPasswordDTO } from "../../../../domain/DTOs/user/ForgetPasswordDTO";
+import { ForgetPasswordResponseDTO } from "../../../../domain/DTOs/user/ForgetPasswordResponseDTO";
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
 import { RESETPASSWORD_OTP_TLL } from "../../../../infrastructure/constants/forgetPassword";
 import { CustomError } from "../../../../infrastructure/errors/errorClass";

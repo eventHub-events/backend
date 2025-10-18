@@ -1,4 +1,4 @@
-import { UserRegisterDTO } from '../../../../domain/dtos/user/RegisterUserDTO';
+import { UserRegisterDTO } from '../../../../domain/DTOs/user/RegisterUserDTO';
 import { IOtpService } from '../../../../infrastructure/interface/IOtpService';
 import { IGenerateOtpUseCase } from '../../../interface/user/IGenerateOtpUseCase';
 

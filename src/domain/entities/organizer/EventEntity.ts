@@ -16,6 +16,7 @@ import { IWaitingListEntry } from "../../valueObject/organizer/WaitingListEntry"
      public endDate: Date;
      public images: string[];
      public tickets: ITicketTier[];
+     public eventId?:  Types.ObjectId;
      public status?: EventStatus;
      public ticketsSold?: number;
      public totalRevenue?: number;
@@ -55,6 +56,7 @@ import { IWaitingListEntry } from "../../valueObject/organizer/WaitingListEntry"
     endDate: Date;
     images: string[];
     tickets: ITicketTier[];
+    eventId?: Types.ObjectId;
     status?: EventStatus;
     ticketsSold?: number;
     totalRevenue?: number;
@@ -94,6 +96,7 @@ import { IWaitingListEntry } from "../../valueObject/organizer/WaitingListEntry"
     this.saleEndDate = props.saleEndDate;
     this.images = props.images;
     this.tickets = props.tickets;
+    this.eventId = props.eventId;
     this.status = props.status || EventStatus.Draft;
     this.ticketsSold = props.ticketsSold || 0;
     this.totalRevenue = props.totalRevenue || 0;

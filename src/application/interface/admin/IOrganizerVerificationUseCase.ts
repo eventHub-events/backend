@@ -1,9 +1,9 @@
-import { UpdateOrganizerOverallVerificationStatusDTO } from "../../../domain/dtos/admin/OrganizerOverallVerificationDTO";
-import { OrganizerVerificationResponseDTO } from "../../../domain/dtos/admin/OrganizerVerificationResponseDTO";
-import { UpdatedUploadDocumentResponseDTO } from "../../../domain/dtos/admin/UpdatedUploadedDocumentDTO";
-import { UploadDocumentUpdateDTO } from "../../../domain/dtos/admin/UploadDocumentUpdationDTO";
-import { CompleteOrganizerDetailResponseDTO } from "../../../domain/dtos/admin/UserWithOrganizerProfileDTO";
-import { UserResponseDTO } from "../../../domain/dtos/user/UserResponseDTO";
+import { UpdateOrganizerOverallVerificationStatusDTO } from "../../../domain/DTOs/admin/OrganizerOverallVerificationDTO";
+import { OrganizerVerificationResponseDTO } from "../../../domain/DTOs/admin/OrganizerVerificationResponseDTO";
+import { UpdatedUploadDocumentResponseDTO } from "../../../domain/DTOs/admin/UpdatedUploadedDocumentDTO";
+import { UploadDocumentUpdateDTO } from "../../../domain/DTOs/admin/UploadDocumentUpdationDTO";
+import { CompleteOrganizerDetailResponseDTO } from "../../../domain/DTOs/admin/UserWithOrganizerProfileDTO";
+import { UserResponseDTO } from "../../../domain/DTOs/user/UserResponseDTO";
 
 
 export interface IOrganizerVerificationUseCase{

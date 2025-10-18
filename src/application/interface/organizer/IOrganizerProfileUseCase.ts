@@ -1,6 +1,6 @@
-import { OrganizerProfileDTO } from "../../../domain/dtos/organizer/OrganizerProfileDTO";
-import { UpdatedOrganizerProfileFormResponseDTO } from "../../../domain/dtos/organizer/OrganizerProfileFormDTO";
-import { OrganizerProfileResponseDTO } from "../../../domain/dtos/organizer/OrganizerProfileResponseDTO";
+import { OrganizerProfileDTO } from "../../../domain/DTOs/organizer/OrganizerProfileDTO";
+import { UpdatedOrganizerProfileFormResponseDTO } from "../../../domain/DTOs/organizer/OrganizerProfileFormDTO";
+import { OrganizerProfileResponseDTO } from "../../../domain/DTOs/organizer/OrganizerProfileResponseDTO";
 
 
 export interface IOrganizerProfileUseCase{

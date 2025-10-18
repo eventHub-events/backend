@@ -1,8 +1,8 @@
 
 
-import { UserResponseDTO } from '../../dtos/user/UserResponseDTO';
+import { UserResponseDTO } from '../../DTOs/user/UserResponseDTO';
 import { User } from '../../entities/User';
-import { PaginationDTO } from '../../dtos/common/PaginationDTO';
+import { PaginationDTO } from '../../DTOs/common/PaginationDTO';
 import { FilterQuery } from 'mongoose';
 import { IUserDocument } from '../../../infrastructure/db/models/user/UserModel';
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserRegisterDTO } from "../../../domain/dtos/user/RegisterUserDTO";
+import { UserRegisterDTO } from "../../../domain/DTOs/user/RegisterUserDTO";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 
 import { IRegisterUserUseCase } from "../../../application/interface/user/IRegisterUserUsecase";

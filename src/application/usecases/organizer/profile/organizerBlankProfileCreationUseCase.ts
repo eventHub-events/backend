@@ -1,4 +1,4 @@
-import { BlankOrganizerProfileDTO } from "../../../../domain/dtos/organizer/BlackOrganizerProfileDTO";
+import { BlankOrganizerProfileDTO } from "../../../../domain/DTOs/organizer/BlackOrganizerProfileDTO";
 // import { OrganizerProfileDTO } from "../../../domain/dtos/organizer/OrganizerProfileDTO";
 // import { OrganizerProfileResponseDTO } from "../../../domain/dtos/organizer/OrganizerProfileResponseDTO";
 

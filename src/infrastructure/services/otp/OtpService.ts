@@ -4,7 +4,7 @@ import { IOtpService } from '../../interface/IOtpService';
 import crypto from "crypto"
 
 import { IHashService } from '../../../application/interface/user/IHashService';
-import { UserRegisterDTO } from '../../../domain/dtos/user/RegisterUserDTO';
+import { UserRegisterDTO } from '../../../domain/DTOs/user/RegisterUserDTO';
 
 
 export class OtpService implements IOtpService {

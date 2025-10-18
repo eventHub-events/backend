@@ -1,8 +1,8 @@
-import { UpdateOrganizerOverallVerificationStatusDTO } from "../../../domain/dtos/admin/OrganizerOverallVerificationDTO";
-import { OrganizerVerificationResponseDTO } from "../../../domain/dtos/admin/OrganizerVerificationResponseDTO";
-import { UpdatedUploadDocumentResponseDTO } from "../../../domain/dtos/admin/UpdatedUploadedDocumentDTO";
-import { UploadDocumentUpdateDTO } from "../../../domain/dtos/admin/UploadDocumentUpdationDTO";
-import { CompleteOrganizerDetailResponseDTO } from "../../../domain/dtos/admin/UserWithOrganizerProfileDTO";
+import { UpdateOrganizerOverallVerificationStatusDTO } from "../../../domain/DTOs/admin/OrganizerOverallVerificationDTO";
+import { OrganizerVerificationResponseDTO } from "../../../domain/DTOs/admin/OrganizerVerificationResponseDTO";
+import { UpdatedUploadDocumentResponseDTO } from "../../../domain/DTOs/admin/UpdatedUploadedDocumentDTO";
+import { UploadDocumentUpdateDTO } from "../../../domain/DTOs/admin/UploadDocumentUpdationDTO";
+import { CompleteOrganizerDetailResponseDTO } from "../../../domain/DTOs/admin/UserWithOrganizerProfileDTO";
 import { UploadDocument } from "../../../domain/entities/organizer/Document";
 import { OrganizerProfile } from "../../../domain/entities/organizer/OrganizerProfile";
 import { User } from "../../../domain/entities/User";

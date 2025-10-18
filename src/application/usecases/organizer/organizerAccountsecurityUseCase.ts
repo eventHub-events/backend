@@ -1,5 +1,5 @@
 
-import { OrganizerChangePasswordDTO } from "../../../domain/dtos/organizer/OrganizerChangePasswordDTO";
+import { OrganizerChangePasswordDTO } from "../../../domain/DTOs/organizer/OrganizerChangePasswordDTO";
 import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";

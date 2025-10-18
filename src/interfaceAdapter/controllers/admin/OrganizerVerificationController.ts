@@ -3,7 +3,7 @@ import { IOrganizerVerificationUseCase } from "../../../application/interface/ad
 import { HttpStatusCode } from "axios";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
-import { UpdateOrganizerOverallVerificationStatusDTO } from "../../../domain/dtos/admin/OrganizerOverallVerificationDTO";
+import { UpdateOrganizerOverallVerificationStatusDTO } from "../../../domain/DTOs/admin/OrganizerOverallVerificationDTO";
 import { ZodError } from "zod";
 
 export class OrganizerVerificationController {

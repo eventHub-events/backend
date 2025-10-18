@@ -1,5 +1,5 @@
-import { UploadDocumentResponseDTO } from "../../../domain/dtos/admin/UploadDocumentResponseDTO";
-import { UserWithDocumentsResponseDTO } from "../../../domain/dtos/admin/UserWithDocumentsResponseDTO";
+
+import { UserWithDocumentsResponseDTO } from "../../../domain/DTOs/admin/UserWithDocumentsResponseDTO";
 import { UploadDocument } from "../../../domain/entities/organizer/Document";
 import { User } from "../../../domain/entities/User";
 

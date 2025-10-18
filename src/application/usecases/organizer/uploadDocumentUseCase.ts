@@ -1,7 +1,7 @@
-import { UploadDocumentResponseDTO } from "../../../domain/dtos/admin/UploadDocumentResponseDTO";
-import { UserWithDocumentsResponseDTO } from "../../../domain/dtos/admin/UserWithDocumentsResponseDTO";
-import { UploadDocumentDTO } from "../../../domain/dtos/organizer/DocumentDTO";
-import { UpdateDocumentRequestDTO } from "../../../domain/dtos/organizer/UpdateDocumentRequestDto";
+import { UploadDocumentResponseDTO } from "../../../domain/DTOs/admin/UploadDocumentResponseDTO";
+import { UserWithDocumentsResponseDTO } from "../../../domain/DTOs/admin/UserWithDocumentsResponseDTO";
+import { UploadDocumentDTO } from "../../../domain/DTOs/organizer/DocumentDTO";
+import { UpdateDocumentRequestDTO } from "../../../domain/DTOs/organizer/UpdateDocumentRequestDto";
 import { IUploadDocumentRepository } from "../../../domain/repositories/organizer/IUploadDocumentRepository";
 import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
 import { CustomError } from "../../../infrastructure/errors/errorClass";

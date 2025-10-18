@@ -1,5 +1,5 @@
-import { UserRegisterDTO } from '../../../domain/dtos/user/RegisterUserDTO';
-import { UserRegisterResponseDTO } from '../../../domain/dtos/user/UserRegisterResponseDTO';
+import { UserRegisterDTO } from '../../../domain/DTOs/user/RegisterUserDTO';
+import { UserRegisterResponseDTO } from '../../../domain/DTOs/user/UserRegisterResponseDTO';
 
 export interface IRegisterUserUseCase {
   execute(data: UserRegisterDTO): Promise< UserRegisterResponseDTO >;

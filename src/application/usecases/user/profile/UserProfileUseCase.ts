@@ -1,5 +1,5 @@
-import { UserProfileEditRequestDTO } from "../../../../domain/dtos/user/profile/UserProfileEditRequestDTO";
-import { UserProfileResponseDTO } from "../../../../domain/dtos/user/profile/UserProfileResponseDTO";
+import { UserProfileEditRequestDTO } from "../../../../domain/DTOs/user/profile/UserProfileEditRequestDTO";
+import { UserProfileResponseDTO } from "../../../../domain/DTOs/user/profile/UserProfileResponseDTO";
 import {  ForbiddenError } from "../../../../domain/errors/userProfile";
 import { IUserProfileRepository } from "../../../../domain/repositories/user/IUserProfileRepository";
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";

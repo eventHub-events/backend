@@ -1,5 +1,5 @@
-import { CategoryEditRequestDTO } from "../../../../domain/dtos/admin/category/CategoryEditRequestDTO";
-import { CategoryResponseDTO } from "../../../../domain/dtos/admin/category/CategoryResponseDTO";
+import { CategoryEditRequestDTO } from "../../../../domain/DTOs/admin/category/CategoryEditRequestDTO";
+import { CategoryResponseDTO } from "../../../../domain/DTOs/admin/category/CategoryResponseDTO";
 import { ICategoryRepository } from "../../../../domain/repositories/admin/ICategoryRepository";
 import { IEditCategoryUseCase } from "../../../interface/admin/category/IEditCategoryUseCase";
 import { ICategoryMapper } from "../../../interface/mapper/admin/ICategoryMapper";

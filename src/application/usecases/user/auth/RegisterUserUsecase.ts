@@ -1,5 +1,5 @@
-import { UserRegisterDTO } from '../../../../domain/dtos/user/RegisterUserDTO';
-import { UserRegisterResponseDTO } from '../../../../domain/dtos/user/UserRegisterResponseDTO';
+import { UserRegisterDTO } from '../../../../domain/DTOs/user/RegisterUserDTO';
+import { UserRegisterResponseDTO } from '../../../../domain/DTOs/user/UserRegisterResponseDTO';
 import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
 import { CustomError } from '../../../../infrastructure/errors/errorClass';
 import { HttpStatusCode } from '../../../../infrastructure/interface/enums/HttpStatusCode';
