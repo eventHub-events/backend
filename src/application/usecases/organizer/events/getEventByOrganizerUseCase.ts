@@ -3,7 +3,7 @@ import { IEventRepository } from "../../../../domain/repositories/organizer/IEve
 import { IEventMapper } from "../../../interface/useCases/organizer/events/IEventMapper";
 import {  IGetEventByOrganizerUseCase } from "../../../interface/useCases/organizer/events/IGetEventByOrganizer";
 
-export class GetEventByOrganizer implements IGetEventByOrganizerUseCase {
+export class GetEventByOrganizerUseCase implements IGetEventByOrganizerUseCase {
     constructor(
        private _eventRepository: IEventRepository,
        private _eventMapper: IEventMapper

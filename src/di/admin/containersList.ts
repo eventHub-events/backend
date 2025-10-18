@@ -1,7 +1,7 @@
 import { OrganizerVerificationMapper } from "../../application/mapper/organizer/OrganizerVerificationMapper";
-import { DownloadPdfUseCase } from "../../application/usecases/admin/downloadPdfUseCase";
-import { FetchUserUseCase } from "../../application/usecases/admin/fetchUsersUsecase";
-import { OrganizerVerificationUseCase } from "../../application/usecases/admin/organizerVerificationUseCase";
+import { DownloadPdfUseCase } from "../../application/useCases/admin/downloadPdfUseCase";
+import { FetchUserUseCase } from "../../application/useCases/admin/fetchUsersUsecase";
+import { OrganizerVerificationUseCase } from "../../application/useCases/admin/organizerVerificationUseCase";
 import { UserQueryRepository } from "../../infrastructure/repositories/UserQueryRepository";
 
 import { PdfService } from "../../infrastructure/services/pdfService/pdfService";
