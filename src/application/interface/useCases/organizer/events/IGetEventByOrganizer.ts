@@ -1,5 +1,5 @@
 import { EventResponseDTO } from "../../../../../domain/DTOs/organizer/events/EventResponseDTO";
 
-export interface IGetEventByOrganizer {
+export interface IGetEventByOrganizerUseCase {
   execute(organizerId: string): Promise<EventResponseDTO[]>;
 }

@@ -1,9 +1,9 @@
 import { EventResponseDTO } from "../../../../domain/DTOs/organizer/events/EventResponseDTO";
 import { IEventRepository } from "../../../../domain/repositories/organizer/IEventsRepository";
 import { IEventMapper } from "../../../interface/useCases/organizer/events/IEventMapper";
-import { IGetEventByOrganizer } from "../../../interface/useCases/organizer/events/IGetEventByOrganizer";
+import {  IGetEventByOrganizerUseCase } from "../../../interface/useCases/organizer/events/IGetEventByOrganizer";
 
-export class GetEventByOrganizer implements IGetEventByOrganizer {
+export class GetEventByOrganizer implements IGetEventByOrganizerUseCase {
     constructor(
        private _eventRepository: IEventRepository,
        private _eventMapper: IEventMapper
