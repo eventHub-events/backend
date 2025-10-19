@@ -19,6 +19,8 @@ toDomain(dbModel: EventsDbModel): EventEntity {
          tickets: dbModel.tickets,
          eventId: dbModel._id,
          status: dbModel.status,
+         startTime: dbModel.startTime,
+         endTime: dbModel.endTime,
          ticketsSold: dbModel.ticketsSold,
          totalRevenue: dbModel.totalRevenue,
          platformCommission: dbModel.platformCommission,

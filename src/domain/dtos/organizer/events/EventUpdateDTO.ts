@@ -13,6 +13,8 @@ export interface EventUpdateDTO {
       totalCapacity?: number;
       startDate?: Date;
       endDate?: Date;
+      startTime?: string;
+      endTime?: string;
       images?: string[];
       tickets?: ITicketTier[];
       featured?: boolean;

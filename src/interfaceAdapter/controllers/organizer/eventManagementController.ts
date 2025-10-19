@@ -8,7 +8,7 @@ import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 
-export class EventManagementController {
+export class EventManagementController {                                                                                                  
   constructor(
        private _createEventUseCase: ICreateEventUseCase,
        private _updateEventUseCase: IUpdateEventUseCase,
@@ -18,6 +18,7 @@ export class EventManagementController {
   async createEvent(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
      try{
            const dto: EventCreationRequestDTO = req.body;
+           console.log("dto-hi",dto)
            if(!dto) throw new CustomError("Event Details is required", HttpStatusCode.BAD_REQUEST);
 
           const eventData =  await this._createEventUseCase.execute(dto);
@@ -48,7 +49,8 @@ export class EventManagementController {
 
 async Delete(req: Request, res: Response, next: NextFunction): Promise<void> {
   try{
-     const { eventId}  = req.params;
+    const { eventId}  = req.params;
+    console.log("eventId", eventId)
        if(!eventId) throw new CustomError("EventId is required", HttpStatusCode.BAD_REQUEST);
 
        const  result = await this._deleteEventUseCase.execute(eventId);

@@ -12,7 +12,10 @@ export interface EventResponseDTO {
   totalCapacity: number;
   startDate: Date;
   endDate: Date;
+  eventId?: string;
   images: string[];
+  startTime?: string;
+  endTime?: string;
   tickets: ITicketTier[];
   featured?: boolean;
   approved?: boolean;

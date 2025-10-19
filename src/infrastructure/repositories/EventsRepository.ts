@@ -31,14 +31,14 @@ export class EventRepository extends BaseRepository<IEvent> implements IEventRep
       
    }
 
-   async findEventsByOrganizerId(organizerId: string): Promise<EventEntity[]> {
+   async findEventsByOrganizerId(organizerId: string, filter: Partial<EventEntity>={}): Promise<EventEntity[]> {
 
-      const eventsDoc = await super.findAll({organizerId}) as EventsDbModel[];
+      const eventsDoc = await super.findAll({organizerId,... filter}) as EventsDbModel[];
         if(!eventsDoc || eventsDoc.length=== 0) throw new Error("Events not found");
       return this._eventEntityMapper.toDomainList(eventsDoc);
 
    }
-   async findAllEvents(): Promise<EventEntity[]> {
+   async findAllEvents(filter: Partial<EventEntity>={}): Promise<EventEntity[]> {
       const eventDocs = await super.findAll() as EventsDbModel[];
        if(!eventDocs || EventSource.length === 0)  throw new Error("Events not found");
 
@@ -48,7 +48,7 @@ export class EventRepository extends BaseRepository<IEvent> implements IEventRep
    async findEventById(eventId: string): Promise<EventEntity | null> {
 
        const eventDoc = await super.findById(eventId) as EventsDbModel;
-       if(!eventDoc || EventSource.length === 0) throw new Error("Event not found");
+       if(!eventDoc ) throw new Error("Event not found");
         return this._eventEntityMapper.toDomain(eventDoc);
        
    }

@@ -42,6 +42,8 @@ import { IWaitingListEntry } from "../../valueObject/organizer/WaitingListEntry"
      public reviewCount?: number;
      public createdAt?: Date;
      public updatedAt?: Date;
+     public startTime?: string;
+     public endTime?: string
 
 
    constructor(props: {
@@ -58,6 +60,8 @@ import { IWaitingListEntry } from "../../valueObject/organizer/WaitingListEntry"
     tickets: ITicketTier[];
     eventId?: Types.ObjectId;
     status?: EventStatus;
+    startTime?: string;
+    endTime?: string;
     ticketsSold?: number;
     totalRevenue?: number;
     platformCommission?: number;
@@ -137,6 +141,9 @@ import { IWaitingListEntry } from "../../valueObject/organizer/WaitingListEntry"
   public unblock(){
      this.isBlocked = false;
      this.blockedReason= "";
+  }
+  public delete(){
+    this.isDeleted = true
   }
 
 

@@ -26,7 +26,9 @@ export interface IEvent extends Document {
   totalRevenue: number;
   platformCommission: number;
   organizerEarnings: number;
-  featured: boolean;
+  featured?: boolean;
+  startTime?: string;
+  endTime?: string;
   approved?: boolean;
   flaggedReason: string;
   saleStartDate?: Date;
@@ -117,6 +119,12 @@ const EventSchema = new Schema<IEvent>({
   featured : {
      type: Boolean,
      default: false
+    },
+    startTime: {
+       type: String
+    },
+    endTime: {
+       type: String
     },
   ticketsSold: {
      type: Number,

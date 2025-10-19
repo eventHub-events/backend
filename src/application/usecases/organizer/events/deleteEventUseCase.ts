@@ -7,8 +7,13 @@ export class DeleteEventUseCase implements IDeleteEventUseCase {
      private  _eventRepository : IEventRepository
    ){}
  async  execute(eventId: string): Promise<string> {
-
-        await this._eventRepository.deleteEvent(eventId);
+  console.log("eventId", eventId)
+        const eventEntity= await this._eventRepository.findEventById(eventId);
+        if(!eventEntity) throw new Error("event not found")
+          eventEntity.delete();
+        console.log("ee",eventEntity)
+        
+        await this._eventRepository.updateEvent(eventId,eventEntity);
       return  "Event deleted  successfully";
   }
 }

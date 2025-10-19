@@ -30,6 +30,7 @@ export class EventRetrievalController {
   async getEventsByOrganizer(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
       try{
           const{ organizerId}  = req.params;
+          console.log("organizerId", organizerId)
           if(!organizerId) throw new CustomError("OrganizerId is required", HttpStatusCode.BAD_REQUEST);
 
           const events = await this._getByOrganizerIdUseCase.execute(organizerId);

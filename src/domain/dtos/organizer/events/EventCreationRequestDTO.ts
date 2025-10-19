@@ -14,6 +14,8 @@ export interface EventCreationRequestDTO {
     endDate: Date;
     images: string[];
     tickets: ITicketTier[];
+    startTime?: string;
+    endTime?: string;
     featured?: boolean;
     createdBy?: string;
     tags?:string[];
