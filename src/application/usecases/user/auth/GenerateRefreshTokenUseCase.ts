@@ -1,7 +1,7 @@
 
   import { IUserTokenPayload } from "../../../../infrastructure/interface/IUserTokenPayload";
-import { IRefreshTokenUseCase } from "../../../interface/user/IRefreshTokenUseCase";
-  import { ITokenService } from "../../../interface/user/ITokenService";
+import { IRefreshTokenUseCase } from "../../../interface/useCases/user/IRefreshTokenUseCase";
+  import { ITokenService } from "../../../interface/useCases/user/ITokenService";
 
   export class RefreshTokenUseCase implements IRefreshTokenUseCase{
     constructor(private _tokenService:ITokenService){}

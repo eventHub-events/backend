@@ -2,9 +2,9 @@
 import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
 import { IOtpService } from '../../../../infrastructure/interface/IOtpService';
 import { IProfileCreator } from '../../../interface/common/IProfileCreator';
-import { IHashService } from '../../../interface/user/IHashService';
-import { IUserMapper } from '../../../interface/user/mapper/IUserMapper';
-import { IVerifyOtpUseCase } from '../../../interface/user/IVerifyOtpUseCase';
+import { IHashService } from '../../../interface/useCases/user/IHashService';
+import { IUserMapper } from '../../../interface/useCases/user/mapper/IUserMapper';
+import { IVerifyOtpUseCase } from '../../../interface/useCases/user/IVerifyOtpUseCase';
 
 
 

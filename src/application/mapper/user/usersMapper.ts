@@ -1,7 +1,7 @@
-import { UserResponseDTO } from "../../../domain/dtos/user/UserResponseDTO";
+import { UserResponseDTO } from "../../../domain/DTOs/user/UserResponseDTO";
 import { IUserDocument } from "../../../infrastructure/db/models/user/UserModel";
-import { IUserMapper } from "../../interface/user/mapper/IUserMapper";
-import { IUsersMapper } from "../../interface/user/mapper/IUsersMapper";
+import { IUserMapper } from "../../interface/useCases/user/mapper/IUserMapper";
+import { IUsersMapper } from "../../interface/useCases/user/mapper/IUsersMapper";
 
 export  class UsersMapper implements IUsersMapper{
   constructor(private _userMapper:IUserMapper){}

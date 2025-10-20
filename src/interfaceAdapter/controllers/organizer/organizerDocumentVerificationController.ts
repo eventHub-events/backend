@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { IVerificationRequestUseCase } from "../../../application/interface/organizer/IVerificationRequestUseCase";
+import { IVerificationRequestUseCase } from "../../../application/interface/useCases/organizer/IVerificationRequestUseCase";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";

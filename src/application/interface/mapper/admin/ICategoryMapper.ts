@@ -1,6 +1,6 @@
-import { CategoryResponseDTO } from "../../../../domain/dtos/admin/category/CategoryResponseDTO";
-import { CreateCategoryRequestDTO } from "../../../../domain/dtos/admin/category/CreateCategoryRequestDTO";
-import { UpdateCategoryRequestDTO } from "../../../../domain/dtos/admin/category/UpdateCategoryRequestDTO";
+import { CategoryResponseDTO } from "../../../../domain/DTOs/admin/category/CategoryResponseDTO";
+import { CreateCategoryRequestDTO } from "../../../../domain/DTOs/admin/category/CreateCategoryRequestDTO";
+import { UpdateCategoryRequestDTO } from "../../../../domain/DTOs/admin/category/UpdateCategoryRequestDTO";
 import { CategoryEntity } from "../../../../domain/entities/admin/Category";
 
 

@@ -1,8 +1,8 @@
 import { Response, Request, NextFunction } from "express";
-import { ICreateCategoryUseCase } from "../../../application/interface/admin/category/ICreateCategoryUseCase";
-import { IDeleteCategoryUseCase } from "../../../application/interface/admin/category/IDeleteCategoryUseCase";
-import { IEditCategoryUseCase } from "../../../application/interface/admin/category/IEditCategoryUseCase";
-import { IFetchCategoryUseCase } from "../../../application/interface/admin/category/IFetchCategoryUseCase";
+import { ICreateCategoryUseCase } from "../../../application/interface/useCases/admin/category/ICreateCategoryUseCase";
+import { IDeleteCategoryUseCase } from "../../../application/interface/useCases/admin/category/IDeleteCategoryUseCase";
+import { IEditCategoryUseCase } from "../../../application/interface/useCases/admin/category/IEditCategoryUseCase";
+import { IFetchCategoryUseCase } from "../../../application/interface/useCases/admin/category/IFetchCategoryUseCase";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { CustomError } from "../../../infrastructure/errors/errorClass";

@@ -1,4 +1,4 @@
-import { IEmailService } from '../../../application/interface/user/IEmailService';
+import { IEmailService } from '../../../application/interface/useCases/user/IEmailService';
 
 export class EmailService {
   constructor(private _sendMailService:IEmailService) {}

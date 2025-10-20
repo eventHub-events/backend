@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IFetchUserUseCase } from "../../../application/interface/admin/IFetchUsersUseCase";
+import { IFetchUserUseCase } from "../../../application/interface/useCases/admin/IFetchUsersUseCase";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";

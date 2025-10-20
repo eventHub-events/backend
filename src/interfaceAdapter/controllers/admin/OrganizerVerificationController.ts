@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { IOrganizerVerificationUseCase } from "../../../application/interface/admin/IOrganizerVerificationUseCase";
+import { IOrganizerVerificationUseCase } from "../../../application/interface/useCases/admin/IOrganizerVerificationUseCase";
 import { HttpStatusCode } from "axios";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
-import { UpdateOrganizerOverallVerificationStatusDTO } from "../../../domain/dtos/admin/OrganizerOverallVerificationDTO";
+import { UpdateOrganizerOverallVerificationStatusDTO } from "../../../domain/DTOs/admin/OrganizerOverallVerificationDTO";
 import { ZodError } from "zod";
 
 export class OrganizerVerificationController {

@@ -1,4 +1,4 @@
-import { ILogoutUseCase } from "../../../interface/user/ILogoutUseCase";
+import { ILogoutUseCase } from "../../../interface/useCases/user/ILogoutUseCase";
 
 
 export class LogoutUserUseCase implements ILogoutUseCase{

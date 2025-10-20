@@ -1,14 +1,14 @@
-import { ChangePasswordDTO } from "../../../../domain/dtos/user/ChangePasswordDTO";
-import { UserResponseDTO } from "../../../../domain/dtos/user/UserResponseDTO";
+import { ChangePasswordDTO } from "../../../../domain/DTOs/user/ChangePasswordDTO";
+import { UserResponseDTO } from "../../../../domain/DTOs/user/UserResponseDTO";
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
 import { CustomError } from "../../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../../infrastructure/interface/enums/HttpStatusCode";
 import { userForgetPassWordSchema } from "../../../../infrastructure/validation/schemas/changePasswordSchema";
 import { ILoggerService } from "../../../interface/common/ILoggerService";
-import { IChangePasswordUseCase } from "../../../interface/user/IChangePasswordUsecase";
-import { IHashService } from "../../../interface/user/IHashService";
-import { ITokenService } from "../../../interface/user/ITokenService";
-import { IUserMapper } from "../../../interface/user/mapper/IUserMapper";
+import { IChangePasswordUseCase } from "../../../interface/useCases/user/IChangePasswordUsecase";
+import { IHashService } from "../../../interface/useCases/user/IHashService";
+import { ITokenService } from "../../../interface/useCases/user/ITokenService";
+import { IUserMapper } from "../../../interface/useCases/user/mapper/IUserMapper";
 
 export class ChangePasswordUseCase implements IChangePasswordUseCase{
   constructor(

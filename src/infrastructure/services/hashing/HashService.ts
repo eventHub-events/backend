@@ -1,4 +1,4 @@
-import { IHashService } from '../../../application/interface/user/IHashService';
+import { IHashService } from '../../../application/interface/useCases/user/IHashService';
 
 export class HashService {
   constructor(private _hashServiceAlgorithm:IHashService) {}

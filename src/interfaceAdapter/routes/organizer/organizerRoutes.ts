@@ -5,6 +5,7 @@ import { documentController, documentVerificationRequestController, organizerAcc
 import { ZodPasswordValidator } from "../../../infrastructure/middleware/zodValidator";
 import { passwordSchema } from "../../../infrastructure/validation/schemas/changePasswordSchema";
 import { passwordController } from "../../../di/common/commonContainers";
+import { eventManagementController, eventRetrievalController } from "../../../di/organizer/events/container";
 // import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
 
 
@@ -26,7 +27,19 @@ router.get("/uploaded-documents/:organizerId",(req: Request, res: Response, next
 router.delete("/uploaded-document/:documentId/deletion",(req: Request, res: Response, next:NextFunction) => documentController.deleteDocument(req,res,next));
 router.patch("/uploaded-documents/:documentId",(req: Request, res: Response, next: NextFunction) => documentController.updateDocument( req, res, next) )
 
-router.patch("/:organizerId/verification-request",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction ) =>  documentVerificationRequestController.completeVerificationRequest(req, res, next))
+router.patch("/:organizerId/verification-request",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction ) =>  documentVerificationRequestController.completeVerificationRequest(req, res, next));
+
+
+// Events Related //
+
+router.get("/events/:eventId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventRetrievalController.getEventById(req, res, next));
+router.get("/:organizerId/events", (req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventRetrievalController.getEventsByOrganizer(req, res, next));
+router.get("/events",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventRetrievalController.getAllEvents(req, res, next));
+router.post("/events",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest, res: Response, next: NextFunction)  => eventManagementController.createEvent(req, res, next));
+router.patch("/events/:eventId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest, res: Response, next: NextFunction)  => eventManagementController.editEvent(req, res, next));
+// for soft delete of events //
+router.delete("/events/:eventId/soft-delete", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventManagementController.Delete(req, res, next));
+router.patch("/events/:eventId/cancel", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventManagementController.cancel(req, res, next));
 
 
 

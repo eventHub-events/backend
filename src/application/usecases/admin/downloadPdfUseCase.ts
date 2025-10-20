@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { IPdfService } from "../../../infrastructure/interface/IPdfService";
-import { IDownloadPdfUseCase } from "../../interface/admin/IDownloadPdfUseCase";
+import { IDownloadPdfUseCase } from "../../interface/useCases/admin/IDownloadPdfUseCase";
 
 export class DownloadPdfUseCase implements IDownloadPdfUseCase{
   constructor(private _pdfService:IPdfService){}

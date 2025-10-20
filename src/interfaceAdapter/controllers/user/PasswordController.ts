@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { IForgetPasswordUseCase } from "../../../application/interface/user/IForgetPasswordUsecase";
+import { IForgetPasswordUseCase } from "../../../application/interface/useCases/user/IForgetPasswordUsecase";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
-import { IVerifyResetPasswordOtpUseCase } from "../../../application/interface/user/IResetPasswordOTPUseCase";
+import { IVerifyResetPasswordOtpUseCase } from "../../../application/interface/useCases/user/IResetPasswordOTPUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
-import { IChangePasswordUseCase } from "../../../application/interface/user/IChangePasswordUsecase";
+import { IChangePasswordUseCase } from "../../../application/interface/useCases/user/IChangePasswordUsecase";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 
 

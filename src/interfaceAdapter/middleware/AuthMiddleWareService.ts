@@ -1,7 +1,7 @@
 
 
-import { ITokenService } from "../../application/interface/user/ITokenService";
-import { IAuthMiddleware } from "../../application/interface/user/IAuthMiddleware";
+import { ITokenService } from "../../application/interface/useCases/user/ITokenService";
+import { IAuthMiddleware } from "../../application/interface/useCases/user/IAuthMiddleware";
 import { IDecodedUserPayload } from "../../domain/types/IDecodedUserPayload";
 
 export class AuthMiddlewareService implements IAuthMiddleware {

@@ -1,8 +1,8 @@
 import { CategoryMapper } from "../../../application/mapper/admin/CategoryMapper";
-import { CreateCategoryUseCase } from "../../../application/usecases/admin/category/createCategoryUseCase";
-import { DeleteCategoryUseCase } from "../../../application/usecases/admin/category/deleteCategoryUseCase";
-import { EditCategoryUseCase } from "../../../application/usecases/admin/category/editCategoryUseCase";
-import { FetchCategoryUseCase } from "../../../application/usecases/admin/category/fetchCategoryUseCase";
+import { CreateCategoryUseCase } from "../../../application/useCases/admin/category/createCategoryUseCase";
+import { DeleteCategoryUseCase } from "../../../application/useCases/admin/category/deleteCategoryUseCase";
+import { EditCategoryUseCase } from "../../../application/useCases/admin/category/editCategoryUseCase";
+import { FetchCategoryUseCase } from "../../../application/useCases/admin/category/fetchCategoryUseCase";
 import { CategoryEntityFactory } from "../../../infrastructure/factories/admin/CategoryEntityFactory";
 import { CategoryRepository } from "../../../infrastructure/repositories/admin/CategoryRepository";
 import { CategoryController } from "../../../interfaceAdapter/controllers/admin/CategoryController";

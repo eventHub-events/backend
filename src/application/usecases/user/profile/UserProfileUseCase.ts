@@ -1,10 +1,10 @@
-import { UserProfileEditRequestDTO } from "../../../../domain/dtos/user/profile/UserProfileEditRequestDTO";
-import { UserProfileResponseDTO } from "../../../../domain/dtos/user/profile/UserProfileResponseDTO";
+import { UserProfileEditRequestDTO } from "../../../../domain/DTOs/user/profile/UserProfileEditRequestDTO";
+import { UserProfileResponseDTO } from "../../../../domain/DTOs/user/profile/UserProfileResponseDTO";
 import {  ForbiddenError } from "../../../../domain/errors/userProfile";
 import { IUserProfileRepository } from "../../../../domain/repositories/user/IUserProfileRepository";
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
-import { IUserProfileUseCase } from "../../../interface/user/IUserProfileUseCase";
-import { IUserProfileMapper } from "../../../interface/user/mapper/IUserProfileMapper";
+import { IUserProfileUseCase } from "../../../interface/useCases/user/IUserProfileUseCase";
+import { IUserProfileMapper } from "../../../interface/useCases/user/mapper/IUserProfileMapper";
 
 export class UserProfileUseCase implements IUserProfileUseCase {
 

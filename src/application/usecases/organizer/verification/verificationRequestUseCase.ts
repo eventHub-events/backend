@@ -1,12 +1,12 @@
 
-import { RequestVerificationDTO } from "../../../../domain/dtos/organizer/verification/requestVerificationDTO";
+import { RequestVerificationDTO } from "../../../../domain/DTOs/organizer/verification/requestVerificationDTO";
 import { User } from "../../../../domain/entities/User";
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
 import { CustomError } from "../../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../../infrastructure/interface/enums/HttpStatusCode";
 import { IVerificationEmailTemplate } from "../../../../infrastructure/interface/IVerificationEmailtemplate";
-import { IVerificationRequestUseCase } from "../../../interface/organizer/IVerificationRequestUseCase";
-import { IEmailService } from "../../../interface/user/IEmailService";
+import { IVerificationRequestUseCase } from "../../../interface/useCases/organizer/IVerificationRequestUseCase";
+import { IEmailService } from "../../../interface/useCases/user/IEmailService";
 
 export class VerificationRequestUseCase implements IVerificationRequestUseCase {
 

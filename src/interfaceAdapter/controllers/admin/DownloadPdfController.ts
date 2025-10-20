@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IDownloadPdfUseCase } from "../../../application/interface/admin/IDownloadPdfUseCase";
+import { IDownloadPdfUseCase } from "../../../application/interface/useCases/admin/IDownloadPdfUseCase";
 import { HttpStatusCode } from "axios";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 

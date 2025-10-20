@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express";
-import { IRefreshTokenUseCase } from "../../../application/interface/user/IRefreshTokenUseCase";
+import { IRefreshTokenUseCase } from "../../../application/interface/useCases/user/IRefreshTokenUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
