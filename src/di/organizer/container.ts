@@ -1,22 +1,57 @@
-import { GeneratePresignedUrlUseCase } from "../../application/organizer/generatePresignedUrlUseCase";
-import { OrganizerProfileUseCase } from "../../application/organizer/organizerProfileUseCase";
-import { UploadDocumentUseCase } from "../../application/organizer/uploadDocumentUseCase";
+import { OrganizerUploadDocumentMapper } from "../../application/mapper/admin/OrganizerUploadDocumentMapper";
+import { UploadDocumentsMapper } from "../../application/mapper/admin/UploadDocumentsMapper";
+import { UserMapper } from "../../application/mapper/user/UserMapper";
+import { UsersMapper } from "../../application/mapper/user/usersMapper";
+import { GeneratePresignedUrlUseCase } from "../../application/useCases/organizer/generatePresignedUrlUseCase";
+import { OrganizerAccountSecurityUseCase } from "../../application/useCases/organizer/organizerAccountsecurityUseCase";
+import { OrganizerProfileUseCase } from "../../application/useCases/organizer/organizerProfileUseCase";
+import { OrganizerBlankProfileCreationUseCase } from "../../application/useCases/organizer/profile/organizerBlankProfileCreationUseCase";
+import { UploadDocumentUseCase } from "../../application/useCases/organizer/uploadDocumentUseCase";
+import { VerificationRequestUseCase } from "../../application/useCases/organizer/verification/verificationRequestUseCase";
+import { OrganizerProfileEntityFactory } from "../../infrastructure/factories/OrganizerProfileEntityFactory";
+import { UploadDocumentFactory } from "../../infrastructure/factories/UploadDocumentFactory";
+import { UserEntityFactory } from "../../infrastructure/factories/UserEntityFactory";
 import { OrganizerProfileRepository } from "../../infrastructure/repositories/OrganizerProfileRepository";
 import { UploadDocumentRepository } from "../../infrastructure/repositories/UploadDocumentRepository";
+import { UserRepository } from "../../infrastructure/repositories/UserRepository";
+import { WinstonLoggerService } from "../../infrastructure/services/logger/loggerService";
 import { S3Service } from "../../infrastructure/services/S3Service/S3Service";
-import { DocumentController } from "../../interface/controllers/organizer/documentController";
-import { OrganizerProfileController } from "../../interface/controllers/organizer/profileController";
-import { loggerService } from "../container";
+import { VerificationEmailTemplate } from "../../infrastructure/services/Templates/verificationEmailTemplate";
+import { DocumentController } from "../../interfaceAdapter/controllers/organizer/documentController";
+import { OrganizerAccountSecurityController } from "../../interfaceAdapter/controllers/organizer/organizerAccoutSecurityController";
+import { OrganizerDocumentVerificationRequestController } from "../../interfaceAdapter/controllers/organizer/organizerDocumentVerificationController";
+import { OrganizerProfileController } from "../../interfaceAdapter/controllers/organizer/profileController";
+import { emailService, hashService } from "../common/commonContainers";
 
 
-const organizerProfileRepository= new OrganizerProfileRepository(loggerService)
-const  organizerProfileUseCase = new  OrganizerProfileUseCase(organizerProfileRepository)
-export const organizerProfileController = new  OrganizerProfileController(organizerProfileUseCase)
+ const loggerService =  new WinstonLoggerService();
+ const userMapper = new UserMapper();
+const usersMapper = new UsersMapper(userMapper);
+const userEntityFactory = new UserEntityFactory();
+const userRepository  = new UserRepository(loggerService,userMapper,usersMapper,userEntityFactory);
+const organizerProfileEntityFactory = new OrganizerProfileEntityFactory();
+export const organizerProfileRepository= new OrganizerProfileRepository(loggerService, organizerProfileEntityFactory);
+const  organizerProfileUseCase = new  OrganizerProfileUseCase(organizerProfileRepository, userRepository);
+export const organizerProfileController = new  OrganizerProfileController(organizerProfileUseCase);
 
 const s3Service= new S3Service();
 const generatePresignedUrlUseCase = new GeneratePresignedUrlUseCase(s3Service);
-const uploadDocumentRepository=new UploadDocumentRepository(loggerService)
-const  uploadDocumentUseCase   = new UploadDocumentUseCase(uploadDocumentRepository)
-export const documentController= new DocumentController(generatePresignedUrlUseCase,uploadDocumentUseCase)
+const organizerUploadDocumentMapper = new OrganizerUploadDocumentMapper();
+const uploadDocumentsMapper        = new UploadDocumentsMapper(organizerUploadDocumentMapper);
+const  uploadDocumentFactory       = new UploadDocumentFactory();
+export const uploadDocumentRepository = new UploadDocumentRepository(loggerService,uploadDocumentFactory);
+const  uploadDocumentUseCase   = new UploadDocumentUseCase(uploadDocumentRepository, organizerUploadDocumentMapper, uploadDocumentsMapper, userRepository);
+export const documentController= new DocumentController(generatePresignedUrlUseCase,uploadDocumentUseCase);
+export const organizerBlankProfileCreationUseCase = new OrganizerBlankProfileCreationUseCase (organizerProfileRepository);
+
+const verificationEmailTemplate  = new VerificationEmailTemplate();
+const verificationRequestUseCase = new VerificationRequestUseCase(userRepository, emailService, verificationEmailTemplate);
+export const documentVerificationRequestController  = new OrganizerDocumentVerificationRequestController(verificationRequestUseCase);
+
+
+ const organizerAccountSecurityUseCase = new OrganizerAccountSecurityUseCase(userRepository,hashService);
+ export const  organizerAccountSecurityController = new OrganizerAccountSecurityController(organizerAccountSecurityUseCase);
+ 
+
 
 

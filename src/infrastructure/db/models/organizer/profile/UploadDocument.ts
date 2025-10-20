@@ -1,17 +1,19 @@
 import mongoose,{Document as MongooseDocument, Schema} from "mongoose"; 
+import { DocumentStatus } from "../../../../../domain/enums/organizer/documentStatus";
 
 
-export interface UploadDocument extends MongooseDocument{
+export interface IUploadDocument extends MongooseDocument{
   organizerId:string;
-  name:string;  
+  fileName:string;  
   type:string;
   url:string;
   uploadedAt:Date;
-  status:"Pending" | " Approved" |"rejected";
+  status:DocumentStatus;
    verified: boolean;
   reviewedBy?:string;
   reviewedAt?:Date;
   reason?:string;
+  current :boolean;
 
 
 }
@@ -22,7 +24,7 @@ organizerId:{
   ref:"User",
   required:true
 },
-name:{
+fileName:{
   type:String
 },
 type:{
@@ -36,17 +38,22 @@ url:{
   uploadedAt: { type: Date, default: Date.now },
 status:{
   type:String,
-  enum:["Pending","Approved","Rejected"],
+  enum:DocumentStatus,
   default:"Pending"
 },
 verified:{
    type:Boolean,
    default:false
 },
-reviewedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin', default: null },
+current : {
+  type : Boolean,
+  default : false
+
+},
+reviewedBy: { type: String, default: null },
   reviewedAt: { type: Date, default: null },
   reason: { type: String, default: '' }
 },{timestamps:true})
 
 
-export default mongoose.model<UploadDocument>("UploadDocument",DocumentSchema)
+export default mongoose.model<IUploadDocument>("UploadDocument",DocumentSchema)

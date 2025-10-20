@@ -1,10 +1,11 @@
-import { UserRegisterDTO } from '../../../domain/dtos/user/RegisterUserDTO';
-import { UserResponseDTO } from '../../../domain/dtos/user/UserResponseDTO';
+import { UserRegisterDTO } from '../../../domain/DTOs/user/RegisterUserDTO';
+import { UserResponseDTO } from '../../../domain/DTOs/user/UserResponseDTO';
 import { User } from '../../../domain/entities/User';
-import { IUserDocument } from '../../../infrastructure/db/models/UserModel';
+import { IUserDocument } from '../../../infrastructure/db/models/user/UserModel';
+import { IUserMapper } from '../../interface/useCases/user/mapper/IUserMapper';
 
-export class UserMapper {
-  static toEntity(dto: UserRegisterDTO) :User {
+export class UserMapper  implements IUserMapper{
+   toEntity(dto: UserRegisterDTO) :User {
     return {
       name: dto.name,
       email: dto.email,
@@ -13,14 +14,15 @@ export class UserMapper {
       isVerified: dto.isVerified ?? false,
       role: dto.role || 'user',
       isBlocked:dto.isBlocked,
-      kycStatus:dto.kycStatus
+      kycStatus:dto.kycStatus,
+      isKycResubmitted :dto.isKycResubmitted
     };
   }
   // we use this method for converting the the dto  to entity for saving to  mongo db//
 
-  static toDomain(raw: IUserDocument) {
+   toDomain(raw: IUserDocument) {
     return {
-      _id: raw._id?.toString(),
+      id: raw._id?.toString(),
       name: raw.name,
       email: raw.email,
       phone: raw.phone,
@@ -28,16 +30,18 @@ export class UserMapper {
       isVerified: raw.isVerified,
       role: raw.role,
       kycStatus:raw.kycStatus,
-      isBlocked:raw.isBlocked
+      isBlocked:raw.isBlocked,
+      createdAt:raw.createdAt,
+      isKycResubmitted : raw.isKycResubmitted
     };
   }
 
   // ----->convert raw database Object into  domain entity
 
-  static toResponse(entity: User):UserResponseDTO {
+ toResponse(entity: User):UserResponseDTO {
     console.log(entity.email, entity.isVerified);
     return {
-      _id: entity._id ?? '',
+      id: entity.id ?? '',
       name: entity.name,
       email: entity.email,
       phone: entity.phone,

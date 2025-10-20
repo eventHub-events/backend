@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 
-import { IHashService } from '../../../application/interface/user/IHashService';
+import { IHashService } from '../../../application/interface/useCases/user/IHashService';
 
 export class BcryptHashService implements IHashService {
   async hash(data:string):Promise<string> {

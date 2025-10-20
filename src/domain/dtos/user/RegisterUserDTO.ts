@@ -1,3 +1,5 @@
+import { KycStatus } from "../../../infrastructure/db/models/user/UserModel";
+
 export class UserRegisterDTO {
   
   name: string;
@@ -12,7 +14,8 @@ export class UserRegisterDTO {
 
   role:string;
   isBlocked:boolean;
-  kycStatus:string
+  kycStatus:KycStatus;
+  isKycResubmitted? :boolean;
 
   constructor(data: Partial<UserRegisterDTO>) {
     const nameRegex = /^[A-Z][a-zA-Z]{0,14}$/;
@@ -41,7 +44,7 @@ export class UserRegisterDTO {
     if (!data.password || !passwordRegex.test(data.password)) {
       throw new Error('Password must be 8–16 characters and include 1 uppercase, 1 lowercase, 1 number, and 1 special character');
     }
-
+    
     this.name = data.name;
     this.email = data.email;
     this.phone = data.phone;
@@ -49,6 +52,7 @@ export class UserRegisterDTO {
     this.isVerified = data.isVerified ?? false;
     this.role = data.role || 'user';
     this.isBlocked=data.isBlocked || false
-    this.kycStatus=data.role==="user"?"N/A":"Pending"
+    this.kycStatus = KycStatus.NotApplicable;
+    this.isKycResubmitted = false ;
   }
 }

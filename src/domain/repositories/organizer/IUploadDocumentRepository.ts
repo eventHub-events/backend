@@ -1,9 +1,12 @@
-import { UploadDocument } from "../../../infrastructure/db/models/organizer/profile/UploadDocument";
-import { UploadDocumentDTO } from "../../dtos/organizer/DocumentDTO";
+
+
+import { UploadDocument } from "../../entities/organizer/Document";
 
 
 export interface IUploadDocumentRepository{
-  saveDocumentData(DTO:UploadDocumentDTO):Promise<UploadDocument>;
-   findByOrganizerId(organizerId: string): Promise<UploadDocument[]>;
+   saveDocumentData( documentData : UploadDocument ): Promise< UploadDocument>
+   findDocuments(organizerId: string): Promise<UploadDocument[]>;
+  updateDocument(organizerId: string,data:Partial<UploadDocument>): Promise< UploadDocument >
+  deleteDocument(documentId:string):Promise< string >
   
 }

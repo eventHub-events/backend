@@ -1,4 +1,4 @@
-import { ITokenService } from "../../../application/interface/user/ITokenService";
+import { ITokenService } from "../../../application/interface/useCases/user/ITokenService";
 import { IUserTokenPayload } from "../../interface/IUserTokenPayload";
 
 export class TokenService{
