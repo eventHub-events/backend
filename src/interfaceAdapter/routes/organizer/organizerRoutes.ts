@@ -39,6 +39,7 @@ router.post("/events",authenticationMiddleWare.authenticateUser.bind(authenticat
 router.patch("/events/:eventId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest, res: Response, next: NextFunction)  => eventManagementController.editEvent(req, res, next));
 // for soft delete of events //
 router.delete("/events/:eventId/soft-delete", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventManagementController.Delete(req, res, next));
+router.patch("/events/:eventId/cancel", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventManagementController.cancel(req, res, next));
 
 
 

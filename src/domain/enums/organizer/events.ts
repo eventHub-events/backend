@@ -18,3 +18,14 @@ export enum TicketStatus {
   Active = "Active",
   Inactive = "Inactive"
 }
+export enum EventVisibility {
+   Public = "public",
+   Private = "private",
+   InviteOnly = "invite-only"
+
+}
+export enum EventApprovalStatus {
+  Pending = "pending",
+  Approved = "approved",
+  Rejected = "rejected"
+}

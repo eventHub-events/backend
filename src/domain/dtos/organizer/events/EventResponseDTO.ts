@@ -1,4 +1,4 @@
-import { EventStatus, EventType } from "../../../enums/organizer/events";
+import { EventStatus, EventType, EventVisibility } from "../../../enums/organizer/events";
 import { ILocation } from "../../../valueObject/organizer/location";
 import { ITicketTier } from "../../../valueObject/organizer/ticketTier";
 
@@ -16,11 +16,9 @@ export interface EventResponseDTO {
   images: string[];
   startTime?: string;
   endTime?: string;
-  tickets: ITicketTier[];
+  organizerEmail?: string;
   featured?: boolean;
-  approved?: boolean;
-  waitingListEnabled?: boolean;
-  isBlocked?: boolean;
+  visibility?:EventVisibility;
   tags?: string[];
   status?: EventStatus;
 

@@ -21,11 +21,11 @@ export class EventMapper implements IEventMapper  {
        images: dto.images,
        startTime: dto.startTime,
        endTime: dto.endTime,
-       tickets: dto.tickets,
+      organizerEmail: dto.organizerEmail,
        featured: dto.featured ?? false,
        createdBy: dto.createdBy ?? "",
        tags: dto.tags ?? [],
-       waitingListEnabled: dto.waitingListEnabled ?? false
+       visibility: dto.visibility
 
      }
         
@@ -55,11 +55,9 @@ export class EventMapper implements IEventMapper  {
         startTime: entity.startTime,
         endTime: entity.endTime,
         images: entity.images,
-        tickets: entity.tickets,
+        visibility: entity.visibility,
         featured: entity.featured,
-        approved: entity.approved,
-        waitingListEnabled: entity.waitingListEnabled,
-        isBlocked: entity.isBlocked,
+        organizerEmail: entity.organizerEmail,
         tags: entity.tags,
         status: entity.status
 

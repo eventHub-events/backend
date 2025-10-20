@@ -7,12 +7,14 @@ import { EventCreationRequestDTO } from "../../../domain/DTOs/organizer/events/E
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
+import { ICancelEventUseCase } from "../../../application/interface/useCases/organizer/events/ICancelEventUseCase";
 
 export class EventManagementController {                                                                                                  
   constructor(
        private _createEventUseCase: ICreateEventUseCase,
        private _updateEventUseCase: IUpdateEventUseCase,
-       private _deleteEventUseCase: IDeleteEventUseCase
+       private _deleteEventUseCase: IDeleteEventUseCase,
+       private _cancelEventUseCase: ICancelEventUseCase
   ){}
 
   async createEvent(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
@@ -33,9 +35,8 @@ export class EventManagementController {
 
   async editEvent(req: Request, res: Response, next: NextFunction) :  Promise<void> {
      try{
-        const eventId  =  req.params.id;
+        const { eventId }  =  req.params;
         if(!eventId) throw new CustomError("EventId is required", HttpStatusCode.BAD_REQUEST);
-
          const dto = req.body;
          const updatedEvent  = await this._updateEventUseCase.execute(eventId, dto);
 
@@ -60,5 +61,16 @@ async Delete(req: Request, res: Response, next: NextFunction): Promise<void> {
      next(err)
   }
      
+}
+async cancel(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+  try{
+       const{ eventId} = req.params;
+        if(!eventId) throw new CustomError("EventId is required", HttpStatusCode.BAD_REQUEST);
+        const result = await this._cancelEventUseCase.execute(eventId);
+        res.status(HttpStatusCode.OK).json(ApiResponse.success("Event cancelled successfully", HttpStatusCode.OK, result))
+      
+  }catch(err){
+    next(err)
+  }
 }
 }

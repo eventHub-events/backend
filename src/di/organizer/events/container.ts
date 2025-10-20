@@ -1,4 +1,5 @@
 import { EventMapper } from "../../../application/mapper/organizer/EventMapper";
+import { CancelEventUseCase } from "../../../application/useCases/organizer/events/cancelEventUseCase";
 import { CreateEventUseCase } from "../../../application/useCases/organizer/events/createEventUseCase";
 import { DeleteEventUseCase } from "../../../application/useCases/organizer/events/deleteEventUseCase";
 import { UpdateEventUseCase } from "../../../application/useCases/organizer/events/editEventUseCase";
@@ -17,8 +18,9 @@ const eventMapper = new EventMapper();
 const createEventUseCase  = new CreateEventUseCase(eventRepository, eventMapper);
 const updateEventUseCase = new UpdateEventUseCase(eventRepository, eventMapper);
 const deleteEventUseCase = new DeleteEventUseCase(eventRepository);
+const cancelEventUseCase = new CancelEventUseCase(eventRepository);
 
-export const eventManagementController =  new EventManagementController(createEventUseCase, updateEventUseCase, deleteEventUseCase);
+export const eventManagementController =  new EventManagementController(createEventUseCase, updateEventUseCase, deleteEventUseCase, cancelEventUseCase);
 
 const getEventByIdUseCase = new GetEventByIdUseCase(eventRepository, eventMapper);
 const getAllEventsUseCase = new GetAllEventUseCase(eventRepository, eventMapper);

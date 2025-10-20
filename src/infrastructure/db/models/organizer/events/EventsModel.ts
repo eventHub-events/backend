@@ -1,11 +1,10 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
-import { ITicketTier } from "../../../../../domain/valueObject/organizer/ticketTier";
+
 import { ILocation } from "../../../../../domain/valueObject/organizer/location";
 import { locationSchema } from "./LocationModel";
-import { TicketTierSchema } from "./TicketTierModel";
-import { EventStatus, EventType } from "../../../../../domain/enums/organizer/events";
-import { IWaitingListEntry } from "../../../../../domain/valueObject/organizer/WaitingListEntry";
-import { WaitingListSchema } from "../../../../../domain/valueObject/organizer/WaitingListModel";
+
+import {  EventStatus, EventType, EventVisibility } from "../../../../../domain/enums/organizer/events";
+
 
 
 export interface IEvent extends Document {
@@ -19,34 +18,26 @@ export interface IEvent extends Document {
   startDate: Date;
   endDate: Date;
   images: string[];
-  tickets: ITicketTier[];
-  status: EventStatus;
+
+   status: EventStatus;
   ticketsSold:  number;
    isDeleted :boolean;
-  totalRevenue: number;
-  platformCommission: number;
-  organizerEarnings: number;
+
   featured?: boolean;
   startTime?: string;
   endTime?: string;
-  approved?: boolean;
-  flaggedReason: string;
-  saleStartDate?: Date;
-  saleEndDate?: Date;
-  viewsCount?: number;
-  bookmarkCount?: number;
-  sharesCount?: number;
+
   createdAt?: Date;
   updatedAt?: Date;
   createdBy?: string;
+  organizerEmail?: string;
+  videos?: string[];
+  visibility?: EventVisibility;
+
   tags?:string[];
-  waitingListEnabled?: boolean;
-  waitingList?: IWaitingListEntry[];
-  isBlocked?: boolean;
-  blockedReason?: string;
-  reviews?: Types.ObjectId;
-  averageRating?: number;
-  reviewCount?: number;
+
+   reviews?: Types.ObjectId;
+
   
 }
 
@@ -79,43 +70,34 @@ const EventSchema = new Schema<IEvent>({
   location: {
      type:  locationSchema,
    },
+  
   totalCapacity: {
       type: Number,
       required: true,
       min: 1
    },
+  
+   videos: 
+
+   [{type: String}],
+
   startDate : {
      type: Date
    },
   endDate : {
      type: Date
    },
-  saleStartDate : {
-      type : Date
-  },
-  saleEndDate : {
-      type: Date
-  },
-
+ 
   images : 
     [{type: String, required: true}],
-  tickets: {
-      type: [TicketTierSchema],
-      required: true
-   },
+ 
   status: {
      type: String,
      enum: Object.values(EventStatus),
      default: EventStatus.Draft
 
    },
-  flaggedReason:  {
-     type: String
-  },
-  approved : {
-     type :Boolean,
-     default: false
-    },
+  
   featured : {
      type: Boolean,
      default: false
@@ -130,30 +112,7 @@ const EventSchema = new Schema<IEvent>({
      type: Number,
      default: 0
    },
-   totalRevenue: {
-      type: Number,
-      default: 0
-    },
-   platformCommission: {
-       type: Number,
-       default: 0
-    },
-  organizerEarnings: {
-       type: Number,
-       default: 0
-   },
-  viewsCount: {
-      type: Number,
-      default: 0
-   },
-  bookmarkCount: {
-      type: Number,
-      default: 0
-  },
-  sharesCount: {
-     type: Number,
-     default: 0
-  },
+  
   tags : [{
        type: String
   }],
@@ -161,37 +120,26 @@ const EventSchema = new Schema<IEvent>({
      type: String
   },
   isDeleted: {
-     type: Boolean
-  },
-  waitingListEnabled : {
      type: Boolean,
      default: false
   },
-  isBlocked:{
-     type: Boolean,
-     default: false
+ 
+    organizerEmail: {
+       type: String,
+
     },
-  blockedReason: {
-      type: String,
-       default: ""
-    },
-waitingList: {
-   type: [WaitingListSchema],
-   default:[]
+
+visibility: {
+   type: String,
+   enum: Object.values(EventVisibility),
+   default: EventVisibility.Public
 },
 
 reviews: {
    type: Schema.Types.ObjectId,
-   ref: "User"
+   ref: "Review"
 },
-averageRating: {
-    type: Number,
-    default: 0
-},
-reviewCount: {
-   type: Number,
-   default:0
-}
+
 
 
 },{timestamps: true}
@@ -199,7 +147,7 @@ reviewCount: {
 
 //  Indexing For Performance //
 
-EventSchema.index({name: 1, organizerId: 1});
+EventSchema.index({title: 1, organizerId: 1});
 EventSchema.index({categoryId:1});
 EventSchema.index({status: 1});
 EventSchema.index({featured: 1});
