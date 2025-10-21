@@ -1,5 +1,6 @@
 import { TicketingMapper } from "../../../application/mapper/organizer/TicketingMapper";
 import { CreateTicketingUseCase } from "../../../application/useCases/organizer/EventTicketing/createTicketingUseCase";
+import { FetchTicketingDetailsByEventUseCase } from "../../../application/useCases/organizer/EventTicketing/fetchTicketingDetailsByEventUseCase";
 import { FetchTicketingUseCase } from "../../../application/useCases/organizer/EventTicketing/fetchTicketingUseCase";
 import { UpdateTicketingUseCase } from "../../../application/useCases/organizer/EventTicketing/updateTicketingUseCase";
 import { EventTicketingEntityFactory } from "../../../infrastructure/factories/organizer/EventTicketingEntityFactory";
@@ -14,7 +15,8 @@ const ticketingMapper   = new TicketingMapper();
 const createTicketingUseCase = new CreateTicketingUseCase(ticketingRepository,ticketingMapper);
 const updateTicketingUseCase  = new UpdateTicketingUseCase(ticketingRepository, ticketingMapper);
 const fetchTicketingUseCase = new FetchTicketingUseCase(ticketingRepository, ticketingMapper);
+const fetchTicketingByEventUseCase =  new FetchTicketingDetailsByEventUseCase(ticketingRepository, ticketingMapper);
 
 // ----------controller dependency injection----------//
 export const ticketingManagementController = new TicketingManagementController(createTicketingUseCase, updateTicketingUseCase);
-export const ticketingRetrievalController = new  TicketingRetrievalController(fetchTicketingUseCase);
+export const ticketingRetrievalController = new  TicketingRetrievalController(fetchTicketingUseCase, fetchTicketingByEventUseCase);

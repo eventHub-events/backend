@@ -45,8 +45,9 @@ router.patch("/events/:eventId/cancel", authenticationMiddleWare.authenticateUse
 
 // EventTicketing //
 router.get("/ticketing/:ticketId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => ticketingRetrievalController.fetchTicketingDetails(req, res, next));
-router.post("/ticketing/:ticketId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response ,next: NextFunction) => ticketingManagementController.create(req, res, next));
-router.patch("/ticketing/:ticketingId/update",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) =>ticketingManagementController.update(req,res, next));
+router.get("/events/:eventId/ticketing", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next : NextFunction) => ticketingRetrievalController.fetchTicketingDetailsByEvent(req, res, next));
+router.post("/ticketing",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response ,next: NextFunction) => ticketingManagementController.create(req, res, next));
+router.patch("/events/:eventId/ticketing",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) =>ticketingManagementController.update(req,res, next));
 
 
 

@@ -7,4 +7,6 @@ export interface IEventTicketingRepository {
     findTicketingById(id: string): Promise<EventTicketingEntity>;
     updateTicketing(ticketingId: string, data: EventTicketingEntity): Promise<EventTicketingEntity>;
     deleteTicketing(ticketingId: string): Promise<void>;
+    updateTicketingByEventId(eventId: string, data: EventTicketingEntity): Promise<EventTicketingEntity> 
+    findTicketingByEventId(eventId: string) :Promise<EventTicketingEntity >
 }

@@ -9,13 +9,13 @@ export class UpdateTicketingUseCase implements IUpdateTicketingUseCase {
        private _ticketingRepository : IEventTicketingRepository,
        private _ticketingMapper : ITicketingMapper
    ){}
-  async execute(ticketingId: string, dto: EventTicketingEditDTO): Promise<EventTicketingResponseDTO> {
+  async execute(eventId: string, dto: EventTicketingEditDTO): Promise<EventTicketingResponseDTO> {
 
          const  ticketingEntity = this._ticketingMapper.toEntityForUpdate(dto);
-         const fetchedEntity = await this._ticketingRepository.findTicketingById(ticketingId);
+         const fetchedEntity = await this._ticketingRepository.findTicketingByEventId(eventId);
 
          const updateEntity =  fetchedEntity.update(ticketingEntity);
-         const updatedEntity = await this._ticketingRepository.updateTicketing(ticketingId, updateEntity);
+         const updatedEntity = await this._ticketingRepository.updateTicketingByEventId(eventId, updateEntity);
 
   return this._ticketingMapper.toResponseDTO(updatedEntity);
 

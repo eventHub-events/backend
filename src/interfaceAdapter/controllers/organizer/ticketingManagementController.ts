@@ -19,7 +19,7 @@ export  class TicketingManagementController {
         const dto: EventTicketingRequestDTO = req.body;
         const  createdTicketing = await this._creatingTicketingUseCase.execute(dto);
      res.status(HttpStatusCode.CREATED).json(ApiResponse.success("Ticketing details created successfully", HttpStatusCode.CREATED, createdTicketing));
-     
+
     }catch(err) {
        next(err)  
     }
@@ -27,11 +27,12 @@ export  class TicketingManagementController {
   async update(req: IAuthenticatedRequest, res: Response, next: NextFunction) : Promise<void> {
 
     try{  
-         const{ticketingId } = req.params;
-           if(!ticketingId) throw new CustomError("ticketingId is required", HttpStatusCode.BAD_REQUEST);
+         const{ eventId } = req.params;
+         console.log("hello", eventId)
+           if(!eventId) throw new CustomError("ticketingId is required", HttpStatusCode.BAD_REQUEST);
 
          const updatedDTO : EventTicketingEditDTO = req.body;
-         const updatedTicketing = await this._updateTicketingUseCase.execute(ticketingId, updatedDTO);
+         const updatedTicketing = await this._updateTicketingUseCase.execute(eventId, updatedDTO);
       res.status(HttpStatusCode.OK).json(ApiResponse.success("Ticketing details updated SuccessFully", HttpStatusCode.OK, updatedTicketing));
 
     }catch(err){

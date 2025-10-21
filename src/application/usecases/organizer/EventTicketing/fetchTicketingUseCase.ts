@@ -8,11 +8,11 @@ export class FetchTicketingUseCase implements IFetchTicketingUseCase {
        private _ticketingRepository : IEventTicketingRepository ,
        private _ticketingMapper : ITicketingMapper
    ){}
- async execute(ticketingId: string): Promise<EventTicketingResponseDTO> {
+ async execute(ticketingId: string): Promise<EventTicketingResponseDTO | null> {
       
   const fetchedDoc = await this._ticketingRepository.findTicketingById(ticketingId);
     if (!fetchedDoc) {
-         throw new Error("Ticketing details not found");
+         return null;
     }
   return this._ticketingMapper.toResponseDTO(fetchedDoc);
  }

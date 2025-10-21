@@ -4,10 +4,13 @@ import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthen
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
+import { IFetchTicketingDetailsByEventUseCase } from "../../../application/interface/useCases/organizer/eventTicketing/IFetchTicketingByEventUseCase";
+import { NotFoundError } from "../../../domain/errors/common";
 
 export  class TicketingRetrievalController  {
   constructor(
       private _fetchTicketingUseCase : IFetchTicketingUseCase,
+      private _fetchTicketingByEventUseCase : IFetchTicketingDetailsByEventUseCase
   ){}
 
   async fetchTicketingDetails(req: IAuthenticatedRequest, res: Response , next: NextFunction) : Promise<void> {
@@ -21,5 +24,22 @@ export  class TicketingRetrievalController  {
     }catch(err){
        next(err)
     }
+  }
+  async fetchTicketingDetailsByEvent(req: IAuthenticatedRequest, res: Response, next: NextFunction) : Promise<void> {
+      try{
+           const{ eventId } = req.params;
+            if(!eventId) throw new CustomError("eventId is required", HttpStatusCode.BAD_REQUEST);
+
+            const fetchedData = await this._fetchTicketingByEventUseCase.execute(eventId);
+            
+          res.status(HttpStatusCode.OK).json(ApiResponse.success("Ticketing details fetched successfully", HttpStatusCode.OK, fetchedData));
+
+
+      }catch(err){
+         if( err instanceof NotFoundError){
+              throw new CustomError(err.message, HttpStatusCode.NOT_FOUND);
+         }
+         next(err)
+      }
   }
 }
