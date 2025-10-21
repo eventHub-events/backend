@@ -1,16 +1,16 @@
 
-import { ILoggerService } from "../../application/interface/common/ILoggerService";
-import {  IOrganizerProfileEntityFactory } from "../../application/interface/factories/IDomainFactory";
-import { OrganizerProfile } from "../../domain/entities/organizer/OrganizerProfile";
+import { ILoggerService } from "../../../application/interface/common/ILoggerService";
+import {  IOrganizerProfileEntityFactory } from "../../../application/interface/factories/IDomainFactory";
+import { OrganizerProfile } from "../../../domain/entities/organizer/OrganizerProfile";
 
-import { IOrganizerProfileRepository } from "../../domain/repositories/organizer/IOrganizerProfileRepository";
-import { OrganizerProfileDbModel, OrganizerProfileWithUser } from "../../domain/types/OrganizerTypes";
-import { UserDbModel } from "../../domain/types/UserTypes";
-import OrganizerProfileModel, { IOrganizerProfile } from "../db/models/organizer/profile/OrganizerProfile";
+import { IOrganizerProfileRepository } from "../../../domain/repositories/organizer/IOrganizerProfileRepository";
+import { OrganizerProfileDbModel, OrganizerProfileWithUser } from "../../../domain/types/OrganizerTypes";
+import { UserDbModel } from "../../../domain/types/UserTypes";
+import OrganizerProfileModel, { IOrganizerProfile } from "../../db/models/organizer/profile/OrganizerProfile";
 
-import { CustomError } from "../errors/errorClass";
-import { HttpStatusCode } from "../interface/enums/HttpStatusCode";
-import { BaseRepository } from "./BaseRepository";
+import { CustomError } from "../../errors/errorClass";
+import { HttpStatusCode } from "../../interface/enums/HttpStatusCode";
+import { BaseRepository } from "./../BaseRepository";
 
 export class  OrganizerProfileRepository extends BaseRepository<IOrganizerProfile> implements IOrganizerProfileRepository{
   constructor(

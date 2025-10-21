@@ -3,6 +3,7 @@ import { IEvent } from "../../infrastructure/db/models/organizer/events/EventsMo
 import { IOrganizerProfile } from "../../infrastructure/db/models/organizer/profile/OrganizerProfile";
 import { OrganizerProfile } from "../entities/organizer/OrganizerProfile";
 import { User } from "../entities/User";
+import { IEventTicketing } from "../../infrastructure/db/models/organizer/events/EventTicketingModel";
 
 export type OrganizerProfileDbModel = IOrganizerProfile & {_id :string};
 
@@ -13,3 +14,5 @@ export type OrganizerProfileWithUser = {
 }
 
 export type EventsDbModel = IEvent & {_id: Types.ObjectId};
+
+export type EventTicketingDbModel = IEventTicketing & {_id: Types.ObjectId}

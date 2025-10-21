@@ -1,10 +1,10 @@
 import { FilterQuery } from "mongoose";
-import { EventEntity } from "../../domain/entities/organizer/EventEntity";
-import { IEventRepository } from "../../domain/repositories/organizer/IEventsRepository";
-import { EventModel, IEvent } from "../db/models/organizer/events/EventsModel";
-import { BaseRepository } from "./BaseRepository";
-import { IEventsEntityFactory } from "../../application/interface/factories/organizer/IEventsEntityFactory";
-import { EventsDbModel } from "../../domain/types/OrganizerTypes";
+import { EventEntity } from "../../../domain/entities/organizer/EventEntity";
+import { IEventRepository } from "../../../domain/repositories/organizer/IEventsRepository";
+import { EventModel, IEvent } from "../../db/models/organizer/events/EventsModel";
+import { BaseRepository } from "../BaseRepository";
+import { IEventsEntityFactory } from "../../../application/interface/factories/organizer/IEventsEntityFactory";
+import { EventsDbModel } from "../../../domain/types/OrganizerTypes";
 
 
 export class EventRepository extends BaseRepository<IEvent> implements IEventRepository {
