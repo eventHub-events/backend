@@ -7,7 +7,7 @@ import { GetAllEventUseCase } from "../../../application/useCases/organizer/even
 import { GetEventByIdUseCase } from "../../../application/useCases/organizer/events/getEventByIdUseCase";
 import {  GetEventByOrganizerUseCase } from "../../../application/useCases/organizer/events/getEventByOrganizerUseCase";
 import { EventEntityFactory } from "../../../infrastructure/factories/organizer/EventEntityFactory";
-import { EventRepository } from "../../../infrastructure/repositories/EventsRepository";
+import { EventRepository } from "../../../infrastructure/repositories/organizer/EventsRepository";
 import { EventManagementController } from "../../../interfaceAdapter/controllers/organizer/eventManagementController";
 import { EventRetrievalController } from "../../../interfaceAdapter/controllers/organizer/eventRetrievalController";
 
