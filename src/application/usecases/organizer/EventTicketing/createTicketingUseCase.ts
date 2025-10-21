@@ -1,14 +1,19 @@
 import { EventTicketingRequestDTO } from "../../../../domain/DTOs/organizer/ticketing/EventTicketingRequestDTO";
 import { EventTicketingResponseDTO } from "../../../../domain/DTOs/organizer/ticketing/EventTicketingResposeDTO";
 import { IEventTicketingRepository } from "../../../../domain/repositories/organizer/IEventTicketingRepository";
+import { ITicketingMapper } from "../../../interface/mapper/organizer/ITicketingMapper";
 import { ICreateTicketingUseCase } from "../../../interface/useCases/organizer/eventTicketing/ICreateTicketingUseCase";
 
 export class CreateTicketingUseCase implements ICreateTicketingUseCase {
    constructor(
        private _ticketingRepository : IEventTicketingRepository,
-       private _ticketingMapper : 
+       private _ticketingMapper : ITicketingMapper
    ){}
-  execute(dto: EventTicketingRequestDTO): Promise<EventTicketingResponseDTO> {
+  async execute(dto: EventTicketingRequestDTO): Promise<EventTicketingResponseDTO> {
+    
+    const ticketingEntity = this._ticketingMapper.toEntity(dto);
+    const   created = await this._ticketingRepository.createTicketing(ticketingEntity);
+    return this._ticketingMapper.toResponseDTO(created);
       
   }
 }

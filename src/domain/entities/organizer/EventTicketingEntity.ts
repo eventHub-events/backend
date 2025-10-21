@@ -17,6 +17,7 @@ export class EventTicketingEntity {
  public ticketRevenue?: {[tierName:string]: number};
  public waitingListEnabled?: boolean;
  public waitingList?: IWaitingListEntry[];
+ public id?: Types.ObjectId
 
  constructor(
   props: {
@@ -28,6 +29,7 @@ export class EventTicketingEntity {
     saleEndDate: Date,
     ticketsSold?: number,
     totalRevenue?: number,
+    id?: Types.ObjectId,
     platformCommission?: number,
     organizerEarnings?: number,
     ticketRevenue?:{[tierName: string]: number},
@@ -43,6 +45,7 @@ export class EventTicketingEntity {
     this.saleEndDate =  props.saleEndDate;
     this.ticketsSold = props.ticketsSold;
     this.totalRevenue = props.totalRevenue;
+    this.id =props.id;
     this.platformCommission = props.platformCommission;
     this.organizerEarnings =  props.organizerEarnings;
     this.ticketRevenue  = props.ticketRevenue;
@@ -56,6 +59,9 @@ export class EventTicketingEntity {
       throw new Error("At least one ticket tier must be defined");
     }
  }
-
+update(updatedData : Partial<EventTicketingEntity>): EventTicketingEntity {
+    Object.assign(this, updatedData);
+    return this;
+}
 
 }

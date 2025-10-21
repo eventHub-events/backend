@@ -8,8 +8,8 @@ export interface EventTicketingResponseDTO {
     tickets: ITicketTier[];
     saleStartDate: Date;
     saleEndDate: Date;
-    id: string;
-    status: EventStatus;
+    id?: string;
+    status?: EventStatus;
     platformCommission?: number;
     ticketsSold?: number;
     totalRevenue?: number;
