@@ -1,16 +1,18 @@
-import { EventType } from "../../../enums/organizer/events";
+import { EventApprovalStatus, EventStatus, EventType } from "../../../enums/organizer/events";
 import { ILocation } from "../../../valueObject/organizer/location";
 import { ITicketTier } from "../../../valueObject/organizer/ticketTier";
 
 export interface EventUpdateDTO {
   
-     organizerId: string;
+     organizerId?: string;
       title?: string;
       type?: EventType;
       categoryId?: string;
       description?: string;
       location?: ILocation;
       totalCapacity?: number;
+      status?:EventStatus;
+      approvedStatus: EventApprovalStatus;
       startDate?: Date;
       endDate?: Date;
       startTime?: string;

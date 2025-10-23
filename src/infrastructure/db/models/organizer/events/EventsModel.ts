@@ -3,7 +3,7 @@ import mongoose, { Document, Schema, Types } from "mongoose";
 import { ILocation } from "../../../../../domain/valueObject/organizer/location";
 import { locationSchema } from "./LocationModel";
 
-import {  EventStatus, EventType, EventVisibility } from "../../../../../domain/enums/organizer/events";
+import {  EventApprovalStatus, EventStatus, EventType, EventVisibility } from "../../../../../domain/enums/organizer/events";
 
 
 
@@ -18,6 +18,7 @@ export interface IEvent extends Document {
   startDate: Date;
   endDate: Date;
   images: string[];
+  approvedStatus?:EventApprovalStatus;
 
    status: EventStatus;
   ticketsSold:  number;
@@ -69,6 +70,11 @@ const EventSchema = new Schema<IEvent>({
    },
   location: {
      type:  locationSchema,
+   },
+   approvedStatus:{
+      type: String,
+      enum: Object.values(EventApprovalStatus),
+      default: EventApprovalStatus.Pending
    },
   
   totalCapacity: {

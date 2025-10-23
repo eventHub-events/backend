@@ -27,5 +27,6 @@ export enum EventVisibility {
 export enum EventApprovalStatus {
   Pending = "pending",
   Approved = "approved",
-  Rejected = "rejected"
+  Rejected = "rejected",
+  Flagged = "flagged"
 }

@@ -77,6 +77,10 @@ private addToHistory(action: string, reason: string| undefined, performedBy: Typ
     performedAt : new Date()
    })
 }
+update(data:Partial<EventModerationEntity>){
+    Object.assign(this, data);
+   return this
+}
 unBlockEvent(unBlockedBy: Types.ObjectId): void {
   this.isBlocked = false;
   this.blockedBy = undefined;

@@ -1,4 +1,4 @@
-import { EventType, EventVisibility } from "../../../enums/organizer/events";
+import { EventApprovalStatus, EventType, EventVisibility } from "../../../enums/organizer/events";
 import { ILocation } from "../../../valueObject/organizer/location";
 import { ITicketTier } from "../../../valueObject/organizer/ticketTier";
 
@@ -17,6 +17,7 @@ export interface EventCreationRequestDTO {
     endTime?: string;
     featured?: boolean;
     createdBy?: string;
+    approvedStatus:EventApprovalStatus;
     tags?:string[];
     visibility?:EventVisibility;
     organizerEmail? : string

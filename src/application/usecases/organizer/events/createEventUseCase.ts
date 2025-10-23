@@ -13,6 +13,7 @@ export class CreateEventUseCase implements ICreateEventUseCase {
  async  execute(data: EventCreationRequestDTO): Promise<EventResponseDTO> {
 
        const eventEntity = this._eventMapper.toEntity(data);
+       const createdEvents = this._eventRepository.findEventsByOrganizerId(data.organizerId,{createdAt: new Date})
 
       const eventData =  await this._eventRepository.createEvent(eventEntity);
 

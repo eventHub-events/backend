@@ -18,8 +18,8 @@ export interface IEventModeration extends Document {
   moderationHistory : Array<{
     action : string;
     reason?: string;
-    performedBy: Types.ObjectId;
-    performedAt :Date
+    performedBy?: Types.ObjectId;
+    performedAt? :Date
   }>,
 
 }

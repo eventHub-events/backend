@@ -34,13 +34,13 @@ export class EventRepository extends BaseRepository<IEvent> implements IEventRep
    async findEventsByOrganizerId(organizerId: string, filter: Partial<EventEntity>={}): Promise<EventEntity[]> {
 
       const eventsDoc = await super.findAll({organizerId,... filter}) as EventsDbModel[];
-        if(!eventsDoc || eventsDoc.length=== 0) throw new Error("Events not found");
+        if(!eventsDoc ) throw new Error("Events not found");
       return this._eventEntityMapper.toDomainList(eventsDoc);
 
    }
    async findAllEvents(filter: Partial<EventEntity>={}): Promise<EventEntity[]> {
       const eventDocs = await super.findAll() as EventsDbModel[];
-       if(!eventDocs || EventSource.length === 0)  throw new Error("Events not found");
+       if(!eventDocs )  throw new Error("Events not found");
 
         return this._eventEntityMapper.toDomainList(eventDocs);
        

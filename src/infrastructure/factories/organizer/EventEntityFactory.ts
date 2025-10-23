@@ -24,6 +24,7 @@ toDomain(dbModel: EventsDbModel): EventEntity {
          featured: dbModel.featured,
          createdBy: dbModel.createdBy,
          tags: dbModel.tags,
+         approvedStatus:dbModel.approvedStatus,
          isDeleted: dbModel.isDeleted,
          reviews: dbModel.reviews, 
          createdAt: dbModel.createdAt,

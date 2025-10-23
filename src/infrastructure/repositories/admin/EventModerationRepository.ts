@@ -27,4 +27,15 @@ export class EventModerationRepository extends BaseRepository<IEventModeration> 
     return this._eventModerationEntityFactory.toDomain(updatedDoc);
       
   }
+  async findEventModerationByEventId(eventId: string): Promise<EventModerationEntity> {
+      const doc =  await super.findOneWithPopulate({eventId},[]) as EventModerationDbModel;
+       if(!doc) throw new Error("EventModeration  details not found");
+    return this._eventModerationEntityFactory.toDomain(doc)
+  }
+  async findEventModerationById(moderationId: string): Promise<EventModerationEntity> {
+      const doc =  await super.findById(moderationId) as EventModerationDbModel;
+       if(!doc) throw new Error("EventModeration  details not found");
+    return this._eventModerationEntityFactory.toDomain(doc)
+  }
+  
 }
