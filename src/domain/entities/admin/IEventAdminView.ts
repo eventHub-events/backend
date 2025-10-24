@@ -9,8 +9,11 @@ export interface IEventAdminView {
   };
   startDate :Date;
   endDate : Date;
+  images: string[];
+  organizerEmail: string;
+  totalCapacity: number;
   status: string;
-  ApprovedStatus?: string;
+  approvedStatus?: string;
   featured?: boolean;
   moderation? : {
     eventApprovalStatus?: string;
@@ -20,6 +23,7 @@ export interface IEventAdminView {
   ticketing?: {
      totalRevenue?: number;
      ticketsSold?: number;
+     platformCommission?: number
 
   };
   location?: ILocation;

@@ -12,16 +12,16 @@ export class EventModerationRepository extends BaseRepository<IEventModeration> 
   ){
     super(EventModerationModel)
   }
-  async createEventModeration(data: EventModerationEntity): Promise<EventModerationEntity> {
+  async createEventModeration(data: Partial<EventModerationEntity>): Promise<EventModerationEntity> {
      
-        const createdDoc = await super.create(data) as EventModerationDbModel ;
+        const createdDoc = await super.create(data) as EventModerationDbModel;
         if(!createdDoc) throw new  Error("Event moderation details not created");
     return this._eventModerationEntityFactory.toDomain(createdDoc);
       
   }
-  async updateEventModeration(moderationId: string, data: EventModerationEntity): Promise<EventModerationEntity> {
+  async updateEventModeration(eventId: string, data: EventModerationEntity): Promise<EventModerationEntity> {
        
-     const updatedDoc =  await super.update(moderationId, data) as EventModerationDbModel;
+     const updatedDoc =  await super.findOneAndUpdate({eventId}, data) as EventModerationDbModel;
       
       if(! updatedDoc) throw new  Error("Event moderation details not created");
     return this._eventModerationEntityFactory.toDomain(updatedDoc);

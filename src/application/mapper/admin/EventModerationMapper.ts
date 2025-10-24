@@ -12,14 +12,14 @@ export class EventModerationMapper implements IEventModerationMapper  {
            eventApprovalStatus : dto.eventApprovalStatus,
            approved: dto.approved,
            approvedAt: dto.approvedAt,
-           approvedBy : new Types.ObjectId(dto.approvedBy),
+           approvedBy : dto.approvedBy,
            rejectionReason: dto.rejectionReason,
-           flaggedBy:new Types.ObjectId (dto.flaggedBy),
+           flaggedBy: dto.flaggedBy,
            flaggedAt: dto.flaggedAt,
            flaggedReason: dto.flaggedReason,
            isBlocked : dto.isBlocked,
            blockedAt : dto.blockedAt,
-           blockedBy : new Types.ObjectId(dto.blockedBy),
+           blockedBy : dto.blockedBy,
          
 
        })
@@ -31,14 +31,14 @@ export class EventModerationMapper implements IEventModerationMapper  {
            eventApprovalStatus : dto.eventApprovalStatus,
            approved: dto.approved,
            approvedAt: dto.approvedAt,
-           approvedBy : new Types.ObjectId(dto.approvedBy),
+           approvedBy : dto.approvedBy,
            rejectionReason: dto.rejectionReason,
-           flaggedBy:new Types.ObjectId (dto.flaggedBy),
+           flaggedBy: dto.flaggedBy,
            flaggedAt: dto.flaggedAt,
            flaggedReason: dto.flaggedReason,
            isBlocked : dto.isBlocked,
            blockedAt : dto.blockedAt,
-           blockedBy : new Types.ObjectId(dto.blockedBy),
+           blockedBy : dto.blockedBy,
       })
   }
   toResponseDTO(entity: EventModerationEntity): EventModerationResponseDTO {

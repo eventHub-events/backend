@@ -31,13 +31,14 @@ export class EventModerationController  {
     }
   async update(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try{
-          const{moderationId}  = req.params;
-     if(!moderationId) throw new CustomError("ModerationId is required", HttpStatusCode.BAD_REQUEST);
+          const{eventId}  = req.params;
+          console.log("hello",  eventId)
+     if(!eventId) throw new CustomError("ModerationId is required", HttpStatusCode.BAD_REQUEST);
 
       const dto: EventModerationUpdateDTO = req.body;
                if(!dto) throw new CustomError("EventModeration update details is required", HttpStatusCode.BAD_REQUEST);
 
-      const result = await this._updateModerationUseCase.execute(moderationId, dto);
+      const result = await this._updateModerationUseCase.execute(eventId, dto);
     res.status(HttpStatusCode.OK).json(ApiResponse.success("Moderation details updated successfully", HttpStatusCode.OK, result));
     }  
      catch(err){

@@ -4,6 +4,8 @@ import { EventResponseDTO } from "../../../domain/DTOs/organizer/events/EventRes
 import { EventUpdateDTO } from "../../../domain/DTOs/organizer/events/EventUpdateDTO";
 import { EventEntity } from "../../../domain/entities/organizer/EventEntity";
 import { IEventMapper } from "../../interface/useCases/organizer/events/IEventMapper";
+import { EventModerationEntity } from "../../../domain/entities/admin/EventModerationEntity";
+import { EventApprovalStatus } from "../../../domain/enums/organizer/events";
 
 export class EventMapper implements IEventMapper  {
 
@@ -54,13 +56,14 @@ export class EventMapper implements IEventMapper  {
         endDate: entity.endDate,
         eventId: entity.eventId?.toString(),
         startTime: entity.startTime,
+        approvedStatus: entity.approvedStatus,
         endTime: entity.endTime,
         images: entity.images,
         visibility: entity.visibility,
         featured: entity.featured,
         organizerEmail: entity.organizerEmail,
         tags: entity.tags,
-        status: entity.status
+        status: entity.currentStatus
 
 
 
@@ -69,6 +72,14 @@ export class EventMapper implements IEventMapper  {
  }
  toResponseDTOList (entities: EventEntity[]): EventResponseDTO[] {
    return   entities.map((event) => this.toResponseDTO(event))
+ }
+ toBlankModerationEntity(eventId: Types.ObjectId, eventApprovalStatus: EventApprovalStatus ): Partial<EventModerationEntity >{
+     return {
+      eventId,
+      eventApprovalStatus: EventApprovalStatus.Pending,
+      approved: false,
+      isBlocked: false
+     }
  }
  
 }

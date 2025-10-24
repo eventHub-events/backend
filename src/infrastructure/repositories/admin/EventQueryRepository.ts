@@ -54,14 +54,19 @@ export class EventQueryRepository implements IEventQueryRepository {
            "category.name":1,
            startDate: 1,
            endDate: 1,
+           images:1,
            status: 1,
+           
+           organizerEmail:1,
            approvedStatus: 1,
+           totalCapacity:1,
            featured: 1,
            "moderation.eventApprovalStatus": 1,
           "moderation.isBlocked": 1,
           "moderation.blockedReason": 1,
           "ticketing.totalRevenue": 1,
           "ticketing.ticketsSold": 1,
+          "ticketing.platformCommission":1,
            location:1
         }
       }

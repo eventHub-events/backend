@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
-import { EventApprovalStatus } from "../../enums/organizer/events";
+import { EventApprovalStatus, EventStatus } from "../../enums/organizer/events";
+import { EventEntity } from "../organizer/EventEntity";
 
 
 export class EventModerationEntity {
@@ -7,19 +8,19 @@ export class EventModerationEntity {
   public eventApprovalStatus: EventApprovalStatus;
   public approved : boolean;
   public approvedAt : Date;
-  public approvedBy? : Types.ObjectId;
+  public approvedBy? : string;
   public rejectionReason?: string;
   public flaggedReason? : string;
-  public flaggedBy?: Types.ObjectId;
+  public flaggedBy?: string;;
   public flaggedAt? : Date;
   public isBlocked? : boolean;
   public blockedAt?: Date;
-  public blockedBy? : Types.ObjectId;
+  public blockedBy? : string;;
   public  id?: Types.ObjectId;
   public moderationHistory?:Array<{
     action : string;
     reason?: string;
-    performedBy?: Types.ObjectId;
+    performedBy?: string;
     performedAt ?:Date
   }>
 
@@ -28,19 +29,19 @@ export class EventModerationEntity {
     eventApprovalStatus: EventApprovalStatus,
     approved: boolean
     approvedAt : Date;
-    approvedBy? : Types.ObjectId;
+    approvedBy? : string;
     rejectionReason?: string;
     flaggedReason? : string;
-    flaggedBy?: Types.ObjectId;
+    flaggedBy?: string;
     flaggedAt? : Date;
     isBlocked? : boolean;
     blockedAt?: Date;
-    blockedBy? : Types.ObjectId;
+    blockedBy? : string;
     id?: Types.ObjectId;
     moderationHistory?:Array<{
     action : string;
     reason?: string;
-    performedBy?: Types.ObjectId;
+    performedBy?: string;
     performedAt? :Date
   }>
   }){
@@ -54,20 +55,20 @@ export class EventModerationEntity {
       this.flaggedAt = props.flaggedAt;
       this.flaggedBy = props.flaggedBy;
       this.isBlocked = props.isBlocked;
-      this.blockedAt = props.blockedAt;
-      this.blockedBy = props.blockedBy;
+      this.blockedAt = props.blockedAt
       this.id = props.id;
       this.moderationHistory= props.moderationHistory
   }
    
-blockEvent(blockedBy: Types.ObjectId, reason?: string){
+blockEvent(reason:string= "", blockedBy:string= ""){
    this.isBlocked = true;
-   this.blockedBy = blockedBy;
+   this.eventApprovalStatus=EventApprovalStatus.Blocked
+    this.blockedBy = blockedBy;
    this.blockedAt = new Date;
    this.addToHistory("Blocked", reason, blockedBy);
 
 }
-private addToHistory(action: string, reason: string| undefined, performedBy: Types.ObjectId): void {
+private addToHistory(action: string, reason: string| undefined, performedBy: string): void {
    if(!this.moderationHistory) this.moderationHistory = [];
 
    this.moderationHistory.push({
@@ -81,13 +82,14 @@ update(data:Partial<EventModerationEntity>){
     Object.assign(this, data);
    return this
 }
-unBlockEvent(unBlockedBy: Types.ObjectId): void {
+unBlockEvent(unBlockedBy: string=""): void {
+  this.eventApprovalStatus = EventApprovalStatus.Approved
   this.isBlocked = false;
   this.blockedBy = undefined;
   this.blockedAt = undefined;
   this.addToHistory ("unBlocked", undefined, unBlockedBy);
 }
-approveEvent(approvedBy: Types.ObjectId): void {
+approveEvent(approvedBy: string): void {
   this.eventApprovalStatus = EventApprovalStatus.Approved;
   this.approved = true;
   this.approvedAt = new Date();
@@ -95,12 +97,35 @@ approveEvent(approvedBy: Types.ObjectId): void {
   
   this.addToHistory("APPROVED", undefined, approvedBy);
 }
-rejectEvent(rejectionReason: string, performedBy: Types.ObjectId): void {
+rejectEvent(rejectionReason: string, performedBy: string): void {
   this.eventApprovalStatus = EventApprovalStatus.Rejected;
   this.approved = false;
   this.rejectionReason = rejectionReason;
   
   this.addToHistory("REJECTED", rejectionReason, performedBy);
+}
+computeStatus(event: EventEntity) {
+    // if(event.isDeleted) return EventStatus.Cancelled;
+    //         if (!this.approved) return EventStatus.Draft;
+            if(this.eventApprovalStatus === EventApprovalStatus.Flagged){
+                return EventApprovalStatus.Flagged
+            }
+            if(this.eventApprovalStatus === EventApprovalStatus.Approved){
+                 return EventApprovalStatus.Approved
+            }
+              
+            if(this.eventApprovalStatus === EventApprovalStatus.Rejected){
+              return EventApprovalStatus.Rejected
+            }
+            if(this.eventApprovalStatus === EventApprovalStatus.Blocked) return EventApprovalStatus.Blocked
+        //      const now = new Date();
+
+   
+        // if (event.startDate > now) return EventStatus.Upcoming;
+        // if (event.startDate <= now && event.endDate >= now) return EventStatus.Active;
+        // if (event.endDate < now) return EventStatus.Completed;
+   
+       return EventApprovalStatus.Pending;
 }
 
 

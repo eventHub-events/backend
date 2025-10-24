@@ -1,7 +1,7 @@
-import { EventModerationResponseDTO } from "../../../../domain/DTOs/admin/EventModeration/EventModerationResponseDTO";
-import { IEventModerationRepository } from "../../../../domain/repositories/admin/IEventModerationRepository";
-import { IEventModerationMapper } from "../../../interface/mapper/admin/IEventModerationMapper";
-import { IFetchModerationByEventIdUseCase } from "../../../interface/useCases/admin/event-management/IFetchModerationByEventIdUseCase";
+import { EventModerationResponseDTO } from "../../../../../domain/DTOs/admin/EventModeration/EventModerationResponseDTO";
+import { IEventModerationRepository } from "../../../../../domain/repositories/admin/IEventModerationRepository";
+import { IEventModerationMapper } from "../../../../interface/mapper/admin/IEventModerationMapper";
+import { IFetchModerationByEventIdUseCase } from "../../../../interface/useCases/admin/event-management/IFetchModerationByEventIdUseCase";
 
 
 export class FetchEventModerationByEventIdUseCase implements IFetchModerationByEventIdUseCase {

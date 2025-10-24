@@ -89,6 +89,26 @@ import { ILocation } from "../../valueObject/organizer/location";
 public cancel(){
   this.status = EventStatus.Cancelled
 }
+   updateStatus(status: EventApprovalStatus){
+      this.approvedStatus= status;
+  
+   }
+ get currentStatus(): EventStatus {
+        if (this.isDeleted) return EventStatus.Cancelled; // Deleted event
+        if (!this.approvedStatus || this.approvedStatus === EventApprovalStatus.Pending)
+            return EventStatus.Draft;
 
+        const now = new Date();
 
+        if (this.approvedStatus === EventApprovalStatus.Blocked) return EventStatus.Blocked;
+        if (this.approvedStatus === EventApprovalStatus.Rejected) return EventStatus.Cancelled;
+        if (this.approvedStatus === EventApprovalStatus.Flagged) return EventStatus.Flagged;
+
+        // Timeline based status
+        if (this.startDate > now) return EventStatus.Upcoming;
+        if (this.startDate <= now && this.endDate >= now) return EventStatus.Active;
+        if (this.endDate < now) return EventStatus.Completed;
+
+        return EventStatus.Draft; // Fallback
+    }
   }

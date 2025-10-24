@@ -50,6 +50,6 @@ const changePasswordUseCase =  new ChangePasswordUseCase(userRepository,tokenSer
 export const passwordController  = new PasswordController(forgetPasswordUseCase,verifyResetPasswordOtpUseCase,changePasswordUseCase)
 
 const eventEntityFactory = new EventEntityFactory();
-const eventRepository = new EventRepository(eventEntityFactory);
+export const eventRepository = new EventRepository(eventEntityFactory);
 const eventMapper = new EventMapper();
 export const updatingEventUseCase = new UpdateEventUseCase(eventRepository, eventMapper);

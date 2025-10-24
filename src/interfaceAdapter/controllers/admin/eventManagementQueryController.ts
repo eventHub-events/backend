@@ -14,6 +14,7 @@ export class EventManagementQueryController {
   async getAllEvents(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try{
        const events = await this._getAllEventUseCase.execute();
+     
       res.status(HttpStatusCode.OK).json(ApiResponse.success("events fetched successfully", HttpStatusCode.OK, events))
 
     }catch(err){

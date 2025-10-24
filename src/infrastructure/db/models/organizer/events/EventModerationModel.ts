@@ -5,20 +5,20 @@ export interface IEventModeration extends Document {
   eventId :Types.ObjectId;
   eventApprovalStatus: EventApprovalStatus;
   approved: boolean;
-  approvedAt: Date;
-  approvedBy?: Types.ObjectId;
+  approvedAt?: Date;
+  approvedBy?: string;
   rejectionReason?: string;
   flaggedReason?: string;
-  flaggedBy?: Types.ObjectId;
+  flaggedBy?: string;
   flaggedAt?: Date;
   isBlocked?: boolean;
   blockedReason?: string;
   blockedAt?: Date;
-  blockedBy?: Types.ObjectId;
+  blockedBy?: string;
   moderationHistory : Array<{
     action : string;
     reason?: string;
-    performedBy?: Types.ObjectId;
+    performedBy?: string;
     performedAt? :Date
   }>,
 
@@ -44,8 +44,9 @@ const EventModerationSchema = new Schema<IEventModeration>({
      type: Date
   },
   approvedBy :{
-     type: Schema.Types.ObjectId, 
-     ref: "User"
+     type: String, 
+     required: false,      
+    default: ""
   },
   rejectionReason : {
     type: String,
@@ -57,8 +58,9 @@ const EventModerationSchema = new Schema<IEventModeration>({
 
   },
   flaggedBy: {
-     type: Schema.Types. ObjectId,
-      ref: "User"
+       type: String, 
+     required: false,      
+    default: ""
   },
   flaggedAt: {
      type:Date
@@ -71,13 +73,17 @@ const EventModerationSchema = new Schema<IEventModeration>({
      type: Date
   },
   blockedBy : {
-    type: Schema.Types.ObjectId,
-    ref: "User"
+      type: String, 
+     required: false,      
+    default: ""
   },
   moderationHistory :[{
      action: {type:  String, required: true},
      reason: {type: String},
-     performedBy: {type: Schema.Types.ObjectId, ref: "User", required: true},
+     performedBy: {  type: String, 
+     required: false,      
+    default: ""
+     },
      performedAt: {type: Date, default: Date.now()}
   }]
 },{timestamps: true});
