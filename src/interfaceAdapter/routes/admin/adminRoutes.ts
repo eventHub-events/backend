@@ -7,6 +7,9 @@ import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthen
 import { InputDataValidator } from "../../../infrastructure/middleware/zodMiddleware/inputDataValidator"
 import { categoryValidateSchema, categoryValidateUpdateSchema } from "../../../infrastructure/validation/schemas/admin/categorySchema"
 import { categoryController } from "../../../di/admin/category/containersList"
+import { eventManagementQueryController, eventModerationActionsController, eventModerationController } from "../../../di/admin/event-management/containerList"
+import { EventModerationActionsController } from "../../controllers/admin/EventModerationActionsController"
+// import { eventRetrievalController } from "../../../di/organizer/events/container"
 
 
 
@@ -28,6 +31,20 @@ import { categoryController } from "../../../di/admin/category/containersList"
   router.post("/categories",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare) ,InputDataValidator.validate(categoryValidateSchema), (req: IAuthenticatedRequest, res: Response, next: NextFunction) => categoryController.create(req, res, next));
   router.patch("/categories/:categoryId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), InputDataValidator.validate(categoryValidateUpdateSchema), (req: IAuthenticatedRequest, res: Response, next: NextFunction) => categoryController.edit(req, res, next));
   router.patch("/categories/:categoryId/soft-delete", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => categoryController.delete(req, res, next));
+
+  // event -management //
+
+  router.get("/events/:eventId/event-moderation", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationController.fetchDetailsByEvent(req, res, next));
+  router.post("/event-moderation",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationController.create(req, res, next));
+  router.patch("/event-moderation/:eventId/update",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationController.update(req, res, next));
+  router.get("/events",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventManagementQueryController.getAllEvents(req, res, next));
+  // router.get("/events",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventRetrievalController.getAllEvents(req, res, next));
+
+  // event-management-actions //
+   router.patch("/events/:eventId/block", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationActionsController.block(req, res, next));
+   router.patch("/events/:eventId/unBlock", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationActionsController.unBlock(req, res, next));
+   router.patch("/events/:eventId/approve", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationActionsController.approve(req, res, next));
+   router.patch("/events/:eventId/reject", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationActionsController.reject(req, res, next));
  
 
  export default router

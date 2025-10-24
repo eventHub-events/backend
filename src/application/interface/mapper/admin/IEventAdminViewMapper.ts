@@ -1,0 +1,8 @@
+import { EventsAdminViewResponseDTO } from "../../../../domain/DTOs/admin/event-view/EventsAdminViewResponseDTO";
+import { IEventAdminView } from "../../../../domain/entities/admin/IEventAdminView";
+
+export interface IEventAdminViewMapper {
+  toResponseDto(data: IEventAdminView): EventsAdminViewResponseDTO;
+  toResponseDtoList(data:IEventAdminView[]):EventsAdminViewResponseDTO[];
+  
+}
