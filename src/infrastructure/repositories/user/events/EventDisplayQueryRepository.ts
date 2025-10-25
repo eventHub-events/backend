@@ -1,8 +1,9 @@
+import { EventDisplayEntity } from "../../../../domain/entities/user/EventDisplayEntity";
 import { IEventDisplayQueryRepository } from "../../../../domain/repositories/user/IEventDisplayQueryRepository";
 import { EventModel } from "../../../db/models/organizer/events/EventsModel";
 
 export class EventDisplayQueryRepository implements  IEventDisplayQueryRepository {
- async findTrendingEvents(): Promise<any> {
+ async findTrendingEvents(): Promise<EventDisplayEntity[]> {
      return EventModel.aggregate([
       {$lookup:{
          from: "eventmoderations",
@@ -76,11 +77,12 @@ export class EventDisplayQueryRepository implements  IEventDisplayQueryRepositor
         },
         {
           $project: {
+            _id:1,
              title : 1,
-             category: 1,
+             category:"$category.name",
              tags:1,
              images: 1,
-             location:1,
+             location:"$location.venue",
              attendees: 1,
              price: 1
 

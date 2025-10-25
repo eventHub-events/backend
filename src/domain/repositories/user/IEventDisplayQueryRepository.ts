@@ -1,5 +1,6 @@
+import { EventDisplayEntity } from "../../entities/user/EventDisplayEntity";
 
 
 export interface IEventDisplayQueryRepository {
-  findTrendingEvents(): Promise<any>
+  findTrendingEvents(): Promise<EventDisplayEntity[]>
 }
