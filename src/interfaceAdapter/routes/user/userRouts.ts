@@ -1,10 +1,12 @@
 import { authController, passwordController, userProfileController } from '../../../di/container';
-import express, { NextFunction, Response } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 import { authenticationMiddleWare } from '../../../di/container';
 import { IAuthenticatedRequest } from '../../../infrastructure/interface/IAuthenticatedRequest';
 import { tokenController } from '../../../di/common/commonContainers';
 import { InputDataValidator } from '../../../infrastructure/middleware/zodMiddleware/inputDataValidator';
 import {  userProfileUpdateSchema} from '../../../infrastructure/validation/schemas/user/userProfileSchema';
+import { eventDisplayController } from '../../../di/user/event-display/container';
+import { EventDisplayRoutes } from '../../../infrastructure/constants/api-routes/user/event-display/constants';
 const router = express.Router();
 
 router.post('/register', (req, res) => authController.registerUser(req, res));
@@ -23,7 +25,10 @@ router.post("/changePassword",authenticationMiddleWare.authenticateChangePasswor
 
 // user profile related
 router.get("/:userId/profile",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => userProfileController.fetchUserProfile(req,res,next ));
-router.patch("/:profileId/profile",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),InputDataValidator.validate(userProfileUpdateSchema),(req: IAuthenticatedRequest, res: Response, next: NextFunction ) => userProfileController.updateUserProfile(req,res,next))
+router.patch("/:profileId/profile",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),InputDataValidator.validate(userProfileUpdateSchema),(req: IAuthenticatedRequest, res: Response, next: NextFunction ) => userProfileController.updateUserProfile(req,res,next));
+
+// events-display-related //
+router.get(EventDisplayRoutes.EVENTS.TRENDING,(req: Request, res: Response, next: NextFunction) => eventDisplayController.getTrending(req, res, next));
 
 
 export default router;
