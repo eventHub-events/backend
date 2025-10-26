@@ -5,6 +5,8 @@ export interface TrendingEventDisplayResponseDTO {
   images: string[];
   location:  string;
   attendees: number;
+  startDate: string;
+  tags: string[];
   price: number;
 
 }

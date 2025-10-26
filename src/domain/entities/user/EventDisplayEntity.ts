@@ -6,6 +6,8 @@ export interface EventDisplayEntity{
    category: string;
    images: string[];
    location: string;
+   startDate: string;
+   tags: string[];
    attendees: number;
    price: number
 }

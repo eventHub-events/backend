@@ -81,6 +81,7 @@ export class EventDisplayQueryRepository implements  IEventDisplayQueryRepositor
              title : 1,
              category:"$category.name",
              tags:1,
+             startDate: 1,
              images: 1,
              location:"$location.venue",
              attendees: 1,
