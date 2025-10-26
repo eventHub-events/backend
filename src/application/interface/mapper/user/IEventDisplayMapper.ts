@@ -4,4 +4,5 @@ import { EventDisplayEntity } from "../../../../domain/entities/user/EventDispla
 export interface IEventDisplayMapper {
   toResponseDTO(data: EventDisplayEntity) : TrendingEventDisplayResponseDTO;
   toResponseDTOList(data: EventDisplayEntity[]): TrendingEventDisplayResponseDTO[];
+  
 }

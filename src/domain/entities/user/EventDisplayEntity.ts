@@ -7,7 +7,13 @@ export interface EventDisplayEntity{
    images: string[];
    location: string;
    startDate: string;
-   tags: string[];
-   attendees: number;
-   price: number
+   tags?: string[];
+   attendees?: number;
+   price: number;
+   description?: string;
+   organizer?: string;
+   ticketsLeft?:number;
+   availability?:number;
+
+
 }

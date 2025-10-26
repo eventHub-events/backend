@@ -17,7 +17,11 @@ export class EventDisplayMapper implements IEventDisplayMapper {
          tags: data.tags,
          attendees: data.attendees,
          price: data.price,
-         title: data.title
+         title: data.title,
+         description: data.description,
+         organizer: data.organizer,
+         availability: data.availability,
+         ticketsLeft: data.ticketsLeft
 
 
 

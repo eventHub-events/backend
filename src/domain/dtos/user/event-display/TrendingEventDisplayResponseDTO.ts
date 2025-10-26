@@ -4,9 +4,14 @@ export interface TrendingEventDisplayResponseDTO {
   category: string;
   images: string[];
   location:  string;
-  attendees: number;
+  attendees?: number;
   startDate: string;
-  tags: string[];
+  tags?: string[];
   price: number;
+  ticketsLeft?: number;
+  availability?: number;
+  organizer?: string;
+  description?: string;
+
 
 }
