@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 import { ITicketTier } from "../../../../../domain/valueObject/organizer/ticketTier";
 import { EventStatus } from "../../../../../domain/enums/organizer/events";
 import { IWaitingListEntry } from "../../../../../domain/valueObject/organizer/WaitingListEntry";
@@ -7,6 +7,7 @@ import { WaitingListSchema } from "../../../../../domain/valueObject/organizer/W
 
 export interface IEventTicketing extends Document {
   eventId: Types.ObjectId;
+  organizerId: Types.ObjectId;
   tickets: ITicketTier[];
   status: EventStatus;
   saleStartDate:  Date;
@@ -36,6 +37,11 @@ const EventTicketingSchema = new Schema<IEventTicketing>({
      type: String,
      enum: Object.values(EventStatus),
      default:EventStatus.Draft
+   },
+   organizerId: {
+       type: Schema.Types.ObjectId,
+       ref: "User"
+
    },
    saleStartDate :{
      type: Date

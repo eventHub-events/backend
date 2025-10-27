@@ -11,7 +11,7 @@ import { VerificationRequestUseCase } from "../../application/useCases/organizer
 import { OrganizerProfileEntityFactory } from "../../infrastructure/factories/OrganizerProfileEntityFactory";
 import { UploadDocumentFactory } from "../../infrastructure/factories/UploadDocumentFactory";
 import { UserEntityFactory } from "../../infrastructure/factories/UserEntityFactory";
-import { OrganizerProfileRepository } from "../../infrastructure/repositories/OrganizerProfileRepository";
+import { OrganizerProfileRepository } from "../../infrastructure/repositories/organizer/OrganizerProfileRepository";
 import { UploadDocumentRepository } from "../../infrastructure/repositories/UploadDocumentRepository";
 import { UserRepository } from "../../infrastructure/repositories/UserRepository";
 import { WinstonLoggerService } from "../../infrastructure/services/logger/loggerService";

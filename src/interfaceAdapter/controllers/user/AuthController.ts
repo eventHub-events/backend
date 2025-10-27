@@ -105,7 +105,7 @@ export class AuthController {
         .json(ApiResponse.success("login  successful",HttpStatusCode.OK,user));
     } catch (err:unknown) {
   
-     
+       console.log("err",err)
       const message=err instanceof Error? HandleErrorUtility.handleError(err):"something went wrong"
       
 

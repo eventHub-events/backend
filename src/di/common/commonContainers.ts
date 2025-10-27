@@ -1,12 +1,16 @@
+import { EventMapper } from "../../application/mapper/organizer/EventMapper";
 import { UserMapper } from "../../application/mapper/user/UserMapper";
 import { UsersMapper } from "../../application/mapper/user/usersMapper";
+import { UpdateEventUseCase } from "../../application/useCases/organizer/events/editEventUseCase";
 import { ChangePasswordUseCase } from "../../application/useCases/user/auth/ChangePasswordUseCase";
 import { ForgetPasswordUseCase } from "../../application/useCases/user/auth/ForgetPasswordUseCase";
 import { GenerateOtpUseCase } from "../../application/useCases/user/auth/GenerateOtpUseCase";
 import { RefreshTokenUseCase } from "../../application/useCases/user/auth/GenerateRefreshTokenUseCase";
 import { VerifyResetPasswordOtpUseCase } from "../../application/useCases/user/auth/ResetPasswordUseCase";
 import { TokenConfig } from "../../infrastructure/config/user/tokenConfig";
+import { EventEntityFactory } from "../../infrastructure/factories/organizer/EventEntityFactory";
 import { UserEntityFactory } from "../../infrastructure/factories/UserEntityFactory";
+import { EventRepository } from "../../infrastructure/repositories/organizer/EventsRepository";
 import { UserRepository } from "../../infrastructure/repositories/UserRepository";
 import { BcryptHashService } from "../../infrastructure/services/hashing/BcryptHashService";
 import { HashService } from "../../infrastructure/services/hashing/HashService";
@@ -44,3 +48,8 @@ const verifyResetPasswordOtpUseCase =new VerifyResetPasswordOtpUseCase(otpServic
 const changePasswordUseCase =  new ChangePasswordUseCase(userRepository,tokenService,hashService,loggerService,userMapper)
 
 export const passwordController  = new PasswordController(forgetPasswordUseCase,verifyResetPasswordOtpUseCase,changePasswordUseCase)
+
+const eventEntityFactory = new EventEntityFactory();
+export const eventRepository = new EventRepository(eventEntityFactory);
+const eventMapper = new EventMapper();
+export const updatingEventUseCase = new UpdateEventUseCase(eventRepository, eventMapper);

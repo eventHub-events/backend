@@ -1,10 +1,10 @@
 import { FilterQuery } from "mongoose";
-import { EventEntity } from "../../domain/entities/organizer/EventEntity";
-import { IEventRepository } from "../../domain/repositories/organizer/IEventsRepository";
-import { EventModel, IEvent } from "../db/models/organizer/events/EventsModel";
-import { BaseRepository } from "./BaseRepository";
-import { IEventsEntityFactory } from "../../application/interface/factories/organizer/IEventsEntityFactory";
-import { EventsDbModel } from "../../domain/types/OrganizerTypes";
+import { EventEntity } from "../../../domain/entities/organizer/EventEntity";
+import { IEventRepository } from "../../../domain/repositories/organizer/IEventsRepository";
+import { EventModel, IEvent } from "../../db/models/organizer/events/EventsModel";
+import { BaseRepository } from "../BaseRepository";
+import { IEventsEntityFactory } from "../../../application/interface/factories/organizer/IEventsEntityFactory";
+import { EventsDbModel } from "../../../domain/types/OrganizerTypes";
 
 
 export class EventRepository extends BaseRepository<IEvent> implements IEventRepository {
@@ -34,13 +34,13 @@ export class EventRepository extends BaseRepository<IEvent> implements IEventRep
    async findEventsByOrganizerId(organizerId: string, filter: Partial<EventEntity>={}): Promise<EventEntity[]> {
 
       const eventsDoc = await super.findAll({organizerId,... filter}) as EventsDbModel[];
-        if(!eventsDoc || eventsDoc.length=== 0) throw new Error("Events not found");
+        if(!eventsDoc ) throw new Error("Events not found");
       return this._eventEntityMapper.toDomainList(eventsDoc);
 
    }
    async findAllEvents(filter: Partial<EventEntity>={}): Promise<EventEntity[]> {
       const eventDocs = await super.findAll() as EventsDbModel[];
-       if(!eventDocs || EventSource.length === 0)  throw new Error("Events not found");
+       if(!eventDocs )  throw new Error("Events not found");
 
         return this._eventEntityMapper.toDomainList(eventDocs);
        

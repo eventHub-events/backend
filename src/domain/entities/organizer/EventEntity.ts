@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { EventStatus, EventType, EventVisibility } from "../../enums/organizer/events";
+import { EventApprovalStatus, EventStatus, EventType, EventVisibility } from "../../enums/organizer/events";
 import { ILocation } from "../../valueObject/organizer/location";
 
 
@@ -16,6 +16,7 @@ import { ILocation } from "../../valueObject/organizer/location";
      public images: string[];
      public eventId?:  Types.ObjectId;
      public status?: EventStatus;
+     public approvedStatus?:EventApprovalStatus;
      public ticketsSold?: number;
      public featured?: boolean;
      public organizerEmail?: string;
@@ -40,6 +41,7 @@ import { ILocation } from "../../valueObject/organizer/location";
     totalCapacity: number;
     startDate: Date;
     endDate: Date;
+    approvedStatus?:EventApprovalStatus;
     images: string[];
     eventId?: Types.ObjectId;
     status?: EventStatus;
@@ -78,6 +80,7 @@ import { ILocation } from "../../valueObject/organizer/location";
     this.review = props.reviews;
     this.createdAt = props.createdAt;
     this.updatedAt = props.updatedAt;
+    this.approvedStatus = props.approvedStatus;
    }
  
   public delete(){
@@ -86,6 +89,26 @@ import { ILocation } from "../../valueObject/organizer/location";
 public cancel(){
   this.status = EventStatus.Cancelled
 }
+   updateStatus(status: EventApprovalStatus){
+      this.approvedStatus= status;
+  
+   }
+ get currentStatus(): EventStatus {
+        if (this.isDeleted) return EventStatus.Cancelled; // Deleted event
+        if (!this.approvedStatus || this.approvedStatus === EventApprovalStatus.Pending)
+            return EventStatus.Draft;
 
+        const now = new Date();
 
+        if (this.approvedStatus === EventApprovalStatus.Blocked) return EventStatus.Blocked;
+        if (this.approvedStatus === EventApprovalStatus.Rejected) return EventStatus.Cancelled;
+        if (this.approvedStatus === EventApprovalStatus.Flagged) return EventStatus.Flagged;
+
+        // Timeline based status
+        if (this.startDate > now) return EventStatus.Upcoming;
+        if (this.startDate <= now && this.endDate >= now) return EventStatus.Active;
+        if (this.endDate < now) return EventStatus.Completed;
+
+        return EventStatus.Draft; // Fallback
+    }
   }

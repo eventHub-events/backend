@@ -5,6 +5,7 @@ export enum EventStatus {
   Completed = "completed",
   Cancelled = "cancelled",
   Flagged = "flagged",
+  Blocked ="blocked"
 }
 
 export  enum EventType {
@@ -27,5 +28,8 @@ export enum EventVisibility {
 export enum EventApprovalStatus {
   Pending = "pending",
   Approved = "approved",
-  Rejected = "rejected"
+  Rejected = "rejected",
+  Flagged = "flagged",
+  Blocked = "blocked",
+  Unblocked ="unblocked"
 }
