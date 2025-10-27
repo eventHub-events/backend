@@ -30,6 +30,7 @@ router.patch("/:profileId/profile",authenticationMiddleWare.authenticateUser.bin
 // events-display-related //
 router.get(EventDisplayRoutes.EVENTS.TRENDING,(req: Request, res: Response, next: NextFunction) => eventDisplayController.getTrending(req, res, next));
 router.get(EventDisplayRoutes.EVENTS.FEATURED,(req: Request,res: Response, next: NextFunction) => eventDisplayController.getFeatured(req, res, next));
+router.get(EventDisplayRoutes.EVENTS.DETAILS,(req: Request, res: Response, next: NextFunction) => eventDisplayController.getEventDetailsById(req, res, next));
 
 
 export default router;

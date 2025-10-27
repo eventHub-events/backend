@@ -4,6 +4,6 @@ export const EventDisplayRoutes= {
     TRENDING: "/events/trending",
     FEATURED:"/events/featured",
     UPCOMING: "/events/upcoming",
-    DETAILS:(eventId: string) => `/events/${eventId}`
+    DETAILS:"/events/:eventId"
   }
 }

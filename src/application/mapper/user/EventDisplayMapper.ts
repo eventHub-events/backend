@@ -1,4 +1,6 @@
+import { EventDetailsResponseDTO } from "../../../domain/DTOs/user/event-display/EventDetailsResponseDTO";
 import { TrendingEventDisplayResponseDTO } from "../../../domain/DTOs/user/event-display/TrendingEventDisplayResponseDTO";
+import { EventDetailsEntity } from "../../../domain/entities/user/EventDetailsEntity";
 import { EventDisplayEntity } from "../../../domain/entities/user/EventDisplayEntity";
 import { IEventDisplayMapper } from "../../interface/mapper/user/IEventDisplayMapper";
 
@@ -31,4 +33,41 @@ export class EventDisplayMapper implements IEventDisplayMapper {
 toResponseDTOList(data: EventDisplayEntity[]): TrendingEventDisplayResponseDTO[] {
     return data.map((d) => this.toResponseDTO(d));
 }
+ toEventDetailsResponseDTO(data: EventDetailsEntity): EventDetailsResponseDTO {
+     return {
+        id:  data._id.toString(),
+        title : data.title,
+        description: data.description,
+        venue: data.venue,
+        tags: data.tags,
+        images: data.images,
+        totalCapacity: data.totalCapacity,
+        category: data.category,
+        organizerName: data.organizerName,
+        startDate: new Date(data.startDate).toLocaleDateString("en-GB",{
+                        day:"2-digit",
+                        month: "short",
+                        year :"numeric"
+                        }),
+        location: {
+               address: data.location?.address,
+               state: data.location?.state,
+               city: data.location?.city,
+               country: data.location?.country
+           
+              },
+        tickets:  data.tickets?.map((t) => {
+              return {
+                 name: t.name,
+                 price: t.price,
+                 totalSeats: t.price,
+                 bookedSeats: t.bookedSeats,
+                 description: t.description,
+                 benefits: t.benefits,
+                 maxTicketPerUser: t.maxTicketPerUser,
+                 isRefundable: t.isRefundable
+              }
+        })
+     }
+ }
 }
