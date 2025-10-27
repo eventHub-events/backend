@@ -73,7 +73,7 @@ export class EventMapper implements IEventMapper  {
  toResponseDTOList (entities: EventEntity[]): EventResponseDTO[] {
    return   entities.map((event) => this.toResponseDTO(event))
  }
- toBlankModerationEntity(eventId: Types.ObjectId, eventApprovalStatus: EventApprovalStatus ): Partial<EventModerationEntity >{
+ toBlankModerationEntity(eventId: Types.ObjectId ): Partial<EventModerationEntity >{
      return {
       eventId,
       eventApprovalStatus: EventApprovalStatus.Pending,
