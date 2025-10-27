@@ -13,7 +13,8 @@ export class BookingEntity {
    public readonly eventTitle: string;
    public readonly eventDate: string;
    public readonly organizerName : string;
-   public readonly eventVenue: string
+   public readonly eventVenue: string;
+   public readonly  id?:Types.ObjectId
   constructor(props :{
      userId : Types.ObjectId,
      eventId : Types.ObjectId,
@@ -28,6 +29,7 @@ export class BookingEntity {
        eventDate: string,
        organizerName: string,
        eventVenue: string,
+       id?: Types.ObjectId
         
 
 
@@ -46,7 +48,8 @@ export class BookingEntity {
        this.eventVenue = props.eventVenue;
        this.organizerName = props.organizerName;
        this.eventDate = props.eventDate;
-       this.totalAmount = props.totalAmount
+       this.totalAmount = props.totalAmount;
+       this.id = props.id
   }
 
   markAsConfirmed() {
