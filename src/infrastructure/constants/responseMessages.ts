@@ -7,6 +7,10 @@ export const ResponseMessages = {
     EVENT_DETAILS_FETCH_SUCCESS: "Event  details fetched successfully",
     EVENT_DETAILS_FETCH_FAILURE : "Event details failed to fetch"
   },
+  BOOKING :{
+     BOOKING_SUCCESS : "Tickets booked successfully",
+     BOOKING_FAILURE : "Tickets not available"
+  },
   GENERAL: {
      INTERNAL_SERVER_ERROR: "Something went wrong, please try again later."
   }
