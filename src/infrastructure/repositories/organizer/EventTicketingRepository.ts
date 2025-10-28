@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { IEventTicketingEntityFactory } from "../../../application/interface/factories/organizer/IEventTicketingFactory";
 import { EventTicketingEntity } from "../../../domain/entities/organizer/EventTicketingEntity";
 import { NotFoundError } from "../../../domain/errors/common";
@@ -5,6 +6,7 @@ import { IEventTicketingRepository } from "../../../domain/repositories/organize
 import { EventTicketingDbModel } from "../../../domain/types/OrganizerTypes";
 import { EventTicketingModel, IEventTicketing } from "../../db/models/organizer/events/EventTicketingModel";
 import { BaseRepository } from "../BaseRepository";
+import { TicketRequest } from "../../../domain/DTOs/user/booking/TicketReqest";
 
 export class EventTicketingRepository extends BaseRepository<IEventTicketing> implements IEventTicketingRepository {
   constructor(
@@ -59,5 +61,31 @@ export class EventTicketingRepository extends BaseRepository<IEventTicketing> im
       
 
   }
-
+  async reserveMultipleSeats(eventId: string, tickets:TicketRequest[]) : Promise<boolean> {
+     const session = await mongoose. startSession();
+      session.startTransaction();
+      try{
+         for( const t of tickets) {
+            const result = await super.findOneAndUpdate({
+              eventId,
+              "tickets.name" : t.name,
+              $expr: {$lt:["tickets.bookedSeats", "tickets.totalSeats"]},
+            },
+              {$inc:{"tickets.$.bookedSeats": t.quantity}},
+              {session}
+              
+            );
+            if(result=== null){
+              throw new Error(`not enough seats for${t.name}`)
+            }
+         }
+         await session.commitTransaction();
+         session.endSession();
+         return true;
+      }catch(err) {
+         await session.abortTransaction();
+         session.endSession();
+         return false
+      }
+  }
 }

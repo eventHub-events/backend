@@ -14,7 +14,8 @@ export class BookingEntity {
    public readonly eventDate: string;
    public readonly organizerName : string;
    public readonly eventVenue: string;
-   public readonly  id?:Types.ObjectId
+   public readonly  id?:Types.ObjectId;
+   public  expiresAt: Date
   constructor(props :{
      userId : Types.ObjectId,
      eventId : Types.ObjectId,
@@ -29,7 +30,8 @@ export class BookingEntity {
        eventDate: string,
        organizerName: string,
        eventVenue: string,
-       id?: Types.ObjectId
+       id?: Types.ObjectId,
+       expiresAt: Date
         
 
 
@@ -49,7 +51,8 @@ export class BookingEntity {
        this.organizerName = props.organizerName;
        this.eventDate = props.eventDate;
        this.totalAmount = props.totalAmount;
-       this.id = props.id
+       this.id = props.id;
+       this.expiresAt = props.expiresAt?? new Date(Date.now() + 15 * 60 * 1000);
   }
 
   markAsConfirmed() {
@@ -57,5 +60,11 @@ export class BookingEntity {
   }
   cancelBooking() {
      this.status = BookingStatus.CANCELLED;
+  }
+  markAsExpired() {
+     this.status = BookingStatus.EXPIRED
+  }
+  calculateTotalAmount(): number {
+    return this.tickets.reduce((sum, t) => sum+t.price*t.quantity, 0);
   }
 }

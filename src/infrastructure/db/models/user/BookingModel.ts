@@ -15,6 +15,7 @@ export interface IBooking extends Document {
    eventDate: string;
    organizerName: string;
    eventVenue: string;
+   expiresAt : Date;
 
 }
 
@@ -59,6 +60,10 @@ const bookingSchema = new Schema<IBooking>({
      type : String,
       enum:Object.values(BookingStatus),
      default : BookingStatus.PENDING_PAYMENT
+   },
+   expiresAt : {
+    type: Date,
+    default: new Date(Date.now() + 15 * 60 * 1000)
    }
    
 },{timestamps : true})

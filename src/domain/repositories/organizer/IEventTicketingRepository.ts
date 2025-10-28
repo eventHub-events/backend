@@ -1,5 +1,6 @@
 
 
+import { TicketRequest } from "../../DTOs/user/booking/TicketReqest";
 import { EventTicketingEntity } from "../../entities/organizer/EventTicketingEntity";
 
 export interface IEventTicketingRepository {
@@ -8,5 +9,7 @@ export interface IEventTicketingRepository {
     updateTicketing(ticketingId: string, data: EventTicketingEntity): Promise<EventTicketingEntity>;
     deleteTicketing(ticketingId: string): Promise<void>;
     updateTicketingByEventId(eventId: string, data: EventTicketingEntity): Promise<EventTicketingEntity> 
-    findTicketingByEventId(eventId: string) :Promise<EventTicketingEntity >
+    findTicketingByEventId(eventId: string) :Promise<EventTicketingEntity >;
+    reserveMultipleSeats(eventId: string, tickets:TicketRequest[]) : Promise<boolean>
+   
 }
