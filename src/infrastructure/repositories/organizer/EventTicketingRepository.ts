@@ -61,31 +61,47 @@ export class EventTicketingRepository extends BaseRepository<IEventTicketing> im
       
 
   }
-  async reserveMultipleSeats(eventId: string, tickets:TicketRequest[]) : Promise<boolean> {
-     const session = await mongoose. startSession();
-      session.startTransaction();
-      try{
-         for( const t of tickets) {
-            const result = await super.findOneAndUpdate({
-              eventId,
-              "tickets.name" : t.name,
-              $expr: {$lt:["tickets.bookedSeats", "tickets.totalSeats"]},
-            },
-              {$inc:{"tickets.$.bookedSeats": t.quantity}},
-              {session}
-              
-            );
-            if(result=== null){
-              throw new Error(`not enough seats for${t.name}`)
-            }
-         }
-         await session.commitTransaction();
-         session.endSession();
-         return true;
-      }catch(err) {
-         await session.abortTransaction();
-         session.endSession();
-         return false
+  async reserveMultipleSeats(
+    eventId: string,
+    tickets: { name: string; quantity: number }[]
+  ): Promise<boolean> {
+    const eventObjectId = new mongoose.Types.ObjectId(eventId);
+
+    for (const t of tickets) {
+      // Step 1: Fetch the specific ticket info
+      const event = await super.findOne(
+        { eventId: eventObjectId, "tickets.name": t.name },
+        { "tickets.$": 1 }
+      );
+
+      if (!event || !event.tickets?.length) {
+        throw new Error(`Ticket type "${t.name}" not found`);
       }
+
+      const ticket = event.tickets[0];
+    
+
+      // Step 2: Check if enough seats are available
+      if (ticket.bookedSeats + t.quantity > ticket.totalSeats) {
+        throw new Error(`Not enough seats available for "${t.name}"`);
+      }
+
+      // Step 3: Atomically reserve seats using BaseRepository.updateOne()
+      const { modifiedCount } = await super.updateOne(
+        {
+          eventId: eventObjectId,
+          "tickets.name": t.name,
+          "tickets.bookedSeats": ticket.bookedSeats, // ensures concurrency safety
+        },
+        { $inc: { "tickets.$.bookedSeats": t.quantity } }
+      );
+
+      if (modifiedCount === 0) {
+        throw new Error(`Failed to reserve seats for "${t.name}" — try again`);
+      }
+    }
+
+    return true;
   }
+
 }

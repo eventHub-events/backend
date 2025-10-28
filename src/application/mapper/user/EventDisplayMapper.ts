@@ -60,7 +60,7 @@ toResponseDTOList(data: EventDisplayEntity[]): TrendingEventDisplayResponseDTO[]
               return {
                  name: t.name,
                  price: t.price,
-                 totalSeats: t.price,
+                 totalSeats: t.totalSeats,
                  bookedSeats: t.bookedSeats,
                  description: t.description,
                  benefits: t.benefits,

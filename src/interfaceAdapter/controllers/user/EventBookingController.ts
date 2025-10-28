@@ -14,6 +14,8 @@ export class EventBookingController {
    try{
        const  { eventId } = req.params;
        const dto: BookingRequestDTO = req.body;
+       console.log("dddd", dto)
+       
        const bookingDetails = await this._bookTicketUseCase.execute(eventId, dto);
 
     res.status(HttpStatusCode.CREATED).json(ApiResponse.success(ResponseMessages.BOOKING.BOOKING_SUCCESS, HttpStatusCode.CREATED, bookingDetails));

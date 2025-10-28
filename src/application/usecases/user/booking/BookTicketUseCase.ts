@@ -18,6 +18,7 @@ export  class BookTicketUseCase implements IBookTicketUseCase {
   async execute(eventId: string, dto: BookingRequestDTO): Promise<BookingResponseDTO> {
 
       const reserved =  await this._ticketingRepository.reserveMultipleSeats(eventId, dto.tickets);
+      console.log("res", reserved)
       if(!reserved) throw new Error("Booking failed - seats not available");
 
          const bookingEntity = this._bookingMapper.toEntity(dto);

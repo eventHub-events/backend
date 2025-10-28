@@ -6,8 +6,8 @@ export interface BookingRequestDTO {
   tickets : {
                name:  string, quantity: number, price: number
                                         }[],
- totalAmount : number,
-  status: BookingStatus,
+ totalAmount? : number,
+  status?: BookingStatus,
   eventTitle: string,
   eventDate: string,
   organizerName: string,
