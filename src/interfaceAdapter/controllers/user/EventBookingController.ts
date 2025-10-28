@@ -5,7 +5,7 @@ import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStat
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 
-export class EventBooingController {
+export class EventBookingController {
   constructor(
        private _bookTicketUseCase : IBookTicketUseCase
   ){}

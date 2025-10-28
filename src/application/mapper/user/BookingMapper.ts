@@ -5,7 +5,7 @@ import { BookingEntity } from "../../../domain/entities/user/BookingEntity";
 import { IBookingMapper } from "../../interface/mapper/user/IBookingMapper";
 import { BookingStatus } from "../../../domain/enums/user/Booking";
 
-export class BooingMapper implements IBookingMapper {
+export class BookingMapper implements IBookingMapper {
   toEntity(dto: BookingRequestDTO): BookingEntity {
        const totalAmount = dto.tickets.reduce((sum,t) => sum+t.price * t.quantity,0);
       return new BookingEntity({

@@ -7,6 +7,7 @@ import { InputDataValidator } from '../../../infrastructure/middleware/zodMiddle
 import {  userProfileUpdateSchema} from '../../../infrastructure/validation/schemas/user/userProfileSchema';
 import { eventDisplayController } from '../../../di/user/event-display/container';
 import { EventDisplayRoutes } from '../../../infrastructure/constants/api-routes/user/event-display/constants';
+import { eventBookingController } from '../../../di/user/booking/container';
 const router = express.Router();
 
 router.post('/register', (req, res) => authController.registerUser(req, res));
@@ -31,6 +32,10 @@ router.patch("/:profileId/profile",authenticationMiddleWare.authenticateUser.bin
 router.get(EventDisplayRoutes.EVENTS.TRENDING,(req: Request, res: Response, next: NextFunction) => eventDisplayController.getTrending(req, res, next));
 router.get(EventDisplayRoutes.EVENTS.FEATURED,(req: Request,res: Response, next: NextFunction) => eventDisplayController.getFeatured(req, res, next));
 router.get(EventDisplayRoutes.EVENTS.DETAILS,(req: Request, res: Response, next: NextFunction) => eventDisplayController.getEventDetailsById(req, res, next));
+
+// event-booking//
+
+router.post("/events/:eventId/book",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventBookingController.bookTickets(req, res, next));
 
 
 export default router;
