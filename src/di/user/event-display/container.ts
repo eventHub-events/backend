@@ -1,4 +1,5 @@
 import { EventDisplayMapper } from "../../../application/mapper/user/EventDisplayMapper";
+import { GetAllFeaturedEventUseCase } from "../../../application/useCases/user/event-display/GetAllFeaturedEventUseCase";
 import { GetEventDetailsUseCase } from "../../../application/useCases/user/event-display/GetEventDetailsUseCase";
 import { GetFeaturedEventUseCase } from "../../../application/useCases/user/event-display/GetFeaturedEventsUseCase";
 import { GetTrendingEventUseCase } from "../../../application/useCases/user/event-display/GetTrendingEventsUseCase";
@@ -10,4 +11,5 @@ const eventDisplayMapper = new EventDisplayMapper();
 const getTrendingEventUseCase = new GetTrendingEventUseCase(eventDisplayQueryRepository, eventDisplayMapper);
 const getFeaturedEventUseCase = new GetFeaturedEventUseCase(eventDisplayQueryRepository, eventDisplayMapper);
 const getEventDetailsUseCase  = new GetEventDetailsUseCase(eventDisplayQueryRepository,eventDisplayMapper);
-export const eventDisplayController = new EventDisplayController(getTrendingEventUseCase, getFeaturedEventUseCase, getEventDetailsUseCase);
+const getAllFeaturedEventUseCase = new GetAllFeaturedEventUseCase(eventDisplayQueryRepository)
+export const eventDisplayController = new EventDisplayController(getTrendingEventUseCase, getFeaturedEventUseCase, getEventDetailsUseCase,getAllFeaturedEventUseCase);
