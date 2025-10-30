@@ -300,6 +300,7 @@ async findEventById(eventId: string): Promise<EventDetailsEntity| null> {
         tags:1,
         startDate:1,
         images:1,
+        organizerId:1,
         totalCapacity:1,
         category:1,
         tickets:1,

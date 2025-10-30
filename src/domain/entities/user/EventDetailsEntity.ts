@@ -13,5 +13,6 @@ export interface EventDetailsEntity {
    location?:ILocation;
    totalCapacity?: number;
    tickets: Partial<ITicketTier>[];
-   organizerName: string
+   organizerName: string,
+   organizerId: string
 }

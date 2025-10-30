@@ -14,7 +14,7 @@ export class GetAllBookingsUseCase implements IGetAllBookingsUseCase {
    ){}
    async execute(filter: BookingFilterDTO): Promise<{ mappedBookings: BookingResponseDTO[]; totalPages: number; }> {
       
-        const{bookings, total:totalPages} = await this._bookingRepository.findAllWithFilter(filter);
+        const{bookings, totalPages} = await this._bookingRepository.findAllWithFilter(filter);
           if(!bookings) throw new Error(ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_FAILURE);
 
       const mappedBookings = this._bookingMapper.toResponseDTOList(bookings);

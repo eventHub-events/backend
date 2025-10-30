@@ -9,14 +9,15 @@ export class BookingEntity {
                                         }[];
    public totalAmount : number;
    public status: BookingStatus;
-   public readonly createdAt? : Date;
-   public readonly eventTitle: string;
-   public readonly eventDate: string;
+   public  createdAt? : Date;
+   public  eventTitle: string;
+   public  eventDate: string;
    public readonly organizerName : string;
    public readonly eventVenue: string;
-   public readonly userName: string;
+   public  userName: string;
    public readonly  id?:Types.ObjectId;
    public  expiresAt?: Date
+   public readonly organizerId: Types.ObjectId;
   constructor(props :{
      userId : Types.ObjectId,
      eventId : Types.ObjectId,
@@ -32,6 +33,7 @@ export class BookingEntity {
        organizerName: string,
        eventVenue: string,
        userName: string,
+       organizerId: Types.ObjectId,
        id?: Types.ObjectId,
        expiresAt?: Date
         
@@ -54,6 +56,7 @@ export class BookingEntity {
        this.eventDate = props.eventDate;
        this.totalAmount = props.totalAmount;
        this.id = props.id;
+       this.organizerId= props.organizerId;
        this.userName = props.userName;
        this.expiresAt = props.expiresAt?? new Date(Date.now() + 15 * 60 * 1000);
   }

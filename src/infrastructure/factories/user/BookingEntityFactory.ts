@@ -17,7 +17,8 @@ toDomain(dbModel: BookingDbModel): BookingEntity {
       eventTitle:  dbModel.eventTitle,
       eventVenue: dbModel.eventVenue,
       createdAt :dbModel.createdAt,
-      userName: dbModel.userName
+      userName: dbModel.userName,
+      organizerId:dbModel.organizerId
 
     })
 }

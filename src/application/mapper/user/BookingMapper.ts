@@ -19,7 +19,8 @@ export class BookingMapper implements IBookingMapper {
           status:  BookingStatus.PENDING_PAYMENT,
           expiresAt:  new Date(Date.now() + 15 * 60 * 1000),
           totalAmount: totalAmount,
-          userName : dto.userName
+          userName : dto.userName,
+          organizerId: new Types.ObjectId(dto.organizerId)
           
 
       })

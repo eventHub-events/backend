@@ -13,7 +13,8 @@ export  class BookingsDisplayController {
 
   async fetchAllBookings(req: Request ,res :Response , next :NextFunction) : Promise<void> {
     try{
-        
+         
+      const {organizerId } =  req.params;
        const statusValue = req.query.status as string;
        const validStatus = statusValue ? (Object.values(BookingStatus).includes(statusValue as BookingStatus) 
        ? (statusValue as BookingStatus) 
@@ -29,7 +30,8 @@ export  class BookingsDisplayController {
              page: req.query.page? parseInt(req.query.page as string,10): 1,
              limit: req.query.limit? parseInt(req.query.limit as string,10):10
         }
-        const{mappedBookings: bookings, totalPages} = await this._getAllBookingUseCase.execute(filters);
+         console.log("ffffff", filters)
+        const{mappedBookings: bookings, totalPages} = await this._getAllBookingUseCase.execute({organizerId,...filters});
     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS, HttpStatusCode.OK, {bookings, totalPages}))
        
     }catch(err){

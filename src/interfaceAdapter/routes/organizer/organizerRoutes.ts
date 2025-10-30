@@ -51,9 +51,9 @@ router.post("/ticketing",authenticationMiddleWare.authenticateUser.bind(authenti
 router.patch("/events/:eventId/ticketing",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) =>ticketingManagementController.update(req,res, next));
 
 //booking- display//
-router.get("/events/bookings",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => bookingsDisplayController.fetchAllBookings(req, res, next));
+router.get("/:organizerId/bookings",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => bookingsDisplayController.fetchAllBookings(req, res, next));
 
 
-
+ 
 
 export default router
