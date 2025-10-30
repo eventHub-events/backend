@@ -18,7 +18,9 @@ export class BookingMapper implements IBookingMapper {
           eventVenue: dto.eventVenue,
           status:  BookingStatus.PENDING_PAYMENT,
           expiresAt:  new Date(Date.now() + 15 * 60 * 1000),
-          totalAmount: totalAmount
+          totalAmount: totalAmount,
+          userName : dto.userName,
+          organizerId: new Types.ObjectId(dto.organizerId)
           
 
       })
@@ -35,7 +37,11 @@ export class BookingMapper implements IBookingMapper {
          eventVenue: entity.eventVenue,
          eventDate: entity.eventDate,
          id: entity.id?.toString(),
+         userName: entity.userName
       }
+  }
+  toResponseDTOList(entity: BookingEntity[]) : BookingResponseDTO[] {
+    return entity.map((e) => this.toResponseDTO(e))
   }
  
 }

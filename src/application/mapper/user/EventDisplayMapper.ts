@@ -24,6 +24,7 @@ export class EventDisplayMapper implements IEventDisplayMapper {
          organizer: data.organizer,
          availability: data.availability,
          ticketsLeft: data.ticketsLeft
+     
 
 
 
@@ -42,6 +43,7 @@ toResponseDTOList(data: EventDisplayEntity[]): TrendingEventDisplayResponseDTO[]
         tags: data.tags,
         images: data.images,
         totalCapacity: data.totalCapacity,
+        organizerId: data.organizerId,
         category: data.category,
         organizerName: data.organizerName,
         startDate: new Date(data.startDate).toLocaleDateString("en-GB",{

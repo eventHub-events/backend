@@ -13,9 +13,11 @@ export interface IBooking extends Document {
    status: BookingStatus,
    eventTitle: string;
    eventDate: string;
+   userName: string;
    organizerName: string;
    eventVenue: string;
    expiresAt : Date;
+   organizerId: Types.ObjectId;
 
 }
 
@@ -33,8 +35,15 @@ const bookingSchema = new Schema<IBooking>({
    eventTitle: {
      type: String,
    },
+    userName: {
+       type:String
+    },
    organizerName : {
      type: String
+   },
+   organizerId: {
+     type: Schema.Types.ObjectId,
+     ref: "User"
    },
    totalAmount : {
      type : Number

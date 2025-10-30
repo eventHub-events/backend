@@ -3,5 +3,7 @@ import { BookingResponseDTO } from "../../../../domain/DTOs/user/booking/Booking
 import { BookingEntity } from "../../../../domain/entities/user/BookingEntity";
 import { IBaseMapper } from "../../common/IBaseMapper";
 
-export interface IBookingMapper extends IBaseMapper<BookingEntity, BookingRequestDTO, BookingResponseDTO>{}
+export interface IBookingMapper extends IBaseMapper<BookingEntity, BookingRequestDTO, BookingResponseDTO>{
+    toResponseDTOList(entity: BookingEntity[]) : BookingResponseDTO[];
+}
 

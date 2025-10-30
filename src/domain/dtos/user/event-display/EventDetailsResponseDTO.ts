@@ -13,5 +13,6 @@ export interface EventDetailsResponseDTO{
   organizerName: string;
   totalCapacity?: number;
   startDate: string;
+  organizerId: string;
   tickets: Partial<ITicketTier>[];
 }
