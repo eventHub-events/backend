@@ -11,6 +11,8 @@ export class GetEventDetailsUseCase implements IGetEventDetailsUseCase {
   async execute(eventId: string): Promise<EventDetailsResponseDTO> {
 
       const event  = await this._eventDisplayQueryRepository.findEventById(eventId);
+      console.log("eventId is", eventId)
+      console.log("event is",  event)
      
       if(!event) throw new Error("Event details not found");
 

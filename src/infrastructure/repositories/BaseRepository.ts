@@ -18,8 +18,8 @@ export class BaseRepository< T extends Document > {
   }
 
 
-  async findOne(filter :FilterQuery<T>):Promise<T | null> {
-    return this.model.findOne(filter).exec();
+  async findOne(filter :FilterQuery<T>, projection?: Record<string, unknown>):Promise<T | null> {
+    return this.model.findOne(filter, projection).exec();
   }
 
   async findAll(filter:FilterQuery<T> = {}):Promise<T[]> {
@@ -56,8 +56,19 @@ export class BaseRepository< T extends Document > {
   async delete(id:string):Promise<void> {
     await this.model.findByIdAndDelete(id).exec();
   }
-  async findOneAndUpdate(filter: FilterQuery<T>,data:UpdateQuery<T>):Promise<T |null>{
-    const result= await this.model.findOneAndUpdate(filter,data,{new :true}).exec()
+  async findOneAndUpdate(filter: FilterQuery<T>,data:UpdateQuery<T>,  options?: Record<string, unknown>):Promise<T |null>{
+    const result= await this.model.findOneAndUpdate(filter,data,{new :true, ...options}).exec()
     return result
+  }
+   async updateOne(
+    filter: FilterQuery<T>,
+    data: UpdateQuery<T>,
+    options?: Record<string, unknown>,
+  ): Promise<{ matchedCount: number; modifiedCount: number }> {
+    const result = await this.model.updateOne(filter, data, options).exec();
+    return {
+      matchedCount: result.matchedCount ?? 0,
+      modifiedCount: result.modifiedCount ?? 0,
+    };
   }
 }
