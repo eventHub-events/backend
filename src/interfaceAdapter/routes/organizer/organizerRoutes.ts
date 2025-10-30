@@ -7,6 +7,7 @@ import { passwordSchema } from "../../../infrastructure/validation/schemas/chang
 import { passwordController } from "../../../di/common/commonContainers";
 import { eventManagementController, eventRetrievalController } from "../../../di/organizer/events/container";
 import { ticketingManagementController, ticketingRetrievalController } from "../../../di/organizer/ticketing/container";
+import { bookingsDisplayController } from "../../../di/organizer/bookings/container";
 // import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
 
 
@@ -48,6 +49,9 @@ router.get("/ticketing/:ticketId", authenticationMiddleWare.authenticateUser.bin
 router.get("/events/:eventId/ticketing", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next : NextFunction) => ticketingRetrievalController.fetchTicketingDetailsByEvent(req, res, next));
 router.post("/ticketing",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response ,next: NextFunction) => ticketingManagementController.create(req, res, next));
 router.patch("/events/:eventId/ticketing",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) =>ticketingManagementController.update(req,res, next));
+
+//booking- display//
+router.get("/events/bookings",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => bookingsDisplayController.fetchAllBookings(req, res, next));
 
 
 

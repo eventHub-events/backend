@@ -4,6 +4,7 @@ import { IBookingRepository } from "../../../../domain/repositories/user/IBookin
 import { IBookingMapper } from "../../../interface/mapper/user/IBookingMapper";
 import { BookingResponseDTO } from "../../../../domain/DTOs/user/booking/BookingResponseDTO";
 import { BookingFilterDTO } from "../../../../domain/DTOs/organizer/bookings/bookingFilterDTO";
+import { ResponseMessages } from "../../../../infrastructure/constants/responseMessages";
 
 export class GetAllBookingsUseCase implements IGetAllBookingsUseCase {
 
@@ -14,7 +15,7 @@ export class GetAllBookingsUseCase implements IGetAllBookingsUseCase {
    async execute(filter: BookingFilterDTO): Promise<{ mappedBookings: BookingResponseDTO[]; totalPages: number; }> {
       
         const{bookings, total:totalPages} = await this._bookingRepository.findAllWithFilter(filter);
-          if(!bookings) throw new Error("Bookings not found");
+          if(!bookings) throw new Error(ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_FAILURE);
 
       const mappedBookings = this._bookingMapper.toResponseDTOList(bookings);
     

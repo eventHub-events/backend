@@ -11,6 +11,10 @@ export const ResponseMessages = {
      BOOKING_SUCCESS : "Tickets booked successfully",
      BOOKING_FAILURE : "Tickets not available"
   },
+  BOOKING_DETAILS : {
+      BOOKING_DETAILS_SUCCESS: "Booking details fetched successfully",
+      BOOKING_DETAILS_FAILURE: "Booking details not found"
+  },
   GENERAL: {
      INTERNAL_SERVER_ERROR: "Something went wrong, please try again later."
   }
