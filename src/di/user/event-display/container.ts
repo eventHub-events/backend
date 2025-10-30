@@ -11,5 +11,5 @@ const eventDisplayMapper = new EventDisplayMapper();
 const getTrendingEventUseCase = new GetTrendingEventUseCase(eventDisplayQueryRepository, eventDisplayMapper);
 const getFeaturedEventUseCase = new GetFeaturedEventUseCase(eventDisplayQueryRepository, eventDisplayMapper);
 const getEventDetailsUseCase  = new GetEventDetailsUseCase(eventDisplayQueryRepository,eventDisplayMapper);
-const getAllFeaturedEventUseCase = new GetAllFeaturedEventUseCase(eventDisplayQueryRepository)
+const getAllFeaturedEventUseCase = new GetAllFeaturedEventUseCase(eventDisplayQueryRepository, eventDisplayMapper);
 export const eventDisplayController = new EventDisplayController(getTrendingEventUseCase, getFeaturedEventUseCase, getEventDetailsUseCase,getAllFeaturedEventUseCase);
