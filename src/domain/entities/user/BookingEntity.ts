@@ -14,6 +14,7 @@ export class BookingEntity {
    public readonly eventDate: string;
    public readonly organizerName : string;
    public readonly eventVenue: string;
+   public readonly userName: string;
    public readonly  id?:Types.ObjectId;
    public  expiresAt?: Date
   constructor(props :{
@@ -30,6 +31,7 @@ export class BookingEntity {
        eventDate: string,
        organizerName: string,
        eventVenue: string,
+       userName: string,
        id?: Types.ObjectId,
        expiresAt?: Date
         
@@ -52,6 +54,7 @@ export class BookingEntity {
        this.eventDate = props.eventDate;
        this.totalAmount = props.totalAmount;
        this.id = props.id;
+       this.userName = props.userName;
        this.expiresAt = props.expiresAt?? new Date(Date.now() + 15 * 60 * 1000);
   }
 
