@@ -15,7 +15,7 @@ export class BookingEntity {
    public readonly organizerName : string;
    public readonly eventVenue: string;
    public readonly  id?:Types.ObjectId;
-   public  expiresAt: Date
+   public  expiresAt?: Date
   constructor(props :{
      userId : Types.ObjectId,
      eventId : Types.ObjectId,
@@ -31,7 +31,7 @@ export class BookingEntity {
        organizerName: string,
        eventVenue: string,
        id?: Types.ObjectId,
-       expiresAt: Date
+       expiresAt?: Date
         
 
 

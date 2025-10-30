@@ -1,3 +1,4 @@
+import { FilterQuery } from "mongoose";
 import { IBookingEntityFactory } from "../../../application/interface/factories/user/IBookingEntityFactory";
 import { BookingEntity } from "../../../domain/entities/user/BookingEntity";
 import { IBookingRepository } from "../../../domain/repositories/user/IBookingRepository";
@@ -7,12 +8,21 @@ import { BaseRepository } from "../BaseRepository";
 
 export class BookingRepository extends BaseRepository<IBooking> implements IBookingRepository {
   constructor(
-         private _bookingEntityFactory : IBookingEntityFactory<BookingDbModel, BookingEntity>
+         private _bookingEntityFactory : IBookingEntityFactory<BookingDbModel, BookingEntity>,
+        
   ){
     super(BookingModel)
   }
  async createBooking(data: BookingEntity): Promise<BookingEntity> {
       const booking = await super.create(data) as BookingDbModel;
-     return this._bookingEntityFactory.toDomain(booking)
+
+    return this._bookingEntityFactory.toDomain(booking)
+  }
+  async findAllWithFilter(filter: FilterQuery<BookingEntity>): Promise<{bookings:BookingEntity[], total:number}> {
+
+      const {data , total} = await super.paginate(filter)  ;
+      const bookings =  this._bookingEntityFactory.toDomainList(data as BookingDbModel[]);
+
+   return {bookings, total}
   }
 }
