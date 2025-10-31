@@ -48,7 +48,7 @@ import { bookingControllerForAdmin } from "../../../di/admin/bookings/container"
    router.patch("/events/:eventId/reject", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationActionsController.reject(req, res, next));
 
    // booking-management//
-    router.get("/admin/bookings",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res : Response , next :NextFunction ) => bookingControllerForAdmin.fetchBookings(req, res, next));
+    router.get("/bookings",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res : Response , next :NextFunction ) => bookingControllerForAdmin.fetchBookings(req, res, next));
  
 
  export default router

@@ -6,6 +6,7 @@ import { BookingDbModel } from "../../../domain/types/UserTypes";
 import { BookingModel, IBooking } from "../../db/models/user/BookingModel";
 import { BaseRepository } from "../BaseRepository";
 import { BookingFilterDTO } from "../../../domain/DTOs/organizer/bookings/bookingFilterDTO";
+import { BookingFilterForAdminDTO } from "../../../domain/DTOs/admin/bookings/BookingsFilterForAdminDTO";
 
 export class BookingRepository extends BaseRepository<IBooking> implements IBookingRepository {
   constructor(
@@ -19,7 +20,7 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
 
     return this._bookingEntityFactory.toDomain(booking)
   }
-  async findAllWithFilter(filter: BookingFilterDTO): Promise<{bookings:BookingEntity[], totalPages:number}> {
+  async findAllWithFilter(filter: BookingFilterDTO ): Promise<{bookings:BookingEntity[], totalPages:number}> {
        
       const cleanFilter: FilterQuery<BookingEntity> = {
           
@@ -28,6 +29,7 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
          if (filter.status) cleanFilter.status = filter.status;
          if (filter.title)
       cleanFilter.eventTitle = { $regex: filter.title, $options: "i" };
+        if(filter.organizerName) cleanFilter.organizerName = { $regex: filter.organizerName, $options: "i" };
     if (filter.userName)
       cleanFilter.userName = { $regex: filter.userName, $options: "i" };
    if (filter.startDate) {

@@ -12,7 +12,7 @@ export class BookingEntity {
    public  createdAt? : Date;
    public  eventTitle: string;
    public  eventDate: string;
-   public readonly organizerName : string;
+   public  organizerName : string;
    public readonly eventVenue: string;
    public  userName: string;
    public readonly  id?:Types.ObjectId;

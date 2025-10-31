@@ -15,7 +15,8 @@ export class BookingMapperAdmin implements IBookingMapperAdmin {
          status : data.status,
          bookingDate: data.createdAt,
          eventDate : data.eventDate,
-         eventVenue : data.eventVenue
+         eventVenue : data.eventVenue,
+         totalAmount: data.totalAmount
 
 
 

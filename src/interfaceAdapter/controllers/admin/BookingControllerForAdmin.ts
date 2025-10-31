@@ -20,14 +20,16 @@ export class BookingControllerForAdmin {
                              : undefined)
                              : undefined;
          const filters = {
-                 title : req.query.title as string,
+                 title : req.query.eventTitle as string,
                  userName : req.query.userName as string,
                  startDate : req.query.startDate as string,
+                 organizerName: req.query.organizerName as string,
                  status : validStatus,
                  endDate : req.query.endDate as string,
                  page : req.query.page? parseInt(req.query.page as string,10) :1,
                  limit : req.query.limit? parseInt(req.query.limit as string,10) :10
              }
+             console.log("filters",filters)
          
            const{mappedBookings: bookings, totalPages} = await this._getAllBookingForAdminUseCase.execute(filters);
         res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS, HttpStatusCode.OK,{bookings,totalPages}));
