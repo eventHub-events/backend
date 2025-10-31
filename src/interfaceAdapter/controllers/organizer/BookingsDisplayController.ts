@@ -30,7 +30,7 @@ export  class BookingsDisplayController {
              page: req.query.page? parseInt(req.query.page as string,10): 1,
              limit: req.query.limit? parseInt(req.query.limit as string,10):10
         }
-         console.log("ffffff", filters)
+         
         const{mappedBookings: bookings, totalPages} = await this._getAllBookingUseCase.execute({organizerId,...filters});
     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS, HttpStatusCode.OK, {bookings, totalPages}))
        

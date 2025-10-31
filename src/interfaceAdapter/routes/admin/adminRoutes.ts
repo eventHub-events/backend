@@ -9,6 +9,7 @@ import { categoryValidateSchema, categoryValidateUpdateSchema } from "../../../i
 import { categoryController } from "../../../di/admin/category/containersList"
 import { eventManagementQueryController, eventModerationActionsController, eventModerationController } from "../../../di/admin/event-management/containerList"
 import { EventModerationActionsController } from "../../controllers/admin/EventModerationActionsController"
+import { bookingControllerForAdmin } from "../../../di/admin/bookings/container"
 // import { eventRetrievalController } from "../../../di/organizer/events/container"
 
 
@@ -45,6 +46,9 @@ import { EventModerationActionsController } from "../../controllers/admin/EventM
    router.patch("/events/:eventId/unBlock", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationActionsController.unBlock(req, res, next));
    router.patch("/events/:eventId/approve", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationActionsController.approve(req, res, next));
    router.patch("/events/:eventId/reject", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationActionsController.reject(req, res, next));
+
+   // booking-management//
+    router.get("/bookings",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res : Response , next :NextFunction ) => bookingControllerForAdmin.fetchBookings(req, res, next));
  
 
  export default router
