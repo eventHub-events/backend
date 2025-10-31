@@ -1,6 +1,7 @@
 import { BookingResponseDTOForAdmin } from "../../../../../domain/DTOs/admin/bookings/BookingResponseDTOForAdmin";
-import { BookingFilterDTO } from "../../../../../domain/DTOs/organizer/bookings/bookingFilterDTO";
+import { BookingFilterForAdminDTO } from "../../../../../domain/DTOs/admin/bookings/BookingsFilterForAdminDTO";
+
 
 export interface IGetAllBookingsForAdminUseCase {
-  execute(dto: BookingFilterDTO) : Promise<BookingResponseDTOForAdmin> ;
+  execute(filter: BookingFilterForAdminDTO): Promise<{mappedBookings:BookingResponseDTOForAdmin[], totalPages:number }> ;
 }

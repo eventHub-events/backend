@@ -22,8 +22,9 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
   async findAllWithFilter(filter: BookingFilterDTO): Promise<{bookings:BookingEntity[], totalPages:number}> {
        
       const cleanFilter: FilterQuery<BookingEntity> = {
-          organizerId: filter.organizerId,
+          
       }
+          if(filter.organizerId ) cleanFilter.organizerId= filter.organizerId
          if (filter.status) cleanFilter.status = filter.status;
          if (filter.title)
       cleanFilter.eventTitle = { $regex: filter.title, $options: "i" };

@@ -7,5 +7,7 @@ export interface BookingFilterForAdminDTO {
     startDate?: string;
     endDate?:string;
     eventTitle?: string;
+    page?: number;
+    limit?: number;
 
 }
