@@ -1,0 +1,12 @@
+import { BookingStatus } from "../../../enums/user/Booking";
+
+export interface BookingResponseDTOForAdmin {
+  id: string;
+  eventTitle: string;
+  organizerName: string;
+  userName: string;
+  totalTickets : number;
+  bookingDate: Date;
+  status: BookingStatus;
+  eventDate : string;
+}
