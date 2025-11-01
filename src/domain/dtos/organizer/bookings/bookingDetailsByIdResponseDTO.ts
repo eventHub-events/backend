@@ -1,9 +1,9 @@
 import { BookingStatus } from "../../../enums/user/Booking";
 
 export interface BookingDetailsByIdResponseDTO {
-  bookingId : string;
+  bookingId? : string;
   bookingStatus: BookingStatus;
-  bookingDate: string;
+  bookingDate?: string;
   totalAmount : number;
   paymentMethod?: string;
   paymentId?: string;
@@ -18,8 +18,8 @@ export interface BookingDetailsByIdResponseDTO {
   event :{
      eventId: string;
      title :string;
-     data :string;
-     time :string;
+     date :string;
+     time? :string;
      venue: string;
   },
 
