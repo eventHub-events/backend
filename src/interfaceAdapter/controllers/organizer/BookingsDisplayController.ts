@@ -4,10 +4,14 @@ import { BookingStatus } from "../../../domain/enums/user/Booking";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
+import { CustomError } from "../../../infrastructure/errors/errorClass";
+import { IGetBookingDetailsByIdUseCase } from "../../../application/interface/useCases/organizer/booking/IGetBookingDetailsByIdUseCase";
+
 
 export  class BookingsDisplayController {
  constructor (
       private _getAllBookingUseCase : IGetAllBookingsUseCase,
+      private _getBookingDetailsById : IGetBookingDetailsByIdUseCase
       
  ){}
 
@@ -38,4 +42,16 @@ export  class BookingsDisplayController {
        next(err)
     }
   }
+ async fetchBookingDetailsById(req: Request, res :Response , next :NextFunction) :Promise<void> {
+
+    try{
+         const {bookingId} = req.params;
+         if(!bookingId) throw new CustomError(ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_FAILURE, HttpStatusCode.BAD_REQUEST);
+       
+        const bookingDetails = await this._getBookingDetailsById.execute(bookingId);
+     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS, HttpStatusCode.OK, bookingDetails));
+    }catch(err) {
+       next(err)
+    }
+ }
 }
