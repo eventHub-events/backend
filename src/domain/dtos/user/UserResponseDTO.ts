@@ -2,11 +2,11 @@ export interface UserResponseDTO {
   id?: string;
   name: string;
   email: string;
-  phone: number;
+  phone?: number;
   isVerified: boolean;
   role: string;
   kycStatus?:string;
   isKyCResubmitted?:string;
-  isBlocked:boolean;
+  isBlocked?:boolean;
   createdAt?:Date
 }

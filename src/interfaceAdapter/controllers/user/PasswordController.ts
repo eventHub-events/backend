@@ -1,11 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import { IForgetPasswordUseCase } from "../../../application/interface/useCases/user/IForgetPasswordUsecase";
+import { IForgetPasswordUseCase } from "../../../application/interface/useCases/user/IForgetPasswordUseCase";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { IVerifyResetPasswordOtpUseCase } from "../../../application/interface/useCases/user/IResetPasswordOTPUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
-import { IChangePasswordUseCase } from "../../../application/interface/useCases/user/IChangePasswordUsecase";
+import { IChangePasswordUseCase } from "../../../application/interface/useCases/user/IChangePasswordUseCase";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
+import { ChangePasswordDTO } from "../../../domain/DTOs/user/ChangePasswordDTO";
 
 
 export class  PasswordController {
@@ -63,8 +64,8 @@ export class  PasswordController {
            throw new CustomError("Reset token missing or expired",HttpStatusCode.UNAUTHORIZED);
 
         }
-     
-       const result= await this._changePasswordUseCase.changePassword(req.body, token)
+       const dto: ChangePasswordDTO = req.body;
+       const result= await this._changePasswordUseCase.changePassword(dto, token)
        return res.status(HttpStatusCode.OK).json(ApiResponse.success("Password changed successfully",HttpStatusCode.OK,result))
  
      }catch(err){

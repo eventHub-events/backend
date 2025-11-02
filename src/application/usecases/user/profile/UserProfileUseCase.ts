@@ -18,8 +18,11 @@ export class UserProfileUseCase implements IUserProfileUseCase {
 
     const profileData = await Promise.all([this._userProfileRepository.fetchProfile(userId), this._userRepo.findUserById(userId)]);
     const[profile,user] = profileData;
+    
 
-    return this._profileMapper.toResponseDto(user!,profile);
+     const result = this._profileMapper.toResponseDto(user!,profile);
+     
+     return result
       
   }
   async editProfileData(profileId: string, data: UserProfileEditRequestDTO): Promise<UserProfileResponseDTO> {

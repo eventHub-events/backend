@@ -1,10 +1,17 @@
+
+
 import { UserRegisterDTO } from "../../../../../domain/DTOs/user/RegisterUserDTO";
 import { UserResponseDTO } from "../../../../../domain/DTOs/user/UserResponseDTO";
-import { User } from "../../../../../domain/entities/User";
-import { IUserDocument } from "../../../../../infrastructure/db/models/user/UserModel";
+import { UserEntity } from "../../../../../domain/entities/User";
 
-export interface IUserMapper{
-  toDomain(raw:IUserDocument):User;
-  toEntity(dto:UserRegisterDTO):Partial<IUserDocument>;
-  toResponse(user:User):UserResponseDTO
+
+
+
+
+export interface IUserMapper {
+  toEntity(dto: UserRegisterDTO) : UserEntity;
+  toResponseDTO(entity: UserEntity): UserResponseDTO;
+  toResponseDTOForAdmin(entity: UserEntity): UserResponseDTO;
+  toResponseDTOListForAdmin(entity: UserEntity[]): UserResponseDTO[];
+
 }

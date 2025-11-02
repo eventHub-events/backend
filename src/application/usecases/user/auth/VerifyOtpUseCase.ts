@@ -27,18 +27,23 @@ export class VerifyOtpUseCase implements IVerifyOtpUseCase {
 
   async execute(email:string, otp:string) {
     console.log('otp is', otp);
+
     const userData = await this._otpService.verifyOtp(email, otp);
     userData.password = await this._hashService.hash(userData.password);
   
     const userEntity = this._userMapper.toEntity(userData);
     
     const savedUser = await this._userRepo.createUser(userEntity);
-    const userResponseData= this._userMapper.toResponse(savedUser)
+    const userResponseData= this._userMapper.toResponseDTO(savedUser);
+
     const userId= userResponseData.id;
-    const creator = this._profileCreators[savedUser.role];
-    if(creator && userId) {
-       await creator.createProfile(userId)
-    }
+
+          if(savedUser.role) {
+                 const creator = this._profileCreators[savedUser.role];
+               if(creator && userId!== undefined) {
+                    await creator.createProfile(userId)
+                 }
+            }
 
 
    

@@ -17,5 +17,21 @@ export const ResponseMessages = {
   },
   GENERAL: {
      INTERNAL_SERVER_ERROR: "Something went wrong, please try again later."
-  }
+  },
+   AUTHENTICATION: {
+      OTP : {
+         OTP_SENT_SUCCESS: "Otp  sent successfully",
+         OTP_SENT_FAIL : "Failed to sent OTP",
+         OTP_VERIFICATION_SUCCESS: "OTP verified SuccessFully",
+         OTP_VERIFICATION_FAILURE: "OTP verification failed"
+      },
+      EMAIL : {
+         REQUIRED: "Email is required"
+      },
+      LOGIN: {
+         SUCCESS: "Login Successful",
+         FAILURE: "login  failed"
+      }
+
+   }
 }
