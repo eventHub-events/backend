@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import {  IOrganizerProfileEntityFactory } from "../../application/interface/factories/IDomainFactory";
 import { OrganizerProfile } from "../../domain/entities/organizer/OrganizerProfile";
-import { User } from "../../domain/entities/User";
+import {  UserEntity } from "../../domain/entities/User";
 import { OrganizerProfileDbModel, OrganizerProfileWithUser } from "../../domain/types/OrganizerTypes";
 import { UserDbModel } from "../../domain/types/UserTypes";
 
@@ -24,7 +24,7 @@ toDomain(dbModel: OrganizerProfileDbModel): OrganizerProfile {
 toDomainList(dbModels: OrganizerProfileDbModel[]): OrganizerProfile[] {
     return  dbModels.map((model) => this.toDomain(model));
 }
-toCompositeDomain(dbModel: OrganizerProfileDbModel & { organizerId: User}): OrganizerProfileWithUser{
+toCompositeDomain(dbModel: OrganizerProfileDbModel & { organizerId: UserEntity}): OrganizerProfileWithUser{
     const profile = new OrganizerProfile(
       dbModel.location,
       dbModel.organization,
@@ -36,19 +36,19 @@ toCompositeDomain(dbModel: OrganizerProfileDbModel & { organizerId: User}): Orga
        typeof dbModel.organizerId === "string"?dbModel.organizerId:dbModel.organizerId._id.toString(),
       dbModel.kycVerified
     );
-    const user = new User (
-      dbModel.organizerId.name,
-      dbModel.organizerId.email,
-      dbModel.organizerId.password,
-      dbModel.organizerId.phone,
-      dbModel.organizerId.isVerified,
-      dbModel.organizerId.role,
-      dbModel.organizerId.kycStatus,
-      dbModel.organizerId.isBlocked,
-      dbModel.organizerId.isKycResubmitted,
-      dbModel.organizerId._id?.toString(),
-      dbModel.organizerId.createdAt,
-    )
+    const user = new UserEntity({
+      name: dbModel.organizerId.name,
+      email: dbModel.organizerId.email,
+      password: dbModel.organizerId.password,
+      phone: dbModel.organizerId.phone,
+      isVerified: dbModel.organizerId.isVerified,
+      role: dbModel.organizerId.role,
+      kycStatus: dbModel.organizerId.kycStatus,
+      isBlocked: dbModel.organizerId.isBlocked,
+      isKycResubmitted: dbModel.organizerId.isKycResubmitted,
+      id: dbModel.organizerId._id?.toString(),
+      createdAt: dbModel.organizerId.createdAt,
+    })
     return {profile,user}
 }
 toPersistence(entity: OrganizerProfile): Record<string, unknown> {

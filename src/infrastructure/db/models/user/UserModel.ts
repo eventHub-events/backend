@@ -12,8 +12,8 @@ export interface IUserDocument extends Document {
 
   name: string;
   email: string;
-  password: string;
-  phone: number;
+  password?: string;
+  phone?: number;
   isVerified: boolean;
   isBlocked:boolean;
   role: string;
@@ -27,8 +27,8 @@ export interface IUserDocument extends Document {
 const UserSchema: Schema<IUserDocument> = new Schema({
   name: { type: String, required: true },
   email: { type: String, required: true },
-  password: { type: String, required: true },
-  phone: { type: Number, required: true },
+  password: { type: String },
+  phone: { type: Number},
   isVerified: { type: Boolean, default: false },
   kycStatus:{type:String,
     enum: Object.values(KycStatus),

@@ -2,7 +2,7 @@ import { authController, passwordController, userProfileController } from '../..
 import express, { NextFunction, Request, Response } from 'express';
 import { authenticationMiddleWare } from '../../../di/container';
 import { IAuthenticatedRequest } from '../../../infrastructure/interface/IAuthenticatedRequest';
-import { tokenController } from '../../../di/common/commonContainers';
+import { googleAuthController, tokenController } from '../../../di/common/commonContainers';
 import { InputDataValidator } from '../../../infrastructure/middleware/zodMiddleware/inputDataValidator';
 import {  userProfileUpdateSchema} from '../../../infrastructure/validation/schemas/user/userProfileSchema';
 import { eventDisplayController } from '../../../di/user/event-display/container';
@@ -29,7 +29,7 @@ router.post("/changePassword",authenticationMiddleWare.authenticateChangePasswor
 
 // user profile related
 router.get("/:userId/profile",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => userProfileController.fetchUserProfile(req,res,next ));
-router.patch("/:profileId/profile",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),InputDataValidator.validate(userProfileUpdateSchema),(req: IAuthenticatedRequest, res: Response, next: NextFunction ) => userProfileController.updateUserProfile(req,res,next));
+router.patch("/:profileId/profile",InputDataValidator.validate(userProfileUpdateSchema),(req: IAuthenticatedRequest, res: Response, next: NextFunction ) => userProfileController.updateUserProfile(req,res,next));
 
 // events-display-related //
 router.get(EventDisplayRoutes.EVENTS.TRENDING,(req: Request, res: Response, next: NextFunction) => eventDisplayController.getTrending(req, res, next));
@@ -41,5 +41,6 @@ router.get("/events/featured/all",(req: Request, res: Response, next :NextFuncti
 
 router.post("/events/:eventId/book",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventBookingController.bookTickets(req, res, next));
 
+router.post("/google-login",(req: Request, res: Response, next: NextFunction) => googleAuthController.googleLogin(req, res, next));
 
-export default router;
+export default router

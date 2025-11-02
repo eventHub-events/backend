@@ -16,7 +16,7 @@ export class UserEntity {
      id?: string;
      createdAt?: Date;
      googleId?: string;
-      registrationMode?:RegistrationTypes 
+    registrationMode?:RegistrationTypes 
 
     constructor(props: {
         name: string,
@@ -45,7 +45,7 @@ export class UserEntity {
         this.id= props.id;
         this.createdAt = props.createdAt;
         this.googleId = props.googleId;
-        this.registrationMode = this.registrationMode ?? RegistrationTypes.Normal;
+        this.registrationMode = this.registrationMode
         this.password = props.password
 }
 }
