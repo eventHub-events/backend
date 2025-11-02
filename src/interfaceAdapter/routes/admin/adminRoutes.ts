@@ -1,4 +1,4 @@
- import express, { NextFunction, Response } from "express"
+ import express, { NextFunction, Request, Response } from "express"
  const router= express.Router()
 
 import { authController, authenticationMiddleWare } from "../../../di/container"
@@ -8,16 +8,18 @@ import { InputDataValidator } from "../../../infrastructure/middleware/zodMiddle
 import { categoryValidateSchema, categoryValidateUpdateSchema } from "../../../infrastructure/validation/schemas/admin/categorySchema"
 import { categoryController } from "../../../di/admin/category/containersList"
 import { eventManagementQueryController, eventModerationActionsController, eventModerationController } from "../../../di/admin/event-management/containerList"
-import { EventModerationActionsController } from "../../controllers/admin/EventModerationActionsController"
 import { bookingControllerForAdmin } from "../../../di/admin/bookings/container"
-// import { eventRetrievalController } from "../../../di/organizer/events/container"
 
 
 
- router.post("/login",(req,res)=>authController.loginUser(req,res))
- router.post("/logout",(req,res)=>authController.logout(req,res))
- router.get("/usersList",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>usersListController.fetchUsers(req,res))
- router.post("/updateUser",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req,res)=>usersListController.UpdateUser(req,res))
+
+ router.post("/login",(req: Request, res: Response, next: NextFunction)  => authController.loginUser(req, res, next));
+ router.post("/logout",(req: IAuthenticatedRequest, res: Response, next: NextFunction)=>authController.logout(req, res, next));
+
+ // user-management//
+ router.get("/usersList",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res: Response, next: NextFunction) => usersListController.fetchUsers(req, res, next));
+ router.post("/updateUser",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:  IAuthenticatedRequest, res: Response, next: NextFunction) => usersListController.UpdateUser(req, res, next));
+
   router.post("/download-pdf",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req,res)=>downloadPdfController.downloadPdf(req,res))
 
   //organizer verification  related

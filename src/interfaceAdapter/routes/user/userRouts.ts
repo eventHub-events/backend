@@ -8,13 +8,16 @@ import {  userProfileUpdateSchema} from '../../../infrastructure/validation/sche
 import { eventDisplayController } from '../../../di/user/event-display/container';
 import { EventDisplayRoutes } from '../../../infrastructure/constants/api-routes/user/event-display/constants';
 import { eventBookingController } from '../../../di/user/booking/container';
+import { userRegisterSchema } from '../../../infrastructure/validation/schemas/user/userRegistrationSchema';
+import { userForgetPassWordSchema } from '../../../infrastructure/validation/schemas/changePasswordSchema';
 const router = express.Router();
 
-router.post('/register', (req, res) => authController.registerUser(req, res));
-router.post('/verify-otp', (req, res) => authController.verifyOtp(req, res));
-router.post('/resend-otp', (req, res) => authController.resendOtp(req, res));
-router.post("/login",(req,res)=>authController.loginUser(req,res))
-router.post ("/logout",(req,res)=>authController.logout(req,res));
+// router.post('/register', (req, res) => authController.registerUser(req, res));
+router.post("/register",InputDataValidator.validate(userRegisterSchema),(req: Request, res: Response, next: NextFunction) =>authController.registerUser(req, res, next))
+router.post('/verify-otp', (req: Request, res: Response, next: NextFunction) => authController.verifyOtp(req, res, next));
+router.post('/resend-otp', (req: Request, res: Response, next: NextFunction) => authController.resendOtp(req, res, next));
+router.post("/login",(req: Request, res: Response, next: NextFunction)=>authController.loginUser(req,res,next))
+router.post ("/logout",(req: Request, res: Response, next: NextFunction)=>authController.logout(req,res, next));
  router.post("/refreshToken",(req: IAuthenticatedRequest, res: Response, next: NextFunction) => tokenController.refreshAccessToken(req,res,next))
 
 router.post("/forgetPassword" ,(req:IAuthenticatedRequest,res:Response,next:NextFunction)=>passwordController.requestForgetPassword(req,res,next))
@@ -22,7 +25,7 @@ router.post("/forgetPassword" ,(req:IAuthenticatedRequest,res:Response,next:Next
 
 router.post('/resetPasswordOtp',(req:IAuthenticatedRequest,res,next:NextFunction)=>passwordController.verifyResetPasswordOtp(req,res,next))
 
-router.post("/changePassword",authenticationMiddleWare.authenticateChangePassword.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res: Response,next:NextFunction)=>passwordController.changePassword(req,res,next));
+router.post("/changePassword",authenticationMiddleWare.authenticateChangePassword.bind(authenticationMiddleWare), InputDataValidator.validate(userForgetPassWordSchema), (req:IAuthenticatedRequest,res: Response,next:NextFunction)=>passwordController.changePassword(req,res,next));
 
 // user profile related
 router.get("/:userId/profile",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => userProfileController.fetchUserProfile(req,res,next ));

@@ -12,7 +12,7 @@ import { bookingsDisplayController } from "../../../di/organizer/bookings/contai
 
 
 const router= express.Router()
-
+ 
 
  router.post("/forgetPassword",(req:IAuthenticatedRequest,res: Response, next: NextFunction) => passwordController.requestForgetPassword( req, res, next));
  
@@ -43,7 +43,7 @@ router.patch("/events/:eventId", authenticationMiddleWare.authenticateUser.bind(
 router.delete("/events/:eventId/soft-delete", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventManagementController.Delete(req, res, next));
 router.patch("/events/:eventId/cancel", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventManagementController.cancel(req, res, next));
 
-
+ 
 // EventTicketing //
 router.get("/ticketing/:ticketId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => ticketingRetrievalController.fetchTicketingDetails(req, res, next));
 router.get("/events/:eventId/ticketing", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next : NextFunction) => ticketingRetrievalController.fetchTicketingDetailsByEvent(req, res, next));

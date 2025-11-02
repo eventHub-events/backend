@@ -1,5 +1,6 @@
 import { ForgetPasswordDTO } from "../../../../domain/DTOs/user/ForgetPasswordDTO";
 import { ForgetPasswordResponseDTO } from "../../../../domain/DTOs/user/ForgetPasswordResponseDTO";
+import { UserRegisterDTO } from "../../../../domain/DTOs/user/RegisterUserDTO";
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
 import { RESETPASSWORD_OTP_TLL } from "../../../../infrastructure/constants/forgetPassword";
 import { CustomError } from "../../../../infrastructure/errors/errorClass";
@@ -7,8 +8,9 @@ import { HttpStatusCode } from "../../../../infrastructure/interface/enums/HttpS
 import { ICacheService } from "../../../../infrastructure/interface/ICacheService";
 import { ILoggerService } from "../../../interface/common/ILoggerService";
 import { IEmailService } from "../../../interface/useCases/user/IEmailService";
-import { IForgetPasswordUseCase } from "../../../interface/useCases/user/IForgetPasswordUsecase";
+import { IForgetPasswordUseCase } from "../../../interface/useCases/user/IForgetPasswordUseCase";
 import { IGenerateOtpUseCase } from "../../../interface/useCases/user/IGenerateOtpUseCase";
+import { IUserMapper } from "../../../interface/useCases/user/mapper/IUserMapper";
 
 
 export class ForgetPasswordUseCase implements IForgetPasswordUseCase {
@@ -17,27 +19,35 @@ export class ForgetPasswordUseCase implements IForgetPasswordUseCase {
     private _userRepository: IUserRepository,
     private _loggerService: ILoggerService,
     private _emailService: IEmailService,
+    private _userMapper:  IUserMapper,
     private _cacheService:ICacheService
   ) {}
   async forgetPassword(data: ForgetPasswordDTO): Promise<ForgetPasswordResponseDTO> {
-    const userDto = new ForgetPasswordDTO(data)
-    this._loggerService.info(
+
+        const userDto = new ForgetPasswordDTO(data);
+
+       this._loggerService.info(
       `User with email ${userDto.email} is going to resetPassword`
-    );
+       );
+
     const user = await this._userRepository.findByEmail(userDto.email);
 
-    if (!user) {
-      this._loggerService.warn("user not found");
-      throw new CustomError("User not found",HttpStatusCode.NOT_FOUND);
-    }
+         if (!user) {
+            this._loggerService.warn("user not found");
+          throw new CustomError("User not found",HttpStatusCode.NOT_FOUND);
+         }
+
+    const  userData = this._userMapper.toResponseDTO(user);
     
     const otp = await this._otpService.executeForForgetPassword(
       userDto.email,
-      user
+      userData as UserRegisterDTO
     );
+
     await this._cacheService.set(`otp:reset:${otp}`, RESETPASSWORD_OTP_TLL, userDto.email);
 
     console.log("reset password otp", otp);
+    
     await this._emailService.sendMail(
       userDto.email,
       "Your OTP code",

@@ -1,21 +1,51 @@
+
 import { KycStatus } from "../../infrastructure/db/models/user/UserModel";
+import { RegistrationTypes } from "../enums/user/Authentication";
 
 
+export class UserEntity {
+     name: string;
+     email: string;
+     password?: string;
+     phone?: number;
+     isVerified: boolean;
+     role?: string;
+     kycStatus?: KycStatus;
+     isBlocked?: boolean;
+     isKycResubmitted?: boolean;
+     id?: string;
+     createdAt?: Date;
+     googleId?: string;
+      registrationMode?:RegistrationTypes 
 
-
-export class User {
-  constructor( 
-    public name: string,
-    public email : string,
-    public password: string,
-    public phone  : number,
-    public isVerified : boolean,
-    public role : string,
-    public kycStatus: KycStatus,
-    public isBlocked: boolean,
-    public isKycResubmitted?: boolean,
-    public id?: string, 
-    public createdAt?: Date
-
-    ){}
+    constructor(props: {
+        name: string,
+        email: string,
+        password?: string,
+        phone?: number,
+        isVerified?: boolean,
+        role?: string,
+        kycStatus?:KycStatus,
+        isBlocked?: boolean,
+        isKycResubmitted?: boolean;
+        id?: string;
+        createdAt?: Date;
+        googleId?: string;
+        registrationMode?:RegistrationTypes 
+        
+    }){
+        this.name = props. name;
+        this.email = props.email;
+        this.role = props.role;
+        this.isVerified = props.role === "organizer"? false : true;
+        this.phone = props.phone;
+        this.kycStatus= props.kycStatus ?? KycStatus.NotApplicable;
+        this.isBlocked= props.isBlocked ?? false;
+        this.isKycResubmitted = props.isKycResubmitted ??false;
+        this.id= props.id;
+        this.createdAt = props.createdAt;
+        this.googleId = props.googleId;
+        this.registrationMode = this.registrationMode ?? RegistrationTypes.Normal;
+        this.password = props.password
+}
 }

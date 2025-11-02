@@ -28,25 +28,25 @@ export class LoginUserUseCase implements ILoginUserUseCase {
   console.log("hashed password",hashedPassword)
     const isPasswordValid = await this._hashService.compare(
       password,
-      hashedPassword
+      hashedPassword!
     );
 
     if (!isPasswordValid) throw new Error("Invalid password");
-    const payload: IUserTokenPayload = { id: userDoc.id!, role: userDoc.role };
+    const payload: IUserTokenPayload = { id: userDoc.id!, role: userDoc.role! };
 
 console.log("payload is",payload)
     const token = await this._tokenService.generateToken(payload);
     const refreshToken = await this._tokenService.generateRefreshToken(payload);
 
     const user = {
-      id: userDoc.id,
+      id: userDoc.id!,
       name: userDoc.name,
       email: userDoc.email,
-      role: userDoc.role,
-      isBlocked: userDoc.isBlocked,
+      role: userDoc.role!,
+      isBlocked: userDoc.isBlocked!,
       isVerified: userDoc.isVerified,
       isKycResubmitted :userDoc.isKycResubmitted,
-      kycStatus : userDoc.kycStatus,
+      kycStatus : userDoc.kycStatus!,
     };
 
 

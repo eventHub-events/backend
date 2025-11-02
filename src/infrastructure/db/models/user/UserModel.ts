@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
+import { RegistrationTypes } from '../../../../domain/enums/user/Authentication';
 
 
 export enum KycStatus {
@@ -19,6 +20,8 @@ export interface IUserDocument extends Document {
   kycStatus: KycStatus;
   createdAt?:Date;
   isKycResubmitted : boolean ;
+  googleId?: string;
+  registrationMode?:RegistrationTypes 
 }
 
 const UserSchema: Schema<IUserDocument> = new Schema({
@@ -35,7 +38,14 @@ const UserSchema: Schema<IUserDocument> = new Schema({
     type : Boolean ,
     default : false
   },
-
+   googleId :{
+     type: String
+   },
+   registrationMode : {
+       type : String,
+       enum : Object.values(RegistrationTypes),
+       default: RegistrationTypes.Normal
+   },
   role: { type: String, default: 'user' },
 },{timestamps:true});
 

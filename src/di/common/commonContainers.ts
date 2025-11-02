@@ -39,11 +39,11 @@ const nodeMailerEmailService = new NodeMailerEmailService();
 export const emailService = new EmailService(nodeMailerEmailService);
 const generateOtpUseCase = new GenerateOtpUseCase(otpService);
 const userMapper = new UserMapper();
-const usersMapper= new UsersMapper(userMapper)
-const userEntityFactory = new UserEntityFactory()
-export const userRepository = new UserRepository(loggerService,userMapper,usersMapper,userEntityFactory);
 
-const forgetPasswordUseCase = new ForgetPasswordUseCase(generateOtpUseCase,userRepository,loggerService,emailService,cacheService);
+const userEntityFactory = new UserEntityFactory()
+export const userRepository = new UserRepository(loggerService,userEntityFactory);
+
+const forgetPasswordUseCase = new ForgetPasswordUseCase(generateOtpUseCase, userRepository, loggerService, emailService, userMapper, cacheService);
 const verifyResetPasswordOtpUseCase =new VerifyResetPasswordOtpUseCase(otpService,hashService,tokenService,cacheService);
 const changePasswordUseCase =  new ChangePasswordUseCase(userRepository,tokenService,hashService,loggerService,userMapper)
 
