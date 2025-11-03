@@ -11,6 +11,7 @@ import { bookingsDisplayController } from "../../../di/organizer/bookings/contai
 import { organizerVerificationMiddleware } from "../../../di/organizer/verification-middleware/container";
 import { InputDataValidator } from "../../../infrastructure/middleware/zodMiddleware/inputDataValidator";
 import { organizerEventSchema } from "../../../infrastructure/validation/schemas/organizer/organizerEventSchema";
+import { organizerTicketSchema } from "../../../infrastructure/validation/schemas/organizer/organizerTicketSchema";
 // import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
 
 
@@ -50,7 +51,7 @@ router.patch("/events/:eventId/cancel", authenticationMiddleWare.authenticateUse
 // EventTicketing //
 router.get("/ticketing/:ticketId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => ticketingRetrievalController.fetchTicketingDetails(req, res, next));
 router.get("/events/:eventId/ticketing", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next : NextFunction) => ticketingRetrievalController.fetchTicketingDetailsByEvent(req, res, next));
-router.post("/ticketing",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response ,next: NextFunction) => ticketingManagementController.create(req, res, next));
+router.post("/ticketing",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),InputDataValidator.validate(organizerTicketSchema),(req: IAuthenticatedRequest, res: Response ,next: NextFunction) => ticketingManagementController.create(req, res, next));
 router.patch("/events/:eventId/ticketing",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) =>ticketingManagementController.update(req,res, next));
 
 //booking- display//
