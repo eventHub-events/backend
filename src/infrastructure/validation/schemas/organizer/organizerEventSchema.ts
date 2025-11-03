@@ -48,6 +48,7 @@ export const organizerEventSchema = z.object({
                message: "Event type must be either 'Online' or 'Offline'."
                   }),
     categoryId: z.string().min(1, { message: "Category ID is required" }),
+    organizerId: z.string().min(1, { message: "organizer ID is required" }),
    description : z.string()
                 .min(20, {message: "Title must be at least 20 characters"})
                 .max(150, {message: "Description must be at most 150 characters"})
@@ -76,3 +77,4 @@ export const organizerEventSchema = z.object({
  })
 
  export type OrganizerEventSchemaType = z.infer<typeof organizerEventSchema>;
+ export const organizerEventUpdateSchema     =  organizerEventSchema.partial();

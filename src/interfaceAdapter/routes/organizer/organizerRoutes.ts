@@ -10,8 +10,8 @@ import { ticketingManagementController, ticketingRetrievalController } from "../
 import { bookingsDisplayController } from "../../../di/organizer/bookings/container";
 import { organizerVerificationMiddleware } from "../../../di/organizer/verification-middleware/container";
 import { InputDataValidator } from "../../../infrastructure/middleware/zodMiddleware/inputDataValidator";
-import { organizerEventSchema } from "../../../infrastructure/validation/schemas/organizer/organizerEventSchema";
-import { organizerTicketSchema } from "../../../infrastructure/validation/schemas/organizer/organizerTicketSchema";
+import { organizerEventSchema, organizerEventUpdateSchema } from "../../../infrastructure/validation/schemas/organizer/organizerEventSchema";
+import { organizerTicketSchema, organizerTicketUpdateSchema } from "../../../infrastructure/validation/schemas/organizer/organizerTicketSchema";
 // import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
 
 
@@ -42,7 +42,7 @@ router.get("/events/:eventId", authenticationMiddleWare.authenticateUser.bind(au
 router.get("/:organizerId/events",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventRetrievalController.getEventsByOrganizer(req, res, next));
 router.get("/events",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventRetrievalController.getAllEvents(req, res, next));
 router.post("/events",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),InputDataValidator.validate(organizerEventSchema), organizerVerificationMiddleware.verify, (req: IAuthenticatedRequest, res: Response, next: NextFunction)  => eventManagementController.createEvent(req, res, next));
-router.patch("/events/:eventId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),organizerVerificationMiddleware.verify, (req: IAuthenticatedRequest, res: Response, next: NextFunction)  => eventManagementController.editEvent(req, res, next));
+router.patch("/events/:eventId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),organizerVerificationMiddleware.verify,InputDataValidator.validate(organizerEventUpdateSchema), (req: IAuthenticatedRequest, res: Response, next: NextFunction)  => eventManagementController.editEvent(req, res, next));
 // for soft delete of events //
 router.delete("/events/:eventId/soft-delete", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),organizerVerificationMiddleware.verify,(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventManagementController.Delete(req, res, next));
 router.patch("/events/:eventId/cancel", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),organizerVerificationMiddleware.verify,(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventManagementController.cancel(req, res, next));
@@ -52,7 +52,7 @@ router.patch("/events/:eventId/cancel", authenticationMiddleWare.authenticateUse
 router.get("/ticketing/:ticketId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => ticketingRetrievalController.fetchTicketingDetails(req, res, next));
 router.get("/events/:eventId/ticketing", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next : NextFunction) => ticketingRetrievalController.fetchTicketingDetailsByEvent(req, res, next));
 router.post("/ticketing",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),InputDataValidator.validate(organizerTicketSchema),(req: IAuthenticatedRequest, res: Response ,next: NextFunction) => ticketingManagementController.create(req, res, next));
-router.patch("/events/:eventId/ticketing",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) =>ticketingManagementController.update(req,res, next));
+router.patch("/events/:eventId/ticketing",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),InputDataValidator.validate(organizerTicketUpdateSchema),(req: IAuthenticatedRequest, res: Response, next: NextFunction) =>ticketingManagementController.update(req,res, next));
 
 //booking- display//
 router.get("/:organizerId/bookings",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => bookingsDisplayController.fetchAllBookings(req, res, next));

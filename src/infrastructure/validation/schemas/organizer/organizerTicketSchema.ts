@@ -18,24 +18,30 @@ export const ticketTierSchema = z.object({
         return num >= 1 && num <= 6000;
         }, { message: "Price must be between 1 and 6000" })
       .transform((val) => Number(val)),
-   totalSeats : z.string()
-                .regex(priceRegex, {message:"TotalSeats must contain only numbers"})
-                .refine((val) => {
-                  const num = Number(val);
-               return num>=5 && num<=600;
-                },{message:" Total seats must be between 5 and 500"})
-                .transform((val) => Number(val)),
+   totalSeats: z
+    .union([z.string(), z.number()])
+    .refine((val) => {
+      const num = Number(val);
+      return !isNaN(num) && num >= 5 && num <= 600;
+    }, { message: "Total seats must be between 5 and 600" })
+    .transform((val) => Number(val)),
    description : z.string()
                  .regex(descriptionRegex,{message: "Description must start with capital letter and contain only letters"})
                  .min(5, {message :"Description must be at least 5 letters "})
                  .max(80,{message:"Description shall not be more than 50 letters"})
                  .optional(),
   
-  benefits: 
-      z.string()
-        .regex(/^[A-Za-z\s,]+$/, "Benefit can contain only letters, commas, and spaces")
-    
-    .optional(),
+  benefits: z
+    .union([
+      z.string().regex(/^[A-Za-z\s,]+$/, "Benefit can contain only letters, commas, and spaces"),
+      z.array(z.string().regex(/^[A-Za-z\s,]+$/, "Benefit can contain only letters, commas, and spaces")),
+    ])
+    .optional()
+    .transform((val) => {
+      if (typeof val === "string") return [val];
+      return val ?? [];
+    }),
+
     
   maxTicketPerUser: z.coerce.number()
     .min(1, { message: "Each user must be allowed at least one ticket" })
@@ -56,4 +62,5 @@ export const organizerTicketSchema = z.object({
 
 })
 
-export type OrganizerTicketSchema = z.infer<typeof organizerTicketSchema>
+export type OrganizerTicketSchema = z.infer<typeof organizerTicketSchema>;
+export  const organizerTicketUpdateSchema = organizerTicketSchema.partial()
