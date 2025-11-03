@@ -82,3 +82,4 @@ kycVerified: z.boolean().optional(),
 })
 
 export type OrganizerProfileSchemaType = z.infer<typeof organizerProfileSchema>;
+

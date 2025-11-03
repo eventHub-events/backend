@@ -77,6 +77,8 @@ import { ILocation } from "../../valueObject/organizer/location";
     this.createdBy = props.createdBy;
     this.tags = props.tags || [];
     this.isDeleted = props.isDeleted || false;
+    this.startTime = props.startTime,
+    this.endTime = props.endTime,
     this.review = props.reviews;
     this.createdAt = props.createdAt;
     this.updatedAt = props.updatedAt;

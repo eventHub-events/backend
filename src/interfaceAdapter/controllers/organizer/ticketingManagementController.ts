@@ -17,6 +17,7 @@ export  class TicketingManagementController {
   async create(req: IAuthenticatedRequest, res: Response, next : NextFunction): Promise<void> {
     try{
         const dto: EventTicketingRequestDTO = req.body;
+        console.log("Ticket body", dto)
         const  createdTicketing = await this._creatingTicketingUseCase.execute(dto);
      res.status(HttpStatusCode.CREATED).json(ApiResponse.success("Ticketing details created successfully", HttpStatusCode.CREATED, createdTicketing));
 
