@@ -37,7 +37,7 @@ export class UserEntity {
         this.name = props. name;
         this.email = props.email;
         this.role = props.role;
-        this.isVerified = props.role === "organizer"? false : true;
+        this.isVerified  = props.isVerified ?? false;
         this.phone = props.phone;
         this.kycStatus= props.kycStatus ?? KycStatus.NotApplicable;
         this.isBlocked= props.isBlocked ?? false;

@@ -48,6 +48,7 @@ export class  OrganizerProfileUseCase implements IOrganizerProfileUseCase{
             throw new CustomError("Failed to fetch organizer profile",HttpStatusCode.INTERNAL_SERVER_ERROR);
        }
         const { profile, user} = profileData;
+       
        return  OrganizerProfileMapper.toResponse( profile ,user);
 
      

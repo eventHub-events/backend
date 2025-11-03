@@ -1,4 +1,5 @@
 
+
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
 import { IGoogleAuthUseCase } from "../../../interface/common/useCase/IGoogleAuthUseCase";
 import { ITokenService } from "../../../interface/useCases/user/ITokenService";
@@ -27,6 +28,7 @@ export class GoogleAuthUseCase implements IGoogleAuthUseCase {
             email: googleUser.email,
             googleId :googleUser.googleId,
             isVerified: googleUser.role ==="user"? true : false,
+            password:"",
             role:  googleUser.role,
             registrationMode: RegistrationTypes.GoogleAuth
             
