@@ -13,10 +13,9 @@ if (require.main === module) {
   (async () => {
     await DbConnection.connect();
     const loggerService= new WinstonLoggerService()
-    const userMapper = new UserMapper();
-    const usersMapper= new UsersMapper(userMapper)
+   
     const userEntityFactory = new UserEntityFactory()
-    const userRepository = new UserRepository(loggerService,userMapper,usersMapper,userEntityFactory);
+    const userRepository = new UserRepository(loggerService,userEntityFactory);
     const logger = new WinstonLoggerService();
     const hashService = new BcryptHashService();
    
