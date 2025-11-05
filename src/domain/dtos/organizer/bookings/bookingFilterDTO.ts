@@ -1,7 +1,7 @@
 import { BookingStatus } from "../../../enums/user/Booking";
 
 export interface BookingFilterDTO {
-   organizerId: string;
+   organizerId?: string;
    title?: string;
   userName?: string;
   userId?: string;
