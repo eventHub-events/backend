@@ -3,7 +3,7 @@ import { BookTicketUseCase } from "../../../application/useCases/user/booking/Bo
 import { EventTicketingEntityFactory } from "../../../infrastructure/factories/organizer/EventTicketingEntityFactory";
 import { BookingEntityFactory } from "../../../infrastructure/factories/user/BookingEntityFactory";
 import { EventTicketingRepository } from "../../../infrastructure/repositories/organizer/EventTicketingRepository";
-import { BookingRepository } from "../../../infrastructure/repositories/user/BookingRepository";
+import { BookingRepository } from "../../../infrastructure/repositories/user/booking/BookingRepository";
 import { EventBookingController } from "../../../interfaceAdapter/controllers/user/EventBookingController";
 
 const bookingEntityFactory = new BookingEntityFactory();
