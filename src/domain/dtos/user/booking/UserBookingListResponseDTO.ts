@@ -2,7 +2,7 @@
 import { BookingStatus } from "../../../enums/user/Booking";
 
 export interface UserBookingListResponseDTO {
-   bookingId: string;
+   bookingId?: string;
    eventId: string;
    eventName :string;
    eventImage?: string;
@@ -15,5 +15,5 @@ export interface UserBookingListResponseDTO {
    totalAmount: number;
    paymentStatus: BookingStatus;
    paymentMethod?: string;
-   bookingDate: Date
+   bookingDate?: Date
 }

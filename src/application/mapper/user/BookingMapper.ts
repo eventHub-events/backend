@@ -4,6 +4,7 @@ import { BookingResponseDTO } from "../../../domain/DTOs/user/booking/BookingRes
 import { BookingEntity } from "../../../domain/entities/user/BookingEntity";
 import { IBookingMapper } from "../../interface/mapper/user/IBookingMapper";
 import { BookingStatus } from "../../../domain/enums/user/Booking";
+import { UserBookingListResponseDTO } from "../../../domain/DTOs/user/booking/UserBookingListResponseDTO";
 
 export class BookingMapper implements IBookingMapper {
   toEntity(dto: BookingRequestDTO): BookingEntity {
@@ -42,6 +43,26 @@ export class BookingMapper implements IBookingMapper {
   }
   toResponseDTOList(entity: BookingEntity[]) : BookingResponseDTO[] {
     return entity.map((e) => this.toResponseDTO(e))
+  }
+  toUserResponseDTO(entity: BookingEntity): UserBookingListResponseDTO {
+       return {
+          bookingId : entity.id?.toString(),
+          eventId : entity.eventId.toString(),
+          eventName : entity.eventTitle,
+          eventDate : entity.eventDate,
+          eventLocation : entity.eventVenue,
+          organizerName : entity.organizerName,
+          tickets : entity.tickets,
+          totalAmount : entity.totalAmount,
+          paymentStatus : entity.status,
+          bookingDate : entity.createdAt
+
+       }
+  }
+  toUserResponseDTOList(entity: BookingEntity[]): UserBookingListResponseDTO[] {
+
+    return entity.map((booking) => this.toUserResponseDTO(booking));
+      
   }
  
 }
