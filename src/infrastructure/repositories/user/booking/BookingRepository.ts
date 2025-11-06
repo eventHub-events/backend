@@ -1,11 +1,11 @@
 import { FilterQuery } from "mongoose";
-import { IBookingEntityFactory } from "../../../application/interface/factories/user/IBookingEntityFactory";
-import { BookingEntity } from "../../../domain/entities/user/BookingEntity";
-import { IBookingRepository } from "../../../domain/repositories/user/IBookingRepository";
-import { BookingDbModel } from "../../../domain/types/UserTypes";
-import { BookingModel, IBooking } from "../../db/models/user/BookingModel";
-import { BaseRepository } from "../BaseRepository";
-import { BookingFilterDTO } from "../../../domain/DTOs/organizer/bookings/bookingFilterDTO";
+import { IBookingEntityFactory } from "../../../../application/interface/factories/user/IBookingEntityFactory";
+import { BookingEntity } from "../../../../domain/entities/user/BookingEntity";
+import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
+import { BookingDbModel } from "../../../../domain/types/UserTypes";
+import { BookingModel, IBooking } from "../../../db/models/user/BookingModel";
+import { BaseRepository } from "../../BaseRepository";
+import { BookingFilterDTO } from "../../../../domain/DTOs/organizer/bookings/bookingFilterDTO";
 
 
 export class BookingRepository extends BaseRepository<IBooking> implements IBookingRepository {
@@ -27,6 +27,7 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
           
       }
           if(filter.organizerId ) cleanFilter.organizerId= filter.organizerId
+          if(filter.userId) cleanFilter.userId= filter.userId
           if (filter.status) cleanFilter.status = filter.status;
           if (filter.title)
               cleanFilter.eventTitle = { $regex: filter.title, $options: "i" };

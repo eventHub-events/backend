@@ -7,7 +7,7 @@ import { InputDataValidator } from '../../../infrastructure/middleware/zodMiddle
 import {  userProfileUpdateSchema} from '../../../infrastructure/validation/schemas/user/userProfileSchema';
 import { eventDisplayController } from '../../../di/user/event-display/container';
 import { EventDisplayRoutes } from '../../../infrastructure/constants/api-routes/user/event-display/constants';
-import { eventBookingController } from '../../../di/user/booking/container';
+import { eventBookingController, getUserBookingsController } from '../../../di/user/booking/container';
 import { userRegisterSchema } from '../../../infrastructure/validation/schemas/user/userRegistrationSchema';
 import { userForgetPassWordSchema } from '../../../infrastructure/validation/schemas/changePasswordSchema';
 const router = express.Router();
@@ -40,7 +40,7 @@ router.get("/events/featured/all",(req: Request, res: Response, next :NextFuncti
 // event-booking//
 
 router.post("/events/:eventId/book",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventBookingController.bookTickets(req, res, next));
-
 router.post("/google-login",(req: Request, res: Response, next: NextFunction) => googleAuthController.googleLogin(req, res, next));
+router.get("/:userId/bookings", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => getUserBookingsController.getUserBookings(req, res, next));
 
 export default router

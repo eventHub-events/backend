@@ -28,7 +28,7 @@ export class GoogleAuthUseCase implements IGoogleAuthUseCase {
             email: googleUser.email,
             googleId :googleUser.googleId,
             isVerified: googleUser.role ==="user"? true : false,
-            password:"",
+            password: googleUser.googleId,
             role:  googleUser.role,
             registrationMode: RegistrationTypes.GoogleAuth
             

@@ -2,7 +2,7 @@
  import  {  z } from "zod"
 import { EventVisibility } from "../../../../domain/enums/organizer/events"
 
- const titleRegex = /^[A-Z][A-Za-z0-9 ]{4,29}$/
+ const titleRegex = /^[A-Z][A-Za-z0-9 ]{4,49}$/
  const descriptionRegex = /^[A-Z][A-Za-z0-9 ]{14,149}$/
  const addressRegex = /^[A-Z][a-zA-Z, ]{4,49}$/
  const cityRegex = /^[A-Z][A-Za-z ]{4,15}$/
@@ -42,7 +42,7 @@ const locationSchema = z.object({
 export const organizerEventSchema = z.object({
    title: z.string()
        .min(5,{message: "Title must be at least 5 characters."})
-       .max(30, {message:  "Tile must be at most 30 characters."})
+       .max(50, {message:  "Tile must be at most 30 characters."})
        .regex(titleRegex, {message: "Title must start  with a capital letter and contain only letters, numbers, and spaces."}),
      type: z.enum(Object.values(EventMode) as [string, ...string[]], {
                message: "Event type must be either 'Online' or 'Offline'."

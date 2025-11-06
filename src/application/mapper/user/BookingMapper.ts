@@ -4,6 +4,7 @@ import { BookingResponseDTO } from "../../../domain/DTOs/user/booking/BookingRes
 import { BookingEntity } from "../../../domain/entities/user/BookingEntity";
 import { IBookingMapper } from "../../interface/mapper/user/IBookingMapper";
 import { BookingStatus } from "../../../domain/enums/user/Booking";
+import { UserBookingListResponseDTO } from "../../../domain/DTOs/user/booking/UserBookingListResponseDTO";
 
 export class BookingMapper implements IBookingMapper {
   toEntity(dto: BookingRequestDTO): BookingEntity {
@@ -20,7 +21,8 @@ export class BookingMapper implements IBookingMapper {
           expiresAt:  new Date(Date.now() + 15 * 60 * 1000),
           totalAmount: totalAmount,
           userName : dto.userName,
-          organizerId: new Types.ObjectId(dto.organizerId)
+          organizerId: new Types.ObjectId(dto.organizerId),
+          eventImages: dto.eventImages
           
 
       })
@@ -37,11 +39,33 @@ export class BookingMapper implements IBookingMapper {
          eventVenue: entity.eventVenue,
          eventDate: entity.eventDate,
          id: entity.id?.toString(),
-         userName: entity.userName
+         userName: entity.userName,
+         eventImages: entity.eventImages
       }
   }
   toResponseDTOList(entity: BookingEntity[]) : BookingResponseDTO[] {
     return entity.map((e) => this.toResponseDTO(e))
+  }
+  toUserResponseDTO(entity: BookingEntity): UserBookingListResponseDTO {
+       return {
+          bookingId : entity.id?.toString(),
+          eventId : entity.eventId.toString(),
+          eventName : entity.eventTitle,
+          eventDate : entity.eventDate,
+          eventLocation : entity.eventVenue,
+          organizerName : entity.organizerName,
+          tickets : entity.tickets,
+          totalAmount : entity.totalAmount,
+          paymentStatus : entity.status,
+          bookingDate : entity.createdAt,
+          eventImages :entity.eventImages
+
+       }
+  }
+  toUserResponseDTOList(entity: BookingEntity[]): UserBookingListResponseDTO[] {
+
+    return entity.map((booking) => this.toUserResponseDTO(booking));
+      
   }
  
 }

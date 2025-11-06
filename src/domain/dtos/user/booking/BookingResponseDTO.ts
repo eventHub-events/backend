@@ -16,5 +16,6 @@ export interface BookingResponseDTO {
          organizerName: string,
          eventVenue: string,
          userName: string,
+         eventImages?: string[],
          id?: string
 }
