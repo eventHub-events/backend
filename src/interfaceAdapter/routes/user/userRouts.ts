@@ -41,6 +41,6 @@ router.get("/events/featured/all",(req: Request, res: Response, next :NextFuncti
 
 router.post("/events/:eventId/book",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventBookingController.bookTickets(req, res, next));
 router.post("/google-login",(req: Request, res: Response, next: NextFunction) => googleAuthController.googleLogin(req, res, next));
-router.get("/bookings", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => getUserBookingsController.getUserBookings(req, res, next));
+router.get("/:userId/bookings", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => getUserBookingsController.getUserBookings(req, res, next));
 
 export default router

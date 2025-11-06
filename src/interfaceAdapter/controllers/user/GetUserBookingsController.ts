@@ -16,6 +16,7 @@ export class GetUserBookingsController  {
 async getUserBookings(req: Request, res: Response, next: NextFunction) : Promise<void> {
     try{
            const{ userId } = req.params;
+           console.log("userid ",userId)
              
              const statusValue = req.query.status as string;
                    const validStatus = statusValue ? (Object.values(BookingStatus).includes(statusValue as BookingStatus) 

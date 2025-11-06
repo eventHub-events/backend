@@ -21,7 +21,8 @@ export class BookingMapper implements IBookingMapper {
           expiresAt:  new Date(Date.now() + 15 * 60 * 1000),
           totalAmount: totalAmount,
           userName : dto.userName,
-          organizerId: new Types.ObjectId(dto.organizerId)
+          organizerId: new Types.ObjectId(dto.organizerId),
+          eventImages: dto.eventImages
           
 
       })
@@ -38,7 +39,8 @@ export class BookingMapper implements IBookingMapper {
          eventVenue: entity.eventVenue,
          eventDate: entity.eventDate,
          id: entity.id?.toString(),
-         userName: entity.userName
+         userName: entity.userName,
+         eventImages: entity.eventImages
       }
   }
   toResponseDTOList(entity: BookingEntity[]) : BookingResponseDTO[] {
@@ -55,7 +57,8 @@ export class BookingMapper implements IBookingMapper {
           tickets : entity.tickets,
           totalAmount : entity.totalAmount,
           paymentStatus : entity.status,
-          bookingDate : entity.createdAt
+          bookingDate : entity.createdAt,
+          eventImages :entity.eventImages
 
        }
   }

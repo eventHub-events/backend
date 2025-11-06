@@ -27,6 +27,7 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
           
       }
           if(filter.organizerId ) cleanFilter.organizerId= filter.organizerId
+          if(filter.userId) cleanFilter.userId= filter.userId
           if (filter.status) cleanFilter.status = filter.status;
           if (filter.title)
               cleanFilter.eventTitle = { $regex: filter.title, $options: "i" };

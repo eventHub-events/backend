@@ -5,7 +5,7 @@ export interface UserBookingListResponseDTO {
    bookingId?: string;
    eventId: string;
    eventName :string;
-   eventImage?: string;
+   eventImages?: string[];
    eventDate: string;
    eventLocation: string;
    organizerName: string;

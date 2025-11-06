@@ -3,7 +3,7 @@ import { BookingMapper } from "../../../application/mapper/user/BookingMapper";
 import { GetAllBookingsUseCase } from "../../../application/useCases/organizer/booking/GetAllBookingsUseCase";
 import { GetBookingDetailsByIdUseCase } from "../../../application/useCases/organizer/booking/GetBookingDetailsByIdUseCase";
 import { BookingEntityFactory } from "../../../infrastructure/factories/user/BookingEntityFactory";
-import { BookingRepository } from "../../../infrastructure/repositories/user/BookingRepository";
+import { BookingRepository } from "../../../infrastructure/repositories/user/booking/BookingRepository";
 import { BookingsDisplayController } from "../../../interfaceAdapter/controllers/organizer/BookingsDisplayController";
 
 const bookingEntityFactory = new BookingEntityFactory();

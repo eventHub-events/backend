@@ -17,6 +17,7 @@ export interface IBooking extends Document {
    organizerName: string;
    eventVenue: string;
    expiresAt : Date;
+   eventImages? : string[];
    organizerId: Types.ObjectId;
 
 }
@@ -48,6 +49,8 @@ const bookingSchema = new Schema<IBooking>({
    totalAmount : {
      type : Number
    },
+    eventImages : 
+    [{type: String, required: true}],
    eventDate : {
      type: String
    },

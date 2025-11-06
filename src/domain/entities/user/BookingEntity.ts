@@ -2,8 +2,8 @@ import { Types } from "mongoose";
 import { BookingStatus } from "../../enums/user/Booking";
 
 export class BookingEntity {
-   public readonly userId : Types.ObjectId;
-   public readonly eventId : Types.ObjectId;
+   public  userId : Types.ObjectId;
+   public  eventId : Types.ObjectId;
    public readonly tickets : {
                name:  string, quantity: number, price: number
                                         }[];
@@ -18,6 +18,7 @@ export class BookingEntity {
    public readonly  id?:Types.ObjectId;
    public  expiresAt?: Date
    public  organizerId: Types.ObjectId;
+   public eventImages?:string[]
   constructor(props :{
      userId : Types.ObjectId,
      eventId : Types.ObjectId,
@@ -33,6 +34,7 @@ export class BookingEntity {
        organizerName: string,
        eventVenue: string,
        userName: string,
+       eventImages?: string[]
        organizerId: Types.ObjectId,
        id?: Types.ObjectId,
        expiresAt?: Date
@@ -56,6 +58,7 @@ export class BookingEntity {
        this.eventDate = props.eventDate;
        this.totalAmount = props.totalAmount;
        this.id = props.id;
+       this.eventImages = props.eventImages;
        this.organizerId= props.organizerId;
        this.userName = props.userName;
        this.expiresAt = props.expiresAt?? new Date(Date.now() + 15 * 60 * 1000);
