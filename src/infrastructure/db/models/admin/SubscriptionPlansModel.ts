@@ -1,5 +1,5 @@
-import mongoose, { Schema } from "mongoose";
-import { IPrivileges, privilegesSchema } from "./SubscriptionPrivilages";
+import mongoose, { Document, Schema } from "mongoose";
+import { IPrivileges, privilegesSchema } from "./SubscriptionPrivileges";
 
 export interface ISubscriptionPlans extends Document {
     name : string;
@@ -7,7 +7,7 @@ export interface ISubscriptionPlans extends Document {
     durationInDays: number;
     description :string;
     privileges : IPrivileges;
-    isActive :boolean;
+    isActive? :boolean;
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -38,6 +38,6 @@ const subscriptionPlansSchema =  new Schema<ISubscriptionPlans>({
        type:Boolean,
        default: true
    }
-})
+},{timestamps: true})
 
 export const subscriptionPlansModel = mongoose.model<ISubscriptionPlans>("SubscriptionPlans", subscriptionPlansSchema);

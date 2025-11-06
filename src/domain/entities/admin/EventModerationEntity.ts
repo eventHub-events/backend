@@ -7,7 +7,7 @@ export class EventModerationEntity {
   public eventId :  Types.ObjectId;
   public eventApprovalStatus: EventApprovalStatus;
   public approved : boolean;
-  public approvedAt : Date;
+  public approvedAt? : Date;
   public approvedBy? : string;
   public rejectionReason?: string;
   public flaggedReason? : string;
@@ -28,7 +28,7 @@ export class EventModerationEntity {
     eventId: Types.ObjectId,
     eventApprovalStatus: EventApprovalStatus,
     approved: boolean
-    approvedAt : Date;
+    approvedAt? : Date;
     approvedBy? : string;
     rejectionReason?: string;
     flaggedReason? : string;

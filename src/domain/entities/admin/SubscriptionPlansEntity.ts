@@ -1,13 +1,14 @@
 import { Types } from "mongoose";
-import { IPrivileges } from "../../../infrastructure/db/models/admin/SubscriptionPrivilages";
+import { IPrivileges } from "../../../infrastructure/db/models/admin/SubscriptionPrivileges";
 
 export class SubscriptionPlansEntity {
    public id : Types.ObjectId;
    public name: string;
    public durationInDays : number;
+   public price: number;
    public description: string;
    public privileges : IPrivileges;
-   public isActive : boolean;
+   public isActive?: boolean;
    public createdAt?: Date;
    public updatedAt?: Date;
 
@@ -17,8 +18,9 @@ export class SubscriptionPlansEntity {
       durationInDays : number,
       description : string,
       privileges: IPrivileges,
-      isActive : boolean,
+      isActive?: boolean,
       createdAt?: Date,
+      price: number,
       updatedAt?: Date
    }) {
         this.id = props.id;
@@ -28,6 +30,7 @@ export class SubscriptionPlansEntity {
         this.privileges = props.privileges;
         this.isActive = props.isActive;
         this.createdAt = props.createdAt;
-        this.updatedAt = props.updatedAt
+        this.updatedAt = props.updatedAt;
+        this.price =  props.price
      }
 }
