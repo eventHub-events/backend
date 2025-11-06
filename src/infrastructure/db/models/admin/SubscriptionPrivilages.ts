@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 
-export interface Privileges {
+export interface IPrivileges {
   maxActiveEvents : number;
   maxFeaturedEvents: number;
   payout: {
@@ -13,7 +13,7 @@ export interface Privileges {
 
 }
 
-export const privilegesSchema =  new Schema<Privileges>({
+export const privilegesSchema =  new Schema<IPrivileges>({
     maxActiveEvents  : {
       type : Number,
       required: true
