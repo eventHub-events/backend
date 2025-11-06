@@ -3,7 +3,7 @@ import { ISubscriptionEntityFactory } from "../../../application/interface/facto
 import { SubscriptionPlansEntity } from "../../../domain/entities/admin/SubscriptionPlansEntity";
 import { ISubscriptionPlansRepository } from "../../../domain/repositories/admin/ISubscriptionPlansRepository";
 import { SubscriptionPlansDbModel } from "../../../domain/types/AdminDbTypes";
-import { ISubscriptionPlans, subscriptionPlansModel } from "../../../infrastructure/db/models/admin/SubScriptionPlansModel";
+import { ISubscriptionPlans, subscriptionPlansModel } from "../../../infrastructure/db/models/admin/SubscriptionPlansModel";
 import { BaseRepository } from "../../../infrastructure/repositories/BaseRepository";
 
 export  class SubscriptionPlansRepository extends BaseRepository<ISubscriptionPlans> implements ISubscriptionPlansRepository {

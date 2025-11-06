@@ -2,7 +2,7 @@ import { Types } from "mongoose";
 import { IPrivileges } from "../../../infrastructure/db/models/admin/SubscriptionPrivileges";
 
 export class SubscriptionPlansEntity {
-   public id : Types.ObjectId;
+   public id? : Types.ObjectId;
    public name: string;
    public durationInDays : number;
    public price: number;
@@ -13,7 +13,7 @@ export class SubscriptionPlansEntity {
    public updatedAt?: Date;
 
    constructor(props: {
-      id: Types.ObjectId,
+      id?: Types.ObjectId,
       name: string,
       durationInDays : number,
       description : string,
