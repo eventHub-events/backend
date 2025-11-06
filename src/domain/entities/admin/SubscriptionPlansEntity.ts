@@ -1,0 +1,33 @@
+import { Types } from "mongoose";
+import { IPrivileges } from "../../../infrastructure/db/models/admin/SubscriptionPrivilages";
+
+export class SubscriptionPlansEntity {
+   public id : Types.ObjectId;
+   public name: string;
+   public durationInDays : number;
+   public description: string;
+   public privileges : IPrivileges;
+   public isActive : boolean;
+   public createdAt?: Date;
+   public updatedAt?: Date;
+
+   constructor(props: {
+      id: Types.ObjectId,
+      name: string,
+      durationInDays : number,
+      description : string,
+      privileges: IPrivileges,
+      isActive : boolean,
+      createdAt?: Date,
+      updatedAt?: Date
+   }) {
+        this.id = props.id;
+        this.name = props.name;
+        this.durationInDays = props.durationInDays;
+        this.description = props.description;
+        this.privileges = props.privileges;
+        this.isActive = props.isActive;
+        this.createdAt = props.createdAt;
+        this.updatedAt = props.updatedAt
+     }
+}
