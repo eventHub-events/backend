@@ -31,4 +31,7 @@ export class SubscriptionMapper implements ISubscriptionMapper {
 
       }
   }
+ toResponseDTOList(entity: SubscriptionPlansEntity[]): SubscriptionResponseDTO[] {
+       return entity.map((e)  => this.toResponseDTO(e))
+ }
 }

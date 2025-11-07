@@ -1,8 +1,8 @@
-import { Types } from "mongoose";
+
 import { IPrivileges } from "../../../infrastructure/db/models/admin/SubscriptionPrivileges";
 
 export class SubscriptionPlansEntity {
-   public id? : Types.ObjectId;
+   public id? : string;
    public name: string;
    public durationInDays : number;
    public price: number;
@@ -13,7 +13,7 @@ export class SubscriptionPlansEntity {
    public updatedAt?: Date;
 
    constructor(props: {
-      id?: Types.ObjectId,
+      id?:  string,
       name: string,
       durationInDays : number,
       description : string,
@@ -33,4 +33,8 @@ export class SubscriptionPlansEntity {
         this.updatedAt = props.updatedAt;
         this.price =  props.price
      }
+  update(data: Partial<Omit<SubscriptionPlansEntity, "id">>) {
+    Object.assign(this, data)
+   return this
+  }
 }

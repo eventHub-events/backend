@@ -23,9 +23,16 @@ export  class SubscriptionPlansRepository extends BaseRepository<ISubscriptionPl
      const updated = await super.update(subscriptionId,data) as SubscriptionPlansDbModel;
   return this._subscriptionEntityFactory.toDomain(updated)
  }
- async fetchSubscriptionPlanById(subscriptionId: string): Promise<SubscriptionPlansEntity> {
+  async fetchSubscriptionPlanById(subscriptionId: string): Promise<SubscriptionPlansEntity> {
 
       const fetchedData = await super.findById(subscriptionId) as SubscriptionPlansDbModel;
    return this._subscriptionEntityFactory.toDomain(fetchedData);
- }
+  }
+
+  async fetchSubscriptionPlans() :  Promise<SubscriptionPlansEntity[]> {
+
+          const fetchedPlans = await super.findAll() as SubscriptionPlansDbModel[];
+    return this._subscriptionEntityFactory.toDomainList(fetchedPlans);
+  }
+
 }
