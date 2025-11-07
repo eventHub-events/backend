@@ -1,4 +1,4 @@
-import { BookingResponseDTOForAdmin } from "../../../../domain/DTOs/admin/bookings/BookingResponseDTOForAdmin";
+import { BookingResponseDTOForAdmin } from "../../../DTOs/admin/bookings/BookingResponseDTOForAdmin";
 
 import { BookingEntity } from "../../../../domain/entities/user/BookingEntity";
 

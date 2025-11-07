@@ -1,4 +1,4 @@
-import { EventsAdminViewResponseDTO } from "../../../../domain/DTOs/admin/event-view/EventsAdminViewResponseDTO";
+import { EventsAdminViewResponseDTO } from "../../../DTOs/admin/event-view/EventsAdminViewResponseDTO";
 import { IEventAdminView } from "../../../../domain/entities/admin/IEventAdminView";
 
 export interface IEventAdminViewMapper {

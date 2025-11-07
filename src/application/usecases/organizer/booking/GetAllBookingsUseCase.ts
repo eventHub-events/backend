@@ -2,8 +2,8 @@
 import { IGetAllBookingsUseCase } from "../../../interface/useCases/organizer/booking/IGetAllBooking";
 import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
 import { IBookingMapper } from "../../../interface/mapper/user/IBookingMapper";
-import { BookingResponseDTO } from "../../../../domain/DTOs/user/booking/BookingResponseDTO";
-import { BookingFilterDTO } from "../../../../domain/DTOs/organizer/bookings/bookingFilterDTO";
+import { BookingResponseDTO } from "../../../DTOs/user/booking/BookingResponseDTO";
+import { BookingFilterDTO } from "../../../DTOs/organizer/bookings/bookingFilterDTO";
 import { ResponseMessages } from "../../../../infrastructure/constants/responseMessages";
 
 export class GetAllBookingsUseCase implements IGetAllBookingsUseCase {

@@ -1,4 +1,4 @@
-import { EventResponseDTO } from "../../../../domain/DTOs/organizer/events/EventResponseDTO";
+import { EventResponseDTO } from "../../../DTOs/organizer/events/EventResponseDTO";
 import { IEventRepository } from "../../../../domain/repositories/organizer/IEventsRepository";
 import { IEventMapper } from "../../../interface/useCases/organizer/events/IEventMapper";
 import { IGetEventByIdUseCase } from "../../../interface/useCases/organizer/events/IGetEventByIdUseCase";

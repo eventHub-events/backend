@@ -1,5 +1,5 @@
-import { CreateSubscriptionRequestRequestDTO } from "../../../domain/DTOs/admin/subscription-plans/CreateSubscriptionRequestDTO";
-import { SubscriptionResponseDTO } from "../../../domain/DTOs/admin/subscription-plans/SubscriptionResponseDTO";
+import { CreateSubscriptionRequestRequestDTO } from "../../DTOs/admin/subscription-plans/CreateSubscriptionRequestDTO";
+import { SubscriptionResponseDTO } from "../../DTOs/admin/subscription-plans/SubscriptionResponseDTO";
 import { SubscriptionPlansEntity } from "../../../domain/entities/admin/SubscriptionPlansEntity";
 import { ISubscriptionMapper } from "../../interface/mapper/admin/ISubscriptionMapper";
 

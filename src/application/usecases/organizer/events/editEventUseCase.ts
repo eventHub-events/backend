@@ -1,5 +1,5 @@
-import { EventResponseDTO } from "../../../../domain/DTOs/organizer/events/EventResponseDTO";
-import { EventUpdateDTO } from "../../../../domain/DTOs/organizer/events/EventUpdateDTO";
+import { EventResponseDTO } from "../../../DTOs/organizer/events/EventResponseDTO";
+import { EventUpdateDTO } from "../../../DTOs/organizer/events/EventUpdateDTO";
 import { EventEntity } from "../../../../domain/entities/organizer/EventEntity";
 import { IEventRepository } from "../../../../domain/repositories/organizer/IEventsRepository";
 import {  IUpdateEventUseCase } from "../../../interface/useCases/organizer/events/IEditEventUseCase";

@@ -1,5 +1,5 @@
-import { CreateSubscriptionRequestRequestDTO } from "../../../../domain/DTOs/admin/subscription-plans/CreateSubscriptionRequestDTO";
-import { SubscriptionResponseDTO } from "../../../../domain/DTOs/admin/subscription-plans/SubscriptionResponseDTO";
+import { CreateSubscriptionRequestRequestDTO } from "../../../DTOs/admin/subscription-plans/CreateSubscriptionRequestDTO";
+import { SubscriptionResponseDTO } from "../../../DTOs/admin/subscription-plans/SubscriptionResponseDTO";
 import { ISubscriptionPlansRepository } from "../../../../domain/repositories/admin/ISubscriptionPlansRepository";
 import { ISubscriptionMapper } from "../../../interface/mapper/admin/ISubscriptionMapper";
 import { ICreateSubscriptionPlanUseCase } from "../../../interface/useCases/admin/subscription-plans/ICreateSubscriptionUseCase";

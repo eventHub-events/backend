@@ -1,6 +1,6 @@
-import { BookingRequestDTO } from "../../../../domain/DTOs/user/booking/BookingRequestDTO";
-import { BookingResponseDTO } from "../../../../domain/DTOs/user/booking/BookingResponseDTO";
-import { UserBookingListResponseDTO } from "../../../../domain/DTOs/user/booking/UserBookingListResponseDTO";
+import { BookingRequestDTO } from "../../../DTOs/user/booking/BookingRequestDTO";
+import { BookingResponseDTO } from "../../../DTOs/user/booking/BookingResponseDTO";
+import { UserBookingListResponseDTO } from "../../../DTOs/user/booking/UserBookingListResponseDTO";
 import { BookingEntity } from "../../../../domain/entities/user/BookingEntity";
 import { IBaseMapper } from "../../common/IBaseMapper";
 

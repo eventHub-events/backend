@@ -1,6 +1,6 @@
 
 
-import { TicketRequest } from "../../DTOs/user/booking/TicketReqest";
+import { TicketRequest } from "../../../application/DTOs/user/booking/TicketReqest";
 import { EventTicketingEntity } from "../../entities/organizer/EventTicketingEntity";
 
 export interface IEventTicketingRepository {

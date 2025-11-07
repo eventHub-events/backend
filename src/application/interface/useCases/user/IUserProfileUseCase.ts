@@ -1,5 +1,5 @@
-import { UserProfileEditRequestDTO } from "../../../../domain/DTOs/user/profile/UserProfileEditRequestDTO";
-import { UserProfileResponseDTO } from "../../../../domain/DTOs/user/profile/UserProfileResponseDTO";
+import { UserProfileEditRequestDTO } from "../../../DTOs/user/profile/UserProfileEditRequestDTO";
+import { UserProfileResponseDTO } from "../../../DTOs/user/profile/UserProfileResponseDTO";
 
 /**
  * Defines user profile-related use cases in the application layer.

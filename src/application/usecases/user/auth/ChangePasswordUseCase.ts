@@ -1,5 +1,5 @@
-import { ChangePasswordDTO } from "../../../../domain/DTOs/user/ChangePasswordDTO";
-import { UserResponseDTO } from "../../../../domain/DTOs/user/UserResponseDTO";
+import { ChangePasswordDTO } from "../../../DTOs/user/ChangePasswordDTO";
+import { UserResponseDTO } from "../../../DTOs/user/UserResponseDTO";
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
 import { CustomError } from "../../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../../infrastructure/interface/enums/HttpStatusCode";

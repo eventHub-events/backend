@@ -1,5 +1,5 @@
-import { EventModerationRequestDTO } from "../../../../../domain/DTOs/admin/EventModeration/EventModerationReqDTO";
-import { EventModerationResponseDTO } from "../../../../../domain/DTOs/admin/EventModeration/EventModerationResponseDTO";
+import { EventModerationRequestDTO } from "../../../../DTOs/admin/EventModeration/EventModerationReqDTO";
+import { EventModerationResponseDTO } from "../../../../DTOs/admin/EventModeration/EventModerationResponseDTO";
 import { IEventModerationRepository } from "../../../../../domain/repositories/admin/IEventModerationRepository";
 import { IEventModerationMapper } from "../../../../interface/mapper/admin/IEventModerationMapper";
 import { ICreateEventModerationUseCase } from "../../../../interface/useCases/admin/event-management/ICreateEventModerationUsecase";

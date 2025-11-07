@@ -1,10 +1,10 @@
 import { Types } from "mongoose";
-import { BookingRequestDTO } from "../../../domain/DTOs/user/booking/BookingRequestDTO";
-import { BookingResponseDTO } from "../../../domain/DTOs/user/booking/BookingResponseDTO";
+import { BookingRequestDTO } from "../../DTOs/user/booking/BookingRequestDTO";
+import { BookingResponseDTO } from "../../DTOs/user/booking/BookingResponseDTO";
 import { BookingEntity } from "../../../domain/entities/user/BookingEntity";
 import { IBookingMapper } from "../../interface/mapper/user/IBookingMapper";
 import { BookingStatus } from "../../../domain/enums/user/Booking";
-import { UserBookingListResponseDTO } from "../../../domain/DTOs/user/booking/UserBookingListResponseDTO";
+import { UserBookingListResponseDTO } from "../../DTOs/user/booking/UserBookingListResponseDTO";
 
 export class BookingMapper implements IBookingMapper {
   toEntity(dto: BookingRequestDTO): BookingEntity {

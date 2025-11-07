@@ -1,4 +1,4 @@
-import { EventTicketingResponseDTO } from "../../../../../domain/DTOs/organizer/ticketing/EventTicketingResposeDTO";
+import { EventTicketingResponseDTO } from "../../../../DTOs/organizer/ticketing/EventTicketingResposeDTO";
 import { EventTicketingEntity } from "../../../../../domain/entities/organizer/EventTicketingEntity";
 
 export interface IFetchTicketingDetailsByEventUseCase {

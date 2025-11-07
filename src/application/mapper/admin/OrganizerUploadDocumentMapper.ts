@@ -1,7 +1,7 @@
-import { UpdatedUploadDocumentResponseDTO } from "../../../domain/DTOs/admin/UpdatedUploadedDocumentDTO";
-import { UploadDocumentResponseDTO } from "../../../domain/DTOs/admin/UploadDocumentResponseDTO";
-import { UploadDocumentDTO } from "../../../domain/DTOs/organizer/DocumentDTO";
-import { UpdateDocumentRequestDTO } from "../../../domain/DTOs/organizer/UpdateDocumentRequestDto";
+import { UpdatedUploadDocumentResponseDTO } from "../../DTOs/admin/UpdatedUploadedDocumentDTO";
+import { UploadDocumentResponseDTO } from "../../DTOs/admin/UploadDocumentResponseDTO";
+import { UploadDocumentDTO } from "../../DTOs/organizer/DocumentDTO";
+import { UpdateDocumentRequestDTO } from "../../DTOs/organizer/UpdateDocumentRequestDto";
 import { UploadDocument } from "../../../domain/entities/organizer/Document";
 
 import { IOrganizerUploadDocumentMapper } from "../../interface/useCases/admin/IOrganizerUploadDocumentMapper";

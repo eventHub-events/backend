@@ -3,7 +3,7 @@ import { ICreateEventUseCase } from "../../../application/interface/useCases/org
 import { IDeleteEventUseCase } from "../../../application/interface/useCases/organizer/events/IDeleteEventUseCase";
 import { IUpdateEventUseCase } from "../../../application/interface/useCases/organizer/events/IEditEventUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
-import { EventCreationRequestDTO } from "../../../domain/DTOs/organizer/events/EventCreationRequestDTO";
+import { EventCreationRequestDTO } from "../../../application/DTOs/organizer/events/EventCreationRequestDTO";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";

@@ -1,4 +1,4 @@
-import { EventDetailsResponseDTO } from "../../../../domain/DTOs/user/event-display/EventDetailsResponseDTO";
+import { EventDetailsResponseDTO } from "../../../DTOs/user/event-display/EventDetailsResponseDTO";
 import { IEventDisplayQueryRepository } from "../../../../domain/repositories/user/IEventDisplayQueryRepository";
 import { IEventDisplayMapper } from "../../../interface/mapper/user/IEventDisplayMapper";
 import { IGetEventDetailsUseCase } from "../../../interface/useCases/user/event-display/IGetEventDetailsUseCase";

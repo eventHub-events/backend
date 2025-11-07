@@ -9,7 +9,7 @@ dotenv.config()
 
 
 
-import { UserRegisterDTO } from "../domain/DTOs/user/RegisterUserDTO";
+import { UserRegisterDTO } from "../application/DTOs/user/RegisterUserDTO";
 import { UserEntity } from "../domain/entities/User";
 import { KycStatus } from "../infrastructure/db/models/user/UserModel";
 

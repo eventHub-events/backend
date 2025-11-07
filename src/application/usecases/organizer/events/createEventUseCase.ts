@@ -1,5 +1,5 @@
-import { EventCreationRequestDTO } from "../../../../domain/DTOs/organizer/events/EventCreationRequestDTO";
-import { EventResponseDTO } from "../../../../domain/DTOs/organizer/events/EventResponseDTO";
+import { EventCreationRequestDTO } from "../../../DTOs/organizer/events/EventCreationRequestDTO";
+import { EventResponseDTO } from "../../../DTOs/organizer/events/EventResponseDTO";
 import { EventApprovalStatus } from "../../../../domain/enums/organizer/events";
 import { IEventModerationRepository } from "../../../../domain/repositories/admin/IEventModerationRepository";
 import { IEventRepository } from "../../../../domain/repositories/organizer/IEventsRepository";

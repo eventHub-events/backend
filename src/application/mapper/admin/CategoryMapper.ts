@@ -1,6 +1,6 @@
-import { CategoryResponseDTO } from "../../../domain/DTOs/admin/category/CategoryResponseDTO";
-import { CreateCategoryRequestDTO } from "../../../domain/DTOs/admin/category/CreateCategoryRequestDTO";
-import { UpdateCategoryRequestDTO } from "../../../domain/DTOs/admin/category/UpdateCategoryRequestDTO";
+import { CategoryResponseDTO } from "../../DTOs/admin/category/CategoryResponseDTO";
+import { CreateCategoryRequestDTO } from "../../DTOs/admin/category/CreateCategoryRequestDTO";
+import { UpdateCategoryRequestDTO } from "../../DTOs/admin/category/UpdateCategoryRequestDTO";
 import { CategoryEntity } from "../../../domain/entities/admin/Category";
 import { categoryDbModel } from "../../../domain/types/AdminDbTypes";
 import { ICategoryMapper } from "../../interface/mapper/admin/ICategoryMapper";

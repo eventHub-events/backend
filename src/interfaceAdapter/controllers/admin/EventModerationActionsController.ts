@@ -4,7 +4,7 @@ import { IBlockEventUseCase } from "../../../application/interface/useCases/admi
 import { IRejectEventUseCase } from "../../../application/interface/useCases/admin/event-management/IRejectEventUseCase";
 import { IUnblockEventUseCase } from "../../../application/interface/useCases/admin/event-management/IUnblockEventUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
-import { EventModerationRequestDTO } from "../../../domain/DTOs/admin/EventModeration/EventModerationReqDTO";
+import { EventModerationRequestDTO } from "../../../application/DTOs/admin/EventModeration/EventModerationReqDTO";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 

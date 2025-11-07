@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { UserRegisterDTO } from "../../../domain/DTOs/user/RegisterUserDTO";
+import { UserRegisterDTO } from "../../../application/DTOs/user/RegisterUserDTO";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { IRegisterUserUseCase } from "../../../application/interface/useCases/user/IRegisterUserUsecase";
 import { IVerifyOtpUseCase } from "../../../application/interface/useCases/user/IVerifyOtpUseCase";

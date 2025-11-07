@@ -1,9 +1,9 @@
-import { UpdateOrganizerOverallVerificationStatusDTO } from "../../../domain/DTOs/admin/OrganizerOverallVerificationDTO";
-import { OrganizerVerificationResponseDTO } from "../../../domain/DTOs/admin/OrganizerVerificationResponseDTO";
-import { UpdatedUploadDocumentResponseDTO } from "../../../domain/DTOs/admin/UpdatedUploadedDocumentDTO";
-import { UploadDocumentUpdateDTO } from "../../../domain/DTOs/admin/UploadDocumentUpdationDTO";
-import { CompleteOrganizerDetailResponseDTO } from "../../../domain/DTOs/admin/UserWithOrganizerProfileDTO";
-import { UserResponseDTO } from "../../../domain/DTOs/user/UserResponseDTO";
+import { UpdateOrganizerOverallVerificationStatusDTO } from "../../DTOs/admin/OrganizerOverallVerificationDTO";
+import { OrganizerVerificationResponseDTO } from "../../DTOs/admin/OrganizerVerificationResponseDTO";
+import { UpdatedUploadDocumentResponseDTO } from "../../DTOs/admin/UpdatedUploadedDocumentDTO";
+import { UploadDocumentUpdateDTO } from "../../DTOs/admin/UploadDocumentUpdationDTO";
+import { CompleteOrganizerDetailResponseDTO } from "../../DTOs/admin/UserWithOrganizerProfileDTO";
+import { UserResponseDTO } from "../../DTOs/user/UserResponseDTO";
 import { UserRole } from "../../../domain/enums/user/userRoles";
 import { IOrganizerProfileRepository } from "../../../domain/repositories/organizer/IOrganizerProfileRepository";
 import { IUploadDocumentRepository } from "../../../domain/repositories/organizer/IUploadDocumentRepository";

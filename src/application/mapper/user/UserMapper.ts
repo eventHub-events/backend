@@ -1,5 +1,5 @@
-import { UserRegisterDTO } from '../../../domain/DTOs/user/RegisterUserDTO';
-import { UserResponseDTO } from '../../../domain/DTOs/user/UserResponseDTO';
+import { UserRegisterDTO } from '../../DTOs/user/RegisterUserDTO';
+import { UserResponseDTO } from '../../DTOs/user/UserResponseDTO';
 import {  UserEntity } from '../../../domain/entities/User';
 import { IUserMapper } from '../../interface/useCases/user/mapper/IUserMapper';
 

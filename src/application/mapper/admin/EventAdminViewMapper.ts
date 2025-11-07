@@ -1,5 +1,5 @@
 
-import { EventsAdminViewResponseDTO } from "../../../domain/DTOs/admin/event-view/EventsAdminViewResponseDTO";
+import { EventsAdminViewResponseDTO } from "../../DTOs/admin/event-view/EventsAdminViewResponseDTO";
 import { IEventAdminView } from "../../../domain/entities/admin/IEventAdminView";
 import { IEventAdminViewMapper } from "../../interface/mapper/admin/IEventAdminViewMapper";
 
