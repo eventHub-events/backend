@@ -9,6 +9,9 @@ export interface ISubscriptionPlans extends Document {
     privileges : IPrivileges;
     isActive? :boolean;
     createdAt?: Date;
+    subscribers?: number;
+    revenue?: number;
+    conversionRate?: number;
     updatedAt?: Date;
 }
 
@@ -30,6 +33,14 @@ const subscriptionPlansSchema =  new Schema<ISubscriptionPlans>({
    description : {
       type: String,
       required :true
+   },
+   subscribers: {
+      type:Number,
+      default:0
+   },
+   revenue:{
+      type: Number,
+      default:0
    },
    privileges : {
       type: privilegesSchema

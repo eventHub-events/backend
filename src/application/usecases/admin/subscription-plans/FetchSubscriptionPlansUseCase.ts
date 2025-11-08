@@ -13,6 +13,7 @@ export class FetchSubscriptionPlansUseCase  implements IFetchSubscriptionPlansUs
  async execute() : Promise<SubscriptionResponseDTO[]> {
 
        const subscriptionEntity = await this._subscriptionPlansRepo.fetchSubscriptionPlans();
+       console.log("suubscriptionplans", subscriptionEntity)
        if(!subscriptionEntity) throw new Error(SubscriptionPlans.SUBSCRIPTION_PLANS_FETCH_SUCCESS);
     
        return this._subscriptionPlansMapper.toResponseDTOList(subscriptionEntity);

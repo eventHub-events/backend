@@ -33,13 +33,13 @@ export class SubscriptionPlansManagementController {
  }
  async update(req: Request, res: Response, next: NextFunction) : Promise<void> {
      try{ 
-            const{ subscriptionId }  = req.params;
-            if(!subscriptionId) throw new CustomError("Subscription id is required", HttpStatusCode.BAD_REQUEST);
+            const{ planId }  = req.params;
+            if(!planId) throw new CustomError("Subscription id is required", HttpStatusCode.BAD_REQUEST);
 
          const dto:UpdateSubscriptionRequestDTO = req.body;
           if(!dto) throw new CustomError(SubscriptionPlans.SUBSCRIPTION_PLANS_UPDATE_FAILURE, HttpStatusCode.BAD_REQUEST);
 
-       const result = await this._updateSubscriptionPlanUseCase.execute(subscriptionId, dto);
+       const result = await this._updateSubscriptionPlanUseCase.execute(planId, dto);
      res.status(HttpStatusCode.OK).json(ApiResponse.success(SubscriptionPlans.SUBSCRIPTION_PLANS_UPDATE_SUCCESS, HttpStatusCode.OK, result));
 
      }catch(err){

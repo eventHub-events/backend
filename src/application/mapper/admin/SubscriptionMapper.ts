@@ -21,6 +21,7 @@ export class SubscriptionMapper implements ISubscriptionMapper {
   // }
   toResponseDTO(entity: SubscriptionPlansEntity): SubscriptionResponseDTO {
       return  {
+          id: entity.id?.toString(),
           name: entity.name,
           price: entity.price,
           durationInDays: entity.durationInDays,

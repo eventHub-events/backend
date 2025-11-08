@@ -7,5 +7,6 @@ export interface SubscriptionResponseDTO {
     description: string;
     isActive?: boolean;
     privileges: IPrivileges;
-    createdAt?: Date
+    createdAt?: Date;
+    id?: string;
 }
