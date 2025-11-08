@@ -1,6 +1,6 @@
-import { EventTicketingEditDTO } from "../../../../domain/DTOs/organizer/ticketing/EventTicketingEditDTO";
-import { EventTicketingRequestDTO } from "../../../../domain/DTOs/organizer/ticketing/EventTicketingRequestDTO";
-import { EventTicketingResponseDTO } from "../../../../domain/DTOs/organizer/ticketing/EventTicketingResposeDTO";
+import { EventTicketingEditDTO } from "../../../DTOs/organizer/ticketing/EventTicketingEditDTO";
+import { EventTicketingRequestDTO } from "../../../DTOs/organizer/ticketing/EventTicketingRequestDTO";
+import { EventTicketingResponseDTO } from "../../../DTOs/organizer/ticketing/EventTicketingResposeDTO";
 import { EventTicketingEntity } from "../../../../domain/entities/organizer/EventTicketingEntity";
 import { IBaseMapper } from "../../common/IBaseMapper";
 

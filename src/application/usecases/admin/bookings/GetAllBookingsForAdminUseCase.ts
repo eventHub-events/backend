@@ -1,5 +1,5 @@
-import { BookingResponseDTOForAdmin } from "../../../../domain/DTOs/admin/bookings/BookingResponseDTOForAdmin";
-import { BookingFilterForAdminDTO } from "../../../../domain/DTOs/admin/bookings/BookingsFilterForAdminDTO";
+import { BookingResponseDTOForAdmin } from "../../../DTOs/admin/bookings/BookingResponseDTOForAdmin";
+import { BookingFilterForAdminDTO } from "../../../DTOs/admin/bookings/BookingsFilterForAdminDTO";
 
 import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
 import { ResponseMessages } from "../../../../infrastructure/constants/responseMessages";

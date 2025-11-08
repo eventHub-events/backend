@@ -1,7 +1,7 @@
 
 import { FilterQuery } from "mongoose";
 import { UserEntity } from "../../entities/User";
-import { UserFilterOptions } from "../../DTOs/common/userFilterOptions";
+import { UserFilterOptions } from "../../../application/DTOs/common/userFilterOptions";
 
 export interface IUserRepository {
    createUser(user: UserEntity) : Promise< UserEntity>;

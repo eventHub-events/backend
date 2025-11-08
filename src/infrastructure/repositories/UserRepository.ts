@@ -9,7 +9,7 @@ import { IUserRepository } from "../../domain/repositories/user/IUserRepository"
 import { UserDbModel } from "../../domain/types/UserTypes";
 import UserModel, { IUserDocument } from "../db/models/user/UserModel";
 import { BaseRepository } from "./BaseRepository"
-import { UserFilterOptions } from "../../domain/DTOs/common/userFilterOptions";
+import { UserFilterOptions } from "../../application/DTOs/common/userFilterOptions";
 
 export class UserRepository extends BaseRepository<IUserDocument>  implements  IUserRepository {
      constructor(

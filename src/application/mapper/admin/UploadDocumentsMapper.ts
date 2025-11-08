@@ -1,6 +1,6 @@
-import { UploadDocumentResponseDTO } from "../../../domain/DTOs/admin/UploadDocumentResponseDTO";
-import { UserWithDocumentsResponseDTO } from "../../../domain/DTOs/admin/UserWithDocumentsResponseDTO";
-import { UserResponseDTO } from "../../../domain/DTOs/user/UserResponseDTO";
+import { UploadDocumentResponseDTO } from "../../DTOs/admin/UploadDocumentResponseDTO";
+import { UserWithDocumentsResponseDTO } from "../../DTOs/admin/UserWithDocumentsResponseDTO";
+import { UserResponseDTO } from "../../DTOs/user/UserResponseDTO";
 import { UploadDocument } from "../../../domain/entities/organizer/Document";
 import { User } from "../../../domain/entities/User";
 import { IOrganizerUploadDocumentMapper } from "../../interface/useCases/admin/IOrganizerUploadDocumentMapper";

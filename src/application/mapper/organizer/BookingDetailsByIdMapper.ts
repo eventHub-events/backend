@@ -1,4 +1,4 @@
-import { BookingDetailsByIdResponseDTO } from "../../../domain/DTOs/organizer/bookings/bookingDetailsByIdResponseDTO";
+import { BookingDetailsByIdResponseDTO } from "../../DTOs/organizer/bookings/bookingDetailsByIdResponseDTO";
 import { BookingEntity } from "../../../domain/entities/user/BookingEntity";
 import { IBookingDetailsByIdMapper } from "../../interface/mapper/organizer/IBookingDetailsMapper";
 

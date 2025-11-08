@@ -1,5 +1,5 @@
-import { BookingRequestDTO } from "../../../../domain/DTOs/user/booking/BookingRequestDTO";
-import { BookingResponseDTO } from "../../../../domain/DTOs/user/booking/BookingResponseDTO";
+import { BookingRequestDTO } from "../../../DTOs/user/booking/BookingRequestDTO";
+import { BookingResponseDTO } from "../../../DTOs/user/booking/BookingResponseDTO";
 import { IEventTicketingRepository } from "../../../../domain/repositories/organizer/IEventTicketingRepository";
 import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
 import { IEventTicketing } from "../../../../infrastructure/db/models/organizer/events/EventTicketingModel";

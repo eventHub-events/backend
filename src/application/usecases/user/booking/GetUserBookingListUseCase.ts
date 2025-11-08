@@ -1,5 +1,5 @@
-import { BookingFilterDTO } from "../../../../domain/DTOs/organizer/bookings/bookingFilterDTO";
-import { UserBookingListResponseDTO } from "../../../../domain/DTOs/user/booking/UserBookingListResponseDTO";
+import { BookingFilterDTO } from "../../../DTOs/organizer/bookings/bookingFilterDTO";
+import { UserBookingListResponseDTO } from "../../../DTOs/user/booking/UserBookingListResponseDTO";
 import { NotFoundError } from "../../../../domain/errors/common";
 import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
 import { IBookingMapper } from "../../../interface/mapper/user/IBookingMapper";

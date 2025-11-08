@@ -5,7 +5,7 @@ import { IBookingRepository } from "../../../../domain/repositories/user/IBookin
 import { BookingDbModel } from "../../../../domain/types/UserTypes";
 import { BookingModel, IBooking } from "../../../db/models/user/BookingModel";
 import { BaseRepository } from "../../BaseRepository";
-import { BookingFilterDTO } from "../../../../domain/DTOs/organizer/bookings/bookingFilterDTO";
+import { BookingFilterDTO } from "../../../../application/DTOs/organizer/bookings/bookingFilterDTO";
 
 
 export class BookingRepository extends BaseRepository<IBooking> implements IBookingRepository {

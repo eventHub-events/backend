@@ -1,8 +1,8 @@
 
-import { UserResponseDTO } from "../../../domain/DTOs/user/UserResponseDTO";
+import { UserResponseDTO } from "../../DTOs/user/UserResponseDTO";
 import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
-import { IUserUpdateDTO } from "../../../domain/DTOs/user/userUpdateDTO";
-import {  UserFilterOptions } from "../../../domain/DTOs/common/userFilterOptions";
+import { IUserUpdateDTO } from "../../DTOs/user/userUpdateDTO";
+import {  UserFilterOptions } from "../../DTOs/common/userFilterOptions";
 import { IFetchUserUseCase } from "../../interface/useCases/admin/IFetchUsersUseCase";
 import { IUserMapper } from "../../interface/useCases/user/mapper/IUserMapper";
 import { UserEntity } from "../../../domain/entities/User";

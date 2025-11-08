@@ -3,11 +3,11 @@ import { ICreateEventModerationUseCase } from "../../../application/interface/us
 import { IFetchModerationByEventIdUseCase } from "../../../application/interface/useCases/admin/event-management/IFetchModerationByEventIdUseCase";
 import { IUpdateEventModerationUseCase } from "../../../application/interface/useCases/admin/event-management/IUpdateEventModerationUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
-import { EventModerationRequestDTO } from "../../../domain/DTOs/admin/EventModeration/EventModerationReqDTO";
+import { EventModerationRequestDTO } from "../../../application/DTOs/admin/EventModeration/EventModerationReqDTO";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
-import { EventModerationUpdateDTO } from "../../../domain/DTOs/admin/EventModeration/EventModerationUpdateDTO";
+import { EventModerationUpdateDTO } from "../../../application/DTOs/admin/EventModeration/EventModerationUpdateDTO";
 
 export class EventModerationController  {
   constructor(

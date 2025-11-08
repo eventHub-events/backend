@@ -1,4 +1,4 @@
-import { UserResponseDTO } from "../../../../../domain/DTOs/user/UserResponseDTO";
+import { UserResponseDTO } from "../../../../DTOs/user/UserResponseDTO";
 import { IUserDocument } from "../../../../../infrastructure/db/models/user/UserModel";
 
 export interface IUsersMapper{

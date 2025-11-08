@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { IBookTicketUseCase } from "../../../application/interface/useCases/user/booking/IBookTicketUseCase";
-import { BookingRequestDTO } from "../../../domain/DTOs/user/booking/BookingRequestDTO";
+import { BookingRequestDTO } from "../../../application/DTOs/user/booking/BookingRequestDTO";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";

@@ -6,7 +6,7 @@ import { IVerifyResetPasswordOtpUseCase } from "../../../application/interface/u
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 import { IChangePasswordUseCase } from "../../../application/interface/useCases/user/IChangePasswordUseCase";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
-import { ChangePasswordDTO } from "../../../domain/DTOs/user/ChangePasswordDTO";
+import { ChangePasswordDTO } from "../../../application/DTOs/user/ChangePasswordDTO";
 
 
 export class  PasswordController {

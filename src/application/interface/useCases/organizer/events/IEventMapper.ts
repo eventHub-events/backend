@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
-import { EventCreationRequestDTO } from "../../../../../domain/DTOs/organizer/events/EventCreationRequestDTO";
-import { EventResponseDTO } from "../../../../../domain/DTOs/organizer/events/EventResponseDTO";
-import { EventUpdateDTO } from "../../../../../domain/DTOs/organizer/events/EventUpdateDTO";
+import { EventCreationRequestDTO } from "../../../../DTOs/organizer/events/EventCreationRequestDTO";
+import { EventResponseDTO } from "../../../../DTOs/organizer/events/EventResponseDTO";
+import { EventUpdateDTO } from "../../../../DTOs/organizer/events/EventUpdateDTO";
 import { EventModerationEntity } from "../../../../../domain/entities/admin/EventModerationEntity";
 import { EventEntity } from "../../../../../domain/entities/organizer/EventEntity";
 import { EventApprovalStatus } from "../../../../../domain/enums/organizer/events";

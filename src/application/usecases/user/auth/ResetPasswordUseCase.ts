@@ -1,6 +1,6 @@
 
-import { UserRegisterDTO } from "../../../../domain/DTOs/user/RegisterUserDTO";
-import { ResetPasswordOtpDTO } from "../../../../domain/DTOs/user/ResetPasswordDTO";
+import { UserRegisterDTO } from "../../../DTOs/user/RegisterUserDTO";
+import { ResetPasswordOtpDTO } from "../../../DTOs/user/ResetPasswordDTO";
 import { CustomError } from "../../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../../infrastructure/interface/enums/HttpStatusCode";
 import { ICacheService } from "../../../../infrastructure/interface/ICacheService";

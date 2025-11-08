@@ -2,10 +2,10 @@ import { NextFunction, Response } from "express";
 import { ICreateTicketingUseCase } from "../../../application/interface/useCases/organizer/eventTicketing/ICreateTicketingUseCase";
 import { IUpdateTicketingUseCase } from "../../../application/interface/useCases/organizer/eventTicketing/IEditTicketingUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
-import { EventTicketingRequestDTO } from "../../../domain/DTOs/organizer/ticketing/EventTicketingRequestDTO";
+import { EventTicketingRequestDTO } from "../../../application/DTOs/organizer/ticketing/EventTicketingRequestDTO";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
-import { EventTicketingEditDTO } from "../../../domain/DTOs/organizer/ticketing/EventTicketingEditDTO";
+import { EventTicketingEditDTO } from "../../../application/DTOs/organizer/ticketing/EventTicketingEditDTO";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 
 

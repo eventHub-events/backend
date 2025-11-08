@@ -1,5 +1,5 @@
 
-import { EventsAdminViewResponseDTO } from "../../../../../domain/DTOs/admin/event-view/EventsAdminViewResponseDTO";
+import { EventsAdminViewResponseDTO } from "../../../../DTOs/admin/event-view/EventsAdminViewResponseDTO";
 import { NotFoundError } from "../../../../../domain/errors/common";
 import { IEventQueryRepository } from "../../../../../domain/repositories/admin/IEventQueryRepository";
 import { IEventAdminViewMapper } from "../../../../interface/mapper/admin/IEventAdminViewMapper";

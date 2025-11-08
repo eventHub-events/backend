@@ -1,9 +1,9 @@
 
-import { OrganizerProfileDTO } from "../../../domain/DTOs/organizer/OrganizerProfileDTO";
+import { OrganizerProfileDTO } from "../../DTOs/organizer/OrganizerProfileDTO";
 // import { IOrganizerProfile } from "../../../infrastructure/db/models/organizer/profile/OrganizerProfile";
-import { OrganizerProfileResponseDTO } from "../../../domain/DTOs/organizer/OrganizerProfileResponseDTO";
+import { OrganizerProfileResponseDTO } from "../../DTOs/organizer/OrganizerProfileResponseDTO";
 // import { IUserMinimal } from "../../../domain/types/IUserMinimal";
-import {  UpdatedOrganizerProfileFormResponseDTO } from "../../../domain/DTOs/organizer/OrganizerProfileFormDTO";
+import {  UpdatedOrganizerProfileFormResponseDTO } from "../../DTOs/organizer/OrganizerProfileFormDTO";
 // import { UserResponseDTO } from "../../../domain/dtos/user/UserResponseDTO";
 import { OrganizerProfile } from "../../../domain/entities/organizer/OrganizerProfile";
 import { User } from "../../../domain/entities/User";

@@ -1,6 +1,6 @@
-import { OrganizerProfileDTO } from "../../../domain/DTOs/organizer/OrganizerProfileDTO";
-import {  UpdatedOrganizerProfileFormResponseDTO } from "../../../domain/DTOs/organizer/OrganizerProfileFormDTO";
-import { OrganizerProfileResponseDTO } from "../../../domain/DTOs/organizer/OrganizerProfileResponseDTO";
+import { OrganizerProfileDTO } from "../../DTOs/organizer/OrganizerProfileDTO";
+import {  UpdatedOrganizerProfileFormResponseDTO } from "../../DTOs/organizer/OrganizerProfileFormDTO";
+import { OrganizerProfileResponseDTO } from "../../DTOs/organizer/OrganizerProfileResponseDTO";
 import { IOrganizerProfileRepository } from "../../../domain/repositories/organizer/IOrganizerProfileRepository";
 import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
