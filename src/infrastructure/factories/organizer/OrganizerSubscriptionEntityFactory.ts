@@ -1,4 +1,4 @@
-import { IOrganizerSubscriptionEntityFactory } from "../../../application/interface/factories/organizer/IOrganzierSubscriptonEntityFactory";
+import { IOrganizerSubscriptionEntityFactory } from "../../../application/interface/factories/organizer/IOrganizerSubscriptionEntityFactory";
 import { OrganizerSubscriptionEntity } from "../../../domain/entities/organizer/OrganizerSubscriptionEntity";
 import { OrganizerSubscriptionDbModel } from "../../../domain/types/OrganizerTypes";
 

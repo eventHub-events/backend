@@ -4,7 +4,7 @@ import { IOrganizerProfile } from "../../infrastructure/db/models/organizer/prof
 import { OrganizerProfile } from "../entities/organizer/OrganizerProfile";
 import { UserEntity } from "../entities/User";
 import { IEventTicketing } from "../../infrastructure/db/models/organizer/events/EventTicketingModel";
-import { IOrganizerSubscription } from "../../infrastructure/db/models/organizer/subscription/OrganizerSubcriptionModel";
+import { IOrganizerSubscription } from "../../infrastructure/db/models/organizer/subscription/OrganizerSubscriptionModel";
 
 export type OrganizerProfileDbModel = IOrganizerProfile & {_id :string};
 
