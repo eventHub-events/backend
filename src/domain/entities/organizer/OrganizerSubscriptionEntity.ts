@@ -1,10 +1,11 @@
+import { Types } from "mongoose";
 import { SubscriptionStatus } from "../../enums/organizer/subscription";
 
 export class OrganizerSubscriptionEntity {
-   public organizerId : string;
+   public organizerId : Types.ObjectId;
    public organizerName : string;
    public organizerEmail : string;
-   public planId: string;
+   public planId: Types.ObjectId;
    public planName: string;
    public startDate: Date;
    public endDate: Date;
@@ -13,10 +14,10 @@ export class OrganizerSubscriptionEntity {
    public id?: string
 
    constructor(props: {
-      organizerId: string,
+      organizerId: Types.ObjectId,
       organizerName: string,
       organizerEmail : string,
-      planId: string,
+      planId: Types.ObjectId,
       planName: string,
       startDate: Date,
       endDate: Date,

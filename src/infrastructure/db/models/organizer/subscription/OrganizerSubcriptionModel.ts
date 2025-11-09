@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 import { SubscriptionStatus } from "../../../../../domain/enums/organizer/subscription";
 
 export interface IOrganizerSubscription extends Document  {
@@ -48,6 +48,6 @@ const organizerSubscriptionSchema = new Schema<IOrganizerSubscription>({
        type: String
     }
 
-})
+},{timestamps: true})
 
 export const OrganizerSubscriptionModel = mongoose.model<IOrganizerSubscription>("OrganizerSubscription", organizerSubscriptionSchema);
