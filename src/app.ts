@@ -13,6 +13,7 @@ import { AdminSocketService } from './infrastructure/websocket/adminSocketServic
 import { fetchUserUseCase } from './di/admin/containersList';
 import { UserSocketService } from './infrastructure/websocket/userSocketService';
 import { Server } from 'socket.io';
+import stripeWebhookRoute from "../src/interfaceAdapter/routes/webhooks/stripeWebhookRoute"
 
 
 dotenv.config();
@@ -33,6 +34,7 @@ const userNamespace = io.of("/user");
 
 // initializeWebSocket(server);
 DbConnection.connect();
+app.use("/api/webhooks",stripeWebhookRoute)
 app.use(express.json());
 app.use(cookieParser());
 

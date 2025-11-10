@@ -1,6 +1,7 @@
 import { EventMapper } from "../../application/mapper/organizer/EventMapper";
 import { UserMapper } from "../../application/mapper/user/UserMapper";
 import { GoogleAuthUseCase } from "../../application/useCases/common/useCases/GoogleAuthUseCase";
+import { HandleStripeWebhookUseCase } from "../../application/useCases/common/useCases/HandleStripeWebhookUseCase";
 import { UpdateEventUseCase } from "../../application/useCases/organizer/events/editEventUseCase";
 import { OrganizerBlankProfileCreationUseCase } from "../../application/useCases/organizer/profile/organizerBlankProfileCreationUseCase";
 import { ChangePasswordUseCase } from "../../application/useCases/user/auth/ChangePasswordUseCase";
@@ -28,9 +29,13 @@ import { EmailService } from "../../infrastructure/services/nodeMailer/EmailServ
 import { NodeMailerEmailService } from "../../infrastructure/services/nodeMailer/NodeMailerEmailService";
 import { OtpService } from "../../infrastructure/services/otp/OtpService";
 import { RedisCacheService } from "../../infrastructure/services/otp/RedisCacheService";
+import { StripeWebhookService } from "../../infrastructure/services/StripeWebhookService/StripeWebHookService";
 import { GoogleAuthController } from "../../interfaceAdapter/controllers/common/GoogleAuthController";
+import { StripeWebhookController } from "../../interfaceAdapter/controllers/common/StripWebhookController";
 import { PasswordController } from "../../interfaceAdapter/controllers/user/PasswordController";
 import { TokenController } from "../../interfaceAdapter/controllers/user/TokenController";
+import dotenv from "dotenv";
+dotenv.config()
 
 
 const cacheService = new RedisCacheService();
@@ -77,3 +82,13 @@ const userBlankProfileCreationUseCase = new UserBlankProfileCreationUseCase(user
 const googleAuthUseCase = new GoogleAuthUseCase(userRepository, tokenService, userBlankProfileCreationUseCase, organizerBlankProfileCreationUseCase);
 const googleAuthService  = new GoogleAuthService();
 export const googleAuthController = new GoogleAuthController(googleAuthService, googleAuthUseCase);
+
+
+
+//
+
+const stripeWebhookService = new StripeWebhookService( process.env.STRIPE_SECRET_KEY!)
+
+
+const  handleStripeWebhookUseCase = new  HandleStripeWebhookUseCase(stripeWebhookService);
+export const  stripeWebhookController  = new StripeWebhookController(handleStripeWebhookUseCase);
