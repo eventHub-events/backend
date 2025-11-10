@@ -14,7 +14,7 @@ async fetchAll(req: Request, res: Response, next: NextFunction) : Promise<void> 
 
     try{
           const fetched = await this._fetchSubscriptionPlansUseCase.execute();
-          console.log("ress", fetched)
+         
          res.status(HttpStatusCode.OK).json(ApiResponse.success(SubscriptionPlans.SUBSCRIPTION_PLANS_FETCH_SUCCESS, HttpStatusCode.OK, fetched));
 
     }catch(err){
