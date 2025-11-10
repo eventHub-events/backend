@@ -25,8 +25,9 @@ export class OrganizerSubscriptionRepository extends BaseRepository<IOrganizerSu
     return this._SubscriptionEntityFactory.toDomain(updated);
   }
   
-  async fetchSubscriptionById(organizerId: string, status: SubscriptionStatus): Promise<OrganizerSubscriptionEntity> {
-
+  async fetchSubscriptionById(organizerId: string, status?: SubscriptionStatus ): Promise<OrganizerSubscriptionEntity> {
+             status = status?status:SubscriptionStatus.Active;
+             
       const fetched = await super.findOne({organizerId, status}) as OrganizerSubscriptionDbModel;
   return this._SubscriptionEntityFactory.toDomain(fetched);
 

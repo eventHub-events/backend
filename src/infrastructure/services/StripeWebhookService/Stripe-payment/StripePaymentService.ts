@@ -15,10 +15,12 @@ export class StripePaymentService implements IStripePaymentService {
     durationInDays: number,
     organizerName :string,
     organizerEmail: string,
-    planId: string
+    planId: string,
+    
   }): Promise<string> {
 
-    const { planName, price, organizerId, durationInDays,organizerName, organizerEmail, planId} = data
+    const { planName, price, organizerId, durationInDays,organizerName, organizerEmail, planId} = data;
+    const paymentType = "subscription"
     const params: Stripe.Checkout.SessionCreateParams = {
       mode: "payment",
       payment_method_types: ["card"], // ✅ Works for test mode
@@ -34,7 +36,7 @@ export class StripePaymentService implements IStripePaymentService {
       ],
       success_url: `http://localhost:3000/organizer/subscription-plans/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `http://localhost:3000/organizer/subscription-plans/cancel`,
-      metadata: { organizerId, planId,durationInDays,planName, organizerEmail,organizerName },
+      metadata: { organizerId, planId,durationInDays,planName, organizerEmail,organizerName, paymentType },
     };
 
     const session = await this.stripe.checkout.sessions.create(params);

@@ -7,8 +7,8 @@ export class OrganizerSubscriptionEntity {
    public organizerEmail : string;
    public planId: Types.ObjectId;
    public planName: string;
-   public startDate: Date;
-   public endDate: Date;
+   public startDate?: Date;
+   public endDate?: Date;
    public status?: SubscriptionStatus
    public paymentId?: string;
    public id?: string
@@ -19,8 +19,8 @@ export class OrganizerSubscriptionEntity {
       organizerEmail : string,
       planId: Types.ObjectId,
       planName: string,
-      startDate: Date,
-      endDate: Date,
+      startDate?: Date,
+      endDate?: Date,
       status?:SubscriptionStatus,
       paymentId?: string,
       id?: string
@@ -40,7 +40,7 @@ export class OrganizerSubscriptionEntity {
 
    }
   isActive(): boolean {
-     return this.status === SubscriptionStatus.Active && this.endDate > new Date;
+     return this.status === SubscriptionStatus.Active && this.endDate! > new Date;
   }
 
   markAsActive(paymentId: string){

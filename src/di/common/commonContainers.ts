@@ -1,9 +1,11 @@
 import { EventMapper } from "../../application/mapper/organizer/EventMapper";
+import { OrganizerSubscriptionMapper } from "../../application/mapper/organizer/OrganizerSubscriptionMapper";
 import { UserMapper } from "../../application/mapper/user/UserMapper";
 import { GoogleAuthUseCase } from "../../application/useCases/common/useCases/GoogleAuthUseCase";
 import { HandleStripeWebhookUseCase } from "../../application/useCases/common/useCases/HandleStripeWebhookUseCase";
 import { UpdateEventUseCase } from "../../application/useCases/organizer/events/editEventUseCase";
 import { OrganizerBlankProfileCreationUseCase } from "../../application/useCases/organizer/profile/organizerBlankProfileCreationUseCase";
+import { ActivateSubScriptionUseCase } from "../../application/useCases/organizer/subscription/ActivateSubscriptionUseCase";
 import { ChangePasswordUseCase } from "../../application/useCases/user/auth/ChangePasswordUseCase";
 import { ForgetPasswordUseCase } from "../../application/useCases/user/auth/ForgetPasswordUseCase";
 import { GenerateOtpUseCase } from "../../application/useCases/user/auth/GenerateOtpUseCase";
@@ -11,12 +13,15 @@ import { RefreshTokenUseCase } from "../../application/useCases/user/auth/Genera
 import { VerifyResetPasswordOtpUseCase } from "../../application/useCases/user/auth/ResetPasswordUseCase";
 import { UserBlankProfileCreationUseCase } from "../../application/useCases/user/profile/UserBlankProfileCreationUseCase";
 import { TokenConfig } from "../../infrastructure/config/user/tokenConfig";
+import { SubscriptionEntityFactory } from "../../infrastructure/factories/admin/SubscriptionEntityFactory";
 import { EventEntityFactory } from "../../infrastructure/factories/organizer/EventEntityFactory";
+import { OrganizerSubscriptionEntityFactory } from "../../infrastructure/factories/organizer/OrganizerSubscriptionEntityFactory";
 import { OrganizerProfileEntityFactory } from "../../infrastructure/factories/OrganizerProfileEntityFactory";
 import { UserEntityFactory } from "../../infrastructure/factories/UserEntityFactory";
 import { UserProfileEntityFactory } from "../../infrastructure/factories/UserProfileEntityFactory";
 import { EventRepository } from "../../infrastructure/repositories/organizer/EventsRepository";
 import { OrganizerProfileRepository } from "../../infrastructure/repositories/organizer/OrganizerProfileRepository";
+import { OrganizerSubscriptionRepository } from "../../infrastructure/repositories/organizer/OrganizerSubscriptionRepository";
 import { UserProfileRepository } from "../../infrastructure/repositories/user/profile/UserProfileRepository";
 import { UserRepository } from "../../infrastructure/repositories/UserRepository";
 import { GoogleAuthService } from "../../infrastructure/services/googleAuthService/Auth";
@@ -88,7 +93,10 @@ export const googleAuthController = new GoogleAuthController(googleAuthService, 
 //
 
 const stripeWebhookService = new StripeWebhookService( process.env.STRIPE_SECRET_KEY!)
+const subscriptionEntityFactory = new OrganizerSubscriptionEntityFactory();
+const subscriptionRepository = new OrganizerSubscriptionRepository(subscriptionEntityFactory);
+const organizerSubscriptionMapper = new OrganizerSubscriptionMapper();
+const activateSubscriptionUseCase = new ActivateSubScriptionUseCase(subscriptionRepository, organizerSubscriptionMapper);
 
-
-const  handleStripeWebhookUseCase = new  HandleStripeWebhookUseCase(stripeWebhookService);
+const  handleStripeWebhookUseCase = new  HandleStripeWebhookUseCase(stripeWebhookService, activateSubscriptionUseCase);
 export const  stripeWebhookController  = new StripeWebhookController(handleStripeWebhookUseCase);

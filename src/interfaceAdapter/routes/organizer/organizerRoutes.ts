@@ -12,7 +12,7 @@ import { organizerVerificationMiddleware } from "../../../di/organizer/verificat
 import { InputDataValidator } from "../../../infrastructure/middleware/zodMiddleware/inputDataValidator";
 import { organizerEventSchema, organizerEventUpdateSchema } from "../../../infrastructure/validation/schemas/organizer/organizerEventSchema";
 import { organizerTicketSchema, organizerTicketUpdateSchema } from "../../../infrastructure/validation/schemas/organizer/organizerTicketSchema";
-import { subscriptionPaymentController } from "../../../di/organizer/subscription/container";
+import { organizerSubscriptionRetrievalController, subscriptionPaymentController } from "../../../di/organizer/subscription/container";
 // import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
 
 
@@ -62,6 +62,7 @@ router.get("/:organizerId/bookings/:bookingId",authenticationMiddleWare.authenti
 
 // subscription -purchase //
 router.post("/subscription/checkout", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => subscriptionPaymentController.createCheckout(req, res, next));
+router.get("/:organizerId/subscription",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req : IAuthenticatedRequest, res: Response , next: NextFunction) => organizerSubscriptionRetrievalController.fetchSubscription(req, res, next));
 
  
 

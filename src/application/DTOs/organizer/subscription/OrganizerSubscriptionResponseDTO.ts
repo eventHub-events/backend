@@ -6,8 +6,8 @@ export interface OrganizerSubscriptionResponseDTO {
           organizerEmail : string,
           planId: string,
           planName: string,
-          startDate: Date,
-          endDate: Date,
+          startDate?: Date,
+          endDate?: Date,
           status?:SubscriptionStatus,
           paymentId?: string,
           id?: string

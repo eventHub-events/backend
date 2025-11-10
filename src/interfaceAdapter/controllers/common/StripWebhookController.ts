@@ -12,7 +12,7 @@ export class StripeWebhookController {
 
     try {
       await this._handleStripeWebhookUseCase.execute(req.body, signature);
-     res.status(HttpStatusCode.OK).json(ApiResponse.success("payment Successful", HttpStatusCode.OK))
+     res.status(HttpStatusCode.OK).json(ApiResponse.success("webhook received", HttpStatusCode.OK))
     } catch (err) {
          next(err)
     }
