@@ -13,6 +13,9 @@ import { AdminSocketService } from './infrastructure/websocket/adminSocketServic
 import { fetchUserUseCase } from './di/admin/containersList';
 import { UserSocketService } from './infrastructure/websocket/userSocketService';
 import { Server } from 'socket.io';
+import stripeWebhookRoute from "../src/interfaceAdapter/routes/webhooks/stripeWebhookRoute"
+import { subscriptionExpiryMonitor } from './di/organizer/subscription/container';
+
 
 
 dotenv.config();
@@ -33,9 +36,10 @@ const userNamespace = io.of("/user");
 
 // initializeWebSocket(server);
 DbConnection.connect();
+app.use("/api/webhooks",stripeWebhookRoute)
 app.use(express.json());
 app.use(cookieParser());
-
+subscriptionExpiryMonitor.startJob();
 app.use(cors({
   origin: 'http://localhost:3000', // Allow frontend origin
   credentials: true, // Allow cookies if using HTTP-only cookies
@@ -44,7 +48,7 @@ app.use(cors({
 app.use('/api/user', userRouts);
 app.use('/api/organizer',organizerRoutes)
 app.use('/api/admin',adminRoutes)
-                app.use(ErrorHandlingMiddleware.handleError);
+                 app.use(ErrorHandlingMiddleware.handleError);
 
 
 server.listen(process.env.PORT, () => {

@@ -5,7 +5,7 @@ import { SubscriptionPlansDbModel } from "../../../domain/types/AdminDbTypes";
 export class SubscriptionEntityFactory implements ISubscriptionEntityFactory<SubscriptionPlansDbModel , SubscriptionPlansEntity> {
   toDomain(dbModel: SubscriptionPlansDbModel): SubscriptionPlansEntity {
        return new SubscriptionPlansEntity({
-            id: dbModel._id,
+            id: dbModel._id.toString(),
             name: dbModel.name,
             price: dbModel.price,
             durationInDays: dbModel.durationInDays,
