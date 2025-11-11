@@ -32,4 +32,15 @@ export class OrganizerSubscriptionRepository extends BaseRepository<IOrganizerSu
   return this._SubscriptionEntityFactory.toDomain(fetched);
 
   }
+ async fetchExpiredSubscription(currentDate: Date): Promise< OrganizerSubscriptionEntity[] > {
+           const filter = {
+                status: SubscriptionStatus.Active,
+                endDate: currentDate
+            }
+
+        const subscriptions = await super.findAll(filter) as OrganizerSubscriptionDbModel[];
+
+    return this._SubscriptionEntityFactory.toDomainList(subscriptions);
+
+  }
 }

@@ -7,6 +7,10 @@ import { OrganizerSubscriptionRepository } from "../../../infrastructure/reposit
 import { OrganizerSubscriptionMapper } from "../../../application/mapper/organizer/OrganizerSubscriptionMapper";
 import { FetchSubscriptionByIdUseCase } from "../../../application/useCases/organizer/subscription/fetchSubscriptionByIdUseCase";
 import { OrganizerSubscriptionRetrievalController } from "../../../interfaceAdapter/controllers/organizer/organizerSubscriptionRetrievalContoller";
+import { ExpireSubscriptionUseCase } from "../../../application/useCases/organizer/subscription/expireSubscriptionUseCase";
+import { CronSubscriptionExpiryJob } from "../../../infrastructure/jobs/CronSubscriptionExpiryJob";
+import { SubscriptionExpiryMonitor } from "../../../infrastructure/jobs/SubscriptionExpiryMonitor";
+
   dotenv.config()
 
 const stripePaymentService =  new StripePaymentService(process.env.STRIPE_SECRET_KEY!);
@@ -18,3 +22,7 @@ const subscriptionRepository = new OrganizerSubscriptionRepository(subscriptionE
 const organizerSubscriptionMapper = new OrganizerSubscriptionMapper();
 const fetchSubscriptionByIdUseCase = new FetchSubscriptionByIdUseCase(subscriptionRepository, organizerSubscriptionMapper);
 export const organizerSubscriptionRetrievalController = new OrganizerSubscriptionRetrievalController(fetchSubscriptionByIdUseCase);
+
+const expireSubscriptionUseCase = new ExpireSubscriptionUseCase(subscriptionRepository); 
+const cronSubscriptionExpiryJob = new CronSubscriptionExpiryJob(undefined,expireSubscriptionUseCase);
+export const subscriptionExpiryMonitor = new SubscriptionExpiryMonitor(cronSubscriptionExpiryJob);
