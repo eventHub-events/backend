@@ -13,10 +13,10 @@ export class SubscriptionPaymentController {
 
    async createCheckout(req: IAuthenticatedRequest,  res: Response, next: NextFunction) : Promise<void> {
       try{
-          const{planName, price, planId,organizerName, organizerEmail, durationInDays} = req.body;
+          const{planName, price, planId,organizerName, organizerEmail, durationInDays, subscriptionType} = req.body;
           const organizerId = req.user?.id;
           if(!organizerId) throw new CustomError("organizerId is required",HttpStatusCode.BAD_REQUEST);
-          const checkoutUrl = await this._createCheckoutUseCase.execute({planName,price,organizerId,durationInDays,organizerName, organizerEmail, planId});
+          const checkoutUrl = await this._createCheckoutUseCase.execute({planName,price,organizerId,durationInDays,organizerName, organizerEmail, planId,subscriptionType});
 
       res.status(HttpStatusCode.OK).json(ApiResponse.success("checkOutUrl created successfully",HttpStatusCode.OK, checkoutUrl));
       }catch(err){

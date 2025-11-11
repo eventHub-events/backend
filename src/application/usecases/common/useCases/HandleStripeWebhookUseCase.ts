@@ -1,26 +1,29 @@
 import Stripe from "stripe";
 import { IActivateSubscriptionUseCase } from "../../../interface/useCases/organizer/subscription/IActivateSubscriptionUseCase";
 import { IStripeWebhookService } from "../../../service/common/IStripeWebhookService";
+import { IUpgradeSubscriptionUseCase } from "../../../interface/useCases/organizer/subscription/IUpgradeSubscriptionUseCase";
 
 export class HandleStripeWebhookUseCase {
   constructor(
    
     private _stripeWebhookService: IStripeWebhookService,
-    private _activateSubscriptionUseCase: IActivateSubscriptionUseCase
+    private _activateSubscriptionUseCase: IActivateSubscriptionUseCase,
+    private _upgradeSubscriptionUseCase : IUpgradeSubscriptionUseCase
   ) {}
 
   async execute(payload: Buffer, signature: string): Promise<void> {
     const event = this._stripeWebhookService.constructEvent(payload, signature);
+     const session = event.data.object as Stripe.Checkout.Session;
+         const metadata =  session.metadata || {};
+         console.log()
 
     switch (event.type) {
       case "checkout.session.completed":
-       const session = event.data.object as Stripe.Checkout.Session;
-         const metadata =  session.metadata || {};
-
+       
          console.log("meta data", metadata)
          if(metadata.paymentType === "subscription"){
              console.log("💼 Activating organizer subscription...");
-                const{ organizerName, organizerId, planName, durationInDays, planId , organizerEmail , paymentId} = metadata;
+                const{ organizerName, organizerId, planName, durationInDays, planId , organizerEmail } = metadata;
                 const dto = {
                     organizerName,
                     organizerId,
@@ -31,9 +34,24 @@ export class HandleStripeWebhookUseCase {
                     paymentId: session.id
                 }
 
-                console.log("dto is" , dto)
+             
             await this._activateSubscriptionUseCase.execute(dto)
         return 
+         }
+
+         else if(metadata.paymentType === "subscription-upgrade") {
+                  const{ organizerName, organizerId, planName, durationInDays, planId , organizerEmail } = metadata;
+                const dto = {
+                    organizerName,
+                    organizerId,
+                    planName,
+                    planId,
+                    organizerEmail,
+                    durationInDays: parseInt(durationInDays),
+                    paymentId: session.id
+                }
+              await this._upgradeSubscriptionUseCase.execute(dto);
+              return
          }
         break;
 

@@ -4,11 +4,20 @@ import { IStripePaymentService } from "../../../service/common/IStripePaymentSer
 export class CreateSubscriptionCheckoutUseCase implements ICreateSubscriptionCheckoutUseCase {
 
      constructor( private  _stripePaymentService : IStripePaymentService){}
- async  execute(data:{planName: string,price: number,organizerId: string,durationInDays: number,organizerName:string, organizerEmail: string, planId: string}): Promise<string> {
+ async  execute(data:{planName: string,price: number,organizerId: string,durationInDays: number,organizerName:string, organizerEmail: string, planId: string,subscriptionType: string}): Promise<string> {
       
-      const checkoutUrl = await this._stripePaymentService.createSubscriptionCheckout(data);
+         if(data.subscriptionType === "new"){
+           
+          return   await this._stripePaymentService.createSubscriptionCheckout(data);
 
-    return checkoutUrl
+         }else if(data.subscriptionType === "upgrade"){
+             
+            return await this._stripePaymentService.createUpgradeSubscriptionCheckout(data)
+
+         }
+      
+          throw new Error("Invalid subscription type");
+         
 
   }
 }

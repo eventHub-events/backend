@@ -6,6 +6,7 @@ import { HandleStripeWebhookUseCase } from "../../application/useCases/common/us
 import { UpdateEventUseCase } from "../../application/useCases/organizer/events/editEventUseCase";
 import { OrganizerBlankProfileCreationUseCase } from "../../application/useCases/organizer/profile/organizerBlankProfileCreationUseCase";
 import { ActivateSubScriptionUseCase } from "../../application/useCases/organizer/subscription/ActivateSubscriptionUseCase";
+import { UpgradeSubscriptionUseCase } from "../../application/useCases/organizer/subscription/upgradeSubscriptionUseCase";
 import { ChangePasswordUseCase } from "../../application/useCases/user/auth/ChangePasswordUseCase";
 import { ForgetPasswordUseCase } from "../../application/useCases/user/auth/ForgetPasswordUseCase";
 import { GenerateOtpUseCase } from "../../application/useCases/user/auth/GenerateOtpUseCase";
@@ -13,7 +14,6 @@ import { RefreshTokenUseCase } from "../../application/useCases/user/auth/Genera
 import { VerifyResetPasswordOtpUseCase } from "../../application/useCases/user/auth/ResetPasswordUseCase";
 import { UserBlankProfileCreationUseCase } from "../../application/useCases/user/profile/UserBlankProfileCreationUseCase";
 import { TokenConfig } from "../../infrastructure/config/user/tokenConfig";
-import { SubscriptionEntityFactory } from "../../infrastructure/factories/admin/SubscriptionEntityFactory";
 import { EventEntityFactory } from "../../infrastructure/factories/organizer/EventEntityFactory";
 import { OrganizerSubscriptionEntityFactory } from "../../infrastructure/factories/organizer/OrganizerSubscriptionEntityFactory";
 import { OrganizerProfileEntityFactory } from "../../infrastructure/factories/OrganizerProfileEntityFactory";
@@ -97,6 +97,7 @@ const subscriptionEntityFactory = new OrganizerSubscriptionEntityFactory();
 const subscriptionRepository = new OrganizerSubscriptionRepository(subscriptionEntityFactory);
 const organizerSubscriptionMapper = new OrganizerSubscriptionMapper();
 const activateSubscriptionUseCase = new ActivateSubScriptionUseCase(subscriptionRepository, organizerSubscriptionMapper);
+const upgradeSubscriptionUseCase  = new UpgradeSubscriptionUseCase(subscriptionRepository, organizerSubscriptionMapper);
 
-const  handleStripeWebhookUseCase = new  HandleStripeWebhookUseCase(stripeWebhookService, activateSubscriptionUseCase);
+const  handleStripeWebhookUseCase = new  HandleStripeWebhookUseCase(stripeWebhookService, activateSubscriptionUseCase, upgradeSubscriptionUseCase);
 export const  stripeWebhookController  = new StripeWebhookController(handleStripeWebhookUseCase);
