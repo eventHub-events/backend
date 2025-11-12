@@ -84,7 +84,7 @@ const userProfileEntityFactory = new UserProfileEntityFactory();
 const userProfileRepository = new UserProfileRepository(userProfileEntityFactory);
 const userBlankProfileCreationUseCase = new UserBlankProfileCreationUseCase(userProfileRepository);
 
-const googleAuthUseCase = new GoogleAuthUseCase(userRepository, tokenService, userBlankProfileCreationUseCase, organizerBlankProfileCreationUseCase);
+const googleAuthUseCase = new GoogleAuthUseCase(userRepository, tokenService, userBlankProfileCreationUseCase, organizerBlankProfileCreationUseCase,userMapper);
 const googleAuthService  = new GoogleAuthService();
 export const googleAuthController = new GoogleAuthController(googleAuthService, googleAuthUseCase);
 
