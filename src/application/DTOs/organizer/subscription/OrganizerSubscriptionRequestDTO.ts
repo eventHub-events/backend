@@ -10,6 +10,7 @@ export interface OrganizerSubscriptionRequestDTO {
         endDate?: Date;
         status?:SubscriptionStatus;
         durationInDays: number;
+        payoutDelayDays: number;
         paymentId?: string,
       
 }

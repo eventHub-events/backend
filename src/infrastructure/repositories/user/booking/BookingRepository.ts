@@ -72,5 +72,10 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
       return this._bookingEntityFactory.toDomain(booking);
      
   }
+  async  updateBooking(bookingId:string, entity: BookingEntity) :Promise<BookingEntity> {
+         const updated= await super.update(bookingId, entity) as BookingDbModel;
+          if(!updated) throw new Error("Booking details not updated");
+      return this._bookingEntityFactory.toDomain(updated);
+  }
  
 }

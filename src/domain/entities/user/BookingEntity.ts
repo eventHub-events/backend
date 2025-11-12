@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { BookingStatus } from "../../enums/user/Booking";
+import { BookingStatus, PayoutStatus } from "../../enums/user/Booking";
 
 export class BookingEntity {
    public  userId : Types.ObjectId;
@@ -18,7 +18,14 @@ export class BookingEntity {
    public readonly  id?:Types.ObjectId;
    public  expiresAt?: Date
    public  organizerId: Types.ObjectId;
-   public eventImages?:string[]
+   public eventImages?:string[];
+   public payoutStatus?: PayoutStatus;
+   public payoutDueDate?: Date;
+   public PayoutDate?: Date;
+   public paymentId?: string;
+   public organizerStripeId?: string;
+   public ticketUrls?: string[];
+
   constructor(props :{
      userId : Types.ObjectId,
      eventId : Types.ObjectId,
@@ -31,7 +38,13 @@ export class BookingEntity {
        createdAt? : Date ,
        eventTitle: string,
        eventDate: string,
+          payoutStatus? :PayoutStatus;
+          payoutDueDate?: Date;
+          payoutDate?: Date;
+          organizerStripId?: string;
+          paymentId?: string
        organizerName: string,
+       ticketUrls?: string[];
        eventVenue: string,
        userName: string,
        eventImages?: string[]
@@ -62,10 +75,20 @@ export class BookingEntity {
        this.organizerId= props.organizerId;
        this.userName = props.userName;
        this.expiresAt = props.expiresAt?? new Date(Date.now() + 15 * 60 * 1000);
+       this.paymentId = props.paymentId;
+       this.payoutStatus = props.payoutStatus;
+       this.payoutDueDate = props.payoutDueDate;
+       this.PayoutDate = props.payoutDate;
+       this.organizerStripeId = props.organizerStripId;
+       this.ticketUrls = props.ticketUrls
   }
 
   markAsConfirmed() {
     this.status = BookingStatus.CONFIRMED;
+  }
+  update(data: Partial<BookingEntity>){
+   Object.assign(this, data);
+   return this;
   }
   cancelBooking() {
      this.status = BookingStatus.CANCELLED;

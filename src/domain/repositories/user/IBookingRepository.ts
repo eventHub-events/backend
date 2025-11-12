@@ -6,4 +6,5 @@ export interface IBookingRepository {
   findAllWithFilter(filter: FilterQuery<BookingEntity>): Promise<{bookings:BookingEntity[], totalPages:number}>;
 
   findBookingById(bookingId :string): Promise<BookingEntity>;
+  updateBooking(bookingId:string, entity: BookingEntity) :Promise<BookingEntity>
 }

@@ -2,13 +2,15 @@ import Stripe from "stripe";
 import { IActivateSubscriptionUseCase } from "../../../interface/useCases/organizer/subscription/IActivateSubscriptionUseCase";
 import { IStripeWebhookService } from "../../../service/common/IStripeWebhookService";
 import { IUpgradeSubscriptionUseCase } from "../../../interface/useCases/organizer/subscription/IUpgradeSubscriptionUseCase";
+import { IConfirmBookingUseCase } from "../../../interface/useCases/user/booking/IConfirmBookingUseCase";
 
 export class HandleStripeWebhookUseCase {
   constructor(
    
     private _stripeWebhookService: IStripeWebhookService,
     private _activateSubscriptionUseCase: IActivateSubscriptionUseCase,
-    private _upgradeSubscriptionUseCase : IUpgradeSubscriptionUseCase
+    private _upgradeSubscriptionUseCase : IUpgradeSubscriptionUseCase,
+    private _confirmBookingUseCase : IConfirmBookingUseCase
   ) {}
 
   async execute(payload: Buffer, signature: string): Promise<void> {
@@ -23,7 +25,7 @@ export class HandleStripeWebhookUseCase {
          console.log("meta data", metadata)
          if(metadata.paymentType === "subscription"){
              console.log("💼 Activating organizer subscription...");
-                const{ organizerName, organizerId, planName, durationInDays, planId , organizerEmail } = metadata;
+                const{ organizerName, organizerId, planName, durationInDays, planId , organizerEmail,payoutDelayDays} = metadata;
                 const dto = {
                     organizerName,
                     organizerId,
@@ -31,6 +33,7 @@ export class HandleStripeWebhookUseCase {
                     planId,
                     organizerEmail,
                     durationInDays: parseInt(durationInDays),
+                    payoutDelayDays: parseInt(payoutDelayDays),
                     paymentId: session.id
                 }
 
@@ -40,7 +43,7 @@ export class HandleStripeWebhookUseCase {
          }
 
          else if(metadata.paymentType === "subscription-upgrade") {
-                  const{ organizerName, organizerId, planName, durationInDays, planId , organizerEmail } = metadata;
+                  const{ organizerName, organizerId, planName, durationInDays, planId , organizerEmail,payoutDelayDays } = metadata;
                 const dto = {
                     organizerName,
                     organizerId,
@@ -48,10 +51,15 @@ export class HandleStripeWebhookUseCase {
                     planId,
                     organizerEmail,
                     durationInDays: parseInt(durationInDays),
+                    payoutDelayDays: parseInt(payoutDelayDays),
                     paymentId: session.id
                 }
               await this._upgradeSubscriptionUseCase.execute(dto);
               return
+         }else if(metadata.paymentType === "ticket") {
+              const {bookingId, organizerId} = metadata;
+              const paymentId = session.id
+             await this._confirmBookingUseCase.execute(organizerId,bookingId, paymentId)
          }
         break;
 

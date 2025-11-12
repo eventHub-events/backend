@@ -1,3 +1,5 @@
+import { BookingCheckoutDTO } from "../../DTOs/user/payment/BookingCheckoutDTO"
+
 export interface IStripePaymentService {
    createSubscriptionCheckout(
     data: {
@@ -22,5 +24,5 @@ export interface IStripePaymentService {
 
 }): Promise<string>
   
-
+createBookingCheckout(dto :BookingCheckoutDTO ): Promise<string>
 }

@@ -13,7 +13,6 @@ import { InputDataValidator } from "../../../infrastructure/middleware/zodMiddle
 import { organizerEventSchema, organizerEventUpdateSchema } from "../../../infrastructure/validation/schemas/organizer/organizerEventSchema";
 import { organizerTicketSchema, organizerTicketUpdateSchema } from "../../../infrastructure/validation/schemas/organizer/organizerTicketSchema";
 import { organizerSubscriptionRetrievalController, subscriptionPaymentController } from "../../../di/organizer/subscription/container";
-import { AuthenticationMiddleWare } from "../../middleware/AuthenticationMiddleware";
 import { stripeConnectController, stripeOnboardingStatusController } from "../../../di/organizer/stripe-onboarding/container";
 // import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
 
