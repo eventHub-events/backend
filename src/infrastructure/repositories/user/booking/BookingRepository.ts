@@ -77,5 +77,16 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
           if(!updated) throw new Error("Booking details not updated");
       return this._bookingEntityFactory.toDomain(updated);
   }
- 
+ async findBookingsDueForPayout(currentDate: Date): Promise<BookingEntity[]> {
+         const filter = {
+           payoutDueDate: { $lte: currentDate },
+           payoutStatus: "pending",
+          };
+         const bookings = await super.findAll(filter) as BookingDbModel[];
+      return this._bookingEntityFactory.toDomainList(bookings);
+ }
+ async updateManyBookings(filter: FilterQuery<IBooking>,updateData: Partial<IBooking>): Promise<{matchedCount: number;modifiedCount: number}>{
+      const result = await super.updateMany(filter, updateData);
+    return result;
+ }
 }

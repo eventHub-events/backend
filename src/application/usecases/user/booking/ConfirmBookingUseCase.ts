@@ -12,6 +12,7 @@ export class ConfirmBookingUseCase implements IConfirmBookingUseCase {
          private _bookingRepository : IBookingRepository
    ){}
    async execute(organizerId: string, bookingId: string, paymentId: string): Promise<void> {
+    
        const subscription =  await this._subscriptionRepository.fetchSubscriptionById(organizerId);
        if(!subscription) throw new Error("Subscription details not found");
 

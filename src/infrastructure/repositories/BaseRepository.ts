@@ -25,7 +25,13 @@ export class BaseRepository< T extends Document > {
   async findAll(filter:FilterQuery<T> = {}):Promise<T[]> {
     return this.model.find(filter).exec();
   }
-
+   async updateMany(filter:FilterQuery<T>, data: UpdateQuery<T>, options?: Record<string, unknown>): Promise<{matchedCount: number; modifiedCount: number}> {
+      const result = await this.model.updateMany(filter, data, options).exec();
+      return {
+          matchedCount: result.matchedCount ?? 0,
+          modifiedCount: result.modifiedCount ?? 0,
+      }
+   }
   async update(id:string, data:UpdateQuery<T>):Promise<T | null> {
      
          const result=await this.model.findByIdAndUpdate(id,data,{new:true}).exec();
