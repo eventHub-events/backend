@@ -15,5 +15,6 @@ export interface UserBookingListResponseDTO {
    totalAmount: number;
    paymentStatus: BookingStatus;
    paymentMethod?: string;
-   bookingDate?: Date
+   bookingDate?: Date;
+   userName?: string;
 }

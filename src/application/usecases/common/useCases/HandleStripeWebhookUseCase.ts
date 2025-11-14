@@ -3,6 +3,7 @@ import { IActivateSubscriptionUseCase } from "../../../interface/useCases/organi
 import { IStripeWebhookService } from "../../../service/common/IStripeWebhookService";
 import { IUpgradeSubscriptionUseCase } from "../../../interface/useCases/organizer/subscription/IUpgradeSubscriptionUseCase";
 import { IConfirmBookingUseCase } from "../../../interface/useCases/user/booking/IConfirmBookingUseCase";
+import { IGenerateTicketUseCase } from "../../../interface/useCases/user/ticketing/IGenerateTicketUseCase";
 
 export class HandleStripeWebhookUseCase {
   constructor(
@@ -10,7 +11,8 @@ export class HandleStripeWebhookUseCase {
     private _stripeWebhookService: IStripeWebhookService,
     private _activateSubscriptionUseCase: IActivateSubscriptionUseCase,
     private _upgradeSubscriptionUseCase : IUpgradeSubscriptionUseCase,
-    private _confirmBookingUseCase : IConfirmBookingUseCase
+    private _confirmBookingUseCase : IConfirmBookingUseCase,
+    private _generateTicketUseCase : IGenerateTicketUseCase
   ) {}
 
   async execute(payload: Buffer, signature: string): Promise<void> {
@@ -59,7 +61,9 @@ export class HandleStripeWebhookUseCase {
          }else if(metadata.paymentType === "ticket") {
               const {bookingId, organizerId} = metadata;
               const paymentId = session.id
-             await this._confirmBookingUseCase.execute(organizerId,bookingId, paymentId)
+             const bookingData = await this._confirmBookingUseCase.execute(organizerId,bookingId, paymentId);
+             const qrUrls = await this._generateTicketUseCase.execute(bookingData);
+             console.log("🎟️ Tickets generated:", qrUrls);
          }
         break;
 

@@ -58,7 +58,8 @@ export class BookingMapper implements IBookingMapper {
           totalAmount : entity.totalAmount,
           paymentStatus : entity.status,
           bookingDate : entity.createdAt,
-          eventImages :entity.eventImages
+          eventImages :entity.eventImages,
+          userName: entity.userName
 
        }
   }
