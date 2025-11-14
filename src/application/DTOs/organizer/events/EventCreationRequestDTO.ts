@@ -20,6 +20,7 @@ export interface EventCreationRequestDTO {
     approvedStatus:EventApprovalStatus;
     tags?:string[];
     visibility?:EventVisibility;
-    organizerEmail? : string
+    organizerEmail? : string;
+    organizerPaymentId?: string;
 
 }

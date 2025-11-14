@@ -15,10 +15,12 @@ export class ConfirmBookingUseCase implements IConfirmBookingUseCase {
          private _bookingMapper : IBookingMapper
    ){}
    async execute(organizerId: string, bookingId: string, paymentId: string): Promise<UserBookingListResponseDTO> {
-    
+
+        console.log("bookingId in  webhook", bookingId)
+    console.log("subsciptt id", organizerId)
        const subscription =  await this._subscriptionRepository.fetchSubscriptionById(organizerId);
        if(!subscription) throw new Error("Subscription details not found");
-
+      console.log("sub", subscription)
        const payoutDelayDays = subscription.payoutDelayDays ?? 14
          const booking = await this._bookingRepository.findBookingById(bookingId);
          
@@ -29,7 +31,7 @@ export class ConfirmBookingUseCase implements IConfirmBookingUseCase {
           payoutDueDate.setDate(eventDate.getDate() + payoutDelayDays);
            const payoutStatus  = PayoutStatus.PENDING
 
-           booking.update({status, payoutDueDate,payoutStatus,paymentId});
+           booking.update({status, payoutDueDate,payoutStatus,paymentId, sessionId: paymentId});
          const updated = await this._bookingRepository.updateBooking(bookingId, booking);
       return this._bookingMapper.toUserResponseDTO(updated);
 

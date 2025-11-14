@@ -59,6 +59,7 @@ export class HandleStripeWebhookUseCase {
               await this._upgradeSubscriptionUseCase.execute(dto);
               return
          }else if(metadata.paymentType === "ticket") {
+               console.log("metadata", metadata);
               const {bookingId, organizerId} = metadata;
               const paymentId = session.id
              const bookingData = await this._confirmBookingUseCase.execute(organizerId,bookingId, paymentId);

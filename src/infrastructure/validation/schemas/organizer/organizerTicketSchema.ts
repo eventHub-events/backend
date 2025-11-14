@@ -11,13 +11,12 @@ export const ticketTierSchema = z.object({
          .regex(nameRegex, "TicketName must contain letters only and FirstLetter should be capital")
          .min(3,{message:"Ticket name must be at least 3 characters"}),
    price: z
-       .string()
-       .regex(priceRegex, { message: "Price must contain only numbers" })
-       .refine((val) => {
-      const num = Number(val);
-        return num >= 1 && num <= 6000;
-        }, { message: "Price must be between 1 and 6000" })
-      .transform((val) => Number(val)),
+  .union([z.string(), z.number()]) 
+  .refine((val) => {
+    const num = Number(val);
+    return /^[0-9]+$/.test(String(val)) && num >= 1 && num <= 6000;
+  }, { message: "Price must be a number between 1 and 6000" })
+  .transform((val) => Number(val)),
    totalSeats: z
     .union([z.string(), z.number()])
     .refine((val) => {

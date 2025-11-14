@@ -25,6 +25,7 @@ export class BookingEntity {
    public paymentId?: string;
    public organizerStripeId?: string;
    public ticketUrls?: string[];
+   public sessionId?: string
 
   constructor(props :{
      userId : Types.ObjectId,
@@ -46,6 +47,7 @@ export class BookingEntity {
        organizerName: string,
        ticketUrls?: string[];
        eventVenue: string,
+       sessionId?: string,
        userName: string,
        eventImages?: string[]
        organizerId: Types.ObjectId,
@@ -80,7 +82,8 @@ export class BookingEntity {
        this.payoutDueDate = props.payoutDueDate;
        this.PayoutDate = props.payoutDate;
        this.organizerStripeId = props.organizerStripId;
-       this.ticketUrls = props.ticketUrls
+       this.ticketUrls = props.ticketUrls,
+       this.sessionId = props.sessionId
   }
 
   markAsConfirmed() {

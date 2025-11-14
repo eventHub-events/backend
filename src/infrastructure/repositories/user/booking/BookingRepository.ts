@@ -89,4 +89,9 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
       const result = await super.updateMany(filter, updateData);
     return result;
  }
+ async fetchBookingBySessionId(sessionId: string) : Promise<BookingEntity> {
+
+     const booking = await super.findOne({sessionId}) as BookingDbModel;
+    return this._bookingEntityFactory.toDomain(booking);
+ }
 }

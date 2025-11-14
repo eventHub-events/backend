@@ -25,6 +25,7 @@ export interface IBooking extends Document {
    organizerStripId: string;
    paymentId: string;
    ticketUrls?: string[];
+   sessionId?:string;
 
 
 }
@@ -39,6 +40,9 @@ const bookingSchema = new Schema<IBooking>({
       type: Schema.Types.ObjectId,
       ref: "Event",
       required: true
+     },
+     sessionId: {
+       type: String
      },
    eventTitle: {
      type: String,

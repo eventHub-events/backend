@@ -97,7 +97,7 @@ export class StripePaymentService implements IStripePaymentService {
   }
 
   async createBookingCheckout(dto :BookingCheckoutDTO ): Promise<string> {
-
+     console.log("bookingid in ddddddd", dto.bookingId)
       const session = await this.stripe.checkout.sessions.create({
            mode: "payment",
            payment_method_types:["card"],
@@ -113,10 +113,10 @@ export class StripePaymentService implements IStripePaymentService {
     ],
        payment_intent_data: {
       // ⚠️ No `transfer_data` here — funds stay with admin (platform)
-      application_fee_amount: 0, // optional; remove if you don’t take fees at this step
+       // optional; remove if you don’t take fees at this step
     },
-    success_url: `${process.env.FRONTEND_URL}/booking/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.FRONTEND_URL}/booking/cancel`,
+    success_url: `http://localhost:3000/user/make-payment/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `http://localhost:3000/user/make-payment/cancel`,
     metadata: {
       paymentType: "ticket",
       bookingId: dto.bookingId,

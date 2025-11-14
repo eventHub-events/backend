@@ -17,4 +17,5 @@ export interface UserBookingListResponseDTO {
    paymentMethod?: string;
    bookingDate?: Date;
    userName?: string;
+   ticketUrls?: string[]
 }

@@ -10,7 +10,8 @@ export class BookingPaymentController {
     ){}
   async createSession(req: Request, res: Response, next: NextFunction) :Promise<void> {
       try{
-          const {bookingId}  = req.params;
+          const {bookingId}  = req.body;
+          console.log("bookingId issss", bookingId)
           if(!bookingId) throw new CustomError("Booking id is required", HttpStatusCode.BAD_REQUEST);
          
           const url = await this._createPaymentSessionUseCase.execute(bookingId);

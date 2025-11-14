@@ -14,5 +14,6 @@ export interface EventDetailsEntity {
    totalCapacity?: number;
    tickets: Partial<ITicketTier>[];
    organizerName: string,
-   organizerId: string
+   organizerId: string,
+   organizerStripeAccountId: string
 }

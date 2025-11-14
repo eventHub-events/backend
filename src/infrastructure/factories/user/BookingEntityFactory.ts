@@ -25,7 +25,8 @@ toDomain(dbModel: BookingDbModel): BookingEntity {
       payoutStatus: dbModel.payoutStatus,
       organizerStripId: dbModel.organizerStripId,
       payoutDate: dbModel.payoutDate,
-      ticketUrls : dbModel.ticketUrls
+      ticketUrls : dbModel.ticketUrls,
+      sessionId: dbModel.sessionId
 
     })
 }
