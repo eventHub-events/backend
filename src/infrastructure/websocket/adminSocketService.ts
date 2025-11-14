@@ -1,13 +1,12 @@
 import { Socket ,Server, Namespace} from "socket.io";
 import { BaseSocketService } from "./baseSocketService";
 import http from "http";
-
-import { IUserManagementUseCase } from "../../application/interface/useCases/admin/IUserManagementUseCase";
+import { IFetchUserUseCase } from "../../application/interface/useCases/admin/IFetchUsersUseCase";
 
 export class AdminSocketService extends BaseSocketService  {
   private _ioServer:Server;
   private _userNamespace:Namespace;
-  constructor(adminNamespace: Namespace,ioServer:Server,userNamespace:Namespace,private _userManagementUseCase:IUserManagementUseCase) {
+  constructor(adminNamespace: Namespace, ioServer: Server, userNamespace: Namespace, private _userManagementUseCase:IFetchUserUseCase) {
     super(adminNamespace);
     this._ioServer=ioServer;
     this._userNamespace=userNamespace

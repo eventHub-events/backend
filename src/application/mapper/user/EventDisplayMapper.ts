@@ -44,6 +44,7 @@ toResponseDTOList(data: EventDisplayEntity[]): TrendingEventDisplayResponseDTO[]
         images: data.images,
         totalCapacity: data.totalCapacity,
         organizerId: data.organizerId,
+        organizerStripeAccountId: data.organizerStripeAccountId,
         category: data.category,
         organizerName: data.organizerName,
         startDate: new Date(data.startDate).toLocaleDateString("en-GB",{

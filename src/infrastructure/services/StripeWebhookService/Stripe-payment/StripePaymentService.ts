@@ -1,5 +1,6 @@
 import Stripe from "stripe";
 import { IStripePaymentService } from "../../../../application/service/common/IStripePaymentService";
+import { BookingCheckoutDTO } from "../../../../application/DTOs/user/payment/BookingCheckoutDTO";
 
 export class StripePaymentService implements IStripePaymentService {
   private stripe: Stripe;
@@ -16,6 +17,7 @@ export class StripePaymentService implements IStripePaymentService {
     organizerName: string;
     organizerEmail: string;
     planId: string;
+    payoutDelayDays: number
   }): Promise<string> {
     return this.createCheckoutSession({
       ...data,
@@ -30,6 +32,7 @@ export class StripePaymentService implements IStripePaymentService {
     durationInDays: number;
     organizerName: string;
     organizerEmail: string;
+    payoutDelayDays: number
     planId: string;
   }): Promise<string> {
     return this.createCheckoutSession({
@@ -46,6 +49,7 @@ export class StripePaymentService implements IStripePaymentService {
     durationInDays: number;
     organizerName: string;
     organizerEmail: string;
+    payoutDelayDays: number
     planId: string;
     paymentType: string;
   }): Promise<string> {
@@ -57,6 +61,7 @@ export class StripePaymentService implements IStripePaymentService {
       organizerName,
       organizerEmail,
       planId,
+      payoutDelayDays,
       paymentType,
     } = data;
 
@@ -83,10 +88,43 @@ export class StripePaymentService implements IStripePaymentService {
         organizerEmail,
         organizerName,
         paymentType,
+        payoutDelayDays
       },
     };
 
     const session = await this.stripe.checkout.sessions.create(params);
     return session.url!;
+  }
+
+  async createBookingCheckout(dto :BookingCheckoutDTO ): Promise<string> {
+     console.log("bookingid in ddddddd", dto.bookingId)
+      const session = await this.stripe.checkout.sessions.create({
+           mode: "payment",
+           payment_method_types:["card"],
+            line_items: [
+      {
+        price_data: {
+          currency: "inr",
+          product_data: { name: dto.eventTitle },
+          unit_amount: dto.totalAmount * 100,
+        },
+        quantity: 1,
+      },
+    ],
+       payment_intent_data: {
+      // ⚠️ No `transfer_data` here — funds stay with admin (platform)
+       // optional; remove if you don’t take fees at this step
+    },
+    success_url: `http://localhost:3000/user/make-payment/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `http://localhost:3000/user/make-payment/cancel`,
+    metadata: {
+      paymentType: "ticket",
+      bookingId: dto.bookingId,
+      organizerId: dto.organizerId,
+      userId: dto.userId,
+      organizerStripeId: dto.organizerStripeId!, // store it for later payout
+    },
+      });
+    return session.url!
   }
 }

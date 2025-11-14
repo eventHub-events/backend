@@ -10,6 +10,7 @@ import { EventDisplayRoutes } from '../../../infrastructure/constants/api-routes
 import { eventBookingController, getUserBookingsController } from '../../../di/user/booking/container';
 import { userRegisterSchema } from '../../../infrastructure/validation/schemas/user/userRegistrationSchema';
 import { userForgetPassWordSchema } from '../../../infrastructure/validation/schemas/changePasswordSchema';
+import { bookingPaymentController } from '../../../di/user/payment/container';
 const router = express.Router();
 
 // router.post('/register', (req, res) => authController.registerUser(req, res));
@@ -40,7 +41,15 @@ router.get("/events/featured/all",(req: Request, res: Response, next :NextFuncti
 // event-booking//
 
 router.post("/events/:eventId/book",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventBookingController.bookTickets(req, res, next));
-router.post("/google-login",(req: Request, res: Response, next: NextFunction) => googleAuthController.googleLogin(req, res, next));
+router.get("/bookings/session/:sessionId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: Request, res: Response, next: NextFunction) => getUserBookingsController.getBookingBySessionId(req, res, next));
 router.get("/:userId/bookings", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => getUserBookingsController.getUserBookings(req, res, next));
+router.get("/bookings/:bookingId", (req: Request, res: Response, next: NextFunction) => getUserBookingsController.getBookingById(req, res, next));
+
+
+//google-login
+router.post("/google-login",(req: Request, res: Response, next: NextFunction) => googleAuthController.googleLogin(req, res, next));
+
+// ticket-payment//
+router.post("/payments/create-checkout-session",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => bookingPaymentController.createSession(req, res, next));
 
 export default router

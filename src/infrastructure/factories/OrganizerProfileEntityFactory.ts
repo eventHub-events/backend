@@ -24,7 +24,7 @@ toDomain(dbModel: OrganizerProfileDbModel): OrganizerProfile {
 toDomainList(dbModels: OrganizerProfileDbModel[]): OrganizerProfile[] {
     return  dbModels.map((model) => this.toDomain(model));
 }
-toCompositeDomain(dbModel: OrganizerProfileDbModel & { organizerId: UserEntity}): OrganizerProfileWithUser{
+toCompositeDomain(dbModel: OrganizerProfileDbModel & { organizerId: UserDbModel}): OrganizerProfileWithUser{
     const profile = new OrganizerProfile(
       dbModel.location,
       dbModel.organization,

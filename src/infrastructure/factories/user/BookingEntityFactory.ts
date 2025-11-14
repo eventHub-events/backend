@@ -19,7 +19,14 @@ toDomain(dbModel: BookingDbModel): BookingEntity {
       createdAt :dbModel.createdAt,
       userName: dbModel.userName,
       organizerId:dbModel.organizerId,
-      eventImages:dbModel.eventImages
+      eventImages:dbModel.eventImages,
+      paymentId: dbModel.paymentId,
+      payoutDueDate: dbModel.payoutDueDate,
+      payoutStatus: dbModel.payoutStatus,
+      organizerStripId: dbModel.organizerStripId,
+      payoutDate: dbModel.payoutDate,
+      ticketUrls : dbModel.ticketUrls,
+      sessionId: dbModel.sessionId
 
     })
 }

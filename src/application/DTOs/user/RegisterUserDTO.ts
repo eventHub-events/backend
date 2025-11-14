@@ -6,7 +6,7 @@ export interface UserRegisterDTO {
 
    email: string;
 
-    phone: number;
+    phone?: number;
 
     password: string;
 

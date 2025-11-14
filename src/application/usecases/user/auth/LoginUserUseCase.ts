@@ -47,6 +47,7 @@ console.log("payload is",payload)
       isVerified: userDoc.isVerified,
       isKycResubmitted :userDoc.isKycResubmitted,
       kycStatus : userDoc.kycStatus!,
+      stripOnboarded: userDoc.stripeOnboarded
     };
 
 

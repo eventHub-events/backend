@@ -1,5 +1,7 @@
 import { BookingMapper } from "../../../application/mapper/user/BookingMapper";
 import { BookTicketUseCase } from "../../../application/useCases/user/booking/BookTicketUseCase";
+import { GetUserBookingBySessionId } from "../../../application/useCases/user/booking/GetBookingBySessionIdUseCase";
+import { GetUserBookingByIdUseCase } from "../../../application/useCases/user/booking/GetUserBookingByIdUseCase";
 import { GetUserBookingListUseCase } from "../../../application/useCases/user/booking/GetUserBookingListUseCase";
 import { EventTicketingEntityFactory } from "../../../infrastructure/factories/organizer/EventTicketingEntityFactory";
 import { BookingEntityFactory } from "../../../infrastructure/factories/user/BookingEntityFactory";
@@ -18,6 +20,8 @@ const  ticketingRepository = new EventTicketingRepository(eventTicketingEntityFa
 const bookTicketUseCase = new BookTicketUseCase(ticketingRepository, bookingRepository, bookingMapper);
 
 const getUserBookingsListUseCase = new GetUserBookingListUseCase(bookingRepository, bookingMapper);
-export const getUserBookingsController =  new GetUserBookingsController(getUserBookingsListUseCase);
+const getUserBookingByIdUseCase = new GetUserBookingByIdUseCase(bookingRepository, bookingMapper);
+const getBookingBySessionId  = new GetUserBookingBySessionId(bookingRepository, bookingMapper);
+export const getUserBookingsController =  new GetUserBookingsController(getUserBookingsListUseCase, getUserBookingByIdUseCase, getBookingBySessionId);
 
 export const eventBookingController = new EventBookingController(bookTicketUseCase);

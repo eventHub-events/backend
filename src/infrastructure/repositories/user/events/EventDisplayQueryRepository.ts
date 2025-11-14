@@ -287,6 +287,7 @@ async findEventById(eventId: string): Promise<EventDetailsEntity| null> {
           organizerName: "$organizer.name",
           
           category:"$category.name",
+          organizerStripeAccountId: "$organizer.stripeAccountId",
 
         },
       },
@@ -304,7 +305,8 @@ async findEventById(eventId: string): Promise<EventDetailsEntity| null> {
         totalCapacity:1,
         category:1,
         tickets:1,
-        organizerName:1
+        organizerName:1,
+        organizerStripeAccountId:1
 
 
 

@@ -11,7 +11,8 @@ export class OrganizerSubscriptionEntity {
    public endDate?: Date;
    public status?: SubscriptionStatus
    public paymentId?: string;
-   public id?: string
+   public id?: string;
+   public payoutDelayDays?: number;
 
    constructor(props: {
       organizerId: Types.ObjectId,
@@ -23,6 +24,7 @@ export class OrganizerSubscriptionEntity {
       endDate?: Date,
       status?:SubscriptionStatus,
       paymentId?: string,
+      payoutDelayDays?: number;
       id?: string
 
 
@@ -36,7 +38,8 @@ export class OrganizerSubscriptionEntity {
        this.endDate = props.endDate;
        this.status = props.status;
        this.paymentId = props.paymentId;
-       this.id = props.id
+       this.id = props.id;
+       this.payoutDelayDays = props.payoutDelayDays;
 
    }
   isActive(): boolean {

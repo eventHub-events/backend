@@ -30,7 +30,8 @@ export class  UserMapper implements IUserMapper {
       role: entity.role ?? 'user',
       isBlocked:entity.isBlocked,
       kycStatus:entity.kycStatus,
-      createdAt:entity.createdAt
+      createdAt:entity.createdAt,
+      stripeOnboarded: entity.stripeOnboarded
     };
    }
   toResponseDTOForAdmin(entity: UserEntity): UserResponseDTO {

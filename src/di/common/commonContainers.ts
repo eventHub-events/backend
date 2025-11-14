@@ -1,5 +1,6 @@
 import { EventMapper } from "../../application/mapper/organizer/EventMapper";
 import { OrganizerSubscriptionMapper } from "../../application/mapper/organizer/OrganizerSubscriptionMapper";
+import { BookingMapper } from "../../application/mapper/user/BookingMapper";
 import { UserMapper } from "../../application/mapper/user/UserMapper";
 import { GoogleAuthUseCase } from "../../application/useCases/common/useCases/GoogleAuthUseCase";
 import { HandleStripeWebhookUseCase } from "../../application/useCases/common/useCases/HandleStripeWebhookUseCase";
@@ -12,16 +13,20 @@ import { ForgetPasswordUseCase } from "../../application/useCases/user/auth/Forg
 import { GenerateOtpUseCase } from "../../application/useCases/user/auth/GenerateOtpUseCase";
 import { RefreshTokenUseCase } from "../../application/useCases/user/auth/GenerateRefreshTokenUseCase";
 import { VerifyResetPasswordOtpUseCase } from "../../application/useCases/user/auth/ResetPasswordUseCase";
+import { ConfirmBookingUseCase } from "../../application/useCases/user/booking/ConfirmBookingUseCase";
 import { UserBlankProfileCreationUseCase } from "../../application/useCases/user/profile/UserBlankProfileCreationUseCase";
+import { GenerateTicketUseCase } from "../../application/useCases/user/ticketing/GenerateTicketUseCase";
 import { TokenConfig } from "../../infrastructure/config/user/tokenConfig";
 import { EventEntityFactory } from "../../infrastructure/factories/organizer/EventEntityFactory";
 import { OrganizerSubscriptionEntityFactory } from "../../infrastructure/factories/organizer/OrganizerSubscriptionEntityFactory";
 import { OrganizerProfileEntityFactory } from "../../infrastructure/factories/OrganizerProfileEntityFactory";
+import { BookingEntityFactory } from "../../infrastructure/factories/user/BookingEntityFactory";
 import { UserEntityFactory } from "../../infrastructure/factories/UserEntityFactory";
 import { UserProfileEntityFactory } from "../../infrastructure/factories/UserProfileEntityFactory";
 import { EventRepository } from "../../infrastructure/repositories/organizer/EventsRepository";
 import { OrganizerProfileRepository } from "../../infrastructure/repositories/organizer/OrganizerProfileRepository";
 import { OrganizerSubscriptionRepository } from "../../infrastructure/repositories/organizer/OrganizerSubscriptionRepository";
+import { BookingRepository } from "../../infrastructure/repositories/user/booking/BookingRepository";
 import { UserProfileRepository } from "../../infrastructure/repositories/user/profile/UserProfileRepository";
 import { UserRepository } from "../../infrastructure/repositories/UserRepository";
 import { GoogleAuthService } from "../../infrastructure/services/googleAuthService/Auth";
@@ -34,6 +39,7 @@ import { EmailService } from "../../infrastructure/services/nodeMailer/EmailServ
 import { NodeMailerEmailService } from "../../infrastructure/services/nodeMailer/NodeMailerEmailService";
 import { OtpService } from "../../infrastructure/services/otp/OtpService";
 import { RedisCacheService } from "../../infrastructure/services/otp/RedisCacheService";
+import { CloudinaryStorageService } from "../../infrastructure/services/storageService/CloudinaryStorageService";
 import { StripeWebhookService } from "../../infrastructure/services/StripeWebhookService/StripeWebHookService";
 import { GoogleAuthController } from "../../interfaceAdapter/controllers/common/GoogleAuthController";
 import { StripeWebhookController } from "../../interfaceAdapter/controllers/common/StripWebhookController";
@@ -84,7 +90,7 @@ const userProfileEntityFactory = new UserProfileEntityFactory();
 const userProfileRepository = new UserProfileRepository(userProfileEntityFactory);
 const userBlankProfileCreationUseCase = new UserBlankProfileCreationUseCase(userProfileRepository);
 
-const googleAuthUseCase = new GoogleAuthUseCase(userRepository, tokenService, userBlankProfileCreationUseCase, organizerBlankProfileCreationUseCase);
+const googleAuthUseCase = new GoogleAuthUseCase(userRepository, tokenService, userBlankProfileCreationUseCase, organizerBlankProfileCreationUseCase,userMapper);
 const googleAuthService  = new GoogleAuthService();
 export const googleAuthController = new GoogleAuthController(googleAuthService, googleAuthUseCase);
 
@@ -99,5 +105,13 @@ const organizerSubscriptionMapper = new OrganizerSubscriptionMapper();
 const activateSubscriptionUseCase = new ActivateSubScriptionUseCase(subscriptionRepository, organizerSubscriptionMapper);
 const upgradeSubscriptionUseCase  = new UpgradeSubscriptionUseCase(subscriptionRepository, organizerSubscriptionMapper);
 
-const  handleStripeWebhookUseCase = new  HandleStripeWebhookUseCase(stripeWebhookService, activateSubscriptionUseCase, upgradeSubscriptionUseCase);
+const bookingEntityFactory = new BookingEntityFactory();
+const bookingRepository = new BookingRepository(bookingEntityFactory);
+const bookingMapper =  new BookingMapper ();
+const confirmBookingUseCase = new ConfirmBookingUseCase(subscriptionRepository, bookingRepository,bookingMapper);
+
+const cloudinaryStorageService = new CloudinaryStorageService();
+const generateTicketUseCase = new GenerateTicketUseCase(bookingRepository, cloudinaryStorageService);
+
+const  handleStripeWebhookUseCase = new  HandleStripeWebhookUseCase(stripeWebhookService, activateSubscriptionUseCase, upgradeSubscriptionUseCase, confirmBookingUseCase, generateTicketUseCase);
 export const  stripeWebhookController  = new StripeWebhookController(handleStripeWebhookUseCase);

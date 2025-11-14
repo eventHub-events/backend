@@ -21,7 +21,10 @@ export interface IUserDocument extends Document {
   createdAt?:Date;
   isKycResubmitted : boolean ;
   googleId?: string;
-  registrationMode?:RegistrationTypes 
+  registrationMode?:RegistrationTypes;
+  stripeAccountId?: string;
+  stripeOnboarded?: boolean
+
 }
 
 const UserSchema: Schema<IUserDocument> = new Schema({
@@ -38,6 +41,14 @@ const UserSchema: Schema<IUserDocument> = new Schema({
     type : Boolean ,
     default : false
   },
+   stripeAccountId:{
+     type: String,
+      default: null
+   },
+    stripeOnboarded: {
+       type: Boolean,
+       default: false
+    },
    googleId :{
      type: String
    },

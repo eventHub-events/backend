@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
-import { BookingStatus } from "../../../../domain/enums/user/Booking";
+import { BookingStatus, PayoutStatus } from "../../../../domain/enums/user/Booking";
 
 export interface IBooking extends Document {
    userId: Types.ObjectId;
@@ -19,6 +19,14 @@ export interface IBooking extends Document {
    expiresAt : Date;
    eventImages? : string[];
    organizerId: Types.ObjectId;
+   payoutStatus :PayoutStatus;
+   payoutDueDate : Date;
+   payoutDate: Date;
+   organizerStripId: string;
+   paymentId: string;
+   ticketUrls?: string[];
+   sessionId?:string;
+
 
 }
 
@@ -33,15 +41,38 @@ const bookingSchema = new Schema<IBooking>({
       ref: "Event",
       required: true
      },
+     sessionId: {
+       type: String
+     },
    eventTitle: {
      type: String,
    },
     userName: {
        type:String
     },
+    ticketUrls:{
+      type:[String]
+    },
    organizerName : {
      type: String
    },
+   payoutStatus :{
+     type :String,
+     enum: Object.values(PayoutStatus),
+     default: PayoutStatus.PENDING
+   },
+   payoutDueDate:{
+     type: Date
+   },
+   payoutDate: {
+       type: Date
+   },
+   organizerStripId:{
+     type: String
+   },
+    paymentId :{
+      type: String
+    },
    organizerId: {
      type: Schema.Types.ObjectId,
      ref: "User"

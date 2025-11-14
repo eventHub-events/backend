@@ -11,11 +11,13 @@ export class CreateEventUseCase implements ICreateEventUseCase {
    constructor(
         private _eventRepository: IEventRepository,
         private _eventMapper: IEventMapper,
-        private _eventModerationRepository: IEventModerationRepository
+        private _eventModerationRepository: IEventModerationRepository,
+        
    ){}
  async  execute(data: EventCreationRequestDTO): Promise<EventResponseDTO> {
 
        const eventEntity = this._eventMapper.toEntity(data);
+       
      
 
       const eventData =  await this._eventRepository.createEvent(eventEntity);

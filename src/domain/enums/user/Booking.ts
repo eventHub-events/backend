@@ -4,3 +4,8 @@ export enum BookingStatus {
   CANCELLED = "cancelled",
   EXPIRED ="expired"
 }
+
+export enum PayoutStatus {
+    PENDING ="pending",
+    PAID ="paid"
+}

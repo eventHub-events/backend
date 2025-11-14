@@ -8,5 +8,6 @@ export interface UserResponseDTO {
   kycStatus?:string;
   isKyCResubmitted?:string;
   isBlocked?:boolean;
-  createdAt?:Date
+  createdAt?:Date,
+  stripeOnboarded?: boolean
 }

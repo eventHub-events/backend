@@ -16,7 +16,9 @@ export class UserEntity {
      id?: string;
      createdAt?: Date;
      googleId?: string;
-    registrationMode?:RegistrationTypes 
+    registrationMode?:RegistrationTypes ;
+     stripeAccountId?: string;
+     stripeOnboarded?: boolean;
 
     constructor(props: {
         name: string,
@@ -29,6 +31,8 @@ export class UserEntity {
         isBlocked?: boolean,
         isKycResubmitted?: boolean;
         id?: string;
+         stripeAccountId?: string;
+         stripeOnboarded?: boolean
         createdAt?: Date;
         googleId?: string;
         registrationMode?:RegistrationTypes 
@@ -45,7 +49,14 @@ export class UserEntity {
         this.id= props.id;
         this.createdAt = props.createdAt;
         this.googleId = props.googleId;
-        this.registrationMode = this.registrationMode
-        this.password = props.password
+        this.registrationMode = props.registrationMode;
+        this.stripeAccountId = props.stripeAccountId;
+        this.stripeOnboarded = props.stripeOnboarded;
+        this.password = props.password;
 }
+  
+  update(data: Partial<UserEntity>) {
+    Object.assign (this, data);
+    return this
+  }
 }
