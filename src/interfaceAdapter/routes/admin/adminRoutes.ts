@@ -52,6 +52,8 @@ import { subscriptionPlansManagementController, subscriptionPlansRetrievalContro
 
    // booking-management//
     router.get("/bookings",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res : Response , next :NextFunction ) => bookingControllerForAdmin.fetchBookings(req, res, next));
+    router.get("/bookings/:bookingId", (req: Request, res: Response, next: NextFunction) => bookingControllerForAdmin.fetchBookingById(req, res, next));
+
 
 
     // Subscription-plans//

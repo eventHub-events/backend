@@ -20,8 +20,8 @@ export class CreateTicketPaymentUseCase  implements ICreateTicketPaymentUseCase{
         if(booking.status !== BookingStatus.PENDING_PAYMENT) throw new Error("booking already processed");
 
         const organizer = await this._userRepository.findUserById(booking.organizerId.toString());
-        console.log("organizer is", organizer)
-        if(!organizer) throw new Error("OrganizerStripeId not found")
+        
+        if(!organizer) throw new Error("Organizer not found")
          const organizerStripeId = organizer.stripeAccountId;
       
       const url = await this._paymentService.createBookingCheckout({
