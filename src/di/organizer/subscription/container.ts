@@ -10,6 +10,10 @@ import { OrganizerSubscriptionRetrievalController } from "../../../interfaceAdap
 import { ExpireSubscriptionUseCase } from "../../../application/useCases/organizer/subscription/expireSubscriptionUseCase";
 import { CronSubscriptionExpiryJob } from "../../../infrastructure/jobs/CronSubscriptionExpiryJob";
 import { SubscriptionExpiryMonitor } from "../../../infrastructure/jobs/SubscriptionExpiryMonitor";
+import { FetchSubscriptionPlansForOrganizerUseCase } from "../../../application/useCases/organizer/subscription/fetchSubscriptionPlansUseCase";
+import { SubscriptionEntityFactory } from "../../../infrastructure/factories/admin/SubscriptionEntityFactory";
+import { SubscriptionPlansRepository } from "../../../infrastructure/repositories/admin/SubscriptionPlansRepository";
+import { SubscriptionMapper } from "../../../application/mapper/admin/SubscriptionMapper";
 
   dotenv.config()
 
@@ -21,7 +25,12 @@ const subscriptionEntityFactory = new OrganizerSubscriptionEntityFactory();
 const subscriptionRepository = new OrganizerSubscriptionRepository(subscriptionEntityFactory);
 const organizerSubscriptionMapper = new OrganizerSubscriptionMapper();
 const fetchSubscriptionByIdUseCase = new FetchSubscriptionByIdUseCase(subscriptionRepository, organizerSubscriptionMapper);
-export const organizerSubscriptionRetrievalController = new OrganizerSubscriptionRetrievalController(fetchSubscriptionByIdUseCase);
+
+const subscriptionPlansEntityFactory = new SubscriptionEntityFactory();
+const subscriptionPlansRepository = new SubscriptionPlansRepository(subscriptionPlansEntityFactory);
+const subscriptionPlansMapper = new SubscriptionMapper();
+const fetchAllSubscriptionPlansUseCase = new FetchSubscriptionPlansForOrganizerUseCase(subscriptionPlansRepository,subscriptionPlansMapper);
+export const organizerSubscriptionRetrievalController = new OrganizerSubscriptionRetrievalController(fetchSubscriptionByIdUseCase, fetchAllSubscriptionPlansUseCase);
 
 const expireSubscriptionUseCase = new ExpireSubscriptionUseCase(subscriptionRepository); 
 const cronSubscriptionExpiryJob = new CronSubscriptionExpiryJob(undefined,expireSubscriptionUseCase);

@@ -24,13 +24,13 @@ export  class SubscriptionPlansRepository extends BaseRepository<ISubscriptionPl
   return this._subscriptionEntityFactory.toDomain(updated)
  }
   async fetchSubscriptionPlanById(subscriptionId: string): Promise<SubscriptionPlansEntity> {
-
+    
       const fetchedData = await super.findById(subscriptionId) as SubscriptionPlansDbModel;
    return this._subscriptionEntityFactory.toDomain(fetchedData);
   }
-  async fetchSubscriptionPlans() :  Promise<SubscriptionPlansEntity[]> {
-
-          const fetchedPlans = await super.findAll() as SubscriptionPlansDbModel[];
+  async fetchSubscriptionPlans( filter?: Partial<SubscriptionPlansEntity>) :  Promise<SubscriptionPlansEntity[]> {
+                const filterOption = filter?filter:{};
+          const fetchedPlans = await super.findAll(filterOption) as SubscriptionPlansDbModel[];
     return this._subscriptionEntityFactory.toDomainList(fetchedPlans);
   }
 

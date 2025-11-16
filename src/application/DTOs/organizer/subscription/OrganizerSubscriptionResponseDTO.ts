@@ -11,4 +11,5 @@ export interface OrganizerSubscriptionResponseDTO {
           status?:SubscriptionStatus,
           paymentId?: string,
           id?: string
+          price?: number
 }

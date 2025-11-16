@@ -10,4 +10,5 @@ import { IBaseMapper } from "../../../common/IBaseMapper";
 export interface IEventMapper extends IBaseMapper<EventEntity, EventCreationRequestDTO, EventResponseDTO, EventUpdateDTO> {
    toResponseDTOList (entities: EventEntity[]): EventResponseDTO[];
     toBlankModerationEntity(eventId: Types.ObjectId, eventApprovalStatus: EventApprovalStatus ): Partial<EventModerationEntity >
+     toEntityForUpdate(dto: EventUpdateDTO): Partial<EventEntity>
 }

@@ -10,6 +10,7 @@ export interface IOrganizerSubscription extends Document  {
           payoutDelayDays: number,
           startDate: Date,
           endDate: Date,
+          price?: number,
           status?:SubscriptionStatus,
           paymentId?: string,
 } 
@@ -29,6 +30,9 @@ const organizerSubscriptionSchema = new Schema<IOrganizerSubscription>({
     payoutDelayDays:{
         type: Number,
         default :1
+    },
+    price:{
+          type: Number
     },
     planId : {
         type: Schema.Types.ObjectId,
