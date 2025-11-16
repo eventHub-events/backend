@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { SubscriptionStatus } from "../../enums/organizer/subscription";
+import { multipleOf } from "zod";
 
 export class OrganizerSubscriptionEntity {
    public organizerId : Types.ObjectId;
@@ -9,6 +10,7 @@ export class OrganizerSubscriptionEntity {
    public planName: string;
    public startDate?: Date;
    public endDate?: Date;
+   public price?: number;
    public status?: SubscriptionStatus
    public paymentId?: string;
    public id?: string;
@@ -24,6 +26,7 @@ export class OrganizerSubscriptionEntity {
       endDate?: Date,
       status?:SubscriptionStatus,
       paymentId?: string,
+      price?:number,
       payoutDelayDays?: number;
       id?: string
 
@@ -39,6 +42,7 @@ export class OrganizerSubscriptionEntity {
        this.status = props.status;
        this.paymentId = props.paymentId;
        this.id = props.id;
+       this.price = props.price;
        this.payoutDelayDays = props.payoutDelayDays;
 
    }

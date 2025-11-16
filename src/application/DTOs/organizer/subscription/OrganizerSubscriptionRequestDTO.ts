@@ -6,6 +6,7 @@ export interface OrganizerSubscriptionRequestDTO {
         organizerEmail : string;
         planId: string;
         planName: string;
+        price: number;
         startDate?: Date;
         endDate?: Date;
         status?:SubscriptionStatus;

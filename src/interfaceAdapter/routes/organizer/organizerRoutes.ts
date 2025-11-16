@@ -61,9 +61,12 @@ router.get("/:organizerId/bookings",authenticationMiddleWare.authenticateUser.bi
 router.get("/:organizerId/bookings/:bookingId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => bookingsDisplayController.fetchBookingDetailsById(req, res, next));
 
 
+
+
 // subscription -purchase //
-router.post("/subscription/checkout", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => subscriptionPaymentController.createCheckout(req, res, next));
 router.get("/:organizerId/subscription",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req : IAuthenticatedRequest, res: Response , next: NextFunction) => organizerSubscriptionRetrievalController.fetchSubscription(req, res, next));
+router.get("/subscription-plans",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req : IAuthenticatedRequest, res: Response , next: NextFunction) => organizerSubscriptionRetrievalController.fetchAllSubscriptionPlans(req, res, next));
+router.post("/subscription/checkout", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => subscriptionPaymentController.createCheckout(req, res, next));
 
 // stripe-onboarding//
 router.post("/stripe/onboard", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),organizerVerificationMiddleware.verify,(req: IAuthenticatedRequest, res: Response, next: NextFunction) => stripeConnectController.onBoard(req, res, next));

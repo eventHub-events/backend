@@ -14,6 +14,7 @@ export class OrganizerSubscriptionEntityFactory implements IOrganizerSubscriptio
           startDate : dbModel.startDate,
           endDate : dbModel.endDate,
           status : dbModel.status,
+          price: dbModel.price,
           paymentId : dbModel.paymentId,
           payoutDelayDays: dbModel.payoutDelayDays
           

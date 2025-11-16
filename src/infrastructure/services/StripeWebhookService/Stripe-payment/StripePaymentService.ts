@@ -85,6 +85,7 @@ export class StripePaymentService implements IStripePaymentService {
         planId,
         durationInDays,
         planName,
+        price,
         organizerEmail,
         organizerName,
         paymentType,

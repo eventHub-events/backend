@@ -27,7 +27,7 @@ export class HandleStripeWebhookUseCase {
          console.log("meta data", metadata)
          if(metadata.paymentType === "subscription"){
              console.log("💼 Activating organizer subscription...");
-                const{ organizerName, organizerId, planName, durationInDays, planId , organizerEmail,payoutDelayDays} = metadata;
+                const{ organizerName, organizerId, planName, durationInDays, planId , organizerEmail,payoutDelayDays, price} = metadata;
                 const dto = {
                     organizerName,
                     organizerId,
@@ -36,6 +36,7 @@ export class HandleStripeWebhookUseCase {
                     organizerEmail,
                     durationInDays: parseInt(durationInDays),
                     payoutDelayDays: parseInt(payoutDelayDays),
+                    price: parseInt(price),
                     paymentId: session.id
                 }
 
@@ -45,7 +46,7 @@ export class HandleStripeWebhookUseCase {
          }
 
          else if(metadata.paymentType === "subscription-upgrade") {
-                  const{ organizerName, organizerId, planName, durationInDays, planId , organizerEmail,payoutDelayDays } = metadata;
+                  const{ organizerName, organizerId, planName, durationInDays, planId , organizerEmail,payoutDelayDays,price } = metadata;
                 const dto = {
                     organizerName,
                     organizerId,
@@ -54,6 +55,7 @@ export class HandleStripeWebhookUseCase {
                     organizerEmail,
                     durationInDays: parseInt(durationInDays),
                     payoutDelayDays: parseInt(payoutDelayDays),
+                    price: parseInt(price),
                     paymentId: session.id
                 }
               await this._upgradeSubscriptionUseCase.execute(dto);

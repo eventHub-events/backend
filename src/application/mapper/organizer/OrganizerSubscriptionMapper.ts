@@ -19,7 +19,8 @@ export class OrganizerSubscriptionMapper implements IOrganizerSubscriptionMapper
           endDate: dto.endDate,
           status: dto.status,
           paymentId: dto.paymentId,
-          payoutDelayDays:  dto.durationInDays
+          payoutDelayDays:  dto.durationInDays,
+          price: dto.price
 
       })
   }
@@ -33,6 +34,7 @@ export class OrganizerSubscriptionMapper implements IOrganizerSubscriptionMapper
           startDate: entity.startDate,
           endDate: entity.endDate,
           status: entity.status,
+          price: entity.price,
           id: entity.id?.toString()
 
 
