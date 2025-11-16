@@ -8,11 +8,13 @@ import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResp
 import { SubscriptionPlans } from "../../../infrastructure/constants/response-messages/admin/subscriptionPlans";
 import { IUpdateSubscriptionPlansUseCase } from "../../../application/interface/useCases/admin/subscription-plans/IUpdateSubscriptionUseCase";
 import { UpdateSubscriptionRequestDTO } from "../../../application/DTOs/admin/subscription-plans/UpdateSubscriptionRequestDTO";
+import { IUpdateSubscriptionPlanStatusUseCase } from "../../../application/interface/useCases/admin/subscription-plans/IUpdateSubscriptionPlanStatus";
 
 export class SubscriptionPlansManagementController {
    constructor(
       private _createSubscriptionUseCase : ICreateSubscriptionPlanUseCase,
-      private _updateSubscriptionPlanUseCase : IUpdateSubscriptionPlansUseCase
+      private _updateSubscriptionPlanUseCase : IUpdateSubscriptionPlansUseCase,
+      private _updateStatusUseCase : IUpdateSubscriptionPlanStatusUseCase
 
    ){}
 
@@ -28,7 +30,7 @@ export class SubscriptionPlansManagementController {
 
     }catch(err){
 
-        next(err)
+        next(err);
     }
  }
  async update(req: Request, res: Response, next: NextFunction) : Promise<void> {
@@ -44,7 +46,24 @@ export class SubscriptionPlansManagementController {
 
      }catch(err){
       
-         next(err)
+         next(err);
      }
+ }
+ async updateStatus(req: Request, res: Response, next: NextFunction): Promise<void> {
+      try{
+         
+           const{ planId }  = req.params;
+           const {status } = req.body;
+            console.log("plansId", planId)
+            console.log("plansId", status)
+           if(!planId) throw new CustomError("PlanId is Required", HttpStatusCode.BAD_REQUEST);
+           if(!status) throw new CustomError("status is Required", HttpStatusCode.BAD_REQUEST);
+         
+           const result = await this._updateStatusUseCase.execute(planId,status);
+       res.status(HttpStatusCode.OK).json(ApiResponse.success(SubscriptionPlans.SUBSCRIPTION_PLANS_UPDATE_STATUS_SUCCESS, HttpStatusCode.OK, result));
+
+      }catch(err){
+          next(err);
+      }
  }
 }

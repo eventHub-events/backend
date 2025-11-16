@@ -4,11 +4,14 @@ import { BookingStatus } from "../../../domain/enums/user/Booking";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
+import { IGetUserBookingByIdForAdminUseCase } from "../../../application/interface/useCases/admin/bookings/IGetBookingByIdForAdminUseCase";
+import { CustomError } from "../../../infrastructure/errors/errorClass";
 
 
 export class BookingControllerForAdmin {
    constructor(
-       private  _getAllBookingForAdminUseCase : IGetAllBookingsForAdminUseCase
+       private  _getAllBookingForAdminUseCase : IGetAllBookingsForAdminUseCase,
+       private  _getBookingById: IGetUserBookingByIdForAdminUseCase
    ) {}
 
  async fetchBookings(req: Request, res: Response , next: NextFunction) : Promise<void> {
@@ -37,5 +40,17 @@ export class BookingControllerForAdmin {
    }catch(err){
       next(err)
    }
+ }
+ async fetchBookingById(req: Request, res: Response, next: NextFunction): Promise<void> {
+     try{
+            const{ bookingId} = req.params;
+                      console.log("bookingId is", bookingId)
+                      if(!bookingId) throw new CustomError("BookingId is required", HttpStatusCode.BAD_REQUEST);
+                   
+                      const booking =await this._getBookingById.execute(bookingId);
+                    res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS, HttpStatusCode.OK,booking));
+     }catch(err){
+        next(err)
+     }
  }
 }

@@ -37,4 +37,10 @@ export class SubscriptionPlansEntity {
     Object.assign(this, data)
    return this
   }
+  markAsActive(){
+   this.isActive = true;
+  }
+  markAsInActive(){
+    this.isActive = false;
+  }
 }
