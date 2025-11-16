@@ -18,7 +18,7 @@ export class CreateEventUseCase implements ICreateEventUseCase {
 
        const eventEntity = this._eventMapper.toEntity(data);
        
-     
+        
 
       const eventData =  await this._eventRepository.createEvent(eventEntity);
        if(!eventData) throw new Error("Event creation failed");

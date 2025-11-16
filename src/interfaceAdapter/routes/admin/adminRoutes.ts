@@ -60,6 +60,7 @@ import { subscriptionPlansManagementController, subscriptionPlansRetrievalContro
     router.get("/plans",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => subscriptionPlansRetrievalController.fetchAll(req, res, next));
     router.post("/plans",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:Request, res: Response, next:NextFunction) => subscriptionPlansManagementController.create(req, res, next));
     router.put("/plans/:planId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:Request, res: Response, next: NextFunction) => subscriptionPlansManagementController.update(req, res, next));
+    router.patch("/plans/:planId/status",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:Request, res: Response, next: NextFunction) => subscriptionPlansManagementController.updateStatus(req, res, next));
  
 
  export default router
