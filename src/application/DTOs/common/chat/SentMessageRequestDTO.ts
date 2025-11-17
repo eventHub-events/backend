@@ -6,4 +6,5 @@ export interface SendMessageRequestDTO {
    senderType: SenderTypes;
    message :string;
    messageType?: MessageTypes;
+   createdAt?: string
 }

@@ -1,7 +1,7 @@
 import { ConversationEntity } from "../../entities/common/chat/ConversationEntity";
 
 export interface IConversationRepository {
-  findPrivateConversation(userId:string, organizerId:string, eventId: string): Promise<ConversationEntity>;
+  findPrivateConversation(userId:string, organizerId:string, eventId: string): Promise<ConversationEntity | null>;
   createPrivateConversation(userId :string, organizerId: string, eventId: string): Promise<ConversationEntity>;
   createCommunityConversation(eventId: string): Promise<ConversationEntity>;
   findOrCreateCommunityConversation(eventId: string): Promise<ConversationEntity>

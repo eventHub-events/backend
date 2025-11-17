@@ -27,6 +27,8 @@ export class ChatController {
     try{
           const{ userId, organizerId, eventId } = req.body;
           const result = await this._startPrivateChatUseCase.execute( userId,organizerId, eventId);
+
+          console.log("reeeeesss", result)
      
       res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.CHAT.CHAT_SUCCESS, HttpStatusCode.OK, result));
 
@@ -56,6 +58,7 @@ export class ChatController {
            if(!conversationId) throw new CustomError("conversationId is required", HttpStatusCode.BAD_REQUEST);
          
          const messages = await this._getMessagesUseCase.execute(conversationId);
+         console.log("mm", messages)
        res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.CHAT.MESSAGES_FETCH_SUCCESS, HttpStatusCode.OK, messages));
       
      }catch(err){

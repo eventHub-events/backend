@@ -13,13 +13,13 @@ export class ConversationRePository extends BaseRepository<IConversation> implem
    ){
       super(ConversationModel)
    }
-async findPrivateConversation(userId: string, organizerId: string, eventId: string): Promise<ConversationEntity> {
+async findPrivateConversation(userId: string, organizerId: string, eventId: string): Promise<ConversationEntity|null> {
      const conversation = await ConversationModel.findOne({
        type: "private",
        eventId,
        participants:{$all: [userId, organizerId]}
-     }) as ConversationDbModel;
-
+     }) as ConversationDbModel|  null;
+      if (!conversation) return null;
     return this._conversationEntityFactory.toDomain(conversation);
 }
 async createPrivateConversation(userId: string, organizerId: string, eventId: string): Promise<ConversationEntity> {

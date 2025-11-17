@@ -6,5 +6,6 @@ export interface MessageResponseDTO {
    senderType: SenderTypes;
    message: string;
    messageType?: MessageTypes;
+   createdAt?: Date;
    conversationId?: string;
 }
