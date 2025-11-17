@@ -1,6 +1,6 @@
 import { Socket ,Server, Namespace} from "socket.io";
 import { BaseSocketService } from "./baseSocketService";
-import http from "http";
+
 import { IFetchUserUseCase } from "../../application/interface/useCases/admin/IFetchUsersUseCase";
 
 export class AdminSocketService extends BaseSocketService  {

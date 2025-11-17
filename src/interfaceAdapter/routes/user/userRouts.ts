@@ -52,4 +52,7 @@ router.post("/google-login",(req: Request, res: Response, next: NextFunction) =>
 // ticket-payment//
 router.post("/payments/create-checkout-session",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => bookingPaymentController.createSession(req, res, next));
 
+// chat//
+
+
 export default router
