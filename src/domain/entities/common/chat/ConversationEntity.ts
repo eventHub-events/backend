@@ -15,7 +15,7 @@ export class ConversationEntity {
           participants: string[]; 
           lastMessage?: string;
           lastSenderId?: string;
-          id?: string
+          id?: string;
       }
   ){
      this.eventId = props.eventId;
@@ -23,7 +23,7 @@ export class ConversationEntity {
      this.lastMessage = props.lastMessage;
      this.lastSenderId = props.lastSenderId;
      this.participants = props.participants;
-     this.id = props.id
+     this.id = props.id;
   }
 
 }

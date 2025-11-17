@@ -1,0 +1,62 @@
+import { IConversationEntityFactory } from "../../../application/interface/factories/common/IConversationEntityFactory";
+import { ConversationEntity } from "../../../domain/entities/common/chat/ConversationEntity";
+import { NotFoundError } from "../../../domain/errors/common";
+import { IConversationRepository } from "../../../domain/repositories/common/IConversationRepository";
+import { ConversationDbModel } from "../../../domain/types/CommonDbTypes";
+import { ConversationModel, IConversation } from "../../db/models/common/chat/ConversationModel";
+import { BaseRepository } from "../BaseRepository";
+
+export class ConversationRePository extends BaseRepository<IConversation> implements IConversationRepository {
+  
+   constructor(
+      private  _conversationEntityFactory : IConversationEntityFactory
+   ){
+      super(ConversationModel)
+   }
+async findPrivateConversation(userId: string, organizerId: string, eventId: string): Promise<ConversationEntity> {
+     const conversation = await ConversationModel.findOne({
+       type: "private",
+       eventId,
+       participants:{$all: [userId, organizerId]}
+     }) as ConversationDbModel;
+
+    return this._conversationEntityFactory.toDomain(conversation);
+}
+async createPrivateConversation(userId: string, organizerId: string, eventId: string): Promise<ConversationEntity> {
+     const created = await ConversationModel.create({
+         type: "private",
+         eventId,
+         participants:[userId,organizerId],
+     }) as ConversationDbModel;
+
+   return this._conversationEntityFactory.toDomain(created);
+}
+async createCommunityConversation(eventId: string): Promise<ConversationEntity> {
+    const created = await ConversationModel.create({
+          type :"community",
+          eventId,
+          participants:[]
+    }) as ConversationDbModel;
+
+   return this._conversationEntityFactory.toDomain(created);
+}
+async findCommunityConversation(eventId: string): Promise<ConversationEntity> {
+
+      const conversations = await super.findOne({type:"community", eventId}) as ConversationDbModel;
+    return this._conversationEntityFactory.toDomain(conversations);
+}
+async getById(conversationId: string): Promise<ConversationEntity> {
+
+     const conversation = await super.findById(conversationId) as ConversationDbModel;
+  return this._conversationEntityFactory.toDomain(conversation);
+}
+async updateLastMessage(conversationId: string, message: string, senderId: string): Promise<void> {
+         const filter ={
+             lastMessage : message,
+             lastSenderId : senderId,
+             updatedAt :new Date()
+         }
+       const updated = await super.update(conversationId, filter) as ConversationDbModel;
+        if(!updated) throw new NotFoundError("Document not found for update");
+}
+}
