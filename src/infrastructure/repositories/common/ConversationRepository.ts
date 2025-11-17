@@ -3,7 +3,7 @@ import { ConversationEntity } from "../../../domain/entities/common/chat/Convers
 import { NotFoundError } from "../../../domain/errors/common";
 import { IConversationRepository } from "../../../domain/repositories/common/IConversationRepository";
 import { ConversationDbModel } from "../../../domain/types/CommonDbTypes";
-import { ConversationModel, IConversation } from "../../db/models/common/chat/ConversationModel";
+import { ConversationModel, ConversationType, IConversation } from "../../db/models/common/chat/ConversationModel";
 import { BaseRepository } from "../BaseRepository";
 
 export class ConversationRePository extends BaseRepository<IConversation> implements IConversationRepository {
@@ -40,10 +40,17 @@ async createCommunityConversation(eventId: string): Promise<ConversationEntity> 
 
    return this._conversationEntityFactory.toDomain(created);
 }
-async findCommunityConversation(eventId: string): Promise<ConversationEntity> {
+async findOrCreateCommunityConversation(eventId: string): Promise<ConversationEntity> {
 
-      const conversations = await super.findOne({type:"community", eventId}) as ConversationDbModel;
-    return this._conversationEntityFactory.toDomain(conversations);
+      let conversation = await super.findOne({type:ConversationType.COMMUNITY, eventId}) as ConversationDbModel;
+      if(!conversation){
+          conversation = await super.create({
+               type: ConversationType.COMMUNITY,
+               eventId,
+               participants:[]
+          }) as ConversationDbModel;
+      }
+    return this._conversationEntityFactory.toDomain(conversation);
 }
 async getById(conversationId: string): Promise<ConversationEntity> {
 
