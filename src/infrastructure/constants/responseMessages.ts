@@ -33,5 +33,11 @@ export const ResponseMessages = {
          FAILURE: "login  failed"
       }
 
+   },
+   CHAT:{
+     CHAT_SUCCESS :"Chat fetched or created successfully",
+     COMMUNITY_FETCH_SUCCESS :"CommunityChat  fetched successfully",
+     MESSAGES_FETCH_SUCCESS : "Messages fetched successfully",
+     MESSAGE_SAVE_SUCCESS : "Messages saved successfully"
    }
 }
