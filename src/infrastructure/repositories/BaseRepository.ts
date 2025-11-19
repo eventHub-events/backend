@@ -4,7 +4,7 @@ import  {
 
 
 export class BaseRepository< T extends Document > {
-  constructor(private model:Model<T>) {}
+  constructor(protected model:Model<T>) {}
 
   async create(data :Partial<T>):Promise<T> {
     return this.model.create(data);

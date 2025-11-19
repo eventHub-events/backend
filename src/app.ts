@@ -16,6 +16,9 @@ import { Server } from 'socket.io';
 import stripeWebhookRoute from "../src/interfaceAdapter/routes/webhooks/stripeWebhookRoute"
 import { subscriptionExpiryMonitor } from './di/organizer/subscription/container';
 import { payoutSchedulerJob } from './di/organizer/payout/container';
+import chatRoutes  from "./interfaceAdapter/routes/chat/chatRoutes";
+import { PrivateChatSocketService } from './infrastructure/websocket/chat/privateChatSocketService';
+import { CommunityChatSocketService } from './infrastructure/websocket/chat/communityChatSocketService';
 
 
 
@@ -30,8 +33,13 @@ const  io= new Server(server,{
           credentials:true
         }
       })
-      const adminNamespace = io.of("/admin");
+const adminNamespace = io.of("/admin");
 const userNamespace = io.of("/user");
+const privateChatNamespace = io.of("/chat/private");
+const communityChatNamespace = io.of("/chat/community");
+
+export const privateChatSocketService = new PrivateChatSocketService(privateChatNamespace);
+export const communityChatSocketService = new CommunityChatSocketService(communityChatNamespace);
  export const adminSocketService= new AdminSocketService(adminNamespace,io,userNamespace,fetchUserUseCase)
  export  const userSocketService= new UserSocketService(userNamespace)
 
@@ -48,9 +56,10 @@ app.use(cors({
  
 }));
 app.use('/api/user', userRouts);
-app.use('/api/organizer',organizerRoutes)
-app.use('/api/admin',adminRoutes)
-                  // app.use(ErrorHandlingMiddleware.handleError);
+app.use('/api/organizer',organizerRoutes);
+app.use('/api/admin',adminRoutes);
+app.use('/api/chat', chatRoutes);
+ app.use(ErrorHandlingMiddleware.handleError);
 
 
 server.listen(process.env.PORT, () => {
