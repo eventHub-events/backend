@@ -10,7 +10,9 @@ export class ConversationEntityFactory implements IConversationEntityFactory {
           participants: dbModel.participants,
           lastMessage: dbModel.lastMessage,
           type: dbModel.type,
-          lastSenderId :dbModel.lastSenderId
+          lastSenderId :dbModel.lastSenderId,
+          userId: dbModel.userId,
+          userName : dbModel.userName
       })
   }
   toDomainList(dbModel: ConversationDbModel[]): ConversationEntity[] {

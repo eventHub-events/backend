@@ -4,11 +4,13 @@ import { GetCommunityChatUseCase } from "../../../application/useCases/common/ch
 import { GetMessagesUseCase } from "../../../application/useCases/common/chat/GetMessagesUseCase";
 import { SendMessageUseCase } from "../../../application/useCases/common/chat/SendMessageUseCase";
 import { StartPrivateChatUseCase } from "../../../application/useCases/common/chat/StartPrivateChatUseCase";
+import { GetOrganizerChatEventUseCase } from "../../../application/useCases/organizer/chat/getOrganizerChatEventUseCase";
 import { ConversationEntityFactory } from "../../../infrastructure/factories/common/ConversationEntityFactory";
 import { MessageEntityFactory } from "../../../infrastructure/factories/common/MessageEntityFactory";
 import { ConversationRePository } from "../../../infrastructure/repositories/common/ConversationRepository";
 import { MessageRepository } from "../../../infrastructure/repositories/common/MessageRepository";
 import { ChatController } from "../../../interfaceAdapter/controllers/common/ChatController";
+import { userRepository } from "../commonContainers";
 
 const messageEntityFactory = new MessageEntityFactory();
 const messageRepository =  new MessageRepository(messageEntityFactory);
@@ -20,7 +22,8 @@ const conversationMapper = new ConversationMapper();
 
 const getCommunityChatUseCase = new GetCommunityChatUseCase(conversationRepository, conversationMapper);
 const getMessagesUseCase   = new GetMessagesUseCase(messageRepository,messageMapper );
-const startPrivateChatUseCase = new StartPrivateChatUseCase(conversationRepository, conversationMapper);
+const startPrivateChatUseCase = new StartPrivateChatUseCase(conversationRepository, conversationMapper, userRepository);
 const sendMessagesUseCase = new SendMessageUseCase(messageRepository, conversationRepository, messageMapper);
+const getOrganizerChatEventUseCase = new GetOrganizerChatEventUseCase(conversationRepository, conversationMapper);
 
-export const chatController  = new ChatController(startPrivateChatUseCase, getCommunityChatUseCase, getMessagesUseCase,sendMessagesUseCase);
+export const chatController  = new ChatController(startPrivateChatUseCase, getCommunityChatUseCase, getMessagesUseCase,sendMessagesUseCase, getOrganizerChatEventUseCase );

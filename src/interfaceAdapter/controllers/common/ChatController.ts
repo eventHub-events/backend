@@ -10,6 +10,7 @@ import { ResponseMessages } from "../../../infrastructure/constants/responseMess
 import { NotFoundError } from "../../../domain/errors/common";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { SendMessageRequestDTO } from "../../../application/DTOs/common/chat/SentMessageRequestDTO";
+import { IGetOrganizerChatEventUseCase } from "../../../application/interface/useCases/organizer/chat/IGetOrganizerChatEventUseCase";
 
 
 export class ChatController {
@@ -18,7 +19,8 @@ export class ChatController {
       private _startPrivateChatUseCase : IStartPrivateChatUseCase,
       private _getCommunityChatUseCase : IGetCommunityChatUseCase,
       private _getMessagesUseCase : IGetMessagesUseCase,
-      private _sendMessagesUseCase : ISendMessageUseCase
+      private _sendMessagesUseCase : ISendMessageUseCase,
+      private _GetEventChatUseCase: IGetOrganizerChatEventUseCase
 
   ){}
 
@@ -26,9 +28,10 @@ export class ChatController {
  async startPrivateChat(req: IAuthenticatedRequest, res: Response, next: NextFunction) : Promise<void> {
     try{
           const{ userId, organizerId, eventId } = req.body;
+          console.log("eeee", req.body)
           const result = await this._startPrivateChatUseCase.execute( userId,organizerId, eventId);
 
-          console.log("reeeeesss", result)
+        
      
       res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.CHAT.CHAT_SUCCESS, HttpStatusCode.OK, result));
 
@@ -58,7 +61,7 @@ export class ChatController {
            if(!conversationId) throw new CustomError("conversationId is required", HttpStatusCode.BAD_REQUEST);
          
          const messages = await this._getMessagesUseCase.execute(conversationId);
-         console.log("mm", messages)
+        
        res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.CHAT.MESSAGES_FETCH_SUCCESS, HttpStatusCode.OK, messages));
       
      }catch(err){
@@ -79,5 +82,21 @@ export class ChatController {
          if(err instanceof NotFoundError) throw new CustomError(err.message, HttpStatusCode.NOT_FOUND);
        next(err)
     }
+ }
+ async getOrganizerEventChats(req: IAuthenticatedRequest, res: Response, next: NextFunction)  {
+     try{
+         const organizerId = req.user!.id;
+         const { eventId }  = req.params;
+         
+
+
+         if(!organizerId || !eventId) throw new CustomError("UserId and OrganizerId are required", HttpStatusCode.BAD_REQUEST);
+       
+       const chats =  await this._GetEventChatUseCase.execute(organizerId, eventId);
+    res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.CHAT.CHAT_SUCCESS, HttpStatusCode.OK, chats));
+
+     }catch(err){
+        next(err)
+     }
  }
 }
