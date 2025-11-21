@@ -11,7 +11,8 @@ export class MessageEntityFactory implements IMessageEntityFactory {
           senderType : dbModel.senderType,
           message : dbModel.message,
           messageType :dbModel.messageType,
-          createdAt: dbModel.createdAt
+          createdAt: dbModel.createdAt,
+          senderName: dbModel.senderName
       })
   }
   toDomainList(dbModel: MessageDbModel[]): MessageEntity[] {

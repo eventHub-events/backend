@@ -11,7 +11,8 @@ export class MessageMapper implements IMessageMapper {
            senderId: dto.senderId,
            senderType: dto.senderType,
            message: dto.message,
-           messageType: dto.messageType ?? MessageTypes.TEXT
+           messageType: dto.messageType ?? MessageTypes.TEXT,
+           senderName: dto.senderName
        })
   }
   toResponseDTO(entity: MessageEntity): MessageResponseDTO {
@@ -23,7 +24,8 @@ export class MessageMapper implements IMessageMapper {
              message: entity.message,
              messageType: entity.messageType,
              conversationId: entity.conversationId,
-             createdAt: entity.createdAt
+             createdAt: entity.createdAt,
+             senderName: entity.senderName
       }
   }
  toResponseDTOList(dbModel: MessageEntity[]): MessageResponseDTO[] {

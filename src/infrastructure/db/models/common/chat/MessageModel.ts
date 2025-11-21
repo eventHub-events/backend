@@ -14,6 +14,7 @@ export interface IMessage extends Document {
    senderId: string;
    senderType: SenderTypes;
    message: string;
+   senderName: string;
    messageType: MessageTypes;
    createdAt?:Date
 }
@@ -32,6 +33,9 @@ const MessageSchema = new Schema<IMessage>(
       type : String,
        enum :Object.values(SenderTypes),
 
+    },
+    senderName:{
+      type: String
     },
     message :{
        type :String,

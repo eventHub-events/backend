@@ -6,6 +6,7 @@ export class MessageEntity {
   public senderType : SenderTypes;
   public message : string;
   public messageType : MessageTypes;
+  public senderName: string;
   public createdAt?:Date;
   public id?: string
 
@@ -16,6 +17,7 @@ export class MessageEntity {
        senderType: SenderTypes;
        message: string;
        messageType: MessageTypes;
+       senderName: string;
        createdAt?:Date
        id?: string
     }
@@ -25,6 +27,7 @@ export class MessageEntity {
       this.message = props.message;
       this.senderId = props.senderId;
       this.senderType = props.senderType;
+      this.senderName = props.senderName;
       this.messageType = props.messageType;
       this.createdAt = props.createdAt
   }
