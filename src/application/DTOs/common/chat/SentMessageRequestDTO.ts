@@ -3,8 +3,12 @@ import { MessageTypes, SenderTypes } from "../../../../infrastructure/db/models/
 export interface SendMessageRequestDTO {
    conversationId: string;
    senderId: string;
-   senderType: SenderTypes;
+   senderType: SenderTypes|string;
    message :string;
+   senderName:string
    messageType?: MessageTypes;
-   createdAt?: string
+   receiverId?:string
+   createdAt?: string;
+   eventId?:string;
+   isRead?:boolean
 }

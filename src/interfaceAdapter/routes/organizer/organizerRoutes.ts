@@ -14,6 +14,7 @@ import { organizerEventSchema, organizerEventUpdateSchema } from "../../../infra
 import { organizerTicketSchema, organizerTicketUpdateSchema } from "../../../infrastructure/validation/schemas/organizer/organizerTicketSchema";
 import { organizerSubscriptionRetrievalController, subscriptionPaymentController } from "../../../di/organizer/subscription/container";
 import { stripeConnectController, stripeOnboardingStatusController } from "../../../di/organizer/stripe-onboarding/container";
+import { chatController } from "../../../di/common/chat/container";
 // import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
 
 
@@ -71,6 +72,9 @@ router.post("/subscription/checkout", authenticationMiddleWare.authenticateUser.
 // stripe-onboarding//
 router.post("/stripe/onboard", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),organizerVerificationMiddleware.verify,(req: IAuthenticatedRequest, res: Response, next: NextFunction) => stripeConnectController.onBoard(req, res, next));
 router.post("/stripe/verify", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),organizerVerificationMiddleware.verify,(req: IAuthenticatedRequest, res: Response, next: NextFunction) => stripeOnboardingStatusController.verify(req, res, next));
+
+// chat//
+router.get("/chat/event/:eventId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => chatController.getOrganizerEventChats(req, res, next));
 
  
 

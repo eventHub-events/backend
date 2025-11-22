@@ -6,5 +6,7 @@ export interface ConversationResponseDTO {
   participants: string[];
   lastMessage?: string;
   type: ConversationType;
-  lastSenderId?:  string
+  lastSenderId?:  string;
+  userId?:string
+  userName?:string
 }

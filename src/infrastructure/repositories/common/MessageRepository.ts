@@ -22,4 +22,22 @@ export class MessageRepository extends BaseRepository<IMessage> implements IMess
       const messages = await this.model.find({conversationId}).sort({createdAt: 1}) as MessageDbModel[];
   return this._messageEntityFactory.toDomainList(messages);
   }
+  async markMessagesAsRead(conversationId:string, receiverId: string) : Promise<void> {
+       
+        await super.updateMany(
+          {conversationId, receiverId, isRead: false},
+          {$set: {isRead: true}}
+      )
+  }
+
+  async countUnread(conversationId: string, receiverId: string): Promise<number> {
+       const count  = await MessageModel.countDocuments({
+             conversationId,
+             receiverId,
+             isRead : false
+       })
+
+    return count
+  }
+
 }

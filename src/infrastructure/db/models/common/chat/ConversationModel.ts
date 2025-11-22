@@ -4,6 +4,8 @@ export interface IConversation extends Document {
   type : ConversationType;
   eventId :string;
   participants: string[];
+  userId:string;
+  userName?: string;
   lastMessage?: string;
   lastSenderId?: string
 }
@@ -24,6 +26,12 @@ const ConversationSchema = new Schema<IConversation>({
  participants: {
     type:[String],
     default:[]
+ },
+ userId: {
+  type: String
+ },
+ userName:{
+   type :String
  },
  lastMessage:{
    type:String

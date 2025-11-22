@@ -1,5 +1,5 @@
 import { MessageEntity } from "../../../../domain/entities/common/chat/MessageEntity";
-import { MessageTypes } from "../../../../infrastructure/db/models/common/chat/MessageModel";
+import { MessageTypes, SenderTypes } from "../../../../infrastructure/db/models/common/chat/MessageModel";
 import { MessageResponseDTO } from "../../../DTOs/common/chat/MessageResponseDTO";
 import { SendMessageRequestDTO } from "../../../DTOs/common/chat/SentMessageRequestDTO";
 import { IMessageMapper } from "../../../interface/mapper/common/chat/IMessageMapper";
@@ -9,9 +9,14 @@ export class MessageMapper implements IMessageMapper {
        return new MessageEntity({
            conversationId : dto.conversationId,
            senderId: dto.senderId,
-           senderType: dto.senderType,
+           senderType: dto.senderType ==="user"?SenderTypes.USER:SenderTypes.ORGANIZER,
            message: dto.message,
-           messageType: dto.messageType ?? MessageTypes.TEXT
+           messageType: dto.messageType ?? MessageTypes.TEXT,
+           senderName: dto.senderName,
+           isRead: dto.isRead,
+           receiverId :dto.receiverId
+           
+           
        })
   }
   toResponseDTO(entity: MessageEntity): MessageResponseDTO {
@@ -23,7 +28,8 @@ export class MessageMapper implements IMessageMapper {
              message: entity.message,
              messageType: entity.messageType,
              conversationId: entity.conversationId,
-             createdAt: entity.createdAt
+             createdAt: entity.createdAt,
+             senderName: entity.senderName
       }
   }
  toResponseDTOList(dbModel: MessageEntity[]): MessageResponseDTO[] {

@@ -3,4 +3,5 @@ import { ConversationResponseDTO } from "../../../../DTOs/common/chat/Conversati
 
 export interface IConversationMapper {
   toResponseDTO(entity: ConversationEntity): ConversationResponseDTO;
-}
+  toResponseDTOList(entities: ConversationEntity[]): ConversationResponseDTO[];
+} 

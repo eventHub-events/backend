@@ -11,8 +11,13 @@ export class ConversationMapper implements IConversationMapper {
           participants: entity.participants,
           lastMessage: entity.lastMessage,
           type : entity.type,
-          lastSenderId: entity.lastSenderId
+          lastSenderId: entity.lastSenderId,
+          userId: entity.userId,
+          userName: entity.userName
           
       }
+  }
+  toResponseDTOList(entities: ConversationEntity[]): ConversationResponseDTO[] {
+      return entities.map((e) => this.toResponseDTO(e))
   }
 }

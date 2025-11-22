@@ -11,7 +11,10 @@ export class MessageEntityFactory implements IMessageEntityFactory {
           senderType : dbModel.senderType,
           message : dbModel.message,
           messageType :dbModel.messageType,
-          createdAt: dbModel.createdAt
+          createdAt: dbModel.createdAt,
+          senderName: dbModel.senderName,
+          isRead : dbModel.isRead,
+          receiverId : dbModel.receiverId
       })
   }
   toDomainList(dbModel: MessageDbModel[]): MessageEntity[] {

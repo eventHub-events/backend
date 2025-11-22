@@ -8,4 +8,5 @@ export interface MessageResponseDTO {
    messageType?: MessageTypes;
    createdAt?: Date;
    conversationId?: string;
+   senderName:string;
 }

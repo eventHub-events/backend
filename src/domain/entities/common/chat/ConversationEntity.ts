@@ -7,6 +7,8 @@ export class ConversationEntity {
   public lastMessage?: string;
   public type: ConversationType;
   public lastSenderId?: string;
+  public userId?: string;
+  public userName?: string;
 
   constructor(
       props: {
@@ -14,8 +16,10 @@ export class ConversationEntity {
           eventId: string;
           participants: string[]; 
           lastMessage?: string;
+          userId?: string;
           lastSenderId?: string;
           id?: string;
+          userName?: string
       }
   ){
      this.eventId = props.eventId;
@@ -24,6 +28,8 @@ export class ConversationEntity {
      this.lastSenderId = props.lastSenderId;
      this.participants = props.participants;
      this.id = props.id;
+     this.userId = props.userId;
+     this.userName = props.userName
   }
 
 }

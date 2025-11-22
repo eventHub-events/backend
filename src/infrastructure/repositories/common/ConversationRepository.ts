@@ -22,9 +22,22 @@ async findPrivateConversation(userId: string, organizerId: string, eventId: stri
       if (!conversation) return null;
     return this._conversationEntityFactory.toDomain(conversation);
 }
-async createPrivateConversation(userId: string, organizerId: string, eventId: string): Promise<ConversationEntity> {
+async findPrivateChatsByEvent(eventId: string): Promise<ConversationEntity[]> {
+   
+      const filter = {
+          eventId,
+          type:"private"
+      }
+      const conversations = await super.findAll(filter) as ConversationDbModel[];
+      if(!conversations) throw new NotFoundError("conversations not found");
+  return this._conversationEntityFactory.toDomainList(conversations);
+
+}
+async createPrivateConversation(userId: string, organizerId: string, eventId: string, userName: string): Promise<ConversationEntity> {
      const created = await ConversationModel.create({
          type: "private",
+         userId,
+          userName,
          eventId,
          participants:[userId,organizerId],
      }) as ConversationDbModel;
