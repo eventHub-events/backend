@@ -24,9 +24,14 @@ export interface PrivateMessagePayload {
   eventId: string;
   message: string;
   createdAt: string;
+  senderName: string
 }
 
 export interface OnlineStatusPayload {
   userId: string;
   isOnline: boolean;
+}
+export interface ChatOpenState {
+   userId : string;
+   conversationId :string
 }

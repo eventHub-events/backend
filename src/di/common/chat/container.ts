@@ -2,6 +2,7 @@ import { ConversationMapper } from "../../../application/mapper/common/chat/Conv
 import { MessageMapper } from "../../../application/mapper/common/chat/MessageMapper";
 import { GetCommunityChatUseCase } from "../../../application/useCases/common/chat/GetCommunityChatUseCase";
 import { GetMessagesUseCase } from "../../../application/useCases/common/chat/GetMessagesUseCase";
+import { MarkMessagesAsReadUseCase } from "../../../application/useCases/common/chat/MarkMessageAsReadUseCase";
 import { SendMessageUseCase } from "../../../application/useCases/common/chat/SendMessageUseCase";
 import { StartPrivateChatUseCase } from "../../../application/useCases/common/chat/StartPrivateChatUseCase";
 import { GetOrganizerChatEventUseCase } from "../../../application/useCases/organizer/chat/getOrganizerChatEventUseCase";
@@ -23,7 +24,9 @@ const conversationMapper = new ConversationMapper();
 const getCommunityChatUseCase = new GetCommunityChatUseCase(conversationRepository, conversationMapper);
 const getMessagesUseCase   = new GetMessagesUseCase(messageRepository,messageMapper );
 const startPrivateChatUseCase = new StartPrivateChatUseCase(conversationRepository, conversationMapper, userRepository);
-const sendMessagesUseCase = new SendMessageUseCase(messageRepository, conversationRepository, messageMapper);
+export const sendMessagesUseCase = new SendMessageUseCase(messageRepository, conversationRepository, messageMapper);
 const getOrganizerChatEventUseCase = new GetOrganizerChatEventUseCase(conversationRepository, conversationMapper);
+
+export const markMessagesAsReadUseCase  = new MarkMessagesAsReadUseCase(messageRepository);
 
 export const chatController  = new ChatController(startPrivateChatUseCase, getCommunityChatUseCase, getMessagesUseCase,sendMessagesUseCase, getOrganizerChatEventUseCase );

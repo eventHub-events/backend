@@ -1,4 +1,4 @@
-import { timeStamp } from "console";
+
 import mongoose, { Document, Schema } from "mongoose";
 
 export enum SenderTypes {
@@ -16,7 +16,9 @@ export interface IMessage extends Document {
    message: string;
    senderName: string;
    messageType: MessageTypes;
-   createdAt?:Date
+   createdAt?:Date;
+   isRead: boolean;
+   receiverId: string
 }
 
 const MessageSchema = new Schema<IMessage>(
@@ -33,6 +35,13 @@ const MessageSchema = new Schema<IMessage>(
       type : String,
        enum :Object.values(SenderTypes),
 
+    },
+    isRead:{
+      type: Boolean,
+      default: false
+    },
+    receiverId:{
+        type: String
     },
     senderName:{
       type: String

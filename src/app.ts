@@ -19,6 +19,7 @@ import { payoutSchedulerJob } from './di/organizer/payout/container';
 import chatRoutes  from "./interfaceAdapter/routes/chat/chatRoutes";
 import { PrivateChatSocketService } from './infrastructure/websocket/chat/privateChatSocketService';
 import { CommunityChatSocketService } from './infrastructure/websocket/chat/communityChatSocketService';
+import { markMessagesAsReadUseCase, sendMessagesUseCase } from './di/common/chat/container';
 
 
 
@@ -38,7 +39,7 @@ const userNamespace = io.of("/user");
 const privateChatNamespace = io.of("/chat/private");
 const communityChatNamespace = io.of("/chat/community");
 
-export const privateChatSocketService = new PrivateChatSocketService(privateChatNamespace);
+export const privateChatSocketService = new PrivateChatSocketService(privateChatNamespace,sendMessagesUseCase,markMessagesAsReadUseCase);
 export const communityChatSocketService = new CommunityChatSocketService(communityChatNamespace);
  export const adminSocketService= new AdminSocketService(adminNamespace,io,userNamespace,fetchUserUseCase)
  export  const userSocketService= new UserSocketService(userNamespace)
