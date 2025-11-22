@@ -25,7 +25,7 @@ const getCommunityChatUseCase = new GetCommunityChatUseCase(conversationReposito
 const getMessagesUseCase   = new GetMessagesUseCase(messageRepository,messageMapper );
 const startPrivateChatUseCase = new StartPrivateChatUseCase(conversationRepository, conversationMapper, userRepository);
 export const sendMessagesUseCase = new SendMessageUseCase(messageRepository, conversationRepository, messageMapper);
-const getOrganizerChatEventUseCase = new GetOrganizerChatEventUseCase(conversationRepository, conversationMapper);
+const getOrganizerChatEventUseCase = new GetOrganizerChatEventUseCase(conversationRepository, conversationMapper, messageRepository);
 
 export const markMessagesAsReadUseCase  = new MarkMessagesAsReadUseCase(messageRepository);
 

@@ -30,4 +30,14 @@ export class MessageRepository extends BaseRepository<IMessage> implements IMess
       )
   }
 
+  async countUnread(conversationId: string, receiverId: string): Promise<number> {
+       const count  = await MessageModel.countDocuments({
+             conversationId,
+             receiverId,
+             isRead : false
+       })
+
+    return count
+  }
+
 }
