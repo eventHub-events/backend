@@ -11,6 +11,7 @@ import { eventBookingController, getUserBookingsController } from '../../../di/u
 import { userRegisterSchema } from '../../../infrastructure/validation/schemas/user/userRegistrationSchema';
 import { userForgetPassWordSchema } from '../../../infrastructure/validation/schemas/changePasswordSchema';
 import { bookingPaymentController } from '../../../di/user/payment/container';
+import { chatController } from '../../../di/common/chat/container';
 const router = express.Router();
 
 // router.post('/register', (req, res) => authController.registerUser(req, res));
@@ -52,7 +53,6 @@ router.post("/google-login",(req: Request, res: Response, next: NextFunction) =>
 // ticket-payment//
 router.post("/payments/create-checkout-session",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => bookingPaymentController.createSession(req, res, next));
 
-// chat//
-
-
+// chat //
+router.get("/chat/event/:eventId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => chatController.getUserEventChats(req, res, next));
 export default router
