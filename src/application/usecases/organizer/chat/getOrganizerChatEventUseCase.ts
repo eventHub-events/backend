@@ -1,6 +1,7 @@
 import { NotFoundError } from "../../../../domain/errors/common";
 import { IConversationRepository } from "../../../../domain/repositories/common/IConversationRepository";
 import { IMessageRepository } from "../../../../domain/repositories/common/IMessageRepository";
+import { ConversationResponseDTO } from "../../../DTOs/common/chat/ConversationResponseDTO";
 import { IConversationMapper } from "../../../interface/mapper/common/chat/IConversationMapper";
 import { IGetOrganizerChatEventUseCase } from "../../../interface/useCases/organizer/chat/IGetOrganizerChatEventUseCase";
 
@@ -10,7 +11,7 @@ export class GetOrganizerChatEventUseCase implements IGetOrganizerChatEventUseCa
         private _conversationMapper : IConversationMapper,
         private _messageRepo : IMessageRepository
     ){}
-  async execute(organizerId: string, eventId: string): Promise<any> {
+  async execute(organizerId: string, eventId: string): Promise<{communityChat: ConversationResponseDTO, privateChats: ConversationResponseDTO[]}> {
       
     const community =  await this._conversationRePo.findOrCreateCommunityConversation(eventId);
     if(!community) throw new NotFoundError("Chat not found");

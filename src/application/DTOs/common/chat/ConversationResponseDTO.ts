@@ -8,5 +8,6 @@ export interface ConversationResponseDTO {
   type: ConversationType;
   lastSenderId?:  string;
   userId?:string
-  userName?:string
+  userName?:string;
+  unreadCount?:number;
 }

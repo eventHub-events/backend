@@ -13,6 +13,7 @@ export class ConversationRePository extends BaseRepository<IConversation> implem
    ){
       super(ConversationModel)
    }
+
 async findPrivateConversation(userId: string, organizerId: string, eventId: string): Promise<ConversationEntity|null> {
      const conversation = await ConversationModel.findOne({
        type: "private",
@@ -22,6 +23,7 @@ async findPrivateConversation(userId: string, organizerId: string, eventId: stri
       if (!conversation) return null;
     return this._conversationEntityFactory.toDomain(conversation);
 }
+
 async findPrivateChatsByEvent(eventId: string): Promise<ConversationEntity[]> {
    
       const filter = {
@@ -33,6 +35,17 @@ async findPrivateChatsByEvent(eventId: string): Promise<ConversationEntity[]> {
   return this._conversationEntityFactory.toDomainList(conversations);
 
 }
+
+async findUserPrivateChatsByEvent (userId: string,  eventId: string): Promise<ConversationEntity[]> {
+   const filter = {
+     type:"private",
+     eventId,
+     participants : userId
+   }
+   const conversations  = await super.findAll(filter) as ConversationDbModel[];
+ return this._conversationEntityFactory.toDomainList(conversations);
+}
+
 async createPrivateConversation(userId: string, organizerId: string, eventId: string, userName: string): Promise<ConversationEntity> {
      const created = await ConversationModel.create({
          type: "private",
@@ -44,6 +57,7 @@ async createPrivateConversation(userId: string, organizerId: string, eventId: st
 
    return this._conversationEntityFactory.toDomain(created);
 }
+
 async createCommunityConversation(eventId: string): Promise<ConversationEntity> {
     const created = await ConversationModel.create({
           type :"community",
@@ -53,6 +67,7 @@ async createCommunityConversation(eventId: string): Promise<ConversationEntity> 
 
    return this._conversationEntityFactory.toDomain(created);
 }
+
 async findOrCreateCommunityConversation(eventId: string): Promise<ConversationEntity> {
 
       let conversation = await super.findOne({type:ConversationType.COMMUNITY, eventId}) as ConversationDbModel;
@@ -65,11 +80,13 @@ async findOrCreateCommunityConversation(eventId: string): Promise<ConversationEn
       }
     return this._conversationEntityFactory.toDomain(conversation);
 }
+
 async getById(conversationId: string): Promise<ConversationEntity> {
 
      const conversation = await super.findById(conversationId) as ConversationDbModel;
   return this._conversationEntityFactory.toDomain(conversation);
 }
+
 async updateLastMessage(conversationId: string, message: string, senderId: string): Promise<void> {
          const filter ={
              lastMessage : message,
