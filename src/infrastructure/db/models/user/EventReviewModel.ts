@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 
-export interface IUserReview extends Document {
+export interface IEventReview extends Document {
   eventId :string;
   userId :string;
   rating : number;
@@ -10,7 +10,7 @@ export interface IUserReview extends Document {
   updatedAt: Date;
 };
 
-export const userReviewSchema = new Schema<IUserReview>({
+export const eventReviewSchema = new Schema<IEventReview>({
    eventId : {
      type :String,
      required: true
@@ -31,4 +31,4 @@ export const userReviewSchema = new Schema<IUserReview>({
 },{timestamps: true});
 
 
-export const  UserReviewModel = mongoose.model<IUserReview>("UserReview", userReviewSchema);
+export const  UserReviewModel = mongoose.model<IEventReview>("UserReview", eventReviewSchema);
