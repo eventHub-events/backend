@@ -31,4 +31,4 @@ export const eventReviewSchema = new Schema<IEventReview>({
 },{timestamps: true});
 
 
-export const  UserReviewModel = mongoose.model<IEventReview>("UserReview", eventReviewSchema);
+export const  EventReviewModel = mongoose.model<IEventReview>("UserReview", eventReviewSchema);
