@@ -1,8 +1,11 @@
+import { ReviewType } from "../../../infrastructure/types/review/review";
+
 export class ReviewEntity {
   public targetId :string;
   public userId :string;
   public rating :number;
   public review : string;
+  public targetType: ReviewType;
   public createdAt?: Date;
   public updatedAt? : Date;
   public id?: string;
@@ -13,6 +16,7 @@ export class ReviewEntity {
       userId :string;
       rating : number;
       review : string;
+      targetType: ReviewType;
       createdAt?: Date;
       updatedAt?: Date;
       id?: string;
@@ -25,5 +29,6 @@ export class ReviewEntity {
      this.createdAt = props.createdAt;
      this.updatedAt = props.updatedAt;
      this.id = props.id;
+     this.targetType = props.targetType
   }
 }

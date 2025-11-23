@@ -1,20 +1,21 @@
-import { IEventReviewEntityFactory } from "../../../application/interface/factories/user/IEventReviewEntityFactory";
+import {  IReviewEntityFactory } from "../../../application/interface/factories/user/IReviewEntityFactory";
 import { ReviewEntity } from "../../../domain/entities/user/ReviewEntity";
-import { EventReviewModel } from "../../../domain/types/UserTypes";
+import {  ReviewDBModel } from "../../../domain/types/UserTypes";
 
-export class EventReviewEntityFactory implements IEventReviewEntityFactory  {
-  toDomain(dbModel: EventReviewModel): ReviewEntity {
+export class ReviewEntityFactory implements IReviewEntityFactory  {
+  toDomain(dbModel: ReviewDBModel): ReviewEntity {
       return new ReviewEntity({
-          targetId: dbModel.eventId,
+          targetId: dbModel.targetId,
           userId: dbModel.userId,
           rating : dbModel.rating,
           review: dbModel. review,
           createdAt: dbModel.createdAt,
           updatedAt: dbModel.updatedAt,
+          targetType : dbModel.targetType,
           id: dbModel._id.toString()
       });
   }
-  toDomainList(dbModel: EventReviewModel[]): ReviewEntity[] {
+  toDomainList(dbModel: ReviewDBModel[]): ReviewEntity[] {
       return dbModel.map((m) => this.toDomain(m));
   }
 }

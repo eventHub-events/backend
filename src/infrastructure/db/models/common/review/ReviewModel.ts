@@ -1,26 +1,31 @@
 import mongoose, { Document, Schema } from "mongoose";
+import { ReviewType } from "../../../../types/review/review";
 
 
-export interface IOrganizerReview extends Document {
+export interface IReview extends Document {
    userId :string;
-   organizerId: string;
+   targetId: string;
    rating: number;
+   targetType : ReviewType;
    review: string;
    createdAt?:Date;
    updatedAt?: Date;
 
 };
 
-export const organizerReviewSchema = new Schema<IOrganizerReview>({
+export const reviewSchema = new Schema<IReview>({
     userId:{
       type: String,
       required: true
 
     },
-    organizerId: {
+    targetId: {
        type:String,
        required: true
     },
+     targetType : {
+       enum: Object.values(ReviewType)
+     },
     rating : {
       type :Number,
       default : 0
@@ -31,4 +36,4 @@ export const organizerReviewSchema = new Schema<IOrganizerReview>({
     }
 },{timestamps: true});
 
-export const OrganizerReviewModel = mongoose.model<IOrganizerReview>("OrganizerReview", organizerReviewSchema);
+export const ReviewModel = mongoose.model<IReview>("Review", reviewSchema);
