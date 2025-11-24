@@ -5,5 +5,6 @@ export  interface AddReviewDTO {
   targetId: string;
   targetType: ReviewType;
   rating: number;
-  review : string
+  review : string;
+  userName?: string;
 }

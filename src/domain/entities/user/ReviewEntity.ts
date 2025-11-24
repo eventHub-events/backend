@@ -9,6 +9,7 @@ export class ReviewEntity {
   public createdAt?: Date;
   public updatedAt? : Date;
   public id?: string;
+  public userName?: string;
 
   constructor(
      props: {
@@ -20,6 +21,7 @@ export class ReviewEntity {
       createdAt?: Date;
       updatedAt?: Date;
       id?: string;
+      userName?: string;
      }
   ){
      this.targetId  = props.targetId;
@@ -29,6 +31,20 @@ export class ReviewEntity {
      this.createdAt = props.createdAt;
      this.updatedAt = props.updatedAt;
      this.id = props.id;
-     this.targetType = props.targetType
+     this.targetType = props.targetType;
+     this.userName = props.userName
+  }
+  update(data:{rating?: number; review?: string}) {
+    if(data.rating!== undefined) {
+       if(data.rating< 1 || data.rating> 5){
+          throw new Error("Rating must be between 1 and 5");
+       }
+       this.rating = data.rating;
+
+    }
+    if(data.review !== undefined) {
+       this.review= data.review
+    }
+    this.updatedAt = new Date();
   }
 }

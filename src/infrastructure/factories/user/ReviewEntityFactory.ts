@@ -12,7 +12,8 @@ export class ReviewEntityFactory implements IReviewEntityFactory  {
           createdAt: dbModel.createdAt,
           updatedAt: dbModel.updatedAt,
           targetType : dbModel.targetType,
-          id: dbModel._id.toString()
+          id: dbModel._id.toString(),
+          userName: dbModel.userName
       });
   }
   toDomainList(dbModel: ReviewDBModel[]): ReviewEntity[] {

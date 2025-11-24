@@ -26,17 +26,17 @@ import { VerifyResetPasswordOtpUseCase } from '../application/useCases/user/auth
 import { UserMapper } from '../application/mapper/user/UserMapper';
 import { organizerBlankProfileCreationUseCase } from './organizer/container';
 import { OrganizerProfileCreator } from '../application/useCases/organizer/profile/organizerProfileCreator';
-import { UserEntityFactory } from '../infrastructure/factories/UserEntityFactory';
 import { PasswordController } from '../interfaceAdapter/controllers/user/PasswordController';
 import { ChangePasswordUseCase } from '../application/useCases/user/auth/ChangePasswordUseCase';
 import { tokenConfig } from './common/commonContainers';
 import { UserProfileMapper } from '../application/mapper/user/UserProfileMapper';
 import { UserProfileRepository } from '../infrastructure/repositories/user/profile/UserProfileRepository';
-import { UserProfileEntityFactory } from '../infrastructure/factories/UserProfileEntityFactory';
 import { UserProfileUseCase } from '../application/useCases/user/profile/UserProfileUseCase';
 import { UserProfileController } from '../interfaceAdapter/controllers/user/UserProfileController';
 import { UserProfileCreator } from '../application/service/user/UserProfileCreator';
 import { ErrorMapperService } from '../infrastructure/errors/userProfileErrorMapper';
+import { UserEntityFactory } from '../infrastructure/factories/user/UserEntityFactory';
+import { UserProfileEntityFactory } from '../infrastructure/factories/user/UserProfileEntityFactory';
 
 
 

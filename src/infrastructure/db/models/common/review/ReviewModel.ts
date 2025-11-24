@@ -10,6 +10,7 @@ export interface IReview extends Document {
    review: string;
    createdAt?:Date;
    updatedAt?: Date;
+   userName?: string;
 
 };
 
@@ -24,11 +25,15 @@ export const reviewSchema = new Schema<IReview>({
        required: true
     },
      targetType : {
+        type: String,
        enum: Object.values(ReviewType)
      },
     rating : {
       type :Number,
       default : 0
+    },
+    userName: {
+      type: String
     },
     review : {
        type: String,

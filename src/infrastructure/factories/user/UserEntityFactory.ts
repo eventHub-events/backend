@@ -1,7 +1,9 @@
 
-import { IUserEntityFactory } from "../../application/interface/factories/user/IUserEntityFactory";
-import { UserEntity } from "../../domain/entities/User";
-import { UserDbModel } from "../../domain/types/UserTypes";
+
+
+import { IUserEntityFactory } from "../../../application/interface/factories/user/IUserEntityFactory";
+import { UserEntity } from "../../../domain/entities/User";
+import { UserDbModel } from "../../../domain/types/UserTypes";
 
 
 export class UserEntityFactory implements IUserEntityFactory<UserDbModel, UserEntity> {

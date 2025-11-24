@@ -1,6 +1,7 @@
-import { IUserProfileEntityFactory } from "../../application/interface/factories/user/IUserProfileEntityfactory";
-import { UserProfileEntity } from "../../domain/entities/user/UserProfile";
-import { UserProfileDbModel } from "../../domain/types/UserTypes";
+
+import { IUserProfileEntityFactory } from "../../../application/interface/factories/user/IUserProfileEntityfactory";
+import { UserProfileEntity } from "../../../domain/entities/user/UserProfile";
+import { UserProfileDbModel } from "../../../domain/types/UserTypes";
 
 
 

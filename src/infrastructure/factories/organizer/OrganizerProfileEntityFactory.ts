@@ -1,9 +1,10 @@
 import { Types } from "mongoose";
-import {  IOrganizerProfileEntityFactory } from "../../application/interface/factories/IDomainFactory";
-import { OrganizerProfile } from "../../domain/entities/organizer/OrganizerProfile";
-import {  UserEntity } from "../../domain/entities/User";
-import { OrganizerProfileDbModel, OrganizerProfileWithUser } from "../../domain/types/OrganizerTypes";
-import { UserDbModel } from "../../domain/types/UserTypes";
+import { UserDbModel } from "../../../domain/types/UserTypes";
+import { OrganizerProfileDbModel, OrganizerProfileWithUser } from "../../../domain/types/OrganizerTypes";
+import { UserEntity } from "../../../domain/entities/User";
+import { OrganizerProfile } from "../../../domain/entities/organizer/OrganizerProfile";
+import { IOrganizerProfileEntityFactory } from "../../../application/interface/factories/IDomainFactory";
+
 
 export class OrganizerProfileEntityFactory implements IOrganizerProfileEntityFactory< OrganizerProfileDbModel, OrganizerProfile, UserDbModel, OrganizerProfileWithUser> {
 

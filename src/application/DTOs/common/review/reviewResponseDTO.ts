@@ -4,5 +4,8 @@ export interface ReviewResponseDTO {
    id: string;
    targetType: ReviewType;
    rating: number;
-   review: string
+   review: string;
+   userId: string;
+   createdAt: Date;
+   userName?: string;
 }

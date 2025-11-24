@@ -1,5 +1,4 @@
 import { CreateStripeAccountUseCase } from "../../../application/useCases/organizer/stripe-account/createStripeAccountUseCase";
-import { UserEntityFactory } from "../../../infrastructure/factories/UserEntityFactory";
 import { UserRepository } from "../../../infrastructure/repositories/UserRepository";
 import { WinstonLoggerService } from "../../../infrastructure/services/logger/loggerService";
 import { StripeConnectService } from "../../../infrastructure/services/stripeConnectService/StripeConnectService";
@@ -7,6 +6,7 @@ import dotenv from "dotenv";
 import { StripeConnectController } from "../../../interfaceAdapter/controllers/organizer/stripeConnectController";
 import { VerifyStripeOnboardingStatusUseCase } from "../../../application/useCases/organizer/stripe-account/verifyStripeOnboardingStatusUseCase";
 import { StripeOnboardingStatusController } from "../../../interfaceAdapter/controllers/organizer/stripeOnboardingStatusController";
+import { UserEntityFactory } from "../../../infrastructure/factories/user/UserEntityFactory";
 dotenv.config()
 
 

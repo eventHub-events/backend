@@ -11,6 +11,7 @@ export class ReviewMapper implements IReviewMapper {
          targetType: dto.targetType,
          rating: dto.rating,
          review: dto.review,
+         userName: dto.userName
 
        })
   }
@@ -19,7 +20,10 @@ export class ReviewMapper implements IReviewMapper {
           id: entity.id!,
           targetType : entity.targetType,
           rating: entity.rating,
-          review : entity.review
+          review : entity.review,
+          userId: entity.userId,
+          createdAt: entity.createdAt!,
+          userName: entity.userName
        }
   }
   toResponseDTOList(entity: ReviewEntity[]): ReviewResponseDTO[] {

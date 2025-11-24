@@ -14,13 +14,14 @@ export class AddEventReviewUseCase implements IAddEventReviewUseCase {
       private _reviewMapper : IReviewMapper
    ){}
 
- async execute( dto: AddReviewDTO): Promise<ReviewResponseDTO> {
-       
-        const hasBooked = await this._bookingRepo.findBookingsByEventIdAndUserId(dto.targetId, dto.userId);
-           if(!hasBooked) throw new NotFoundError("You must book this event before reviewing.");
+ async execute( eventId: string, dto: AddReviewDTO): Promise<ReviewResponseDTO> {
+             console.log("dto", dto)
+        // const hasBooked = await this._bookingRepo.findBookingsByEventIdAndUserId(eventId, dto.userId);
+        //    if(!hasBooked) throw new NotFoundError("You must book this event before reviewing.");
 
           const existing = await this._reviewRepo.findReviewByUserAndTarget(dto.userId, dto.targetId, ReviewType.EVENT);
-            if(!existing) throw new UnauthorizedError("You have already reviewed this event");
+         
+            if(existing) throw new UnauthorizedError("You have already reviewed this event");
    
         const reviewEntity = this._reviewMapper.toEntity(dto);
    

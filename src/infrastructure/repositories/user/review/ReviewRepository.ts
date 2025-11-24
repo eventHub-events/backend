@@ -1,5 +1,6 @@
 
 import { IReviewEntityFactory } from "../../../../application/interface/factories/user/IReviewEntityFactory";
+import { RatingSummaryEntity } from "../../../../domain/entities/user/RatingSummaryEntity";
 import { ReviewEntity } from "../../../../domain/entities/user/ReviewEntity";
 import { IReviewRepository } from "../../../../domain/repositories/user/IReviewRepository";
 import { ReviewDBModel } from "../../../../domain/types/UserTypes";
@@ -16,13 +17,14 @@ export class ReviewRepository extends BaseRepository<IReview> implements IReview
        super(ReviewModel)
      }
  async createReview(review: ReviewEntity): Promise<ReviewEntity> {
-
+   
        const doc = await super.create(review) as ReviewDBModel;
+       
    return this._reviewEntityFactory.toDomain(doc);
 
   }
 
-async updateReview(reviewId: string, data: Partial<ReviewEntity>): Promise<ReviewEntity | null> {
+async updateReview(reviewId: string, data:ReviewEntity): Promise<ReviewEntity | null> {
 
     const doc = await super.update(reviewId, data) as ReviewDBModel;
   return doc? this._reviewEntityFactory.toDomain(doc): null;
@@ -47,4 +49,44 @@ async getReviewsForTarget(targetId: string, targetType: ReviewType): Promise<Rev
   return this._reviewEntityFactory.toDomainList(docs);
 
 }
+async getReviewsById(reviewId: string): Promise<ReviewEntity> {
+     const doc = await super.findById(reviewId) as ReviewDBModel;
+  return this._reviewEntityFactory.toDomain(doc);
+}
+ async getRatingSummary(targetId: string, targetType: ReviewType): Promise<RatingSummaryEntity> {
+      const pipeline = [
+         {$match: {targetId, targetType}},
+         {$group: {
+            _id: null,
+            avgRating :{$avg: "$rating"},
+            total:{$sum:1},
+            stars: {
+              $push: "$rating"
+            }
+         }}
+      ];
+
+      const result = await ReviewModel.aggregate(pipeline);
+
+    if(result.length === 0){
+       return {
+            averageRating: 0,
+        totalReviews: 0,
+        starDistribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+       }
+    }
+     const summary = result[0];
+    const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+    summary.stars.forEach((star: 1 | 2 | 3 | 4 | 5) => {
+      distribution[star] += 1;
+    });
+
+    return {
+      averageRating: summary.avgRating,
+      totalReviews: summary.total,
+      starDistribution: distribution
+    };
+  
+ }
 }

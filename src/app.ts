@@ -20,6 +20,7 @@ import chatRoutes  from "./interfaceAdapter/routes/chat/chatRoutes";
 import { PrivateChatSocketService } from './infrastructure/websocket/chat/privateChatSocketService';
 import { CommunityChatSocketService } from './infrastructure/websocket/chat/communityChatSocketService';
 import { markMessagesAsReadUseCase, sendMessagesUseCase } from './di/common/chat/container';
+import reviewRoutes from "./interfaceAdapter/routes/review/reviewRoutes";
 
 
 
@@ -60,7 +61,8 @@ app.use('/api/user', userRouts);
 app.use('/api/organizer',organizerRoutes);
 app.use('/api/admin',adminRoutes);
 app.use('/api/chat', chatRoutes);
- //app.use(ErrorHandlingMiddleware.handleError);
+app.use('/api/reviews', reviewRoutes);
+ app.use(ErrorHandlingMiddleware.handleError);
 
 
 server.listen(process.env.PORT, () => {

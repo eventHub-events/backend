@@ -4,6 +4,5 @@ export interface UpdateReviewDTO {
    
    review?: string;
    rating?:number;
-   id?:string;
-   targetType?:ReviewType;
+   
 }
