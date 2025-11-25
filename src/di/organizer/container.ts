@@ -7,9 +7,9 @@ import { OrganizerProfileUseCase } from "../../application/useCases/organizer/or
 import { OrganizerBlankProfileCreationUseCase } from "../../application/useCases/organizer/profile/organizerBlankProfileCreationUseCase";
 import { UploadDocumentUseCase } from "../../application/useCases/organizer/uploadDocumentUseCase";
 import { VerificationRequestUseCase } from "../../application/useCases/organizer/verification/verificationRequestUseCase";
-import { OrganizerProfileEntityFactory } from "../../infrastructure/factories/OrganizerProfileEntityFactory";
-import { UploadDocumentFactory } from "../../infrastructure/factories/UploadDocumentFactory";
-import { UserEntityFactory } from "../../infrastructure/factories/UserEntityFactory";
+import { OrganizerProfileEntityFactory } from "../../infrastructure/factories/organizer/OrganizerProfileEntityFactory";
+import { UploadDocumentFactory } from "../../infrastructure/factories/organizer/UploadDocumentFactory";
+import { UserEntityFactory } from "../../infrastructure/factories/user/UserEntityFactory";
 import { OrganizerProfileRepository } from "../../infrastructure/repositories/organizer/OrganizerProfileRepository";
 import { UploadDocumentRepository } from "../../infrastructure/repositories/UploadDocumentRepository";
 import { UserRepository } from "../../infrastructure/repositories/UserRepository";

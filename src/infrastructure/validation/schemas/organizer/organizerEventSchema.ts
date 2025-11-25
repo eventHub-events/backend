@@ -2,13 +2,15 @@
  import  {  z } from "zod"
 import { EventVisibility } from "../../../../domain/enums/organizer/events"
 
- const titleRegex = /^[A-Z][A-Za-z0-9 ]{4,49}$/
- const descriptionRegex = /^[A-Z][A-Za-z0-9 ]{14,149}$/
- const addressRegex = /^[A-Z][a-zA-Z, ]{4,49}$/
- const cityRegex = /^[A-Z][A-Za-z ]{4,15}$/
- const pinCodeRegex = /^[0-9]{6}$/
- const tagRegex = /^[A-Za-z]+$/
- const venueRegex =  /^[A-Z][a-zA-Z\s,]{2,}$/
+ const titleRegex = /^[A-Z][A-Za-z0-9 ]{4,49}$/;
+ const descriptionRegex = /^[A-Z][A-Za-z0-9 ]{14,149}$/;
+ const addressRegex = /^[A-Z][a-zA-Z, ]{4,49}$/;
+ const cityRegex = /^[A-Z][A-Za-z ]{4,15}$/;
+ const pinCodeRegex = /^[0-9]{6}$/;
+ const tagRegex = /^[A-Za-z]+$/;
+ const venueRegex =  /^[A-Z][a-zA-Z\s,]{2,}$/;
+ const categoryRegex = /^[A-Z][a-zA-Z\s,]{2,}$/
+
   enum EventMode {
     Online = "online",
     Approved ="offline"
@@ -67,6 +69,9 @@ export const organizerEventSchema = z.object({
     endDate: z.coerce.date(),
     startTime: z.string().optional(),
     endTime: z.string().optional(),
+    category : z.string()
+           .regex(categoryRegex,"Category must contain letters only and first letter should be capital" )
+          .min(3,{message:"Category must be at least 3 characters"}),
  tags: z.array(
        z.string()
        .min(1,{message: "Tag cannot be empty"})

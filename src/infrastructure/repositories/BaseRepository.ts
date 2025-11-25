@@ -56,7 +56,7 @@ export class BaseRepository< T extends Document > {
   }
   async paginate(filter:FilterQuery<T>={},page:number=1,limit:number=5):Promise<{data:T[];total:number}>{
     const skip=(page-1)*limit;
-    const[data,total]=await Promise.all([this.model.find(filter).skip(skip).limit(limit),this.model.countDocuments(filter)]);
+    const[data,total]=await Promise.all([this.model.find(filter).sort({createdAt: -1}).skip(skip).limit(limit),this.model.countDocuments(filter)]);
     return {data,total}
   }
   async delete(id:string):Promise<void> {

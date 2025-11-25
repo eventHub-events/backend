@@ -10,4 +10,6 @@ export interface IBookingRepository {
   findBookingsDueForPayout(currentDate: Date): Promise<BookingEntity[]>;
   updateManyBookings(filter: FilterQuery<BookingEntity>,updateData: Partial<BookingEntity>): Promise<{matchedCount: number;modifiedCount: number}>;
   fetchBookingBySessionId(sessionId: string) : Promise<BookingEntity>;
+  findBookingsByEventIdAndUserId(eventId:string, userId: string) : Promise<BookingEntity | null>;
+  findBookingsByOrganizerIdAndUserId(organizerId:string, userId: string) : Promise<BookingEntity | null>;
 }

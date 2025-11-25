@@ -39,5 +39,12 @@ export const ResponseMessages = {
      COMMUNITY_FETCH_SUCCESS :"CommunityChat  fetched successfully",
      MESSAGES_FETCH_SUCCESS : "Messages fetched successfully",
      MESSAGE_SAVE_SUCCESS : "Messages saved successfully"
+   },
+   REVIEW:{
+      REVIEW_CREATION_SUCCESS : "Review creation successful ",
+      REVIEW_UPDATE_SUCCESS : "Review update successful",
+      REVIEW_DELETION_SUCCESS : "Review deleted successfully",
+      REVIEWS_FETCH_SUCCESS : "Reviews fetched successfully",
+      REVIEW_SUMMARY_SUCCESS : "Review summary fetched  successfully"
    }
 }

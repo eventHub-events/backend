@@ -1,7 +1,9 @@
 
-import { IDomainFactory } from "../../application/interface/factories/IDomainFactory";
-import { UploadDocument } from "../../domain/entities/organizer/Document";
-import { IUploadDocument } from "../db/models/organizer/profile/UploadDocument";
+
+
+import { IDomainFactory } from "../../../application/interface/factories/IDomainFactory"
+import { UploadDocument } from "../../../domain/entities/organizer/Document"
+import { IUploadDocument } from "../../db/models/organizer/profile/UploadDocument"
 
 export class UploadDocumentFactory implements IDomainFactory<IUploadDocument,UploadDocument> {
   toDomain(dbModel: IUploadDocument & {_id: string}): UploadDocument {

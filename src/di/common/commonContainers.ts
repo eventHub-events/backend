@@ -18,11 +18,11 @@ import { UserBlankProfileCreationUseCase } from "../../application/useCases/user
 import { GenerateTicketUseCase } from "../../application/useCases/user/ticketing/GenerateTicketUseCase";
 import { TokenConfig } from "../../infrastructure/config/user/tokenConfig";
 import { EventEntityFactory } from "../../infrastructure/factories/organizer/EventEntityFactory";
+import { OrganizerProfileEntityFactory } from "../../infrastructure/factories/organizer/OrganizerProfileEntityFactory";
 import { OrganizerSubscriptionEntityFactory } from "../../infrastructure/factories/organizer/OrganizerSubscriptionEntityFactory";
-import { OrganizerProfileEntityFactory } from "../../infrastructure/factories/OrganizerProfileEntityFactory";
 import { BookingEntityFactory } from "../../infrastructure/factories/user/BookingEntityFactory";
-import { UserEntityFactory } from "../../infrastructure/factories/UserEntityFactory";
-import { UserProfileEntityFactory } from "../../infrastructure/factories/UserProfileEntityFactory";
+import { UserEntityFactory } from "../../infrastructure/factories/user/UserEntityFactory";
+import { UserProfileEntityFactory } from "../../infrastructure/factories/user/UserProfileEntityFactory";
 import { EventRepository } from "../../infrastructure/repositories/organizer/EventsRepository";
 import { OrganizerProfileRepository } from "../../infrastructure/repositories/organizer/OrganizerProfileRepository";
 import { OrganizerSubscriptionRepository } from "../../infrastructure/repositories/organizer/OrganizerSubscriptionRepository";

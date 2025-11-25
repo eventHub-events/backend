@@ -122,7 +122,8 @@ export class EventDisplayQueryRepository implements  IEventDisplayQueryRepositor
 
     if (title) matchStage.title = { $regex: title, $options: "i" };
     if (location) matchStage["location.venue"] = { $regex: location, $options: "i" };
-    if (category) matchStage["category.name"] = { $regex: category, $options: "i" };
+    // if (category) matchStage["category.name"] = { $regex: category, $options: "i" };
+    if (category) matchStage.category = { $regex: category, $options: "i" };
 
     // ✅ Pipeline (typed as `Record<string, unknown>[]` instead of `any[]`)
    const pipeline: PipelineStage[]= [
