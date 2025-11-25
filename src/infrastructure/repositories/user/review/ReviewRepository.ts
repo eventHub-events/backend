@@ -43,10 +43,13 @@ async findReviewByUserAndTarget(userId: string, targetId: string, targetType: Re
   return doc? this._reviewEntityFactory.toDomain(doc): null;
 
 }
-async getReviewsForTarget(targetId: string, targetType: ReviewType): Promise<ReviewEntity[]> {
+async getReviewsForTarget(targetId: string, targetType: ReviewType,page: number,limit: number): Promise<{entity:ReviewEntity[],hasMore: boolean}> {
 
-     const docs = await super.findAll({targetId, targetType}) as ReviewDBModel[];
-  return this._reviewEntityFactory.toDomainList(docs);
+  
+    const {data, total} = await super.paginate({targetId, targetType},page,limit) as { data: ReviewDBModel[]; total: number }
+    const entity = this._reviewEntityFactory.toDomainList(data);
+    const hasMore= page*limit<total
+    return {entity,hasMore}
 
 }
 async getReviewsById(reviewId: string): Promise<ReviewEntity> {

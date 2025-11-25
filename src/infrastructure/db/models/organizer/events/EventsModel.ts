@@ -19,6 +19,7 @@ export interface IEvent extends Document {
   endDate: Date;
   images: string[];
   approvedStatus?:EventApprovalStatus;
+  category?: string;
 
    status: EventStatus;
   ticketsSold:  number;
@@ -53,6 +54,9 @@ const EventSchema = new Schema<IEvent>({
     type: String,
     required: true,
     trim: true,
+   },
+   category:{
+      type: String
    },
   type:{
      type: String,

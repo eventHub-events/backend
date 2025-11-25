@@ -28,7 +28,8 @@ export class EventMapper implements IEventMapper  {
        featured: dto.featured ?? false,
        createdBy: dto.createdBy ?? "",
        tags: dto.tags ?? [],
-       visibility: dto.visibility
+       visibility: dto.visibility,
+       category: dto.category
 
      }
         
@@ -63,7 +64,8 @@ export class EventMapper implements IEventMapper  {
         featured: entity.featured,
         organizerEmail: entity.organizerEmail,
         tags: entity.tags,
-        status: entity.currentStatus
+        status: entity.currentStatus,
+        category: entity.category
 
 
 

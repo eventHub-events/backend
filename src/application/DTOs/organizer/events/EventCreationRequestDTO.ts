@@ -22,5 +22,6 @@ export interface EventCreationRequestDTO {
     visibility?:EventVisibility;
     organizerEmail? : string;
     organizerPaymentId?: string;
+    category?:string;
 
 }

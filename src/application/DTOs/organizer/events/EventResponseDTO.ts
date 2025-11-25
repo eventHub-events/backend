@@ -22,6 +22,7 @@ export interface EventResponseDTO {
   visibility?:EventVisibility;
   tags?: string[];
   status?: EventStatus;
+  category?:string;
 
 
 

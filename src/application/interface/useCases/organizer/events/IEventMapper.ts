@@ -7,8 +7,9 @@ import { EventEntity } from "../../../../../domain/entities/organizer/EventEntit
 import { EventApprovalStatus } from "../../../../../domain/enums/organizer/events";
 import { IBaseMapper } from "../../../common/IBaseMapper";
 
-export interface IEventMapper extends IBaseMapper<EventEntity, EventCreationRequestDTO, EventResponseDTO, EventUpdateDTO> {
+export interface IEventMapper extends IBaseMapper<EventEntity, EventCreationRequestDTO, EventResponseDTO> {
    toResponseDTOList (entities: EventEntity[]): EventResponseDTO[];
-    toBlankModerationEntity(eventId: Types.ObjectId, eventApprovalStatus: EventApprovalStatus ): Partial<EventModerationEntity >
-     toEntityForUpdate(dto: EventUpdateDTO): Partial<EventEntity>
+    toBlankModerationEntity(eventId: Types.ObjectId, eventApprovalStatus: EventApprovalStatus ): Partial<EventModerationEntity >;
+     toEntityForUpdate(dto: EventUpdateDTO): Partial<EventEntity>;
+     
 }

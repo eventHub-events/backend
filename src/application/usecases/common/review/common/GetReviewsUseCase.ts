@@ -10,11 +10,14 @@ export class GetReviewsUseCase implements IGetReviewsUseCase {
        private _reviewRepo: IReviewRepository,
        private _reviewMapper : IReviewMapper
    ){}
-  async execute(targetId: string, targetType: ReviewType): Promise<ReviewResponseDTO[]> {
+  async execute(targetId: string, targetType: ReviewType, page: string, limit: string, userId: string): Promise<{reviews:ReviewResponseDTO[],hasMore: boolean}> {
 
-      const  reviews = await this._reviewRepo.getReviewsForTarget(targetId, targetType);
+       
+
+      const  {entity, hasMore} = await this._reviewRepo.getReviewsForTarget(targetId, targetType, parseInt(page), parseInt(limit));
       
-
-      return this._reviewMapper.toResponseDTOList(reviews);
+      
+       const converted = this._reviewMapper.toResponseDTOList(entity);
+     return {reviews: converted, hasMore}
   }
 }
