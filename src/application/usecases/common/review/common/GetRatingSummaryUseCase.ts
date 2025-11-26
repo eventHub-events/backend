@@ -7,6 +7,7 @@ export class GetRatingSummaryUseCase implements IGetRatingSummaryUseCase {
      private _reviewRepo : IReviewRepository
   ){}
   async execute(targetId: string, targetType: ReviewType): Promise<any> {
+    console.log("target", targetId,targetType)
        return await this._reviewRepo.getRatingSummary(targetId, targetType);
   }
 }

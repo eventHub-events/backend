@@ -10,4 +10,5 @@ export interface IReviewRepository {
    getReviewsForTarget(targetId: string, targetType: ReviewType,page: number,limit: number): Promise<{entity:ReviewEntity[],hasMore: boolean}>;
    getReviewsById(reviewId: string): Promise<ReviewEntity>;
    getRatingSummary(targetId:string, targetType: ReviewType): Promise<RatingSummaryEntity>;
+   getReviewsForOrganizer(targetId: string, targetType: ReviewType,page: number,limit: number): Promise<{entity:ReviewEntity[],total: number}>
 } 
