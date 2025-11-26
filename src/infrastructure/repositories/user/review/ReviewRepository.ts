@@ -52,6 +52,15 @@ async getReviewsForTarget(targetId: string, targetType: ReviewType,page: number,
     return {entity,hasMore}
 
 }
+async getReviewsForOrganizer(targetId: string, targetType: ReviewType,page: number,limit: number): Promise<{entity:ReviewEntity[],total: number}> {
+
+  
+    const {data, total} = await super.paginate({targetId, targetType},page,limit) as { data: ReviewDBModel[]; total: number }
+    const entity = this._reviewEntityFactory.toDomainList(data);
+    
+    return {entity, total}
+
+}
 async getReviewsById(reviewId: string): Promise<ReviewEntity> {
      const doc = await super.findById(reviewId) as ReviewDBModel;
   return this._reviewEntityFactory.toDomain(doc);
@@ -70,6 +79,7 @@ async getReviewsById(reviewId: string): Promise<ReviewEntity> {
       ];
 
       const result = await ReviewModel.aggregate(pipeline);
+      console.log("rsult is", result)
 
     if(result.length === 0){
        return {
@@ -84,7 +94,8 @@ async getReviewsById(reviewId: string): Promise<ReviewEntity> {
     summary.stars.forEach((star: 1 | 2 | 3 | 4 | 5) => {
       distribution[star] += 1;
     });
-
+  console.log("summary", summary)
+  console.log("distribution", distribution)
     return {
       averageRating: summary.avgRating,
       totalReviews: summary.total,

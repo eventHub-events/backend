@@ -9,8 +9,9 @@ import { reviewController } from "../../../di/common/review/container";
   router.post("/organizer/:organizerId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => reviewController.addOrganizerReview(req, res, next));
   router.put("/:reviewId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => reviewController.updateReview(req, res, next));
   router.delete("/:reviewId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => reviewController.deleteReview(req, res, next));
+  router.get("/organizer/:targetType/:targetId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => reviewController.fetchReviewsForOrganizerEvents(req, res, next));
   router.get("/:targetType/:targetId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => reviewController.fetchReviews(req, res, next));
-  router.get("/:targetType/:targetId/summary", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => reviewController.getSummary(req, res, next))
+  router.get("/summary/:targetType/:targetId/", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => reviewController.getSummary(req, res, next))
 
 
 

@@ -14,6 +14,8 @@ import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { IGetRatingSummaryUseCase } from "../../../application/interface/common/useCase/review/common/IGetRatingSummaryUseCase";
 import { ReviewType } from "../../../infrastructure/types/review/review";
 import { NotFoundError, UnauthorizedError } from "../../../domain/errors/common";
+import { IGetOrganizerReviewsUseCase } from "../../../application/interface/useCases/organizer/review/IGetOrganizerReviewsUseCase";
+import { ConversationModel } from "../../../infrastructure/db/models/common/chat/ConversationModel";
 
 export class ReviewController {
   constructor(
@@ -22,7 +24,8 @@ export class ReviewController {
       private _updateReviewUseCase : IUpdateReviewUseCase,
       private _deleteReviewUseCase : IDeleteReviewUseCase,
       private _getReviewsUseCase : IGetReviewsUseCase,
-      private _getRatingSummaryUseCase : IGetRatingSummaryUseCase
+      private _getRatingSummaryUseCase : IGetRatingSummaryUseCase,
+      private _getReviewsForOrganizerUseCase : IGetOrganizerReviewsUseCase
   ){}
  
 
@@ -92,13 +95,30 @@ async fetchReviews(req: IAuthenticatedRequest, res: Response, next: NextFunction
   }
 }
 async getSummary(req: IAuthenticatedRequest, res: Response, next: NextFunction) : Promise<void> {
-   try{
-        const{targetId, targetType} = req.params;
-        const result = await this._getRatingSummaryUseCase.execute(targetId, targetType as ReviewType);
+   try{ 
+      console.log("hello")
+      const{targetId, targetType} = req.params;
+      
+      console.log("targetType", targetType);
+      console.log("targetId", targetId);
+      const result = await this._getRatingSummaryUseCase.execute(targetId, targetType as ReviewType);
       res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.REVIEW.REVIEW_SUMMARY_SUCCESS, HttpStatusCode.OK, result));
    }catch(err){
-     next(err)
+      next(err)
    }
+}
+async fetchReviewsForOrganizerEvents(req: IAuthenticatedRequest, res: Response, next: NextFunction) :Promise<void> {
+  try{
+       const{targetId, targetType} = req.params;
+       const{page=1, limit =5} = req.query;
+       
+          if(!targetId) throw new CustomError("targetId is required",HttpStatusCode.BAD_REQUEST);
+       const result = await this._getReviewsForOrganizerUseCase.execute(targetId,targetType as  ReviewType, page as string,limit as string);
+
+     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.REVIEW.REVIEWS_FETCH_SUCCESS, HttpStatusCode.OK, result));
+  }catch(err){
+     next(err)
+  }
 }
 
 }
