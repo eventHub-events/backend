@@ -13,5 +13,6 @@ export interface OrganizerSubscriptionRequestDTO {
         durationInDays: number;
         payoutDelayDays: number;
         paymentId?: string,
+        commissionRate?: number
       
 }

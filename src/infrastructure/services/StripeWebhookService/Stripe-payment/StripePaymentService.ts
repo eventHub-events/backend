@@ -17,7 +17,8 @@ export class StripePaymentService implements IStripePaymentService {
     organizerName: string;
     organizerEmail: string;
     planId: string;
-    payoutDelayDays: number
+    payoutDelayDays: number;
+    commissionRate: number;
   }): Promise<string> {
     return this.createCheckoutSession({
       ...data,
@@ -34,6 +35,7 @@ export class StripePaymentService implements IStripePaymentService {
     organizerEmail: string;
     payoutDelayDays: number
     planId: string;
+    commissionRate: number;
   }): Promise<string> {
     return this.createCheckoutSession({
       ...data,
@@ -52,6 +54,7 @@ export class StripePaymentService implements IStripePaymentService {
     payoutDelayDays: number
     planId: string;
     paymentType: string;
+    commissionRate: number;
   }): Promise<string> {
     const {
       planName,
@@ -63,6 +66,7 @@ export class StripePaymentService implements IStripePaymentService {
       planId,
       payoutDelayDays,
       paymentType,
+      commissionRate
     } = data;
 
     const params: Stripe.Checkout.SessionCreateParams = {
@@ -89,7 +93,8 @@ export class StripePaymentService implements IStripePaymentService {
         organizerEmail,
         organizerName,
         paymentType,
-        payoutDelayDays
+        payoutDelayDays,
+        commissionRate
       },
     };
 

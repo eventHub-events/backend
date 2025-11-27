@@ -13,6 +13,7 @@ export interface IOrganizerSubscription extends Document  {
           price?: number,
           status?:SubscriptionStatus,
           paymentId?: string,
+          commissionRate?: number
 } 
 
 
@@ -33,6 +34,10 @@ const organizerSubscriptionSchema = new Schema<IOrganizerSubscription>({
     },
     price:{
           type: Number
+    },
+    commissionRate: {
+         type: Number,
+         default:0
     },
     planId : {
         type: Schema.Types.ObjectId,
