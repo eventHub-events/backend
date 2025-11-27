@@ -12,6 +12,7 @@ import { userRegisterSchema } from '../../../infrastructure/validation/schemas/u
 import { userForgetPassWordSchema } from '../../../infrastructure/validation/schemas/changePasswordSchema';
 import { bookingPaymentController } from '../../../di/user/payment/container';
 import { chatController } from '../../../di/common/chat/container';
+import { reportController } from '../../../di/common/report/container';
 const router = express.Router();
 
 // router.post('/register', (req, res) => authController.registerUser(req, res));
@@ -55,4 +56,9 @@ router.post("/payments/create-checkout-session",authenticationMiddleWare.authent
 
 // chat //
 router.get("/chat/event/:eventId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => chatController.getUserEventChats(req, res, next));
+
+// reporting //
+router.post("/report/event",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => reportController.createEventReport(req, res, next));
+router.post("/report/organizer",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => reportController.createOrganizerReport(req, res, next));
+
 export default router

@@ -10,6 +10,7 @@ import { categoryController } from "../../../di/admin/category/containersList"
 import { eventManagementQueryController, eventModerationActionsController, eventModerationController } from "../../../di/admin/event-management/containerList"
 import { bookingControllerForAdmin } from "../../../di/admin/bookings/container"
 import { subscriptionPlansManagementController, subscriptionPlansRetrievalController } from "../../../di/admin/subcription-plans/container"
+import { adminReportController } from "../../../di/admin/report/container"
 
 
 
@@ -62,6 +63,9 @@ import { subscriptionPlansManagementController, subscriptionPlansRetrievalContro
     router.put("/plans/:planId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:Request, res: Response, next: NextFunction) => subscriptionPlansManagementController.update(req, res, next));
     router.patch("/plans/:planId/status",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:Request, res: Response, next: NextFunction) => subscriptionPlansManagementController.updateStatus(req, res, next));
  
-
+   // reports //
+   router.get("/reports/:targetType",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => adminReportController.fetchReports(req, res, next));
+   router.put("/report/:reportId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => adminReportController.takeAction(req, res, next));
+  
  export default router
 

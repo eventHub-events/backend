@@ -46,5 +46,11 @@ export const ResponseMessages = {
       REVIEW_DELETION_SUCCESS : "Review deleted successfully",
       REVIEWS_FETCH_SUCCESS : "Reviews fetched successfully",
       REVIEW_SUMMARY_SUCCESS : "Review summary fetched  successfully"
+   },
+   REPORT :{
+      REPORT_SUCCESS : "Report submitted successfully",
+      REPORTS_FETCH_SUCCESS :"Reports fetched successfully",
+      REPORT_UPDATE_SUCCESS:"Report updated successfully"
+
    }
 }
