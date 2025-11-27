@@ -59,4 +59,7 @@ export class UserEntity {
     Object.assign (this, data);
     return this
   }
+  block() {
+     this.isBlocked = true
+  }
 }

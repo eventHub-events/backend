@@ -60,7 +60,7 @@ export const tokenController   = new TokenController(refreshTokenUseCase)
 
 export const hashService = new HashService(bcryptHashService);
 const otpService = new OtpService(cacheService,hashService);
-const nodeMailerEmailService = new NodeMailerEmailService();
+export const nodeMailerEmailService = new NodeMailerEmailService();
 export const emailService = new EmailService(nodeMailerEmailService);
 const generateOtpUseCase = new GenerateOtpUseCase(otpService);
 const userMapper = new UserMapper();
