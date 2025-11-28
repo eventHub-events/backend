@@ -3,6 +3,7 @@ import { IAdminDashboardUseCase } from "../../../application/interface/useCases/
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
+import { ReportRange } from "../../../infrastructure/types/dashboard/booking";
 
 export class AdminDashBoardController {
     constructor(
@@ -11,7 +12,9 @@ export class AdminDashBoardController {
 
   async getDashboard(req: Request, res: Response, next: NextFunction): Promise<void> {
     try{
-            const dashboardData = await this.dashboardUseCase.execute();
+              const {range} = req.query
+            const dashboardData = await this.dashboardUseCase.execute(range as ReportRange);
+            console.log(dashboardData)
 
      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.ADMIN_DASHBOARD.ON_SUCCESS, HttpStatusCode.OK, dashboardData));
      
