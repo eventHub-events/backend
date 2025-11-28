@@ -5,9 +5,9 @@ import { FilterQuery } from "mongoose";
 import { ILoggerService } from "../../application/interface/common/ILoggerService";
 import { IUserEntityFactory } from "../../application/interface/factories/user/IUserEntityFactory";
 import { UserEntity } from "../../domain/entities/User";
-import { IUserRepository } from "../../domain/repositories/user/IUserRepository";
+import { IUserRepository, UserCountSummary } from "../../domain/repositories/user/IUserRepository";
 import { UserDbModel } from "../../domain/types/UserTypes";
-import UserModel, { IUserDocument } from "../db/models/user/UserModel";
+import UserModel, { IUserDocument, KycStatus } from "../db/models/user/UserModel";
 import { BaseRepository } from "./BaseRepository"
 import { UserFilterOptions } from "../../application/DTOs/common/userFilterOptions";
 
@@ -112,4 +112,39 @@ export class UserRepository extends BaseRepository<IUserDocument>  implements  I
 
         return this._userEntityFactory.toDomain(result)
   }
-}
+
+  async getUserCountSummary(): Promise<UserCountSummary> {
+      const [
+      totalUsers,
+      activeUsers,
+      totalOrganizers,
+      activeOrganizers,
+    ] = await Promise.all([
+      UserModel.countDocuments({ role: "user" }),
+      UserModel.countDocuments({ role: "user", isBlocked: false }),
+      UserModel.countDocuments({ role: "organizer" }),
+      UserModel.countDocuments({ role: "organizer", isBlocked: false }),
+    ]);
+
+    return {
+      totalUsers,
+      activeUsers,
+      totalOrganizers,
+      activeOrganizers,
+    };
+  }
+   async getPendingOrganizerVerification(): Promise<number> {
+        return  UserModel.countDocuments({
+                   role: "organizer",
+                     isVerified: false,
+                     kycStatus : KycStatus.Pending
+                      });
+  }
+    async getVerifiedOrganizers(): Promise<number> {
+         return UserModel.countDocuments({
+                      role: "organizer",
+                      isVerified: true
+                    });
+  }
+
+  }

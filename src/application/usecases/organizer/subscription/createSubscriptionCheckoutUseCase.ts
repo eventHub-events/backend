@@ -4,7 +4,7 @@ import { IStripePaymentService } from "../../../service/common/IStripePaymentSer
 export class CreateSubscriptionCheckoutUseCase implements ICreateSubscriptionCheckoutUseCase {
 
      constructor( private  _stripePaymentService : IStripePaymentService){}
- async  execute(data:{planName: string,price: number,organizerId: string,durationInDays: number,organizerName:string, organizerEmail: string, planId: string,subscriptionType: string, payoutDelayDays: number}): Promise<string> {
+ async  execute(data:{planName: string,price: number,organizerId: string,durationInDays: number,organizerName:string, organizerEmail: string, planId: string,subscriptionType: string, payoutDelayDays: number, commissionRate: number}): Promise<string> {
       
          if(data.subscriptionType === "new"){
            

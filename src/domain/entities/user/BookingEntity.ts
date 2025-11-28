@@ -25,7 +25,11 @@ export class BookingEntity {
    public paymentId?: string;
    public organizerStripeId?: string;
    public ticketUrls?: string[];
-   public sessionId?: string
+   public sessionId?: string;
+   public commissionRate?: number;
+   public platformFee?: number;
+   public organizerAmount?: number;
+   public subscriptionPlanId?: string
 
   constructor(props :{
      userId : Types.ObjectId,
@@ -49,6 +53,10 @@ export class BookingEntity {
        eventVenue: string,
        sessionId?: string,
        userName: string,
+       commissionRate?: number;
+        platformFee?: number;
+       organizerAmount? : number;
+       subScriptionPlanId?: string;
        eventImages?: string[]
        organizerId: Types.ObjectId,
        id?: Types.ObjectId,
@@ -83,7 +91,11 @@ export class BookingEntity {
        this.PayoutDate = props.payoutDate;
        this.organizerStripeId = props.organizerStripId;
        this.ticketUrls = props.ticketUrls,
-       this.sessionId = props.sessionId
+       this.sessionId = props.sessionId,
+       this.commissionRate = props.commissionRate,
+       this.platformFee = props.platformFee?? 0,
+       this.organizerAmount = props.organizerAmount,
+       this.subscriptionPlanId = props.subScriptionPlanId
   }
 
   markAsConfirmed() {
@@ -102,4 +114,17 @@ export class BookingEntity {
   calculateTotalAmount(): number {
     return this.tickets.reduce((sum, t) => sum+t.price*t.quantity, 0);
   }
+  applyCommission(rate: number) {
+  this.commissionRate = rate;
+
+  this.platformFee = Number(
+    (this.totalAmount * (rate / 100)).toFixed(2)
+  );
+
+  this.organizerAmount = Number(
+    (this.totalAmount - this.platformFee).toFixed(2)
+  );
+}
+
+  
 }

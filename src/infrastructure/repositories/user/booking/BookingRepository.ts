@@ -6,6 +6,10 @@ import { BookingDbModel } from "../../../../domain/types/UserTypes";
 import { BookingModel, IBooking } from "../../../db/models/user/BookingModel";
 import { BaseRepository } from "../../BaseRepository";
 import { BookingFilterDTO } from "../../../../application/DTOs/organizer/bookings/bookingFilterDTO";
+import { BookingMatchFilter, ReportRange } from "../../../types/dashboard/booking";
+import { BookingStatus, PayoutStatus } from "../../../../domain/enums/user/Booking";
+import { RevenueAndBookingSummary } from "../../../../domain/entities/user/RevenueAndBookingSummary";
+import { PayoutSummary } from "../../../../domain/entities/user/PayoutSummary";
 
 
 export class BookingRepository extends BaseRepository<IBooking> implements IBookingRepository {
@@ -103,4 +107,131 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
      const doc = await super.findOne({organizerId, userId}) as BookingDbModel;
   return doc ? this._bookingEntityFactory.toDomain(doc): null;
  }
+
+  async  getRevenueAndBookingSByRange(range: ReportRange): Promise<RevenueAndBookingSummary> {
+
+        const now = new Date();
+       let fromDate = new Date();
+       let dateFormat: "%Y-%m-%d" | "%Y-%m" | "%Y";
+
+
+        switch (range) {
+      case "daily":
+        fromDate.setDate(now.getDate() - 6);
+        dateFormat = "%Y-%m-%d";
+        break;
+
+      case "monthly":
+        fromDate.setMonth(now.getMonth() - 5);
+        dateFormat = "%Y-%m";
+        break;
+
+      case "yearly":
+        fromDate.setFullYear(now.getFullYear() - 4);
+        dateFormat = "%Y";
+        break;
+    }
+
+       const match: BookingMatchFilter = {
+      status: BookingStatus.CONFIRMED,
+      createdAt: {
+        $gte: fromDate,
+        $lte: now,
+      },
+    };
+
+         // ✅ Timeline aggregation
+    const timelineRaw = await BookingModel.aggregate<{
+      _id: string;
+      totalRevenue: number;
+      platformRevenue: number;
+      organizerRevenue: number;
+      bookingsCount: number;
+    }>([
+      { $match: match },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: dateFormat,
+              date: "$createdAt",
+            },
+          },
+          totalRevenue: { $sum: "$totalAmount" },
+          platformRevenue: { $sum: "$platformFee" },
+          organizerRevenue: { $sum: "$organizerAmount" },
+          bookingsCount: { $sum: 1 },
+        },
+      },
+      { $sort: { _id: 1 } },
+    ]);
+
+             const timeline = timelineRaw.map(row => ({
+      dateLabel: row._id,
+      totalRevenue: row.totalRevenue ?? 0,
+      platformRevenue: row.platformRevenue ?? 0,
+      organizerRevenue: row.organizerRevenue ?? 0,
+      bookingsCount: row.bookingsCount ?? 0,
+    })); 
+       // ✅ Totals aggregation
+    const totalsRaw = await BookingModel.aggregate<{
+      totalRevenue: number;
+      platformRevenue: number;
+      organizerRevenue: number;
+      bookingsCount: number;
+    }>([
+      { $match: match },
+      {
+        $group: {
+          _id: null,
+          totalRevenue: { $sum: "$totalAmount" },
+          platformRevenue: { $sum: "$platformFee" },
+          organizerRevenue: { $sum: "$organizerAmount" },
+          bookingsCount: { $sum: 1 },
+        },
+      },
+    ]);
+
+         const totals = totalsRaw[0] ?? {
+      totalRevenue: 0,
+      platformRevenue: 0,
+      organizerRevenue: 0,
+      bookingsCount: 0,
+    };
+
+     return {
+         totals,
+         timeline
+     };
+  }
+
+async getPendingPayoutSummary(): Promise<PayoutSummary> {
+      
+       const match: BookingMatchFilter = {
+      status: BookingStatus.CONFIRMED,
+      payoutStatus: PayoutStatus.PENDING,
+    };
+
+     const result = await BookingModel.aggregate<{
+      pendingAmount: number;
+      pendingCount: number;
+    }>([
+      { $match: match },
+      {
+        $group: {
+          _id: null,
+          pendingAmount: { $sum: "$organizerAmount" },
+          pendingCount: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const doc = result[0] ?? { pendingAmount: 0, pendingCount: 0 };
+
+    return {
+      pendingAmount: doc.pendingAmount,
+      pendingCount: doc.pendingCount,
+    };
+}
+        
 }

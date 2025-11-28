@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { HandleStripeWebhookUseCase } from "../../../application/useCases/common/useCases/HandleStripeWebhookUseCase";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 
 
 export class StripeWebhookController {
@@ -12,7 +13,7 @@ export class StripeWebhookController {
 
     try {
       await this._handleStripeWebhookUseCase.execute(req.body, signature);
-     res.status(HttpStatusCode.OK).json(ApiResponse.success("webhook received", HttpStatusCode.OK))
+     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.WEBHOOK.RECEIVED, HttpStatusCode.OK))
     } catch (err) {
          next(err)
     }

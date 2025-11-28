@@ -15,6 +15,7 @@ export class OrganizerSubscriptionEntity {
    public paymentId?: string;
    public id?: string;
    public payoutDelayDays?: number;
+   public commissionRate?: number;
 
    constructor(props: {
       organizerId: Types.ObjectId,
@@ -28,6 +29,7 @@ export class OrganizerSubscriptionEntity {
       paymentId?: string,
       price?:number,
       payoutDelayDays?: number;
+      commissionRate?: number;
       id?: string
 
 
@@ -44,6 +46,7 @@ export class OrganizerSubscriptionEntity {
        this.id = props.id;
        this.price = props.price;
        this.payoutDelayDays = props.payoutDelayDays;
+       this.commissionRate = props.commissionRate
 
    }
   isActive(): boolean {

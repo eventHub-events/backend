@@ -16,7 +16,8 @@ export class OrganizerSubscriptionEntityFactory implements IOrganizerSubscriptio
           status : dbModel.status,
           price: dbModel.price,
           paymentId : dbModel.paymentId,
-          payoutDelayDays: dbModel.payoutDelayDays
+          payoutDelayDays: dbModel.payoutDelayDays,
+          commissionRate : dbModel.commissionRate
           
   })
 }

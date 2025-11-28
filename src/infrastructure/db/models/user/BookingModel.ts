@@ -26,6 +26,10 @@ export interface IBooking extends Document {
    paymentId: string;
    ticketUrls?: string[];
    sessionId?:string;
+   commissionRate?: number;
+   platformFee?: number;
+   organizerAmount? : number;
+   subScriptionPlanId?: string;
 
 
 }
@@ -43,6 +47,21 @@ const bookingSchema = new Schema<IBooking>({
      },
      sessionId: {
        type: String
+     },
+     commissionRate:{
+        type :Number,
+        default : 0
+     },
+     platformFee :{
+       type :Number,
+       default: 0
+     },
+     organizerAmount:{
+       type:Number,
+       default: 0
+     },
+     subScriptionPlanId:{
+       type:String
      },
    eventTitle: {
      type: String,
@@ -110,5 +129,10 @@ const bookingSchema = new Schema<IBooking>({
    }
    
 },{timestamps : true})
+
+bookingSchema.index({ createdAt: 1 });
+bookingSchema.index({ organizerId: 1 });
+bookingSchema.index({ status: 1 });
+
 
 export  const  BookingModel =  mongoose.model<IBooking>("Booking", bookingSchema);

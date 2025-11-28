@@ -52,5 +52,17 @@ export const ResponseMessages = {
       REPORTS_FETCH_SUCCESS :"Reports fetched successfully",
       REPORT_UPDATE_SUCCESS:"Report updated successfully"
 
+   },
+   ADMIN_DASHBOARD: {
+      ON_SUCCESS: "Admin  dashboard details fetched successfully"
+   },
+   WEBHOOK:{
+      RECEIVED :"webhook received"
+   },
+   USER :{
+      PROFILE: {
+          FETCH_SUCCESS : "User profile fetched successfully",
+          UPDATE_SUCCESS : "User Profile Updated successfully"
+      }
    }
 }
