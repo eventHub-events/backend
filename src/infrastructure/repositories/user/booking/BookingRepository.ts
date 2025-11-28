@@ -1,4 +1,4 @@
-import { FilterQuery, Types } from "mongoose";
+import { FilterQuery, PipelineStage, Types } from "mongoose";
 import { IBookingEntityFactory } from "../../../../application/interface/factories/user/IBookingEntityFactory";
 import { BookingEntity } from "../../../../domain/entities/user/BookingEntity";
 import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
@@ -10,7 +10,7 @@ import { BookingMatchFilter, ReportRange } from "../../../types/dashboard/bookin
 import { BookingStatus, PayoutStatus } from "../../../../domain/enums/user/Booking";
 import { RevenueAndBookingSummary } from "../../../../domain/entities/user/RevenueAndBookingSummary";
 import { PayoutSummary } from "../../../../domain/entities/user/PayoutSummary";
-import { OrganizerEventPerformance, OrganizerPayoutSummary, OrganizerRevenueTimeline } from "../../../../application/DTOs/organizer/dashboard/OrganizerDashboardDTO";
+import { OrganizerEventPerformance, OrganizerEventPerformanceResult, OrganizerPayoutSummary, OrganizerRevenueTimeline } from "../../../../application/DTOs/organizer/dashboard/OrganizerDashboardDTO";
 
 
 export class BookingRepository extends BaseRepository<IBooking> implements IBookingRepository {
@@ -353,5 +353,61 @@ async getOrganizerEventPerformance(organizerId: string): Promise<OrganizerEventP
   ]);
 
   return doc ?? { pendingAmount: 0, pendingCount: 0 };
- }       
+ }  
+  async getOrganizerEventPerformanceForTable(organizerId: string,page: number,limit: number): Promise<OrganizerEventPerformanceResult> {
+       const skip = (page - 1) * limit;
+
+  const pipeline :PipelineStage[] = [
+    {
+      $match: {
+        organizerId: new Types.ObjectId(organizerId),
+        status: BookingStatus.CONFIRMED
+      }
+    },
+    {
+      $unwind: "$tickets"
+    },
+    {
+      $group: {
+        _id: "$eventId",
+        eventTitle: { $first: "$eventTitle" },
+        eventDate: { $first: "$eventDate" },
+        bookingsCount: { $addToSet: "$_id" },
+        totalTicketsSold: { $sum: "$tickets.quantity" },
+        revenue: { $sum: "$tickets.price" }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        eventId: { $toString: "$_id" },
+        eventTitle: 1,
+        eventDate: 1,
+        bookingsCount: { $size: "$bookingsCount" },
+        totalTicketsSold: 1,
+        revenue: 1
+      }
+    },
+    { $sort: { eventDate: -1 } },
+    {
+      $facet: {
+        data: [{ $skip: skip }, { $limit: limit }],
+        total: [{ $count: "count" }]
+      }
+    }
+  ];
+
+  const result = await BookingModel.aggregate<{
+    data: OrganizerEventPerformance[];
+    total: { count: number }[];
+  }>(pipeline);
+
+  const events = result[0]?.data ?? [];
+  const totalCount = result[0]?.total[0]?.count ?? 0;
+
+  return {
+    events,
+    totalPages: Math.ceil(totalCount / limit)
+  };
+ }     
 }

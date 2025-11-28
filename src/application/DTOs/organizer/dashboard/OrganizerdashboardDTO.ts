@@ -46,8 +46,22 @@ export interface OrganizerEventPerformance {
   bookingsCount: number;
   revenue: number;
 }
+export interface OrganizerEventPerformanceResult {
+  events: OrganizerEventPerformance[];
+  totalPages: number;
+}
 export interface OrganizerPayoutSummary {
   pendingAmount: number;
   pendingCount: number;
   lastPayoutDate?: Date;
+}
+// domain/dto/organizer/OrganizerEventPerformance.ts
+
+export interface OrganizerEventPerformance {
+  eventId: string;
+  eventTitle: string;
+  eventDate: string;
+  totalTicketsSold: number;
+  bookingsCount: number;
+  revenue: number;
 }
