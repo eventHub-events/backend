@@ -3,6 +3,7 @@ import { BookingEntity } from "../../entities/user/BookingEntity";
 import { ReportRange } from "../../../infrastructure/types/dashboard/booking";
 import { RevenueAndBookingSummary } from "../../entities/user/RevenueAndBookingSummary";
 import { PayoutSummary } from "../../entities/user/PayoutSummary";
+import { OrganizerEventPerformance, OrganizerPayoutSummary, OrganizerRevenueTimeline } from "../../../application/DTOs/organizer/dashboard/OrganizerDashboardDTO";
 
 export interface IBookingRepository {
   createBooking(data: BookingEntity) : Promise<BookingEntity>;
@@ -17,5 +18,8 @@ export interface IBookingRepository {
   findBookingsByOrganizerIdAndUserId(organizerId:string, userId: string) : Promise<BookingEntity | null>;
   getRevenueAndBookingSByRange(range: ReportRange): Promise<RevenueAndBookingSummary>;
   getPendingPayoutSummary(): Promise<PayoutSummary>;
+  getOrganizerRevenueByRange(organizerId: string, range: ReportRange):Promise<OrganizerRevenueTimeline>;
+  getOrganizerEventPerformance(organizerId: string): Promise<OrganizerEventPerformance[]>;
+  getOrganizerPayoutSummary(organizerId : string): Promise<OrganizerPayoutSummary>;
 
 }

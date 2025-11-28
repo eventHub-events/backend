@@ -1,4 +1,4 @@
-import { FilterQuery } from "mongoose";
+import { FilterQuery, Types } from "mongoose";
 import { IBookingEntityFactory } from "../../../../application/interface/factories/user/IBookingEntityFactory";
 import { BookingEntity } from "../../../../domain/entities/user/BookingEntity";
 import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
@@ -10,6 +10,7 @@ import { BookingMatchFilter, ReportRange } from "../../../types/dashboard/bookin
 import { BookingStatus, PayoutStatus } from "../../../../domain/enums/user/Booking";
 import { RevenueAndBookingSummary } from "../../../../domain/entities/user/RevenueAndBookingSummary";
 import { PayoutSummary } from "../../../../domain/entities/user/PayoutSummary";
+import { OrganizerEventPerformance, OrganizerPayoutSummary, OrganizerRevenueTimeline } from "../../../../application/DTOs/organizer/dashboard/OrganizerDashboardDTO";
 
 
 export class BookingRepository extends BaseRepository<IBooking> implements IBookingRepository {
@@ -233,5 +234,124 @@ async getPendingPayoutSummary(): Promise<PayoutSummary> {
       pendingCount: doc.pendingCount,
     };
 }
-        
+ async getOrganizerRevenueByRange(organizerId: string, range: ReportRange): Promise<OrganizerRevenueTimeline> {
+         const now = new Date();
+  const from = new Date();
+
+  let format: "%Y-%m-%d" | "%Y-%m" | "%Y";
+
+  if (range === "daily") {
+    from.setDate(now.getDate() - 6);
+    format = "%Y-%m-%d";
+  } else if (range === "monthly") {
+    from.setMonth(now.getMonth() - 5);
+    format = "%Y-%m";
+  } else {
+    from.setFullYear(now.getFullYear() - 4);
+    format = "%Y";
+  }
+
+  const rows = await BookingModel.aggregate<{
+    _id: string;
+    revenue: number;
+  }>([
+    {
+      $match: {
+        organizerId: new Types.ObjectId(organizerId),
+        status: BookingStatus.CONFIRMED,
+        createdAt: { $gte: from, $lte: now }
+      }
+    },
+    {
+      $group: {
+        _id: {
+          $dateToString: { format, date: "$createdAt" }
+        },
+        revenue: { $sum: "$organizerAmount" }
+      }
+    },
+    { $sort: { _id: 1 } }
+  ]);
+
+  return {
+    totalRevenue: rows.reduce((s, r) => s + r.revenue, 0),
+    timeline: rows.map(r => ({
+      dateLabel: r._id,
+      revenue: r.revenue
+    }))
+  };
+}
+async getOrganizerEventPerformance(organizerId: string): Promise<OrganizerEventPerformance[]> {
+     return BookingModel.aggregate<OrganizerEventPerformance>([
+    {
+      $match: {
+        organizerId: new Types.ObjectId(organizerId),
+        status: BookingStatus.CONFIRMED
+      }
+    },
+    { $unwind: "$tickets" },
+    {
+      $group: {
+        _id: "$eventId",
+        eventTitle: { $first: "$eventTitle" },
+        eventDate: { $first: "$eventDate" },
+        totalTicketsSold: { $sum: "$tickets.quantity" },
+        bookingsCount: { $sum: 1 },
+        revenue: { $sum: "$organizerAmount" }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        eventId: { $toString: "$_id" },
+        eventTitle: 1,
+        eventDate: 1,
+        totalTicketsSold: 1,
+        bookingsCount: 1,
+        revenue: 1
+      }
+    },
+    { $sort: { revenue: -1 } }
+  ]);
+}
+ async getOrganizerPayoutSummary(organizerId: string): Promise<OrganizerPayoutSummary> {
+      const [doc] = await BookingModel.aggregate<{
+    pendingAmount: number;
+    pendingCount: number;
+    lastPayoutDate?: Date;
+  }>([
+    {
+      $match: {
+        organizerId: new Types.ObjectId(organizerId),
+        status: BookingStatus.CONFIRMED
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        pendingAmount: {
+          $sum: {
+            $cond: [
+              { $eq: ["$payoutStatus", PayoutStatus.PENDING] },
+              "$organizerAmount",
+              0
+            ]
+          }
+        },
+        pendingCount: {
+          $sum: {
+            $cond: [
+              { $eq: ["$payoutStatus", PayoutStatus.PENDING] },
+              1,
+              0
+            ]
+          }
+        },
+        lastPayoutDate: { $max: "$payoutDate" }
+      }
+    }
+  ]);
+
+  return doc ?? { pendingAmount: 0, pendingCount: 0 };
+ }       
 }
