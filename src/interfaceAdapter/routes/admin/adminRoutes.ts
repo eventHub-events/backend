@@ -1,4 +1,4 @@
- import express, { NextFunction, Response } from "express"
+ import express, { NextFunction, Request, Response } from "express"
  const router= express.Router()
 
 import { authController, authenticationMiddleWare } from "../../../di/container"
@@ -8,15 +8,21 @@ import { InputDataValidator } from "../../../infrastructure/middleware/zodMiddle
 import { categoryValidateSchema, categoryValidateUpdateSchema } from "../../../infrastructure/validation/schemas/admin/categorySchema"
 import { categoryController } from "../../../di/admin/category/containersList"
 import { eventManagementQueryController, eventModerationActionsController, eventModerationController } from "../../../di/admin/event-management/containerList"
-import { EventModerationActionsController } from "../../controllers/admin/EventModerationActionsController"
-// import { eventRetrievalController } from "../../../di/organizer/events/container"
+import { bookingControllerForAdmin } from "../../../di/admin/bookings/container"
+import { subscriptionPlansManagementController, subscriptionPlansRetrievalController } from "../../../di/admin/subcription-plans/container"
+import { adminReportController } from "../../../di/admin/report/container"
+import { adminDashBoardController } from "../../../di/admin/dashboard/container"
 
 
 
- router.post("/login",(req,res)=>authController.loginUser(req,res))
- router.post("/logout",(req,res)=>authController.logout(req,res))
- router.get("/usersList",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>usersListController.fetchUsers(req,res))
- router.post("/updateUser",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req,res)=>usersListController.UpdateUser(req,res))
+
+ router.post("/login",(req: Request, res: Response, next: NextFunction)  => authController.loginUser(req, res, next));
+ router.post("/logout",(req: IAuthenticatedRequest, res: Response, next: NextFunction)=>authController.logout(req, res, next));
+
+ // user-management//
+ router.get("/usersList",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res: Response, next: NextFunction) => usersListController.fetchUsers(req, res, next));
+ router.post("/updateUser",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:  IAuthenticatedRequest, res: Response, next: NextFunction) => usersListController.UpdateUser(req, res, next));
+
   router.post("/download-pdf",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req,res)=>downloadPdfController.downloadPdf(req,res))
 
   //organizer verification  related
@@ -45,7 +51,26 @@ import { EventModerationActionsController } from "../../controllers/admin/EventM
    router.patch("/events/:eventId/unBlock", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationActionsController.unBlock(req, res, next));
    router.patch("/events/:eventId/approve", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationActionsController.approve(req, res, next));
    router.patch("/events/:eventId/reject", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationActionsController.reject(req, res, next));
- 
 
+   // booking-management//
+    router.get("/bookings",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res : Response , next :NextFunction ) => bookingControllerForAdmin.fetchBookings(req, res, next));
+    router.get("/bookings/:bookingId", (req: Request, res: Response, next: NextFunction) => bookingControllerForAdmin.fetchBookingById(req, res, next));
+
+
+
+    // Subscription-plans//
+    router.get("/plans",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => subscriptionPlansRetrievalController.fetchAll(req, res, next));
+    router.post("/plans",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:Request, res: Response, next:NextFunction) => subscriptionPlansManagementController.create(req, res, next));
+    router.put("/plans/:planId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:Request, res: Response, next: NextFunction) => subscriptionPlansManagementController.update(req, res, next));
+    router.patch("/plans/:planId/status",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:Request, res: Response, next: NextFunction) => subscriptionPlansManagementController.updateStatus(req, res, next));
+ 
+   // reports //
+   router.get("/reports/:targetType",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => adminReportController.fetchReports(req, res, next));
+   router.put("/report/:reportId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => adminReportController.takeAction(req, res, next));
+
+   // dashboard //
+  router.get("/dashboard", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => adminDashBoardController.getDashboard(req, res, next));
+
+  
  export default router
 

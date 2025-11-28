@@ -4,6 +4,7 @@ import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStat
 import { IUserProfileUseCase } from "../../../application/interface/useCases/user/IUserProfileUseCase";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { IErrorMapper } from "../../../application/interface/common/errorMappers/IErrorMapper";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 
 
 
@@ -18,7 +19,8 @@ export class UserProfileController {
         const {userId} = req.params;
 
       const userProfile = await this._userProfileUseCase.getUserProfile(userId);
-      return res.status(HttpStatusCode.OK).json(ApiResponse.success("User profile fetched successfully", HttpStatusCode.OK, userProfile))
+      console.log("up", userProfile);
+      return res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.USER.PROFILE.FETCH_SUCCESS, HttpStatusCode.OK, userProfile))
       
    }catch(err){
     next(err)
@@ -30,7 +32,7 @@ export class UserProfileController {
          
          const updatedProfile= await this._userProfileUseCase.editProfileData(profileId , req.body);
 
-         return res.status(HttpStatusCode.OK).json(ApiResponse.success("User Profile Updated successfully", HttpStatusCode.OK, updatedProfile ))
+         return res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.USER.PROFILE.UPDATE_SUCCESS, HttpStatusCode.OK, updatedProfile ))
 
      }catch(err){
         

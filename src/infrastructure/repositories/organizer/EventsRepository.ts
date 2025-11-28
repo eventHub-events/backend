@@ -34,6 +34,7 @@ export class EventRepository extends BaseRepository<IEvent> implements IEventRep
    async findEventsByOrganizerId(organizerId: string, filter: Partial<EventEntity>={}): Promise<EventEntity[]> {
 
       const eventsDoc = await super.findAll({organizerId,... filter}) as EventsDbModel[];
+      
         if(!eventsDoc ) throw new Error("Events not found");
       return this._eventEntityMapper.toDomainList(eventsDoc);
 

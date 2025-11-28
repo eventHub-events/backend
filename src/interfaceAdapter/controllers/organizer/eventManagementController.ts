@@ -3,11 +3,12 @@ import { ICreateEventUseCase } from "../../../application/interface/useCases/org
 import { IDeleteEventUseCase } from "../../../application/interface/useCases/organizer/events/IDeleteEventUseCase";
 import { IUpdateEventUseCase } from "../../../application/interface/useCases/organizer/events/IEditEventUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
-import { EventCreationRequestDTO } from "../../../domain/DTOs/organizer/events/EventCreationRequestDTO";
+import { EventCreationRequestDTO } from "../../../application/DTOs/organizer/events/EventCreationRequestDTO";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { ICancelEventUseCase } from "../../../application/interface/useCases/organizer/events/ICancelEventUseCase";
+import { EventUpdateDTO } from "../../../application/DTOs/organizer/events/EventUpdateDTO";
 
 export class EventManagementController {                                                                                                  
   constructor(
@@ -37,7 +38,7 @@ export class EventManagementController {
      try{
         const { eventId }  =  req.params;
         if(!eventId) throw new CustomError("EventId is required", HttpStatusCode.BAD_REQUEST);
-         const dto = req.body;
+         const dto:EventUpdateDTO = req.body;
          const updatedEvent  = await this._updateEventUseCase.execute(eventId, dto);
 
    res.status(HttpStatusCode.OK).json(ApiResponse.success("Event updated successfully", HttpStatusCode.OK, updatedEvent));

@@ -1,4 +1,4 @@
-import { UserRegisterDTO } from "../../domain/DTOs/user/RegisterUserDTO";
+import { UserRegisterDTO } from "../../application/DTOs/user/RegisterUserDTO";
 // import { UserResponseDTO } from "../../domain/dtos/user/UserResponseDTO";
 
 

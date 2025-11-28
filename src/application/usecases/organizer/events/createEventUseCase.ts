@@ -1,5 +1,5 @@
-import { EventCreationRequestDTO } from "../../../../domain/DTOs/organizer/events/EventCreationRequestDTO";
-import { EventResponseDTO } from "../../../../domain/DTOs/organizer/events/EventResponseDTO";
+import { EventCreationRequestDTO } from "../../../DTOs/organizer/events/EventCreationRequestDTO";
+import { EventResponseDTO } from "../../../DTOs/organizer/events/EventResponseDTO";
 import { EventApprovalStatus } from "../../../../domain/enums/organizer/events";
 import { IEventModerationRepository } from "../../../../domain/repositories/admin/IEventModerationRepository";
 import { IEventRepository } from "../../../../domain/repositories/organizer/IEventsRepository";
@@ -11,12 +11,14 @@ export class CreateEventUseCase implements ICreateEventUseCase {
    constructor(
         private _eventRepository: IEventRepository,
         private _eventMapper: IEventMapper,
-        private _eventModerationRepository: IEventModerationRepository
+        private _eventModerationRepository: IEventModerationRepository,
+        
    ){}
  async  execute(data: EventCreationRequestDTO): Promise<EventResponseDTO> {
 
        const eventEntity = this._eventMapper.toEntity(data);
-     
+       
+        
 
       const eventData =  await this._eventRepository.createEvent(eventEntity);
        if(!eventData) throw new Error("Event creation failed");

@@ -30,7 +30,8 @@ toDomain(dbModel: EventsDbModel): EventEntity {
          createdAt: dbModel.createdAt,
          updatedAt: dbModel.updatedAt,
          visibility : dbModel.visibility,
-         organizerEmail :dbModel.organizerEmail
+         organizerEmail :dbModel.organizerEmail,
+         category: dbModel.category
      });
 }
 toDomainList(dbModel: EventsDbModel[]): EventEntity[] {

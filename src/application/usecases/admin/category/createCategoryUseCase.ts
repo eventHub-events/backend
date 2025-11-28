@@ -1,5 +1,5 @@
-import { CategoryResponseDTO } from "../../../../domain/DTOs/admin/category/CategoryResponseDTO";
-import { CreateCategoryRequestDTO } from "../../../../domain/DTOs/admin/category/CreateCategoryRequestDTO";
+import { CategoryResponseDTO } from "../../../DTOs/admin/category/CategoryResponseDTO";
+import { CreateCategoryRequestDTO } from "../../../DTOs/admin/category/CreateCategoryRequestDTO";
 import { ICategoryRepository } from "../../../../domain/repositories/admin/ICategoryRepository";
 import { ICreateCategoryUseCase } from "../../../interface/useCases/admin/category/ICreateCategoryUseCase";
 import { ICategoryMapper } from "../../../interface/mapper/admin/ICategoryMapper";

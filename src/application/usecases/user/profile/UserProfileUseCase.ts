@@ -1,5 +1,5 @@
-import { UserProfileEditRequestDTO } from "../../../../domain/DTOs/user/profile/UserProfileEditRequestDTO";
-import { UserProfileResponseDTO } from "../../../../domain/DTOs/user/profile/UserProfileResponseDTO";
+import { UserProfileEditRequestDTO } from "../../../DTOs/user/profile/UserProfileEditRequestDTO";
+import { UserProfileResponseDTO } from "../../../DTOs/user/profile/UserProfileResponseDTO";
 import {  ForbiddenError } from "../../../../domain/errors/userProfile";
 import { IUserProfileRepository } from "../../../../domain/repositories/user/IUserProfileRepository";
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
@@ -18,8 +18,11 @@ export class UserProfileUseCase implements IUserProfileUseCase {
 
     const profileData = await Promise.all([this._userProfileRepository.fetchProfile(userId), this._userRepo.findUserById(userId)]);
     const[profile,user] = profileData;
+    
 
-    return this._profileMapper.toResponseDto(user!,profile);
+     const result = this._profileMapper.toResponseDto(user!,profile);
+     
+     return result
       
   }
   async editProfileData(profileId: string, data: UserProfileEditRequestDTO): Promise<UserProfileResponseDTO> {

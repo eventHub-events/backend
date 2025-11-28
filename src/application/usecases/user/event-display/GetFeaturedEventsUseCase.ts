@@ -1,5 +1,5 @@
 
-import { TrendingEventDisplayResponseDTO } from "../../../../domain/DTOs/user/event-display/TrendingEventDisplayResponseDTO";
+import { TrendingEventDisplayResponseDTO } from "../../../DTOs/user/event-display/TrendingEventDisplayResponseDTO";
 import { IEventDisplayQueryRepository } from "../../../../domain/repositories/user/IEventDisplayQueryRepository";
 import { IEventDisplayMapper } from "../../../interface/mapper/user/IEventDisplayMapper";
 import { IGetFeaturedEventUseCase } from "../../../interface/useCases/user/event-display/IGetFeaturedEventsUseCase";
@@ -11,9 +11,9 @@ export class GetFeaturedEventUseCase implements IGetFeaturedEventUseCase  {
         private _eventDisplayMapper: IEventDisplayMapper
   ){}
   async execute(): Promise<TrendingEventDisplayResponseDTO[]> {
-      const  events = await this._eventDisplayQueryRepository.findFeaturedEvents();
-      if(!events) throw new Error("featured events Not found");
+      const  {data} = await this._eventDisplayQueryRepository.findFeaturedEvents({});
+      if(!data) throw new Error("featured events Not found");
 
-    return this._eventDisplayMapper.toResponseDTOList(events);
+    return this._eventDisplayMapper.toResponseDTOList(data);
   }
 }

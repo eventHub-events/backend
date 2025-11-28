@@ -1,7 +1,7 @@
-import { Types } from "mongoose";
+import { FilterQuery, PipelineStage, Types } from "mongoose";
 import { EventDisplayEntity } from "../../../../domain/entities/user/EventDisplayEntity";
 import { IEventDisplayQueryRepository } from "../../../../domain/repositories/user/IEventDisplayQueryRepository";
-import { EventModel } from "../../../db/models/organizer/events/EventsModel";
+import { EventModel, IEvent } from "../../../db/models/organizer/events/EventsModel";
 import { EventDetailsEntity } from "../../../../domain/entities/user/EventDetailsEntity";
 
 export class EventDisplayQueryRepository implements  IEventDisplayQueryRepository {
@@ -93,65 +93,101 @@ export class EventDisplayQueryRepository implements  IEventDisplayQueryRepositor
         }
      ])
  }
- async findFeaturedEvents(): Promise<EventDisplayEntity[]> {
-     return await EventModel.aggregate([
-       {$match:{featured: true, isDeleted: false}},
+ async findFeaturedEvents(
+    filters:{
+   title?: string;
+   location?: string;
+   category?:string;
+   page?: number;
+   limit?: number
+ } = {}
+  ): Promise<{ data: EventDisplayEntity[]; totalPages: number }> {
+    const {
+      title,
+      location,
+      category,
+      page,
+      limit,
+    } = filters;
 
-       {$lookup: {
-         from: "eventmoderations",
-         localField:"_id",
-         foreignField: "eventId",
-         as:"moderation"
-       }},
+    // ✅ Default behavior: if no pagination => limit = 6 (landing page)
+    const effectiveLimit = limit ?? 6;
+    const effectivePage = page ?? 1;
 
-       {$lookup: {
+    // ✅ Match stage (strongly typed)
+    const matchStage: FilterQuery<IEvent> = {
+      featured: true,
+      isDeleted: false,
+    };
+
+    if (title) matchStage.title = { $regex: title, $options: "i" };
+    if (location) matchStage["location.venue"] = { $regex: location, $options: "i" };
+    // if (category) matchStage["category.name"] = { $regex: category, $options: "i" };
+    if (category) matchStage.category = { $regex: category, $options: "i" };
+
+    // ✅ Pipeline (typed as `Record<string, unknown>[]` instead of `any[]`)
+   const pipeline: PipelineStage[]= [
+      {
+        $lookup: {
+          from: "eventmoderations",
+          localField: "_id",
+          foreignField: "eventId",
+          as: "moderation",
+        },
+      },
+      { $unwind: { path: "$moderation", preserveNullAndEmptyArrays: true } },
+      { $match: { "moderation.eventApprovalStatus": "approved" } },
+      { $match: matchStage },
+      {
+        $lookup: {
           from: "eventticketings",
-          localField:"_id",
-          foreignField:"eventId",
-          as:"ticketing"
-       }},
-
-       {$lookup: {
-          from:"categories",
-          localField:"categoryId",
-          foreignField:"_id",
-          as:"category"
-       }},
-
-       {$lookup: {
-          from: "users",
-          localField:"organizerId",
+          localField: "_id",
+          foreignField: "eventId",
+          as: "ticketing",
+        },
+      },
+      {
+        $lookup: {
+          from: "categories",
+          localField: "categoryId",
           foreignField: "_id",
-          as: "organizer"
-       }},
-       {$unwind: "$ticketing"},
-       {$unwind:"$category"},
-       {$unwind:"$organizer"},
-       {$match: {"moderation.eventApprovalStatus": "approved"}},
-
-        {
+          as: "category",
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "organizerId",
+          foreignField: "_id",
+          as: "organizer",
+        },
+      },
+      { $unwind: "$ticketing" },
+      { $unwind: "$category" },
+      { $unwind: "$organizer" },
+      {
         $addFields: {
           price: {
             $min: {
               $map: {
                 input: "$ticketing.tickets",
                 as: "t",
-                in: "$$t.price"
-              }
-            }
+                in: "$$t.price",
+              },
+            },
           },
           ticketsLeft: { $subtract: ["$totalCapacity", "$ticketing.ticketsSold"] },
           availability: {
             $multiply: [
               { $divide: ["$ticketing.ticketsSold", "$totalCapacity"] },
-              100
-            ]
+              100,
+            ],
           },
           organizer: "$organizer.name",
-          category: "$category.name"
-        }
+          category: "$category.name",
+        },
       },
-       {
+      {
         $project: {
           _id: 1,
           title: 1,
@@ -159,17 +195,32 @@ export class EventDisplayQueryRepository implements  IEventDisplayQueryRepositor
           startDate: 1,
           location: "$location.venue",
           category: 1,
-          tags:1,
+          tags: 1,
           organizer: 1,
           ticketsLeft: 1,
           availability: 1,
           price: 1,
-          images: 1
-        }
-      }
+          images: 1,
+        },
+      },
+    ];
 
-     ])
- }
+    // ✅ Pagination logic (only if page/limit provided)
+    const skip = (effectivePage - 1) * effectiveLimit;
+
+    const [data, countResult] = await Promise.all([
+      EventModel.aggregate([...pipeline, { $skip: skip }, { $limit: effectiveLimit }]),
+      EventModel.aggregate([
+        ...pipeline.slice(0, pipeline.findIndex((p) => "$project" in p) + 1),
+        { $count: "total" },
+      ]),
+    ]);
+
+    const totalDocs = countResult[0]?.total ?? 0;
+    const totalPages = Math.ceil(totalDocs / effectiveLimit);
+
+    return { data, totalPages };
+  }
 async findEventById(eventId: string): Promise<EventDetailsEntity| null> {
     const objectId = new Types.ObjectId(eventId);
   const  result =  await EventModel.aggregate([
@@ -237,6 +288,7 @@ async findEventById(eventId: string): Promise<EventDetailsEntity| null> {
           organizerName: "$organizer.name",
           
           category:"$category.name",
+          organizerStripeAccountId: "$organizer.stripeAccountId",
 
         },
       },
@@ -250,10 +302,12 @@ async findEventById(eventId: string): Promise<EventDetailsEntity| null> {
         tags:1,
         startDate:1,
         images:1,
+        organizerId:1,
         totalCapacity:1,
         category:1,
         tickets:1,
-        organizerName:1
+        organizerName:1,
+        organizerStripeAccountId:1
 
 
 

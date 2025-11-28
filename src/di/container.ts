@@ -24,29 +24,27 @@ import { WinstonLoggerService } from '../infrastructure/services/logger/loggerSe
 import { VerifyResetPasswordOtpUseCase } from '../application/useCases/user/auth/ResetPasswordUseCase';
 
 import { UserMapper } from '../application/mapper/user/UserMapper';
-import { UsersMapper } from '../application/mapper/user/usersMapper';
 import { organizerBlankProfileCreationUseCase } from './organizer/container';
 import { OrganizerProfileCreator } from '../application/useCases/organizer/profile/organizerProfileCreator';
-import { UserEntityFactory } from '../infrastructure/factories/UserEntityFactory';
 import { PasswordController } from '../interfaceAdapter/controllers/user/PasswordController';
 import { ChangePasswordUseCase } from '../application/useCases/user/auth/ChangePasswordUseCase';
 import { tokenConfig } from './common/commonContainers';
 import { UserProfileMapper } from '../application/mapper/user/UserProfileMapper';
 import { UserProfileRepository } from '../infrastructure/repositories/user/profile/UserProfileRepository';
-import { UserProfileEntityFactory } from '../infrastructure/factories/UserProfileEntityFactory';
 import { UserProfileUseCase } from '../application/useCases/user/profile/UserProfileUseCase';
 import { UserProfileController } from '../interfaceAdapter/controllers/user/UserProfileController';
 import { UserProfileCreator } from '../application/service/user/UserProfileCreator';
 import { ErrorMapperService } from '../infrastructure/errors/userProfileErrorMapper';
+import { UserEntityFactory } from '../infrastructure/factories/user/UserEntityFactory';
+import { UserProfileEntityFactory } from '../infrastructure/factories/user/UserProfileEntityFactory';
 
 
 
 const cacheService = new RedisCacheService();
 export const loggerService= new WinstonLoggerService()
 const userMapper = new UserMapper();
-const usersMapper= new UsersMapper(userMapper)
 const userEntityFactory = new UserEntityFactory()
-export const userRepository = new UserRepository(loggerService,userMapper,usersMapper,userEntityFactory);
+export const userRepository = new UserRepository(loggerService,userEntityFactory);
 const nodeMailerEmailService = new NodeMailerEmailService();
 const emailService = new EmailService(nodeMailerEmailService);
 
@@ -82,7 +80,7 @@ const resendOtpUseCase = new ResendOtpUseCase(generateOtpUseCase, nodeMailerEmai
 const loginUserUseCase   = new LoginUserUseCase(tokenService,hashService,userRepository)
 const logoutUserUseCase= new LogoutUserUseCase()
 
-const forgetPasswordUseCase = new ForgetPasswordUseCase(generateOtpUseCase,userRepository,loggerService,emailService,cacheService);
+const forgetPasswordUseCase = new ForgetPasswordUseCase(generateOtpUseCase, userRepository, loggerService, emailService, userMapper, cacheService);
 const verifyResetPasswordOtpUseCase =new VerifyResetPasswordOtpUseCase(otpService,hashService,tokenService,cacheService);
 // const changePasswordUseCase=new ChangePasswordUseCase(userRepository,tokenService,hashService,loggerService,userMapper);
 const changePasswordUseCase =  new ChangePasswordUseCase(userRepository,tokenService,hashService,loggerService,userMapper)

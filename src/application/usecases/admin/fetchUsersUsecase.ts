@@ -1,38 +1,36 @@
 
-import { UserResponseDTO } from "../../../domain/DTOs/user/UserResponseDTO";
+import { UserResponseDTO } from "../../DTOs/user/UserResponseDTO";
 import { IUserRepository } from "../../../domain/repositories/user/IUserRepository";
-
-
-
-import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
-import { IUserUpdateDTO } from "../../../domain/DTOs/user/userUpdateDTO";
-import { PaginationDTO } from "../../../domain/DTOs/common/PaginationDTO";
+import { IUserUpdateDTO } from "../../DTOs/user/userUpdateDTO";
+import {  UserFilterOptions } from "../../DTOs/common/userFilterOptions";
 import { IFetchUserUseCase } from "../../interface/useCases/admin/IFetchUsersUseCase";
+import { IUserMapper } from "../../interface/useCases/user/mapper/IUserMapper";
+import { UserEntity } from "../../../domain/entities/User";
 
 export class FetchUserUseCase implements IFetchUserUseCase{
-  constructor(private _userRepo:IUserRepository){}
-  async fetchUsers(pagination:PaginationDTO): Promise<{users:Omit<UserResponseDTO, "phone" | "password">[],total:number}|null> {
-    try{
-      const usersList= await this._userRepo.findAllUsers(pagination)
-      if(!usersList) throw new Error("Error in  fetching user")
-        const{users,total}=usersList
-        return {users,total}
+  constructor(
+    private _userRepo:IUserRepository,
+    private _userMapper: IUserMapper
+  ){}
+  async fetchUsers(userFilters: UserFilterOptions): Promise<{usersList: UserResponseDTO[], total:number} > {
+   
+
+             const usersEntity = await this._userRepo.findAllUsers( userFilters);
+              if(!usersEntity) throw new Error("Error in  fetching user");
+
+            const{users,total} = usersEntity;
+             const usersList = this._userMapper.toResponseDTOListForAdmin(users);
+    return{ usersList, total}
         
-    }catch(err:unknown){
-       
-       return null
-    }
+   
   }
-async updateUser(id: string,data:IUserUpdateDTO):Promise<UserResponseDTO|string>  {
-      try{
-        console.log(id,data)
-        const result= await this._userRepo.updateUser(id,data)
-        console.log("result is ",result)
-        return result
+async updateUser(userId: string,data:IUserUpdateDTO):Promise<UserResponseDTO>  {
+     
         
-      }catch (err:unknown){
-         const error=HandleErrorUtility.handleError(err)
-         return  error
-      }
+        const result= await this._userRepo.updateUser(userId, data as Partial< UserEntity >)
+       
+      return  this._userMapper.toResponseDTOForAdmin(result)
+        
+   
   }
 }

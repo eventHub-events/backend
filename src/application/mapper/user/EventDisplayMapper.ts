@@ -1,5 +1,5 @@
-import { EventDetailsResponseDTO } from "../../../domain/DTOs/user/event-display/EventDetailsResponseDTO";
-import { TrendingEventDisplayResponseDTO } from "../../../domain/DTOs/user/event-display/TrendingEventDisplayResponseDTO";
+import { EventDetailsResponseDTO } from "../../DTOs/user/event-display/EventDetailsResponseDTO";
+import { TrendingEventDisplayResponseDTO } from "../../DTOs/user/event-display/TrendingEventDisplayResponseDTO";
 import { EventDetailsEntity } from "../../../domain/entities/user/EventDetailsEntity";
 import { EventDisplayEntity } from "../../../domain/entities/user/EventDisplayEntity";
 import { IEventDisplayMapper } from "../../interface/mapper/user/IEventDisplayMapper";
@@ -24,6 +24,7 @@ export class EventDisplayMapper implements IEventDisplayMapper {
          organizer: data.organizer,
          availability: data.availability,
          ticketsLeft: data.ticketsLeft
+     
 
 
 
@@ -42,6 +43,8 @@ toResponseDTOList(data: EventDisplayEntity[]): TrendingEventDisplayResponseDTO[]
         tags: data.tags,
         images: data.images,
         totalCapacity: data.totalCapacity,
+        organizerId: data.organizerId,
+        organizerStripeAccountId: data.organizerStripeAccountId,
         category: data.category,
         organizerName: data.organizerName,
         startDate: new Date(data.startDate).toLocaleDateString("en-GB",{
@@ -60,7 +63,7 @@ toResponseDTOList(data: EventDisplayEntity[]): TrendingEventDisplayResponseDTO[]
               return {
                  name: t.name,
                  price: t.price,
-                 totalSeats: t.price,
+                 totalSeats: t.totalSeats,
                  bookedSeats: t.bookedSeats,
                  description: t.description,
                  benefits: t.benefits,

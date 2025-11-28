@@ -1,4 +1,4 @@
-import { EventResponseDTO } from "../../../../domain/DTOs/organizer/events/EventResponseDTO";
+import { EventResponseDTO } from "../../../DTOs/organizer/events/EventResponseDTO";
 import { IEventRepository } from "../../../../domain/repositories/organizer/IEventsRepository";
 import { ACTIVE_EVENTS_FILTER } from "../../../constants/organizer/events";
 import { IEventMapper } from "../../../interface/useCases/organizer/events/IEventMapper";
@@ -12,6 +12,7 @@ export class GetEventByOrganizerUseCase implements IGetEventByOrganizerUseCase {
   async  execute(organizerId: string): Promise<EventResponseDTO[]> {
 
         const eventEntities = await this._eventRepository.findEventsByOrganizerId(organizerId,ACTIVE_EVENTS_FILTER);
+        console.log("event resposn", eventEntities)
         return this._eventMapper.toResponseDTOList(eventEntities);
     }
 

@@ -29,6 +29,7 @@ import { ILocation } from "../../valueObject/organizer/location";
      public startTime?: string;
      public endTime?: string;
      public review?: Types.ObjectId;
+     public category?: string;
 
 
    constructor(props: {
@@ -47,6 +48,7 @@ import { ILocation } from "../../valueObject/organizer/location";
     status?: EventStatus;
     startTime?: string;
     endTime?: string;
+    category?: string;
     ticketsSold?: number;
     featured?: boolean;
     createdBy?: string;
@@ -77,10 +79,13 @@ import { ILocation } from "../../valueObject/organizer/location";
     this.createdBy = props.createdBy;
     this.tags = props.tags || [];
     this.isDeleted = props.isDeleted || false;
+    this.startTime = props.startTime,
+    this.endTime = props.endTime,
     this.review = props.reviews;
     this.createdAt = props.createdAt;
     this.updatedAt = props.updatedAt;
     this.approvedStatus = props.approvedStatus;
+    this.category = props.category
    }
  
   public delete(){

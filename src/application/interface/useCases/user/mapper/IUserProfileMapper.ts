@@ -1,5 +1,5 @@
-import { UserProfileEditRequestDTO } from "../../../../../domain/DTOs/user/profile/UserProfileEditRequestDTO";
-import { UserProfileResponseDTO } from "../../../../../domain/DTOs/user/profile/UserProfileResponseDTO";
+import { UserProfileEditRequestDTO } from "../../../../DTOs/user/profile/UserProfileEditRequestDTO";
+import { UserProfileResponseDTO } from "../../../../DTOs/user/profile/UserProfileResponseDTO";
 import { User } from "../../../../../domain/entities/User";
 import { UserProfileEntity } from "../../../../../domain/entities/user/UserProfile";
 

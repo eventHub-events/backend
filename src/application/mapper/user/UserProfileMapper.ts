@@ -1,12 +1,12 @@
 
-import { UserProfileEditRequestDTO } from "../../../domain/DTOs/user/profile/UserProfileEditRequestDTO";
-import { UserProfileResponseDTO } from "../../../domain/DTOs/user/profile/UserProfileResponseDTO";
-import { User } from "../../../domain/entities/User";
+import { UserProfileEditRequestDTO } from "../../DTOs/user/profile/UserProfileEditRequestDTO";
+import { UserProfileResponseDTO } from "../../DTOs/user/profile/UserProfileResponseDTO";
+import {  UserEntity } from "../../../domain/entities/User";
 import { UserProfileEntity } from "../../../domain/entities/user/UserProfile";
 import { IUserProfileMapper } from "../../interface/useCases/user/mapper/IUserProfileMapper";
 
 export class UserProfileMapper implements IUserProfileMapper {
-  toDomainForUpdate(data:UserProfileEditRequestDTO): { profile:Partial<UserProfileEntity>, user: Partial<User> } {
+  toDomainForUpdate(data:UserProfileEditRequestDTO): { profile:Partial<UserProfileEntity>, user: Partial<UserEntity> } {
       const user = {
          id: data.user?.userId,
          name: data.user?.name,
@@ -24,11 +24,11 @@ export class UserProfileMapper implements IUserProfileMapper {
         user
       }
   }
-  toResponseDto(userData: User, profileData: UserProfileEntity): UserProfileResponseDTO {
+  toResponseDto(userData: UserEntity, profileData: UserProfileEntity): UserProfileResponseDTO {
      const userProfileData = {
        name: userData.name,
        email: userData.email,
-       phone: userData. phone.toString(),
+       phone: userData. phone?.toString()?? "",
        profileId : profileData.profileId ,
        address : profileData.address,
        image:   profileData.image,

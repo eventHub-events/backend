@@ -1,5 +1,5 @@
 
-import { RequestVerificationDTO } from "../../../../domain/DTOs/organizer/verification/requestVerificationDTO";
+import { RequestVerificationDTO } from "../../../DTOs/organizer/verification/requestVerificationDTO";
 import { User } from "../../../../domain/entities/User";
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
 import { CustomError } from "../../../../infrastructure/errors/errorClass";

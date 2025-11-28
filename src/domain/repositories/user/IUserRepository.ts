@@ -1,18 +1,26 @@
 
+import { FilterQuery } from "mongoose";
+import { UserEntity } from "../../entities/User";
+import { UserFilterOptions } from "../../../application/DTOs/common/userFilterOptions";
 
-import { UserResponseDTO } from '../../DTOs/user/UserResponseDTO';
-import { User } from '../../entities/User';
-import { PaginationDTO } from '../../DTOs/common/PaginationDTO';
-import { FilterQuery } from 'mongoose';
-import { IUserDocument } from '../../../infrastructure/db/models/user/UserModel';
+
+export interface UserCountSummary {
+  totalUsers: number;
+  activeUsers: number;
+  totalOrganizers: number;
+  activeOrganizers: number;
+}
 
 export interface IUserRepository {
-  createUser(user:Partial<IUserDocument>):Promise<User>;
-  findByEmail(email:string):Promise< User | null>;
-  findUserById(id:string):Promise<User |null>
-  verifyUser(email:string):Promise<User|null>;
-  findAllWithFilter(filter:FilterQuery<User> ):Promise<{users:Omit<UserResponseDTO, "phone" | "password">[],}|null>;
-  findAllUsers(pagination:PaginationDTO):Promise<{users:Omit<UserResponseDTO, "phone" | "password">[],total:number}|null>;
-  updateUser(id: string, data: Partial< User >):Promise< User >;
-  updateUserData(email:string, data: Partial<User>):Promise<User>;
+   createUser(user: UserEntity) : Promise< UserEntity>;
+   findByEmail(email: string) : Promise<UserEntity | null>;
+   findUserById(userId: string): Promise<UserEntity| null>;
+   verifyUser(email: string): Promise<UserEntity | null> ;
+   findAllUsers(filter: UserFilterOptions): Promise<{users: UserEntity[]; total: number} | null>;
+   findAllWithFilter(filter : FilterQuery<UserEntity> ): Promise< UserEntity[] | null > ;
+   updateUser (userId: string, data: Partial<UserEntity>): Promise<UserEntity> ;
+   UpdateUserByEmail(email: string, data: Partial<UserEntity>) : Promise<UserEntity>;
+   getUserCountSummary(): Promise<UserCountSummary>;
+   getVerifiedOrganizers(): Promise<number>;
+   getPendingOrganizerVerification(): Promise<number>;
 }

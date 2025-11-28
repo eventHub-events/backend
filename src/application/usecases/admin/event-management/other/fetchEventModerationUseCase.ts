@@ -1,4 +1,4 @@
-import { EventModerationResponseDTO } from "../../../../../domain/DTOs/admin/EventModeration/EventModerationResponseDTO";
+import { EventModerationResponseDTO } from "../../../../DTOs/admin/EventModeration/EventModerationResponseDTO";
 import { IEventModerationRepository } from "../../../../../domain/repositories/admin/IEventModerationRepository";
 import { IEventModerationMapper } from "../../../../interface/mapper/admin/IEventModerationMapper";
 import { IFetchModerationByEventIdUseCase } from "../../../../interface/useCases/admin/event-management/IFetchModerationByEventIdUseCase";

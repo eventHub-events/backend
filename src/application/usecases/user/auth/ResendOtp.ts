@@ -8,10 +8,9 @@ export class ResendOtpUseCase implements IResendOtpUseCase {
 
   async execute(email:string):Promise<string> {
     console.log('resent otp email in  ', email);
-    const userData = await this._otpService.reExecute(email);
-    console.log('userdata new hello', userData);
-    if (!userData) throw new Error('User not found or otp expired');
-    const newOtp = await this._otpService.execute(email, userData);
+    
+     const newOtp = await this._otpService.reExecute(email);
+  
     await this._emailService.sendMail(
       email,
       'Your OTP Code',

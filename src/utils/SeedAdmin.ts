@@ -9,7 +9,9 @@ dotenv.config()
 
 
 
-import { UserRegisterDTO } from "../domain/DTOs/user/RegisterUserDTO";
+import { UserRegisterDTO } from "../application/DTOs/user/RegisterUserDTO";
+import { UserEntity } from "../domain/entities/User";
+import { KycStatus } from "../infrastructure/db/models/user/UserModel";
 
 export class SeedAdmin implements ISeedAdmin{
 
@@ -35,18 +37,20 @@ this.name = process.env.ADMIN_NAME ||""
         return;
       }
       console.log("admin email",this.email,this.password)
-      const adminDTO = new UserRegisterDTO({
+      const adminDTO : UserRegisterDTO ={
         name: this.name,
         email: this.email,
         password: this.password,
         phone: 9999999999,
         isVerified: true,
         role: "admin",
-      });
+        isBlocked: false,
+        kycStatus: KycStatus.NotApplicable
+      };
     
       adminDTO.password = await this._hashService.hash(this.password);
       
-      const result=await this._userRepo.createUser(adminDTO)
+      const result=await this._userRepo.createUser(adminDTO as UserEntity)
       console.log("result is ",result)
      
       this._logger.info(`admin created :${this.email}`);

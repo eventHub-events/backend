@@ -1,4 +1,4 @@
-import { TrendingEventDisplayResponseDTO } from "../../../../domain/DTOs/user/event-display/TrendingEventDisplayResponseDTO";
+import { TrendingEventDisplayResponseDTO } from "../../../DTOs/user/event-display/TrendingEventDisplayResponseDTO";
 import { IEventDisplayQueryRepository } from "../../../../domain/repositories/user/IEventDisplayQueryRepository";
 import { IEventDisplayMapper } from "../../../interface/mapper/user/IEventDisplayMapper";
 import { IGetTrendingEventUseCase } from "../../../interface/useCases/user/event-display/IGetTrendingEventsUseCase";

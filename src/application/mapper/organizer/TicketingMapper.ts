@@ -1,9 +1,9 @@
 import { Types } from "mongoose";
-import { EventTicketingRequestDTO } from "../../../domain/DTOs/organizer/ticketing/EventTicketingRequestDTO";
-import { EventTicketingResponseDTO } from "../../../domain/DTOs/organizer/ticketing/EventTicketingResposeDTO";
+import { EventTicketingRequestDTO } from "../../DTOs/organizer/ticketing/EventTicketingRequestDTO";
+import { EventTicketingResponseDTO } from "../../DTOs/organizer/ticketing/EventTicketingResposeDTO";
 import { EventTicketingEntity } from "../../../domain/entities/organizer/EventTicketingEntity";
 import { ITicketingMapper } from "../../interface/mapper/organizer/ITicketingMapper";
-import { EventTicketingEditDTO } from "../../../domain/DTOs/organizer/ticketing/EventTicketingEditDTO";
+import { EventTicketingEditDTO } from "../../DTOs/organizer/ticketing/EventTicketingEditDTO";
 
 export  class TicketingMapper implements ITicketingMapper {
   toEntity(dto: EventTicketingRequestDTO): EventTicketingEntity {
