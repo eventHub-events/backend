@@ -4,7 +4,7 @@ export interface EventModerationResponseDTO {
       eventId: string,
       eventApprovalStatus: EventApprovalStatus,
       approved: boolean
-      approvedAt : Date;
+      approvedAt? : Date;
       approvedBy? : string;
       rejectionReason?: string;
       flaggedReason? : string;
