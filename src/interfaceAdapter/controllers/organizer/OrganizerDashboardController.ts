@@ -1,0 +1,37 @@
+import { NextFunction, Request, Response } from "express";
+import { IOrganizerDashboardUseCase } from "../../../application/interface/useCases/organizer/dashboard/IOrganizerDashboardUseCase";
+import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
+import { ReportRange } from "../../../infrastructure/types/dashboard/booking";
+import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
+import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
+
+export class OrganizerDashboardController {
+   constructor(
+      private _organizerDashboardUseCase : IOrganizerDashboardUseCase
+   ){}
+  async getDashboard(req: IAuthenticatedRequest, res :Response, next :NextFunction) : Promise<void> {
+    try{
+         const organizerId = req.user!.id;
+         const range = req.query as unknown as ReportRange;
+
+
+     const data = await this._organizerDashboardUseCase.execute(organizerId, range );
+   res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.ORGANIZER_DASHBOARD.ON_SUCCESS,HttpStatusCode.OK, data));
+    }catch(err){
+      next(err)
+    }
+  }
+  // async getDashboardTable(req: IAuthenticatedRequest, res :Response, next :NextFunction) : Promise<void> {
+  //   try{
+  //        const organizerId = req.user!.id;
+  //        const {page, limit} = req.query
+
+
+  //    const data = await this._organizerDashboardUseCase.execute(organizerId, range );
+  //  res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.ORGANIZER_DASHBOARD.ON_SUCCESS,HttpStatusCode.OK, data));
+  //   }catch(err){
+  //     next(err)
+  //   }
+  // }
+}

@@ -64,5 +64,8 @@ export const ResponseMessages = {
           FETCH_SUCCESS : "User profile fetched successfully",
           UPDATE_SUCCESS : "User Profile Updated successfully"
       }
+   },
+   ORGANIZER_DASHBOARD : {
+      ON_SUCCESS :"Organizer dashboard details fetched successfully"
    }
 }
