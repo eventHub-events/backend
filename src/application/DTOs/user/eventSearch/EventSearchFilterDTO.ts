@@ -4,4 +4,6 @@ export interface EventSearchFilterDTO {
    location?: string;
    category?: string;
    organizer?: string;
+   page: number;
+   limit: number;
 }
