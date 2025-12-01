@@ -1,4 +1,4 @@
-import { FilterQuery } from "mongoose";
+
 import { EventEntity } from "../../../domain/entities/organizer/EventEntity";
 import { IEventRepository } from "../../../domain/repositories/organizer/IEventsRepository";
 import { EventModel, IEvent } from "../../db/models/organizer/events/EventsModel";
@@ -40,7 +40,7 @@ export class EventRepository extends BaseRepository<IEvent> implements IEventRep
 
    }
    async findAllEvents(filter: Partial<EventEntity>={}): Promise<EventEntity[]> {
-      const eventDocs = await super.findAll() as EventsDbModel[];
+      const eventDocs = await super.findAll(filter) as EventsDbModel[];
        if(!eventDocs )  throw new Error("Events not found");
 
         return this._eventEntityMapper.toDomainList(eventDocs);

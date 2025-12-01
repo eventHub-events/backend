@@ -1,6 +1,5 @@
 import { EventFilterDTO } from "../../../DTOs/user/event-display/EventFilterDTO";
 import { TrendingEventDisplayResponseDTO } from "../../../DTOs/user/event-display/TrendingEventDisplayResponseDTO";
-import { EventDisplayEntity } from "../../../../domain/entities/user/EventDisplayEntity";
 import { IEventDisplayQueryRepository } from "../../../../domain/repositories/user/IEventDisplayQueryRepository";
 import { IEventDisplayMapper } from "../../../interface/mapper/user/IEventDisplayMapper";
 import { IGetAllFeaturedEventUseCase } from "../../../interface/useCases/user/event-display/IGetAllFeaturedEventUseCase";
@@ -15,7 +14,6 @@ export class GetAllFeaturedEventUseCase implements IGetAllFeaturedEventUseCase {
 
      const {data, totalPages} = await this._eventDisplayQueryRepository.findFeaturedEvents(filters);
      const page = filters.page ?? 1;
-     const limit = filters.limit ?? 10;
      const events = this._eventDisplayMapper.toResponseDTOList(data)
   
 

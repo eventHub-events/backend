@@ -13,7 +13,7 @@ export class CancelEventUseCase implements ICancelEventUseCase {
 
       eventEntity.cancel();
 
-     const result = await this._eventRepository.updateEvent(eventId, eventEntity);
+      await this._eventRepository.updateEvent(eventId, eventEntity);
 
      return "Event cancelled successfully"
 

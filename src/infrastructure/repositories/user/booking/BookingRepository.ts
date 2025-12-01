@@ -112,7 +112,7 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
   async  getRevenueAndBookingSByRange(range: ReportRange): Promise<RevenueAndBookingSummary> {
 
         const now = new Date();
-       let fromDate = new Date();
+       const fromDate = new Date();
        let dateFormat: "%Y-%m-%d" | "%Y-%m" | "%Y";
 
 

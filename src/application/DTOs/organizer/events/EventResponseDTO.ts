@@ -1,6 +1,6 @@
 import { EventApprovalStatus, EventStatus, EventType, EventVisibility } from "../../../../domain/enums/organizer/events";
 import { ILocation } from "../../../../domain/valueObject/organizer/location";
-import { ITicketTier } from "../../../../domain/valueObject/organizer/ticketTier";
+
 
 export interface EventResponseDTO {
   organizerId: string;

@@ -2,8 +2,7 @@ import { EventModerationRequestDTO } from "../../../../DTOs/admin/EventModeratio
 import { EventModerationResponseDTO } from "../../../../DTOs/admin/EventModeration/EventModerationResponseDTO";
 import { IEventModerationRepository } from "../../../../../domain/repositories/admin/IEventModerationRepository";
 import { IEventModerationMapper } from "../../../../interface/mapper/admin/IEventModerationMapper";
-import { ICreateEventModerationUseCase } from "../../../../interface/useCases/admin/event-management/ICreateEventModerationUsecase";
-import { IUpdateEventUseCase } from "../../../../interface/useCases/organizer/events/IEditEventUseCase";
+import { ICreateEventModerationUseCase } from "../../../../interface/useCases/admin/event-management/ICreateEventModerationUseCase";
 
 export class CreateEventModerationUseCase implements ICreateEventModerationUseCase {
   constructor(
@@ -16,7 +15,7 @@ export class CreateEventModerationUseCase implements ICreateEventModerationUseCa
 
       const moderationEntity = this._moderationMapper.toEntity(dto);
       
-      const dtoForEvent = {approvedStatus: dto. eventApprovalStatus};
+      // const dtoForEvent = {approvedStatus: dto. eventApprovalStatus};
         const updated  =await this._eventModerationRepository.createEventModeration(moderationEntity)
 
     return this._moderationMapper.toResponseDTO(updated);

@@ -7,13 +7,16 @@ import { ResponseMessages } from "../../../infrastructure/constants/responseMess
 import { IGetFeaturedEventUseCase } from "../../../application/interface/useCases/user/event-display/IGetFeaturedEventsUseCase";
 import { IGetEventDetailsUseCase } from "../../../application/interface/useCases/user/event-display/IGetEventDetailsUseCase";
 import { IGetAllFeaturedEventUseCase } from "../../../application/interface/useCases/user/event-display/IGetAllFeaturedEventUseCase";
+import { ISearchEventsUseCase } from "../../../application/interface/useCases/user/event-display/ISearchEventsUseCase";
+import { EventSearchFilterDTO } from "../../../application/DTOs/user/eventSearch/EventSearchFilterDTO";
 
 export class EventDisplayController {
    constructor(
     private readonly  _getTrendingEventsUseCase: IGetTrendingEventUseCase,
     private readonly  _getFeaturedEventUseCase: IGetFeaturedEventUseCase,
     private readonly  _getEventDetailsUseCase: IGetEventDetailsUseCase,
-    private readonly  _getAllFeaturedEventUseCase: IGetAllFeaturedEventUseCase
+    private readonly  _getAllFeaturedEventUseCase: IGetAllFeaturedEventUseCase,
+    private readonly  _searchEventsUseCase : ISearchEventsUseCase
 
   ){}
   
@@ -52,13 +55,24 @@ export class EventDisplayController {
          }
      }
     
-    async getEventDetailsById( req: Request, res: Response, next: NextFunction): Promise<void> {
+    async getEventDetailsById( req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
         try{
               const{ eventId }  = req.params;
+              console.log("eventId", eventId)
             const eventDetails = await this._getEventDetailsUseCase.execute(eventId);
             
         res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT.EVENT_DETAILS_FETCH_SUCCESS, HttpStatusCode.OK,eventDetails));
         }catch(err) {
+            next(err)
+        }
+    }
+    async getEventsForGeneralSearch(req: Request, res :Response, next: NextFunction): Promise<void> {
+        try{     
+                 const dto = req.validatedQuery as EventSearchFilterDTO;
+                 console.log("dto is", dto)
+               const result = await this._searchEventsUseCase.execute(dto);
+         res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT.EVENTS_FETCH_SUCCESS, HttpStatusCode.OK, result))
+        }catch(err){
             next(err)
         }
     }

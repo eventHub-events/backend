@@ -21,7 +21,7 @@ export class EventModerationActionsController {
           const{eventId} = req.params;
           const dto: EventModerationRequestDTO = req.body;
 
-          const updatedData =  await  this._approveEventUseCase.execute(eventId, dto);
+            await  this._approveEventUseCase.execute(eventId, dto);
       res.status(HttpStatusCode.OK).json(ApiResponse.success("Moderation details Updated successfully"));
       }catch(err){
         next(err)
@@ -32,7 +32,7 @@ export class EventModerationActionsController {
           const{eventId} = req.params;
           const dto: EventModerationRequestDTO = req.body;
 
-          const updatedData =  await  this._rejectEventUseCase.execute(eventId, dto);
+           await  this._rejectEventUseCase.execute(eventId, dto);
       res.status(HttpStatusCode.OK).json(ApiResponse.success("Moderation details Updated successfully"));
       }catch(err){
         next(err)
@@ -43,7 +43,7 @@ export class EventModerationActionsController {
           const{eventId} = req.params;
           const dto: EventModerationRequestDTO = req.body;
 
-          const updatedData =  await  this._blockEventUseCase.execute(eventId, dto);
+            await  this._blockEventUseCase.execute(eventId, dto);
       res.status(HttpStatusCode.OK).json(ApiResponse.success("Moderation details Updated successfully"));
       }catch(err){
         next(err)
@@ -54,7 +54,7 @@ export class EventModerationActionsController {
           const{eventId} = req.params;
           const dto: EventModerationRequestDTO = req.body;
 
-          const updatedData =  await  this._unBlockEventUseCase.execute(eventId, dto);
+            await  this._unBlockEventUseCase.execute(eventId, dto);
       res.status(HttpStatusCode.OK).json(ApiResponse.success("Moderation details Updated successfully"));
       }catch(err){
         next(err)

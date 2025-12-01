@@ -3,9 +3,9 @@ import { IEventDisplayQueryRepository } from "../../../../domain/repositories/us
 import { TrendingEventDisplayResponseDTO } from "../../../DTOs/user/event-display/TrendingEventDisplayResponseDTO";
 import { EventSearchFilterDTO } from "../../../DTOs/user/eventSearch/EventSearchFilterDTO";
 import { IEventDisplayMapper } from "../../../interface/mapper/user/IEventDisplayMapper";
-import { ISearchEventUseCase } from "../../../interface/useCases/user/event-display/ISearchEventUseCase";
+import { ISearchEventsUseCase } from "../../../interface/useCases/user/event-display/ISearchEventsUseCase";
 
-export class SearchEventUseCase implements ISearchEventUseCase {
+export class SearchEventsUseCase implements ISearchEventsUseCase {
   constructor(
      private _repo : IEventDisplayQueryRepository,
      private _eventDisplayMapper : IEventDisplayMapper

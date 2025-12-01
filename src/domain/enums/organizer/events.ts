@@ -5,7 +5,9 @@ export enum EventStatus {
   Completed = "completed",
   Cancelled = "cancelled",
   Flagged = "flagged",
-  Blocked ="blocked"
+  Blocked ="blocked",
+   Rejected = "rejected",
+
 }
 
 export  enum EventType {

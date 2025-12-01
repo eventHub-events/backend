@@ -1,5 +1,5 @@
 import { NextFunction, Response } from "express";
-import { ICreateEventModerationUseCase } from "../../../application/interface/useCases/admin/event-management/ICreateEventModerationUsecase";
+import { ICreateEventModerationUseCase } from "../../../application/interface/useCases/admin/event-management/ICreateEventModerationUseCase";
 import { IFetchModerationByEventIdUseCase } from "../../../application/interface/useCases/admin/event-management/IFetchModerationByEventIdUseCase";
 import { IUpdateEventModerationUseCase } from "../../../application/interface/useCases/admin/event-management/IUpdateEventModerationUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";

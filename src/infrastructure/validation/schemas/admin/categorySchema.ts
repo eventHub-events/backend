@@ -20,7 +20,7 @@ export const categoryValidateSchema = z.object({
     .min(3, "Color must be at least 3 characters")
     .max(15, "Color must be at most 15 characters")
     .regex(
-      /^[A-Za-z0-9#@!$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+$/,
+       /^[A-Za-z0-9#@!$%^&*()_+\-=[\]{};':"\\|,.<>/?]+$/,
       "Color can contain letters, numbers, and special characters"
     ),
 

@@ -1,4 +1,4 @@
-import { Types } from "mongoose"
+
 import { BookingStatus } from "../../../../domain/enums/user/Booking"
 
 export interface BookingResponseDTO {

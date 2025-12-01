@@ -15,7 +15,7 @@ import { IGetRatingSummaryUseCase } from "../../../application/interface/common/
 import { ReviewType } from "../../../infrastructure/types/review/review";
 import { NotFoundError, UnauthorizedError } from "../../../domain/errors/common";
 import { IGetOrganizerReviewsUseCase } from "../../../application/interface/useCases/organizer/review/IGetOrganizerReviewsUseCase";
-import { ConversationModel } from "../../../infrastructure/db/models/common/chat/ConversationModel";
+
 
 export class ReviewController {
   constructor(
@@ -85,8 +85,10 @@ async fetchReviews(req: IAuthenticatedRequest, res: Response, next: NextFunction
   try{
        const{targetId, targetType} = req.params;
        const{page=1, limit =5} = req.query;
-       const userId = req.user?.id!
+       const userId = req.user?.id;
           if(!targetId) throw new CustomError("targetId is required",HttpStatusCode.BAD_REQUEST);
+          if(!userId) throw new CustomError("userId is required",HttpStatusCode.BAD_REQUEST);
+
        const result = await this._getReviewsUseCase.execute(targetId,targetType as  ReviewType, page as string,limit as string,userId);
 
      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.REVIEW.REVIEWS_FETCH_SUCCESS, HttpStatusCode.OK, result));

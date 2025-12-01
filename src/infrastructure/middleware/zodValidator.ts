@@ -1,5 +1,5 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
-import { ZodObject,ZodError } from "zod";
+import { ZodObject } from "zod";
 import { HttpStatusCode } from "../interface/enums/HttpStatusCode";
 import { ApiResponse } from "../commonResponseModel/ApiResponse";
 

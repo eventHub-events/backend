@@ -319,16 +319,23 @@ async findEventById(eventId: string): Promise<EventDetailsEntity| null> {
      ])
      return result.length > 0 ? result[0] : null;
 }
-async searchEvents(filters: IEventSearchCriteria): Promise<{ data: EventDetailsEntity[]; totalPages: number; }> {
+async searchEvents(filters: IEventSearchCriteria): Promise<{ data: EventDisplayEntity[]; totalPages: number; }> {
        const page = filters.page ?? 1;
        const limit = filters.limit ?? 6;
        const skip = (page -1) * limit;
+
+       const {
+   
+    location,
+   
+   
+  } = filters;
 
        const matchEvent : FilterQuery<IEvent> = {
          isDeleted : false,
        };
       if(filters.title)  matchEvent.title = {$regex : filters.title, $options:"i"};
-      if (location) matchEvent["location.venue"] = { $regex: location, $options: "i" };
+      if (filters.location) matchEvent["location.venue"] = { $regex: location, $options: "i" };
 
        const pipeline: PipelineStage[] = [
     /* ---------------- Moderation ---------------- */

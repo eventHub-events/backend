@@ -1,5 +1,4 @@
-import { NotFoundError, UnauthorizedError } from "../../../../../domain/errors/common";
-import { IBookingRepository } from "../../../../../domain/repositories/user/IBookingRepository";
+import {  UnauthorizedError } from "../../../../../domain/errors/common";
 import { IReviewRepository } from "../../../../../domain/repositories/user/IReviewRepository";
 import { ReviewType } from "../../../../../infrastructure/types/review/review";
 import { AddReviewDTO } from "../../../../DTOs/common/review/addReviewDTO";
@@ -9,7 +8,7 @@ import { IReviewMapper } from "../../../../interface/mapper/common/review/IRevie
 
 export class AddEventReviewUseCase implements IAddEventReviewUseCase {
    constructor(
-      private _bookingRepo : IBookingRepository,
+    
       private _reviewRepo : IReviewRepository,
       private _reviewMapper : IReviewMapper
    ){}

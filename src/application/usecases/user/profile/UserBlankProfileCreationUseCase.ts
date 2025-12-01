@@ -1,3 +1,4 @@
+
 import { IUserProfileRepository } from "../../../../domain/repositories/user/IUserProfileRepository";
 import { IUserBlankProfileCreationUseCase } from "../../../interface/useCases/user/user-profile/IUserBlankProfileCreationUseCase";
 
@@ -7,7 +8,7 @@ export class UserBlankProfileCreationUseCase implements  IUserBlankProfileCreati
   ){}
  async  createBlankProfile(userId: string): Promise<string> {
           
-    const profile =       await this._userProfileRepo.createProfile({
+          await this._userProfileRepo.createProfile({
        
         user: userId,
         name : "",
@@ -25,6 +26,7 @@ export class UserBlankProfileCreationUseCase implements  IUserBlankProfileCreati
          favorites:[]
 
         });
+       
 
     return "UserProfileCreatedSuccessfully"
   }

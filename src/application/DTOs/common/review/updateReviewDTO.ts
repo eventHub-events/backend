@@ -1,4 +1,4 @@
-import { ReviewType } from "../../../../infrastructure/types/review/review";
+
 
 export interface UpdateReviewDTO {
    

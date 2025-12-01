@@ -106,7 +106,7 @@ public cancel(){
         const now = new Date();
 
         if (this.approvedStatus === EventApprovalStatus.Blocked) return EventStatus.Blocked;
-        if (this.approvedStatus === EventApprovalStatus.Rejected) return EventStatus.Cancelled;
+        if (this.approvedStatus === EventApprovalStatus.Rejected) return EventStatus.Rejected;
         if (this.approvedStatus === EventApprovalStatus.Flagged) return EventStatus.Flagged;
 
         // Timeline based status

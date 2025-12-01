@@ -1,5 +1,4 @@
-import { EventTicketingResponseDTO } from "../../../DTOs/organizer/ticketing/EventTicketingResposeDTO";
-import { EventTicketingEntity } from "../../../../domain/entities/organizer/EventTicketingEntity";
+import { EventTicketingResponseDTO } from "../../../DTOs/organizer/ticketing/EventTicketingResponseDTO";
 import { IEventTicketingRepository } from "../../../../domain/repositories/organizer/IEventTicketingRepository";
 import { ITicketingMapper } from "../../../interface/mapper/organizer/ITicketingMapper";
 import { IFetchTicketingDetailsByEventUseCase } from "../../../interface/useCases/organizer/eventTicketing/IFetchTicketingByEventUseCase";

@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { SubscriptionStatus } from "../../enums/organizer/subscription";
-import { multipleOf } from "zod";
+
 
 export class OrganizerSubscriptionEntity {
    public organizerId : Types.ObjectId;

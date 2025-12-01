@@ -1,9 +1,9 @@
 
 import { z } from "zod"
-import { TicketTierSchema } from "../../../db/models/organizer/events/TicketTierModel";
+
 
 const nameRegex =  /^[A-Z][a-zA-Z\s,]{2,}$/ ;
-const priceRegex = /^[0-9]+$/;
+// const priceRegex = /^[0-9]+$/;
 const descriptionRegex = /^[A-Z][a-zA-Z, ]{4,79}$/
 
 export const ticketTierSchema = z.object({

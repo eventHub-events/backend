@@ -53,7 +53,7 @@ export class PrivateChatSocketService {
 
     // 🚀 Notify the peer that THIS user is online
      const myId = socket.handshake.auth.userId;
-    const mySocketId = this.onlineUsers.get(myId);
+    // const mySocketId = this.onlineUsers.get(myId);
 
     if (peerSocketId) {
         this.nameSpace.to(peerSocketId).emit("online_status_change", {
@@ -105,7 +105,7 @@ export class PrivateChatSocketService {
     
     socket.on("disconnect", () => {
     const userId = [...this.onlineUsers.entries()]
-      .find(([_, sId]) => sId === socket.id)?.[0];
+      .find(([, sId]) => sId === socket.id)?.[0];
 
     if (!userId) return;
     this.onlineUsers.delete(userId);

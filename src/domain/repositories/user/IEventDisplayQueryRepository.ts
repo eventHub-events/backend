@@ -13,5 +13,5 @@ export interface IEventDisplayQueryRepository {
    limit?: number
  }): Promise<{data:EventDisplayEntity[]; totalPages: number}>
   findEventById(eventId: string) : Promise<EventDetailsEntity | null>;
-  searchEvents(filters:IEventSearchCriteria) : Promise<{data:EventDisplayEntity[];totalPages: number}>;
+searchEvents(filters: IEventSearchCriteria): Promise<{ data: EventDisplayEntity[]; totalPages: number; }>
 }
