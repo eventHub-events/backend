@@ -7,12 +7,15 @@ import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { IGetBookingDetailsByIdUseCase } from "../../../application/interface/useCases/organizer/booking/IGetBookingDetailsByIdUseCase";
 import {  BookingQueryFilter } from "../../../infrastructure/validation/schemas/organizer/bookingQuerySchema";
 import { ErrorMessages } from "../../../constants/errorMessages";
+import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
+import { IGetAllBookingsByEventIdUseCase } from "../../../application/interface/useCases/organizer/booking/IGetAllBookingsByEventIdUseCase";
 
 
 export  class BookingsDisplayController {
  constructor (
       private _getAllBookingUseCase : IGetAllBookingsUseCase,
-      private _getBookingDetailsById : IGetBookingDetailsByIdUseCase
+      private _getBookingDetailsById : IGetBookingDetailsByIdUseCase,
+      private _getBookingsByEventIdUseCase : IGetAllBookingsByEventIdUseCase
       
  ){}
 
@@ -42,5 +45,19 @@ export  class BookingsDisplayController {
     }catch(err) {
        next(err)
     }
+ }
+ async fetchBookingsByEventId(req: IAuthenticatedRequest, res :Response, next :NextFunction) :Promise<void> {
+   try{
+          const{ eventId } = req.params;
+          if(!eventId) throw new CustomError(ErrorMessages.EVENT.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
+         const filters = req.validatedQuery as BookingQueryFilter;
+
+        const{mappedBookings: bookings, totalPages} = await this._getBookingsByEventIdUseCase.execute({eventId,...filters});
+    res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS, HttpStatusCode.OK, {bookings, totalPages}));
+       
+         
+   }catch(err){
+      next(err)
+   }
  }
 }

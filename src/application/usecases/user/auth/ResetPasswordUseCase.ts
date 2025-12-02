@@ -9,6 +9,7 @@ import { IOtpService } from "../../../../infrastructure/interface/IOtpService";
 import { IHashService } from "../../../interface/useCases/user/IHashService";
 import {  IVerifyResetPasswordOtpUseCase } from "../../../interface/useCases/user/IResetPasswordOTPUseCase";
 import { ITokenService } from "../../../interface/useCases/user/ITokenService";
+import { ErrorMessages } from "../../../../constants/errorMessages";
 
 export class VerifyResetPasswordOtpUseCase implements IVerifyResetPasswordOtpUseCase{
   constructor(private _otpService : IOtpService,
@@ -20,13 +21,13 @@ export class VerifyResetPasswordOtpUseCase implements IVerifyResetPasswordOtpUse
     const{otp} = data;
 
       if(!otp){
-        throw new CustomError("Otp is required", HttpStatusCode.BAD_REQUEST);
+        throw new CustomError(ErrorMessages.AUTH.OTP_REQUIRED, HttpStatusCode.BAD_REQUEST);
       }
 
     const email=await this._cacheService.get(`otp:reset:${otp}`)
 
      if (!email) {
-      throw new CustomError("OTP expired or invalid",HttpStatusCode.BAD_REQUEST);
+      throw new CustomError(ErrorMessages.AUTH.OTP_EXPIRED_OR_INVALID,HttpStatusCode.BAD_REQUEST);
     }
 
    const user= await  this._otpService.verifyOtp(email,otp) 

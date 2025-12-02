@@ -4,6 +4,7 @@ export interface BookingFilterDTO {
    organizerId?: string;
    title?: string;
   userName?: string;
+  eventId?: string;
   userId?: string;
   startDate?: string;
   endDate?: string;

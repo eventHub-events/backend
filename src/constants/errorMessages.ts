@@ -21,7 +21,11 @@ export const ErrorMessages = {
     UNAUTHORIZED: "Unauthorized access",
     INVALID_TOKEN: "Invalid or expired token",
     LOGIN_REQUIRED: "Login required",
-    EMAIL_AND_PASSWORD_REQUIRED : "Email and  password are required"
+    EMAIL_AND_PASSWORD_REQUIRED : "Email and  password are required",
+    TOKEN_VERIFICATION_FAILURE : "Token verification failed",
+    PASSWORD_INVALID : "Invalid password",
+    OTP_REQUIRED: "OTP is required",
+    OTP_EXPIRED_OR_INVALID: "OTP expired or invalid"
   },
   COMMON: {
     INVALID_INPUT: "Invalid input provided",
@@ -52,7 +56,9 @@ export const ErrorMessages = {
   },
   USER:{
      ID_REQUIRED: "User id is required",
-     NOT_FOUND :"User not found"
+     NOT_FOUND :"User not found",
+     USER_BLOCK_ADMIN : "You are blocked by  admin",
+     USER_ALREADY_EXITS :"User already exists"
   },
   BOOKING :{
      ID_REQUIRED: "Booking id is required",

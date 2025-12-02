@@ -61,7 +61,7 @@ router.patch("/events/:eventId/ticketing",authenticationMiddleWare.authenticateU
 
 //booking- display//
 router.get("/:organizerId/bookings",InputDataValidator.validateQuery(bookingQuerySchema),authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => bookingsDisplayController.fetchAllBookings(req, res, next));
-router.get("/bookings/:eventId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response,next:NextFunction) => bookingsDisplayController)
+router.get("/bookings/:eventId",InputDataValidator.validateQuery(bookingQuerySchema),authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response,next:NextFunction) => bookingsDisplayController.fetchBookingsByEventId(req, res, next));
 router.get("/:organizerId/bookings/:bookingId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => bookingsDisplayController.fetchBookingDetailsById(req, res, next));
 
 

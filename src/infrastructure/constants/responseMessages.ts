@@ -36,6 +36,7 @@ export const ResponseMessages = {
          OTP_SENT_FAIL : "Failed to sent OTP",
          OTP_VERIFICATION_SUCCESS: "OTP verified SuccessFully",
          OTP_VERIFICATION_FAILURE: "OTP verification failed",
+         OTP_RESENT_SUCCESS: "Otp  resent successfully"
          
       },
       PASSWORD:{
@@ -53,6 +54,9 @@ export const ResponseMessages = {
           ACCESS_TOKEN_CREATION_SUCCESS : "Access token creation successful"
       }
       ,
+      LOGOUT :{
+         LOGOUT_SUCCESS : "logout successful"
+      }
    },
    CHAT:{
      CHAT_SUCCESS :"Chat fetched or created successfully",

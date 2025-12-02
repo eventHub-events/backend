@@ -11,6 +11,8 @@ import { IEmailService } from "../../../interface/useCases/user/IEmailService";
 import { IForgetPasswordUseCase } from "../../../interface/useCases/user/IForgetPasswordUseCase";
 import { IGenerateOtpUseCase } from "../../../interface/useCases/user/IGenerateOtpUseCase";
 import { IUserMapper } from "../../../interface/useCases/user/mapper/IUserMapper";
+import { ResponseMessages } from "../../../../infrastructure/constants/responseMessages";
+import { ErrorMessages } from "../../../../constants/errorMessages";
 
 
 export class ForgetPasswordUseCase implements IForgetPasswordUseCase {
@@ -20,7 +22,7 @@ export class ForgetPasswordUseCase implements IForgetPasswordUseCase {
     private _loggerService: ILoggerService,
     private _emailService: IEmailService,
     private _userMapper:  IUserMapper,
-    private _cacheService:ICacheService
+    private _cacheService: ICacheService
   ) {}
   async forgetPassword(data: ForgetPasswordDTO): Promise<ForgetPasswordResponseDTO> {
 
@@ -33,8 +35,8 @@ export class ForgetPasswordUseCase implements IForgetPasswordUseCase {
     const user = await this._userRepository.findByEmail(userDto.email);
 
          if (!user) {
-            this._loggerService.warn("user not found");
-          throw new CustomError("User not found",HttpStatusCode.NOT_FOUND);
+            this._loggerService.warn(ErrorMessages.USER.NOT_FOUND);
+          throw new CustomError(ErrorMessages.USER.NOT_FOUND,HttpStatusCode.NOT_FOUND);
          }
 
     const  userData = this._userMapper.toResponseDTO(user);
@@ -54,6 +56,6 @@ export class ForgetPasswordUseCase implements IForgetPasswordUseCase {
       `<h2> your OTP is ${otp}</h2>`
     );
 
-    return { message: "OTP sent successfully" };
+    return { message: ResponseMessages.AUTHENTICATION.OTP.OTP_SENT_SUCCESS };
   }
 }
