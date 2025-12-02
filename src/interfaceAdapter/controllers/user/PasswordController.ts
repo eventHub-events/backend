@@ -7,6 +7,9 @@ import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthen
 import { IChangePasswordUseCase } from "../../../application/interface/useCases/user/IChangePasswordUseCase";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { ChangePasswordDTO } from "../../../application/DTOs/user/ChangePasswordDTO";
+import { ErrorMessages } from "../../../constants/errorMessages";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
+import { CookieOptionsUtility } from "../../../utils/CookieOptions.utility";
 
 
 export class  PasswordController {
@@ -20,11 +23,9 @@ export class  PasswordController {
  
    requestForgetPassword = async (req: Request,res : Response ,next: NextFunction): Promise< Response | void > => {
     try{
-      console.log("hello")
+     
        const result = await this._forgetPasswordUseCase.forgetPassword(req.body);
-
-       
-       return res.status(HttpStatusCode.OK).json(ApiResponse.success("Password reset initiated", HttpStatusCode.OK, result))
+       return res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.AUTHENTICATION.PASSWORD.PASSWORD_RESET_INITIALIZATION, HttpStatusCode.OK, result));
 
     }catch(err){
       next(err)
@@ -36,19 +37,15 @@ export class  PasswordController {
      
         try{
              
-                    //  const dto= new ResetPasswordOtpDTO(req.body)           
+                            
          const {user,token}= await this._verifyResetPasswordUseCase.resetPassword(req.body) ;
          
            if(user){
-                         res.cookie("resetToken", token, {
-                     httpOnly: true,
-                     secure: process.env.NODE_ENV === "production",
-                     sameSite: "strict",
-                     maxAge: 5 * 60 * 1000,
-                   });
-                   
              
-                       return res.status(HttpStatusCode.OK).json(ApiResponse.success("Otp verification  successful",HttpStatusCode.OK,user))
+           const resetTokenOptions = CookieOptionsUtility.create(5 * 60 * 1000);
+           res.cookie("resetToken", token,resetTokenOptions);
+            
+       return res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.AUTHENTICATION.OTP.OTP_VERIFICATION_SUCCESS, HttpStatusCode.OK, user));
                      }
         }catch(err){
           next(err)
@@ -61,12 +58,12 @@ export class  PasswordController {
        const token= req.resetToken
        if (!token) {
  
-           throw new CustomError("Reset token missing or expired",HttpStatusCode.UNAUTHORIZED);
+           throw new CustomError(ErrorMessages.AUTH.INVALID_TOKEN, HttpStatusCode.UNAUTHORIZED);
 
         }
        const dto: ChangePasswordDTO = req.body;
-       const result= await this._changePasswordUseCase.changePassword(dto, token)
-       return res.status(HttpStatusCode.OK).json(ApiResponse.success("Password changed successfully",HttpStatusCode.OK,result))
+       const result= await this._changePasswordUseCase.changePassword(dto, token);
+       return res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.AUTHENTICATION.PASSWORD.PASSWORD_CHANGE_SUCCESS,HttpStatusCode.OK,result));
  
      }catch(err){
           next(err)

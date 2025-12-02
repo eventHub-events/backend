@@ -5,6 +5,8 @@ import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResp
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticateRequest";
 import { NotFoundError } from "../../../domain/errors/common";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
+import { ErrorMessages } from "../../../constants/errorMessages";
 
 export class EventManagementQueryController {
   constructor(
@@ -15,10 +17,10 @@ export class EventManagementQueryController {
     try{
        const events = await this._getAllEventUseCase.execute();
      
-      res.status(HttpStatusCode.OK).json(ApiResponse.success("events fetched successfully", HttpStatusCode.OK, events))
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT.EVENTS_FETCH_SUCCESS, HttpStatusCode.OK, events))
 
     }catch(err){
-       if(err instanceof NotFoundError) throw new CustomError("Event not found", HttpStatusCode.NOT_FOUND);
+       if(err instanceof NotFoundError) throw new CustomError(ErrorMessages.EVENT.NOT_FOUND, HttpStatusCode.NOT_FOUND);
        next(err)
     }
   }

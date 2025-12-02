@@ -8,6 +8,8 @@ import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { EventModerationUpdateDTO } from "../../../application/DTOs/admin/EventModeration/EventModerationUpdateDTO";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
+import { ErrorMessages } from "../../../constants/errorMessages";
 
 export class EventModerationController  {
   constructor(
@@ -19,11 +21,11 @@ export class EventModerationController  {
   async create(req: IAuthenticatedRequest, res: Response, next: NextFunction) : Promise<void> {
      try{
          const dto : EventModerationRequestDTO = req.body;
-         console.log("dddd",dto)
-         if(!dto) throw new CustomError("EventModeration details is required", HttpStatusCode.BAD_REQUEST);
+         
+         if(!dto) throw new CustomError(ErrorMessages.EVENT_MODERATION.EVENT_MODERATION_DETAILS_REQUIRED, HttpStatusCode.BAD_REQUEST);
 
          const result = await this._createModerationUseCase.execute(dto);
-      res.status(HttpStatusCode.CREATED).json(ApiResponse.success("Event Moderation  details created successfully", HttpStatusCode.CREATED, result));
+      res.status(HttpStatusCode.CREATED).json(ApiResponse.success(ResponseMessages.EVENT_MODERATION.EVENT_MODERATION_CREATION_SUCCESS, HttpStatusCode.CREATED, result));
 
      }catch(err){
         next(err)
@@ -32,14 +34,14 @@ export class EventModerationController  {
   async update(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try{
           const{eventId}  = req.params;
-          console.log("hello",  eventId)
-     if(!eventId) throw new CustomError("ModerationId is required", HttpStatusCode.BAD_REQUEST);
+          
+     if(!eventId) throw new CustomError(ErrorMessages.EVENT_MODERATION.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
 
       const dto: EventModerationUpdateDTO = req.body;
-               if(!dto) throw new CustomError("EventModeration update details is required", HttpStatusCode.BAD_REQUEST);
+               if(!dto) throw new CustomError(ErrorMessages.EVENT_MODERATION.EVENT_MODERATION_UPDATE_DETAILS_REQUIRED, HttpStatusCode.BAD_REQUEST);
 
       const result = await this._updateModerationUseCase.execute(eventId, dto);
-    res.status(HttpStatusCode.OK).json(ApiResponse.success("Moderation details updated successfully", HttpStatusCode.OK, result));
+    res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT_MODERATION.EVENT_MODERATION_UPDATE_SUCCESS, HttpStatusCode.OK, result));
     }  
      catch(err){
         next(err)
@@ -49,10 +51,10 @@ export class EventModerationController  {
   async fetchDetailsByEvent(req: IAuthenticatedRequest, res: Response, next :NextFunction): Promise<void> {
      try{
          const{ eventId }   = req.params;
-         if(!eventId) throw new CustomError("eventId is required", HttpStatusCode.BAD_REQUEST);
+         if(!eventId) throw new CustomError(ErrorMessages.EVENT.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
 
          const result = await this._fetchModerationByEventIdUseCase.execute(eventId);
-    res.status(HttpStatusCode.OK).json(ApiResponse.success("Moderation details fetched successfully", HttpStatusCode.OK, result));
+    res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT_MODERATION.EVENT_MODERATION_FETCH_SUCCESS, HttpStatusCode.OK, result));
     
 
 

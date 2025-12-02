@@ -21,13 +21,13 @@ export class BlockEventUseCase implements IBlockEventUseCase {
     if(!eventEntity) throw new Error("Event details not found")
            moderationEntity.blockEvent(data.rejectionReason,data.blockedBy);
           
-          const status =  moderationEntity.computeStatus(eventEntity);
+          const status =  moderationEntity.computeStatus();
            eventEntity.updateStatus(status)
           
           
          ;
       const [moderation] = await Promise.all([this._eventModerationRepository.updateEventModeration(data.eventId, moderationEntity), this._eventRepository.updateEvent(data.eventId, eventEntity)])
-          return  this._moderationMapper.toResponseDTO(moderation)
+          return  this._moderationMapper.toResponseDTO(moderation);
            
 
       

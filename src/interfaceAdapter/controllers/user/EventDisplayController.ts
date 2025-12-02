@@ -40,13 +40,8 @@ export class EventDisplayController {
      }
      async getAllFeatured(req: Request, res: Response, next: NextFunction) : Promise<void> {
          try{ 
-             const filters = {
-                 title: req.query.title as string,
-                 location: req.query.location as string,
-                 category: req.query.category as string,
-                 page: req.query.page? parseInt(req.query.page as string,10) :1,
-                 limit: req.query.limit? parseInt(req.query.limit as string,10): 10
-             }
+          
+             const filters = req.validatedQuery as EventSearchFilterDTO;
              const result = await this._getAllFeaturedEventUseCase.execute(filters);
          res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT.FEATURED_FETCH_SUCCESS, HttpStatusCode.OK, result))
             
@@ -58,7 +53,7 @@ export class EventDisplayController {
     async getEventDetailsById( req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
         try{
               const{ eventId }  = req.params;
-              console.log("eventId", eventId)
+             
             const eventDetails = await this._getEventDetailsUseCase.execute(eventId);
             
         res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT.EVENT_DETAILS_FETCH_SUCCESS, HttpStatusCode.OK,eventDetails));
@@ -69,7 +64,7 @@ export class EventDisplayController {
     async getEventsForGeneralSearch(req: Request, res :Response, next: NextFunction): Promise<void> {
         try{     
                  const dto = req.validatedQuery as EventSearchFilterDTO;
-                 console.log("dto is", dto)
+                
                const result = await this._searchEventsUseCase.execute(dto);
          res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT.EVENTS_FETCH_SUCCESS, HttpStatusCode.OK, result))
         }catch(err){

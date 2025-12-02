@@ -23,7 +23,7 @@ export class RejectEventUseCase implements IRejectEventUseCase {
     if(!eventEntity) throw new Error("Event details not found")
            moderationEntity.rejectEvent(data.rejectionReason!,data.approvedBy!);
           
-          const status =  moderationEntity.computeStatus(eventEntity);
+          const status =  moderationEntity.computeStatus();
           console.log("status",status)
           console.log(eventEntity)
           eventEntity.updateStatus(status)

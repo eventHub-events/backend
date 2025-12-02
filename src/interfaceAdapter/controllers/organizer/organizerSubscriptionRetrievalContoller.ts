@@ -7,6 +7,7 @@ import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResp
 import { IFetchSubscriptionPlansForOrganizerUseCase } from "../../../application/interface/useCases/organizer/subscription/IFetchSubscriptionPlansUseCase";
 import { Subscription } from "../../../infrastructure/constants/response-messages/organizer/subscription";
 import { NotFoundError } from "../../../domain/errors/common";
+import { ErrorMessages } from "../../../constants/errorMessages";
 
 export class OrganizerSubscriptionRetrievalController {
 
@@ -18,7 +19,7 @@ export class OrganizerSubscriptionRetrievalController {
          
        try{ 
          const { organizerId} = req.params;
-          if(!organizerId) throw new CustomError("organizerId is required", HttpStatusCode.BAD_REQUEST);
+          if(!organizerId) throw new CustomError(ErrorMessages.ORGANIZER.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
 
         const result = await this._fetchSubscriptionByIdUseCase.execute(organizerId);
       res.status(HttpStatusCode.OK).json(ApiResponse.success(Subscription.SUBSCRIPTION_SUCCESS, HttpStatusCode.OK, result));

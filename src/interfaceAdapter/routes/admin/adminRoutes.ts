@@ -12,6 +12,8 @@ import { bookingControllerForAdmin } from "../../../di/admin/bookings/container"
 import { subscriptionPlansManagementController, subscriptionPlansRetrievalController } from "../../../di/admin/subcription-plans/container"
 import { adminReportController } from "../../../di/admin/report/container"
 import { adminDashBoardController } from "../../../di/admin/dashboard/container"
+import { bookingQuerySchema } from "../../../infrastructure/validation/schemas/organizer/bookingQuerySchema"
+import { UserFilterOptionsSchema } from "../../../infrastructure/validation/schemas/admin/userFilterOptionSchema"
 
 
 
@@ -20,16 +22,16 @@ import { adminDashBoardController } from "../../../di/admin/dashboard/container"
  router.post("/logout",(req: IAuthenticatedRequest, res: Response, next: NextFunction)=>authController.logout(req, res, next));
 
  // user-management//
- router.get("/usersList",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res: Response, next: NextFunction) => usersListController.fetchUsers(req, res, next));
+ router.get("/usersList",InputDataValidator.validateQuery(UserFilterOptionsSchema),authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res: Response, next: NextFunction) => usersListController.fetchUsers(req, res, next));
  router.post("/updateUser",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:  IAuthenticatedRequest, res: Response, next: NextFunction) => usersListController.UpdateUser(req, res, next));
 
-  router.post("/download-pdf",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req,res)=>downloadPdfController.downloadPdf(req,res))
+  router.post("/download-pdf",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest,res: Response, next: NextFunction)=>downloadPdfController.downloadPdf(req,res, next));
 
   //organizer verification  related
-  router.get("/organizers/:organizerId/verification",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>organizerVerificationController.fetchOrganizerVerificationDetails(req,res))
-  router.get("/pending-organizers",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>organizerVerificationController.fetchPendingOrganizersWithProfile(req,res))
-  router.post("/organizers/:organizerId/updateDocument",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>organizerVerificationController.updateOrganizerUploadDocumentStatus(req,res))
-  router.patch("/organizers/:organizerId/verification-status",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res)=>organizerVerificationController.updateOverallVerificationStatus(req,res))
+  router.get("/organizers/:organizerId/verification",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res:  Response, next: NextFunction)=>organizerVerificationController.fetchOrganizerVerificationDetails(req,res, next));
+  router.get("/pending-organizers",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res: Response, next: NextFunction)=>organizerVerificationController.fetchPendingOrganizersWithProfile(req,res, next));
+  router.post("/organizers/:organizerId/updateDocument",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res: Response, next:NextFunction)=>organizerVerificationController.updateOrganizerUploadDocumentStatus(req,res, next));
+  router.patch("/organizers/:organizerId/verification-status",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req:IAuthenticatedRequest,res: Response, next: NextFunction)=>organizerVerificationController.updateOverallVerificationStatus(req,res, next));
 
   // category related Routs//
   router.get("/categories", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest, res: Response, next: NextFunction) => categoryController.fetchAllCategory(req, res, next) );
@@ -37,6 +39,7 @@ import { adminDashBoardController } from "../../../di/admin/dashboard/container"
   router.post("/categories",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare) ,InputDataValidator.validate(categoryValidateSchema), (req: IAuthenticatedRequest, res: Response, next: NextFunction) => categoryController.create(req, res, next));
   router.patch("/categories/:categoryId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), InputDataValidator.validate(categoryValidateUpdateSchema), (req: IAuthenticatedRequest, res: Response, next: NextFunction) => categoryController.edit(req, res, next));
   router.patch("/categories/:categoryId/soft-delete", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => categoryController.delete(req, res, next));
+    router.get("/common/categories", (req: IAuthenticatedRequest, res: Response, next: NextFunction) => categoryController.fetchAllCategory(req, res, next) );
 
   // event -management //
 
@@ -53,7 +56,7 @@ import { adminDashBoardController } from "../../../di/admin/dashboard/container"
    router.patch("/events/:eventId/reject", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest , res : Response, next: NextFunction) => eventModerationActionsController.reject(req, res, next));
 
    // booking-management//
-    router.get("/bookings",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res : Response , next :NextFunction ) => bookingControllerForAdmin.fetchBookings(req, res, next));
+    router.get("/bookings",InputDataValidator.validateQuery(bookingQuerySchema),authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res : Response , next :NextFunction ) => bookingControllerForAdmin.fetchBookings(req, res, next));
     router.get("/bookings/:bookingId", (req: Request, res: Response, next: NextFunction) => bookingControllerForAdmin.fetchBookingById(req, res, next));
 
 

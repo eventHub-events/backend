@@ -15,6 +15,7 @@ import { IGetRatingSummaryUseCase } from "../../../application/interface/common/
 import { ReviewType } from "../../../infrastructure/types/review/review";
 import { NotFoundError, UnauthorizedError } from "../../../domain/errors/common";
 import { IGetOrganizerReviewsUseCase } from "../../../application/interface/useCases/organizer/review/IGetOrganizerReviewsUseCase";
+import { ErrorMessages } from "../../../constants/errorMessages";
 
 
 export class ReviewController {
@@ -59,7 +60,7 @@ export class ReviewController {
             
           const dto: UpdateReviewDTO = req.body;
           const {reviewId}  =  req.params;
-                     if(!reviewId) throw new CustomError("ReviewId is required",HttpStatusCode.BAD_REQUEST);
+                     if(!reviewId) throw new CustomError(ErrorMessages.REVIEW.ID_REQUIRED,HttpStatusCode.BAD_REQUEST);
 
           const result = await this._updateReviewUseCase.execute(reviewId, dto);
       res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.REVIEW.REVIEW_UPDATE_SUCCESS, HttpStatusCode.OK, result));
@@ -72,7 +73,7 @@ export class ReviewController {
  async deleteReview(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try{
           const { reviewId }  = req.params;
-           if(!reviewId) throw new CustomError("ReviewId is required",HttpStatusCode.BAD_REQUEST);
+           if(!reviewId) throw new CustomError(ErrorMessages.REVIEW.ID_REQUIRED,HttpStatusCode.BAD_REQUEST);
         await this._deleteReviewUseCase.execute(reviewId);
 
      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.REVIEW.REVIEW_DELETION_SUCCESS, HttpStatusCode.OK));
@@ -86,8 +87,8 @@ async fetchReviews(req: IAuthenticatedRequest, res: Response, next: NextFunction
        const{targetId, targetType} = req.params;
        const{page=1, limit =5} = req.query;
        const userId = req.user?.id;
-          if(!targetId) throw new CustomError("targetId is required",HttpStatusCode.BAD_REQUEST);
-          if(!userId) throw new CustomError("userId is required",HttpStatusCode.BAD_REQUEST);
+          if(!targetId) throw new CustomError(ErrorMessages.REVIEW.TARGET_ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
+          if(!userId) throw new CustomError(ErrorMessages.USER.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
 
        const result = await this._getReviewsUseCase.execute(targetId,targetType as  ReviewType, page as string,limit as string,userId);
 
@@ -98,11 +99,10 @@ async fetchReviews(req: IAuthenticatedRequest, res: Response, next: NextFunction
 }
 async getSummary(req: IAuthenticatedRequest, res: Response, next: NextFunction) : Promise<void> {
    try{ 
-      console.log("hello")
+    
       const{targetId, targetType} = req.params;
       
-      console.log("targetType", targetType);
-      console.log("targetId", targetId);
+    
       const result = await this._getRatingSummaryUseCase.execute(targetId, targetType as ReviewType);
       res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.REVIEW.REVIEW_SUMMARY_SUCCESS, HttpStatusCode.OK, result));
    }catch(err){
@@ -114,7 +114,7 @@ async fetchReviewsForOrganizerEvents(req: IAuthenticatedRequest, res: Response, 
        const{targetId, targetType} = req.params;
        const{page=1, limit =5} = req.query;
        
-          if(!targetId) throw new CustomError("targetId is required",HttpStatusCode.BAD_REQUEST);
+          if(!targetId) throw new CustomError(ErrorMessages.REVIEW.TARGET_ID_REQUIRED,HttpStatusCode.BAD_REQUEST);
        const result = await this._getReviewsForOrganizerUseCase.execute(targetId,targetType as  ReviewType, page as string,limit as string);
 
      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.REVIEW.REVIEWS_FETCH_SUCCESS, HttpStatusCode.OK, result));

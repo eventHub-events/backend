@@ -7,6 +7,7 @@ import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthen
 import { EventModerationRequestDTO } from "../../../application/DTOs/admin/EventModeration/EventModerationReqDTO";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 
 export class EventModerationActionsController {
   constructor(
@@ -22,7 +23,7 @@ export class EventModerationActionsController {
           const dto: EventModerationRequestDTO = req.body;
 
             await  this._approveEventUseCase.execute(eventId, dto);
-      res.status(HttpStatusCode.OK).json(ApiResponse.success("Moderation details Updated successfully"));
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT_MODERATION.EVENT_MODERATION_UPDATE_SUCCESS));
       }catch(err){
         next(err)
       }
@@ -33,7 +34,7 @@ export class EventModerationActionsController {
           const dto: EventModerationRequestDTO = req.body;
 
            await  this._rejectEventUseCase.execute(eventId, dto);
-      res.status(HttpStatusCode.OK).json(ApiResponse.success("Moderation details Updated successfully"));
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT_MODERATION.EVENT_MODERATION_UPDATE_SUCCESS));
       }catch(err){
         next(err)
       }
@@ -44,7 +45,7 @@ export class EventModerationActionsController {
           const dto: EventModerationRequestDTO = req.body;
 
             await  this._blockEventUseCase.execute(eventId, dto);
-      res.status(HttpStatusCode.OK).json(ApiResponse.success("Moderation details Updated successfully"));
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT_MODERATION.EVENT_MODERATION_UPDATE_SUCCESS));
       }catch(err){
         next(err)
       }
@@ -55,7 +56,7 @@ export class EventModerationActionsController {
           const dto: EventModerationRequestDTO = req.body;
 
             await  this._unBlockEventUseCase.execute(eventId, dto);
-      res.status(HttpStatusCode.OK).json(ApiResponse.success("Moderation details Updated successfully"));
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT_MODERATION.EVENT_MODERATION_UPDATE_SUCCESS));
       }catch(err){
         next(err)
       }

@@ -16,6 +16,7 @@ import { organizerSubscriptionRetrievalController, subscriptionPaymentController
 import { stripeConnectController, stripeOnboardingStatusController } from "../../../di/organizer/stripe-onboarding/container";
 import { chatController } from "../../../di/common/chat/container";
 import { organizerDashboardController } from "../../../di/organizer/dashboard/container";
+import { bookingQuerySchema } from "../../../infrastructure/validation/schemas/organizer/bookingQuerySchema";
 // import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
 
 
@@ -59,7 +60,8 @@ router.post("/ticketing",authenticationMiddleWare.authenticateUser.bind(authenti
 router.patch("/events/:eventId/ticketing",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),InputDataValidator.validate(organizerTicketUpdateSchema),(req: IAuthenticatedRequest, res: Response, next: NextFunction) =>ticketingManagementController.update(req,res, next));
 
 //booking- display//
-router.get("/:organizerId/bookings",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => bookingsDisplayController.fetchAllBookings(req, res, next));
+router.get("/:organizerId/bookings",InputDataValidator.validateQuery(bookingQuerySchema),authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => bookingsDisplayController.fetchAllBookings(req, res, next));
+router.get("/bookings/:eventId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response,next:NextFunction) => bookingsDisplayController)
 router.get("/:organizerId/bookings/:bookingId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => bookingsDisplayController.fetchBookingDetailsById(req, res, next));
 
 
@@ -80,6 +82,7 @@ router.get("/chat/event/:eventId", authenticationMiddleWare.authenticateUser.bin
 // dashboard //
 
 router.get("/dashboard", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res :Response, next: NextFunction) => organizerDashboardController.getDashboard(req, res, next));
+
 
  
 

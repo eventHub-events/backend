@@ -6,6 +6,8 @@ import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStat
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { IFetchTicketingDetailsByEventUseCase } from "../../../application/interface/useCases/organizer/eventTicketing/IFetchTicketingByEventUseCase";
 import { NotFoundError } from "../../../domain/errors/common";
+import { ErrorMessages } from "../../../constants/errorMessages";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 
 export  class TicketingRetrievalController  {
   constructor(
@@ -16,10 +18,10 @@ export  class TicketingRetrievalController  {
   async fetchTicketingDetails(req: IAuthenticatedRequest, res: Response , next: NextFunction) : Promise<void> {
     try{
        const{ticketingId} = req.params;
-       if(!ticketingId) throw new CustomError("TicketingId is required", HttpStatusCode.BAD_REQUEST);
+       if(!ticketingId) throw new CustomError(ErrorMessages.TICKETING.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
 
        const fetchedDetails = await this._fetchTicketingUseCase.execute(ticketingId);
-    res.status(HttpStatusCode.OK).json(ApiResponse.success("Ticketing details fetched successfully", HttpStatusCode.OK, fetchedDetails));
+    res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.TICKETING.TICKETING_FETCH_SUCCESS, HttpStatusCode.OK, fetchedDetails));
 
     }catch(err){
        next(err)
@@ -28,11 +30,11 @@ export  class TicketingRetrievalController  {
   async fetchTicketingDetailsByEvent(req: IAuthenticatedRequest, res: Response, next: NextFunction) : Promise<void> {
       try{
            const{ eventId } = req.params;
-            if(!eventId) throw new CustomError("eventId is required", HttpStatusCode.BAD_REQUEST);
+            if(!eventId) throw new CustomError(ErrorMessages.EVENT.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
 
             const fetchedData = await this._fetchTicketingByEventUseCase.execute(eventId);
             
-          res.status(HttpStatusCode.OK).json(ApiResponse.success("Ticketing details fetched successfully", HttpStatusCode.OK, fetchedData));
+          res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.TICKETING.TICKETING_FETCH_SUCCESS, HttpStatusCode.OK, fetchedData));
 
 
       }catch(err){

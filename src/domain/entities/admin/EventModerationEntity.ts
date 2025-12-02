@@ -105,8 +105,8 @@ rejectEvent(rejectionReason: string, performedBy: string): void {
   this.addToHistory("REJECTED", rejectionReason, performedBy);
 }
 computeStatus() {
-    // if(event.isDeleted) return EventStatus.Cancelled;
-    //         if (!this.approved) return EventStatus.Draft;
+    //  if(event.isDeleted) return EventStatus.Cancelled;
+    // //         if (!this.approved) return EventStatus.Draft;
             if(this.eventApprovalStatus === EventApprovalStatus.Flagged){
                 return EventApprovalStatus.Flagged
             }

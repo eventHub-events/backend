@@ -4,6 +4,7 @@ import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResp
 import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { IGoogleAuthService } from "../../../application/service/common/IGoogleAuthService";
+import { CookieOptionsUtility } from "../../../utils/CookieOptions.utility";
 
 export class GoogleAuthController {
      constructor(
@@ -19,19 +20,13 @@ export class GoogleAuthController {
            
         const {token:jwtToken, refreshToken, userData} = await this._authUseCase.execute(googleUser);
 
-       res.cookie("authToken", jwtToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 15 * 60 * 1000,
-      });
 
-        res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000
-      });
+         const authCookieOptions = CookieOptionsUtility.create(15 * 60 * 1000);
+              res.cookie("authToken", jwtToken, authCookieOptions);
+        
+              const refreshCookieOption = CookieOptionsUtility.create(7 * 24 * 60 * 60 * 1000);
+               res.cookie("refreshToken", refreshToken,refreshCookieOption);
+
   res
           .status(HttpStatusCode.OK)
           .json(ApiResponse.success(ResponseMessages.AUTHENTICATION.LOGIN.SUCCESS,HttpStatusCode.OK,userData));

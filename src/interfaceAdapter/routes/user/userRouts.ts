@@ -14,6 +14,7 @@ import { bookingPaymentController } from '../../../di/user/payment/container';
 import { chatController } from '../../../di/common/chat/container';
 import { reportController } from '../../../di/common/report/container';
 import { EventSearchQuerySchema } from '../../../infrastructure/validation/schemas/user/EventSearchQuerySchema';
+import { bookingQuerySchema } from '../../../infrastructure/validation/schemas/organizer/bookingQuerySchema';
 const router = express.Router();
 
 // router.post('/register', (req, res) => authController.registerUser(req, res));
@@ -39,14 +40,14 @@ router.patch("/:profileId/profile",InputDataValidator.validate(userProfileUpdate
 router.get(EventDisplayRoutes.EVENTS.TRENDING,(req: Request, res: Response, next: NextFunction) => eventDisplayController.getTrending(req, res, next));
 router.get(EventDisplayRoutes.EVENTS.FEATURED,(req: Request,res: Response, next: NextFunction) => eventDisplayController.getFeatured(req, res, next));
   router.get(EventDisplayRoutes.EVENTS.DETAILS,(req: Request, res: Response, next: NextFunction) => eventDisplayController.getEventDetailsById(req, res, next));
-router.get("/events/featured/all",(req: Request, res: Response, next :NextFunction) => eventDisplayController.getAllFeatured(req, res, next));
+router.get("/events/featured/all",InputDataValidator.validateQuery(EventSearchQuerySchema),(req: Request, res: Response, next :NextFunction) => eventDisplayController.getAllFeatured(req, res, next));
 router.get("/search/events",InputDataValidator.validateQuery(EventSearchQuerySchema),(req: Request, res: Response, next: NextFunction)  => eventDisplayController.getEventsForGeneralSearch(req, res, next));
 
 // event-booking//
 
 router.post("/events/:eventId/book",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventBookingController.bookTickets(req, res, next));
 router.get("/bookings/session/:sessionId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: Request, res: Response, next: NextFunction) => getUserBookingsController.getBookingBySessionId(req, res, next));
-router.get("/:userId/bookings", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => getUserBookingsController.getUserBookings(req, res, next));
+router.get("/:userId/bookings", InputDataValidator.validateQuery(bookingQuerySchema),authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => getUserBookingsController.getUserBookings(req, res, next));
 router.get("/bookings/:bookingId", (req: Request, res: Response, next: NextFunction) => getUserBookingsController.getBookingById(req, res, next));
 
 

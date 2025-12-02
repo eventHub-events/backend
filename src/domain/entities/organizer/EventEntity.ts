@@ -94,8 +94,16 @@ import { ILocation } from "../../valueObject/organizer/location";
 public cancel(){
   this.status = EventStatus.Cancelled
 }
-   updateStatus(status: EventApprovalStatus){
-      this.approvedStatus= status;
+   updateStatus(status: EventApprovalStatus ){
+      
+    this.approvedStatus = status;
+
+    if (this.approvedStatus === EventApprovalStatus.Blocked) this.status = EventStatus.Blocked;
+        if (this.approvedStatus === EventApprovalStatus.Rejected) this.status= EventStatus.Rejected;
+        if (this.approvedStatus === EventApprovalStatus.Flagged) this.status = EventStatus.Flagged;
+        if (this.approvedStatus === EventApprovalStatus.Approved) this.status = EventStatus.Upcoming;
+        if (this.approvedStatus === EventApprovalStatus.Unblocked) this.status = EventStatus.Upcoming;
+  
   
    }
  get currentStatus(): EventStatus {

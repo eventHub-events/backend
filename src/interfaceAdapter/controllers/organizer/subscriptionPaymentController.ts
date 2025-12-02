@@ -4,6 +4,8 @@ import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthen
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
+import { ErrorMessages } from "../../../constants/errorMessages";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 
 
 export class SubscriptionPaymentController {
@@ -15,10 +17,12 @@ export class SubscriptionPaymentController {
       try{
           const{planName, price, planId,organizerName, organizerEmail, durationInDays, subscriptionType, payoutDelayDays,commissionRate} = req.body;
           const organizerId = req.user?.id;
-          if(!organizerId) throw new CustomError("organizerId is required",HttpStatusCode.BAD_REQUEST);
+
+          if(!organizerId) throw new CustomError(ErrorMessages.ORGANIZER.ID_REQUIRED,HttpStatusCode.BAD_REQUEST);
+          
           const checkoutUrl = await this._createCheckoutUseCase.execute({planName,price,organizerId,durationInDays,organizerName, organizerEmail, planId,subscriptionType,payoutDelayDays, commissionRate});
 
-      res.status(HttpStatusCode.OK).json(ApiResponse.success("checkOutUrl created successfully",HttpStatusCode.OK, checkoutUrl));
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.ORGANIZER_SUBSCRIPTION.CHECKOUT_CREATION_URL_SUCCESS, HttpStatusCode.OK, checkoutUrl));
       }catch(err){
          next(err)
       }

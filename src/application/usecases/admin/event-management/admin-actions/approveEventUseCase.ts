@@ -22,9 +22,11 @@ export class ApproveEventUseCase implements IApproveEventUseCase {
     if(!eventEntity) throw new Error("Event details not found")
            moderationEntity.approveEvent(data.approvedBy!);
           
-          const status =  moderationEntity.computeStatus(eventEntity);
+          const status =  moderationEntity.computeStatus();
+           console.log("status", status);
+
          
-          eventEntity.updateStatus(status as EventApprovalStatus)
+          eventEntity.updateStatus(status as EventApprovalStatus);
       const [moderation] = await Promise.all([this._eventModerationRepository.updateEventModeration(data.eventId, moderationEntity), this._eventRepository.updateEvent(data.eventId, eventEntity)])
           return  this._moderationMapper.toResponseDTO(moderation)
            
