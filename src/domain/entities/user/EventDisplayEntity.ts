@@ -1,4 +1,4 @@
-import { ILocation } from "../../valueObject/organizer/location";
+
 
 export interface EventDisplayEntity{
    _id?: string;

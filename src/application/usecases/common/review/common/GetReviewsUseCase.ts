@@ -1,4 +1,4 @@
-import { NotFoundError } from "../../../../../domain/errors/common";
+
 import { IReviewRepository } from "../../../../../domain/repositories/user/IReviewRepository";
 import { ReviewType } from "../../../../../infrastructure/types/review/review";
 import { ReviewResponseDTO } from "../../../../DTOs/common/review/reviewResponseDTO";
@@ -10,7 +10,7 @@ export class GetReviewsUseCase implements IGetReviewsUseCase {
        private _reviewRepo: IReviewRepository,
        private _reviewMapper : IReviewMapper
    ){}
-  async execute(targetId: string, targetType: ReviewType, page: string, limit: string, userId: string): Promise<{reviews:ReviewResponseDTO[],hasMore: boolean}> {
+  async execute(targetId: string, targetType: ReviewType, page: string, limit: string): Promise<{reviews:ReviewResponseDTO[],hasMore: boolean}> {
 
        
 

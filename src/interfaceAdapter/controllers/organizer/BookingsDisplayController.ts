@@ -1,17 +1,21 @@
 import { NextFunction, Request, Response } from "express";
 import { IGetAllBookingsUseCase } from "../../../application/interface/useCases/organizer/booking/IGetAllBooking";
-import { BookingStatus } from "../../../domain/enums/user/Booking";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { IGetBookingDetailsByIdUseCase } from "../../../application/interface/useCases/organizer/booking/IGetBookingDetailsByIdUseCase";
+import {  BookingQueryFilter } from "../../../infrastructure/validation/schemas/organizer/bookingQuerySchema";
+import { ErrorMessages } from "../../../constants/errorMessages";
+import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
+import { IGetAllBookingsByEventIdUseCase } from "../../../application/interface/useCases/organizer/booking/IGetAllBookingsByEventIdUseCase";
 
 
 export  class BookingsDisplayController {
  constructor (
       private _getAllBookingUseCase : IGetAllBookingsUseCase,
-      private _getBookingDetailsById : IGetBookingDetailsByIdUseCase
+      private _getBookingDetailsById : IGetBookingDetailsByIdUseCase,
+      private _getBookingsByEventIdUseCase : IGetAllBookingsByEventIdUseCase
       
  ){}
 
@@ -19,21 +23,9 @@ export  class BookingsDisplayController {
     try{
          
       const {organizerId } =  req.params;
-       const statusValue = req.query.status as string;
-       const validStatus = statusValue ? (Object.values(BookingStatus).includes(statusValue as BookingStatus) 
-       ? (statusValue as BookingStatus) 
-       : undefined) 
-       : undefined;
-
-        const filters = {
-             title: req.query.title as string,
-             userName: req.query.userName as string,
-             startDate: req.query.startDate as string,
-             status: validStatus,
-             endDate : req.query.endDate as string,
-             page: req.query.page? parseInt(req.query.page as string,10): 1,
-             limit: req.query.limit? parseInt(req.query.limit as string,10):10
-        }
+        if(!organizerId) throw new CustomError(ErrorMessages.ORGANIZER.ID_REQUIRED,HttpStatusCode.BAD_REQUEST);
+        
+         const filters = req.validatedQuery as BookingQueryFilter;
          
         const{mappedBookings: bookings, totalPages} = await this._getAllBookingUseCase.execute({organizerId,...filters});
     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS, HttpStatusCode.OK, {bookings, totalPages}));
@@ -53,5 +45,19 @@ export  class BookingsDisplayController {
     }catch(err) {
        next(err)
     }
+ }
+ async fetchBookingsByEventId(req: IAuthenticatedRequest, res :Response, next :NextFunction) :Promise<void> {
+   try{
+          const{ eventId } = req.params;
+          if(!eventId) throw new CustomError(ErrorMessages.EVENT.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
+         const filters = req.validatedQuery as BookingQueryFilter;
+
+        const{mappedBookings: bookings, totalPages} = await this._getBookingsByEventIdUseCase.execute({eventId,...filters});
+    res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS, HttpStatusCode.OK, {bookings, totalPages}));
+       
+         
+   }catch(err){
+      next(err)
+   }
  }
 }

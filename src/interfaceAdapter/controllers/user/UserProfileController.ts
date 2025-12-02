@@ -19,7 +19,7 @@ export class UserProfileController {
         const {userId} = req.params;
 
       const userProfile = await this._userProfileUseCase.getUserProfile(userId);
-      console.log("up", userProfile);
+      
       return res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.USER.PROFILE.FETCH_SUCCESS, HttpStatusCode.OK, userProfile))
       
    }catch(err){

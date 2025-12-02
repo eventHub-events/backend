@@ -1,26 +1,32 @@
 import { EventModerationResponseDTO } from "../../../../DTOs/admin/EventModeration/EventModerationResponseDTO";
 import { EventModerationUpdateDTO } from "../../../../DTOs/admin/EventModeration/EventModerationUpdateDTO";
-import { EventApprovalStatus } from "../../../../../domain/enums/organizer/events";
 import { IEventModerationRepository } from "../../../../../domain/repositories/admin/IEventModerationRepository";
 
 import { IEventModerationMapper } from "../../../../interface/mapper/admin/IEventModerationMapper";
 import { IUpdateEventModerationUseCase } from "../../../../interface/useCases/admin/event-management/IUpdateEventModerationUseCase";
-import { IUpdateEventUseCase } from "../../../../interface/useCases/organizer/events/IEditEventUseCase";
+import { IEventRepository } from "../../../../../domain/repositories/organizer/IEventsRepository";
+import { NotFoundError } from "../../../../../domain/errors/common";
 
 export class UpdateEventModerationUseCase implements IUpdateEventModerationUseCase {
   constructor(
      private _eventModerationRepository : IEventModerationRepository,
      private _moderationMapper : IEventModerationMapper,
-     private _eventUpdateUseCase : IUpdateEventUseCase
+     private _eventRepo: IEventRepository
     ){}
 
   async execute(eventId: string, dto: EventModerationUpdateDTO): Promise<EventModerationResponseDTO> {
       const updateData = this._moderationMapper.toEntityForUpdate(dto)
       const fetchedEntity = await this._eventModerationRepository.findEventModerationByEventId(eventId);
        const updateEntity =  fetchedEntity.update(updateData);
-       
-        const updated  =await this._eventModerationRepository.updateEventModeration(eventId,updateEntity);
+        
+       const eventEntity =  await this._eventRepo.findEventById(eventId);
+         if(!eventEntity) throw new NotFoundError("EventId not found");
 
+             eventEntity?.updateStatus(dto.eventApprovalStatus);
+             const status = eventEntity.currentStatus;
+       
+        const [updated]  =await  Promise.all([this._eventModerationRepository.updateEventModeration(eventId,updateEntity),this._eventRepo.updateEvent(eventId, {status})]);
+                        
       return this._moderationMapper.toResponseDTO(updated)
 
   }

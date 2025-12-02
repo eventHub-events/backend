@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { IOrganizerDashboardUseCase } from "../../../application/interface/useCases/organizer/dashboard/IOrganizerDashboardUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 import { ReportRange } from "../../../infrastructure/types/dashboard/booking";

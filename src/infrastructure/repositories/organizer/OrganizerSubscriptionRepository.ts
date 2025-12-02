@@ -1,7 +1,7 @@
 import { IOrganizerSubscriptionEntityFactory } from "../../../application/interface/factories/organizer/IOrganizerSubscriptionEntityFactory";
 import { OrganizerSubscriptionEntity } from "../../../domain/entities/organizer/OrganizerSubscriptionEntity";
 import { SubscriptionStatus } from "../../../domain/enums/organizer/subscription";
-import { IOrganizerSubscriptionRepository, OrganizerSubscriptionAnalytics, PlanSubscriptionAnalytics, SubscriptionConversionSummary, SubscriptionRevenueTimeline, SubscriptionRevenueTimelineItem, SubscriptionStatusSummary } from "../../../domain/repositories/organizer/IOrganizerSubscriptionRepository";
+import { IOrganizerSubscriptionRepository, OrganizerSubscriptionAnalytics, PlanSubscriptionAnalytics, SubscriptionRevenueTimeline, SubscriptionRevenueTimelineItem, SubscriptionStatusSummary } from "../../../domain/repositories/organizer/IOrganizerSubscriptionRepository";
 import { OrganizerSubscriptionDbModel } from "../../../domain/types/OrganizerTypes";
 import { IOrganizerSubscription, OrganizerSubscriptionModel } from "../../db/models/organizer/subscription/OrganizerSubscriptionModel";
 import { ReportRange } from "../../types/dashboard/booking";
@@ -47,7 +47,7 @@ export class OrganizerSubscriptionRepository extends BaseRepository<IOrganizerSu
 
  async getRevenueByRange(range: ReportRange): Promise<SubscriptionRevenueTimeline> {
       const now = new Date();
-  let fromDate = new Date();
+  const fromDate = new Date();
   let format = "%Y-%m-%d";
 
   if (range === "monthly") {

@@ -1,5 +1,5 @@
 import { EventTicketingEditDTO } from "../../../DTOs/organizer/ticketing/EventTicketingEditDTO";
-import { EventTicketingResponseDTO } from "../../../DTOs/organizer/ticketing/EventTicketingResposeDTO";
+import { EventTicketingResponseDTO } from "../../../DTOs/organizer/ticketing/EventTicketingResponseDTO";
 import { IEventTicketingRepository } from "../../../../domain/repositories/organizer/IEventTicketingRepository";
 import { ITicketingMapper } from "../../../interface/mapper/organizer/ITicketingMapper";
 import {  IUpdateTicketingUseCase } from "../../../interface/useCases/organizer/eventTicketing/IEditTicketingUseCase";

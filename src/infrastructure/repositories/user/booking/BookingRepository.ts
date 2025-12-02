@@ -31,7 +31,8 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
       const cleanFilter: FilterQuery<BookingEntity> = {
           
       }
-          if(filter.organizerId ) cleanFilter.organizerId= filter.organizerId
+          if(filter.organizerId ) cleanFilter.organizerId= filter.organizerId;
+          if(filter.eventId)cleanFilter.eventId = filter.eventId
           if(filter.userId) cleanFilter.userId= filter.userId
           if (filter.status) cleanFilter.status = filter.status;
           if (filter.title)
@@ -112,7 +113,7 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
   async  getRevenueAndBookingSByRange(range: ReportRange): Promise<RevenueAndBookingSummary> {
 
         const now = new Date();
-       let fromDate = new Date();
+       const fromDate = new Date();
        let dateFormat: "%Y-%m-%d" | "%Y-%m" | "%Y";
 
 

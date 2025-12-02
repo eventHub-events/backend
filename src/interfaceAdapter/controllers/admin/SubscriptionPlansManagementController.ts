@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction,  Response } from "express";
 import { ICreateSubscriptionPlanUseCase } from "../../../application/interface/useCases/admin/subscription-plans/ICreateSubscriptionUseCase";
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 import { CreateSubscriptionRequestRequestDTO } from "../../../application/DTOs/admin/subscription-plans/CreateSubscriptionRequestDTO";
@@ -9,6 +9,7 @@ import { SubscriptionPlans } from "../../../infrastructure/constants/response-me
 import { IUpdateSubscriptionPlansUseCase } from "../../../application/interface/useCases/admin/subscription-plans/IUpdateSubscriptionUseCase";
 import { UpdateSubscriptionRequestDTO } from "../../../application/DTOs/admin/subscription-plans/UpdateSubscriptionRequestDTO";
 import { IUpdateSubscriptionPlanStatusUseCase } from "../../../application/interface/useCases/admin/subscription-plans/IUpdateSubscriptionPlanStatus";
+import { ErrorMessages } from "../../../constants/errorMessages";
 
 export class SubscriptionPlansManagementController {
    constructor(
@@ -22,7 +23,7 @@ export class SubscriptionPlansManagementController {
     try{
 
             const dto: CreateSubscriptionRequestRequestDTO = req.body;
-            if(!dto) throw new CustomError("Subscription details required", HttpStatusCode.BAD_REQUEST);
+            if(!dto) throw new CustomError(ErrorMessages.SUBSCRIPTION.SUBSCRIPTION_DETAILS, HttpStatusCode.BAD_REQUEST);
 
        const result = await this._createSubscriptionUseCase.execute(dto);
      res.status(HttpStatusCode.CREATED).json(ApiResponse.success(SubscriptionPlans.SUBSCRIPTION_PLAN_SUCCESS, HttpStatusCode.CREATED, result));
@@ -33,10 +34,10 @@ export class SubscriptionPlansManagementController {
         next(err);
     }
  }
- async update(req: Request, res: Response, next: NextFunction) : Promise<void> {
+ async update(req: IAuthenticatedRequest, res: Response, next: NextFunction) : Promise<void> {
      try{ 
             const{ planId }  = req.params;
-            if(!planId) throw new CustomError("Subscription id is required", HttpStatusCode.BAD_REQUEST);
+            if(!planId) throw new CustomError(ErrorMessages.SUBSCRIPTION.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
 
          const dto:UpdateSubscriptionRequestDTO = req.body;
           if(!dto) throw new CustomError(SubscriptionPlans.SUBSCRIPTION_PLANS_UPDATE_FAILURE, HttpStatusCode.BAD_REQUEST);
@@ -49,15 +50,14 @@ export class SubscriptionPlansManagementController {
          next(err);
      }
  }
- async updateStatus(req: Request, res: Response, next: NextFunction): Promise<void> {
+ async updateStatus(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
       try{
          
            const{ planId }  = req.params;
            const {status } = req.body;
-            console.log("plansId", planId)
-            console.log("plansId", status)
-           if(!planId) throw new CustomError("PlanId is Required", HttpStatusCode.BAD_REQUEST);
-           if(!status) throw new CustomError("status is Required", HttpStatusCode.BAD_REQUEST);
+           
+           if(!planId) throw new CustomError(ErrorMessages.SUBSCRIPTION.PLAN_ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
+           if(!status) throw new CustomError(ErrorMessages.SUBSCRIPTION.SUBSCRIPTION_DETAILS, HttpStatusCode.BAD_REQUEST);
          
            const result = await this._updateStatusUseCase.execute(planId,status);
        res.status(HttpStatusCode.OK).json(ApiResponse.success(SubscriptionPlans.SUBSCRIPTION_PLANS_UPDATE_STATUS_SUCCESS, HttpStatusCode.OK, result));

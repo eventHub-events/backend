@@ -23,7 +23,8 @@ export class CreateEventUseCase implements ICreateEventUseCase {
       const eventData =  await this._eventRepository.createEvent(eventEntity);
        if(!eventData) throw new Error("Event creation failed");
        const payload= this._eventMapper.toBlankModerationEntity(eventData.eventId!, EventApprovalStatus.Pending)
-      const result = await this._eventModerationRepository.createEventModeration(payload)
+       await this._eventModerationRepository.createEventModeration(payload);
+
         
 
     return this._eventMapper.toResponseDTO(eventData);

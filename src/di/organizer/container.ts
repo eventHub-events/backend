@@ -1,6 +1,6 @@
 import { OrganizerUploadDocumentMapper } from "../../application/mapper/admin/OrganizerUploadDocumentMapper";
 import { UploadDocumentsMapper } from "../../application/mapper/admin/UploadDocumentsMapper";
-import { UserMapper } from "../../application/mapper/user/UserMapper";
+
 import { GeneratePresignedUrlUseCase } from "../../application/useCases/organizer/generatePresignedUrlUseCase";
 import { OrganizerAccountSecurityUseCase } from "../../application/useCases/organizer/organizerAccountsecurityUseCase";
 import { OrganizerProfileUseCase } from "../../application/useCases/organizer/organizerProfileUseCase";
@@ -24,7 +24,7 @@ import { emailService, hashService } from "../common/commonContainers";
 
 
  const loggerService =  new WinstonLoggerService();
- const userMapper = new UserMapper();
+//  const userMapper = new UserMapper();
 const userEntityFactory = new UserEntityFactory();
 const userRepository  = new UserRepository(loggerService, userEntityFactory);
 const organizerProfileEntityFactory = new OrganizerProfileEntityFactory();

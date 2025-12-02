@@ -12,7 +12,7 @@ export interface IReview extends Document {
    updatedAt?: Date;
    userName?: string;
 
-};
+}
 
 export const reviewSchema = new Schema<IReview>({
     userId:{
@@ -39,6 +39,6 @@ export const reviewSchema = new Schema<IReview>({
        type: String,
        required: true
     }
-},{timestamps: true});
+},{timestamps: true})
 
 export const ReviewModel = mongoose.model<IReview>("Review", reviewSchema);

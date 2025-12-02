@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction,  Response } from "express";
 import { IFetchSubscriptionPlansUseCase } from "../../../application/interface/useCases/admin/subscription-plans/IFetchSubscriptionPlansUseCase";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { SubscriptionPlans } from "../../../infrastructure/constants/response-messages/admin/subscriptionPlans";
+import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 
 export class SubscriptionPlansRetrievalController  {
   
@@ -10,7 +11,7 @@ export class SubscriptionPlansRetrievalController  {
        private _fetchSubscriptionPlansUseCase : IFetchSubscriptionPlansUseCase
   ){}
 
-async fetchAll(req: Request, res: Response, next: NextFunction) : Promise<void> {
+async fetchAll(req: IAuthenticatedRequest, res: Response, next: NextFunction) : Promise<void> {
 
     try{
           const fetched = await this._fetchSubscriptionPlansUseCase.execute();

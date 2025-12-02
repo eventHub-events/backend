@@ -1,172 +1,86 @@
-import { Request, Response } from "express";
+import {  Response, NextFunction } from "express";
 import { IOrganizerVerificationUseCase } from "../../../application/interface/useCases/admin/IOrganizerVerificationUseCase";
-import { HttpStatusCode } from "axios";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
-import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
 import { UpdateOrganizerOverallVerificationStatusDTO } from "../../../application/DTOs/admin/OrganizerOverallVerificationDTO";
 import { ZodError } from "zod";
+import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
+import { CustomError } from "../../../infrastructure/errors/errorClass";
+import { ErrorMessages } from "../../../constants/errorMessages";
+import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 
 export class OrganizerVerificationController {
   constructor(
     private _organizerVerificationUseCase: IOrganizerVerificationUseCase
   ) {}
 
-  async fetchOrganizerVerificationDetails(
-    req: Request,
-    res: Response
-  ): Promise<Response> {
+  async fetchOrganizerVerificationDetails(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try {
       const { organizerId } = req.params;
-      console.log("id is",organizerId)
-      if (!organizerId) {
-        return res
-          .status(HttpStatusCode.BadRequest)
-          .json(
-            ApiResponse.error(
-              "organizerId is required",
-              HttpStatusCode.BadRequest
-            )
-          );
-      }
-      const organizerVerificationDetails =
-        await this._organizerVerificationUseCase.getOrganizerVerificationDetails(
-          organizerId
-        );
-      return res
-        .status(HttpStatusCode.Ok)
-        .json(
-          ApiResponse.success(
-            "Organizer Verification  details fetched successfully",
-            HttpStatusCode.Ok,
-            organizerVerificationDetails
-          )
-        );
-    } catch (error: unknown) {
-      const err = HandleErrorUtility.handleError(error);
-      return res
-        .status(HttpStatusCode.InternalServerError)
-        .json(ApiResponse.error(err, HttpStatusCode.InternalServerError));
-    }
-  }
-  async fetchPendingOrganizers(req: Request, res: Response): Promise<Response> {
-    try {
-      const pendingUsers =
-        await this._organizerVerificationUseCase.getPendingOrganizers();
-      return res
-        .status(HttpStatusCode.Ok)
-        .json(
-          ApiResponse.success(
-            "Pending organizers fetched successfully",
-            HttpStatusCode.Ok,
-            pendingUsers
-          )
-        );
-    } catch (err: unknown) {
-      const error = HandleErrorUtility.handleError(err);
-      return res
-        .status(HttpStatusCode.InternalServerError)
-        .json(ApiResponse.error(error, HttpStatusCode.InternalServerError));
-    }
-  }
-  async fetchPendingOrganizersWithProfile(
-    req: Request,
-    res: Response
-  ): Promise<Response> {
-    try {
-      const usersWithProfile =
-        await this._organizerVerificationUseCase.getPendingOrganizersWithProfile();
 
-      return res
-        .status(HttpStatusCode.Ok)
-        .json(
-          ApiResponse.success(
-            "Pending organizers with profile fetched successfully",
-            HttpStatusCode.Ok,
-            usersWithProfile
-          )
-        );
+      if (!organizerId) throw new CustomError(ErrorMessages.ORGANIZER.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
+
+      const organizerVerificationDetails = await this._organizerVerificationUseCase.getOrganizerVerificationDetails(organizerId);
+
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.ORGANIZER_VERIFICATION.ORGANIZER_VERIFICATION_DETAILS_FETCH_SUCCESS, HttpStatusCode.OK, organizerVerificationDetails));
     } catch (err) {
-      const error = HandleErrorUtility.handleError(err);
-      return res
-        .status(HttpStatusCode.InternalServerError)
-        .json(ApiResponse.error(error, HttpStatusCode.InternalServerError));
+      next(err);
     }
   }
-  async updateOrganizerUploadDocumentStatus(
-    req: Request,
-    res: Response
-  ): Promise<Response> {
+
+  async fetchPendingOrganizers(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const pendingUsers = await this._organizerVerificationUseCase.getPendingOrganizers();
+
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.ORGANIZER_VERIFICATION.PENDING_ORGANIZERS_FETCH_SUCCESS, HttpStatusCode.OK, pendingUsers));
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async fetchPendingOrganizersWithProfile(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const usersWithProfile = await this._organizerVerificationUseCase.getPendingOrganizersWithProfile();
+
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.ORGANIZER_VERIFICATION.PENDING_ORGANIZERS_WITH_PROFILE_FETCH_SUCCESS, HttpStatusCode.OK, usersWithProfile));
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async updateOrganizerUploadDocumentStatus(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
     try {
       const { organizerId, data } = req.body;
-      console.log("rrrr", req.body);
+
       if (!organizerId || !data) {
-        return res
-          .status(HttpStatusCode.BadRequest)
-          .json(
-            ApiResponse.error(
-              "organizerId  and update details are required",
-              HttpStatusCode.BadRequest
-            )
-          );
+        throw new CustomError(ErrorMessages.COMMON.ORGANIZER_ID_UPDATE_DETAILS_REQUIRED, HttpStatusCode.BAD_REQUEST);
       }
-      const updatedDocs =
-        await this._organizerVerificationUseCase.updateDocumentStatus(
-          organizerId,
-          data
-        );
-      return res
-        .status(HttpStatusCode.Ok)
-        .json(
-          ApiResponse.success(
-            "documents updated successfully",
-            HttpStatusCode.Ok,
-            updatedDocs
-          )
-        );
+
+      const updatedDocs = await this._organizerVerificationUseCase.updateDocumentStatus(organizerId, data);
+
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.UPLOAD_DOCUMENT.DOCUMENT_UPDATE_SUCCESS, HttpStatusCode.OK, updatedDocs));
     } catch (err) {
-      const error = HandleErrorUtility.handleError(err);
-      console.log("eeeeeeeee", error);
-      return res
-        .status(HttpStatusCode.InternalServerError)
-        .json(ApiResponse.error(error, HttpStatusCode.InternalServerError));
-    }
-  }
-  async updateOverallVerificationStatus(
-    req: Request,
-    res: Response
-  ): Promise<Response> {
-    try {
-      const { organizerId } =req.params;
-      if (!organizerId) {
-        return res
-        .status(HttpStatusCode.BadRequest)
-        .json(
-          ApiResponse.error(
-            "OrganizerId is required",
-            HttpStatusCode.BadRequest
-          )
-        );
-      }
-      const dto=UpdateOrganizerOverallVerificationStatusDTO.create(req.body);
-      const result= await this._organizerVerificationUseCase.updateOverallVerificationStatus(organizerId,dto)
-      return res.status(HttpStatusCode.Ok).json(ApiResponse.success("Organizer overall verification status updated successfully",HttpStatusCode.Ok,result))
-    } catch (err: unknown) {
-      if (err instanceof ZodError) {
-      return res
-        .status(HttpStatusCode.BadRequest)
-        .json(
-          ApiResponse.error(
-            "Invalid request data",
-            HttpStatusCode.BadRequest,
-            
-          )
-        );
-    }
-        const error = HandleErrorUtility.handleError(err);
-      return res
-        .status(HttpStatusCode.InternalServerError)
-        .json(ApiResponse.error(error, HttpStatusCode.InternalServerError));
-    }
+      next(err);
     }
   }
 
+  async updateOverallVerificationStatus(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { organizerId } = req.params;
+
+      if (!organizerId) throw new CustomError(ErrorMessages.ORGANIZER.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
+
+      const dto = UpdateOrganizerOverallVerificationStatusDTO.create(req.body);
+
+      const result = await this._organizerVerificationUseCase.updateOverallVerificationStatus(organizerId, dto);
+
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.ORGANIZER_VERIFICATION.ORGANIZER_OVERALL_VERIFICATION_STATUS_UPDATE_SUCCESS, HttpStatusCode.OK, result));
+    } catch (err) {
+      if (err instanceof ZodError) {
+         throw new CustomError(ErrorMessages.COMMON.INVALID_INPUT, HttpStatusCode.BAD_REQUEST);
+      }
+
+      next(err);
+    }
+  }
+}

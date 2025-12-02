@@ -14,7 +14,7 @@ export class EventBookingController {
    try{
        const  { eventId } = req.params;
        const dto: BookingRequestDTO = req.body;
-       console.log("dddd", dto)
+    
        
        const bookingDetails = await this._bookTicketUseCase.execute(eventId, dto);
 

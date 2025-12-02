@@ -4,10 +4,12 @@ import { IUserRepository } from "../../../../domain/repositories/user/IUserRepos
 import { CustomError } from "../../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../../infrastructure/interface/enums/HttpStatusCode";
 import { ILoggerService } from "../../../interface/common/ILoggerService";
-import { IChangePasswordUseCase } from "../../../interface/useCases/user/IChangePasswordUseCase";
+
 import { IHashService } from "../../../interface/useCases/user/IHashService";
 import { ITokenService } from "../../../interface/useCases/user/ITokenService";
 import { IUserMapper } from "../../../interface/useCases/user/mapper/IUserMapper";
+import { ErrorMessages } from "../../../../constants/errorMessages";
+import { IChangePasswordUseCase } from "../../../interface/useCases/user/IChangePasswordUseCase";
 
 export class ChangePasswordUseCase implements IChangePasswordUseCase{
   constructor(
@@ -23,7 +25,7 @@ async changePassword(dto: ChangePasswordDTO, token:string): Promise< UserRespons
 
     const result = await this._tokenService.verifyToken(token);
 
-    if(!result) throw new CustomError("Token verification failed",HttpStatusCode.UNAUTHORIZED);
+    if(!result) throw new CustomError(ErrorMessages.AUTH.TOKEN_VERIFICATION_FAILURE, HttpStatusCode.UNAUTHORIZED);
 
     this._loggerService.info(`is token  verified ${result}`);
 

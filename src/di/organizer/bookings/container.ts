@@ -1,5 +1,6 @@
 import { BookingDetailsByIdMapper } from "../../../application/mapper/organizer/BookingDetailsByIdMapper";
 import { BookingMapper } from "../../../application/mapper/user/BookingMapper";
+import { GetAllBookingsByEventIdUseACase } from "../../../application/useCases/organizer/booking/GetAllBookingsByEventIdUseCase";
 import { GetAllBookingsUseCase } from "../../../application/useCases/organizer/booking/GetAllBookingsUseCase";
 import { GetBookingDetailsByIdUseCase } from "../../../application/useCases/organizer/booking/GetBookingDetailsByIdUseCase";
 import { BookingEntityFactory } from "../../../infrastructure/factories/user/BookingEntityFactory";
@@ -13,5 +14,6 @@ const getAllBookingsUseCase = new GetAllBookingsUseCase(bookingRepository, booki
 const bookingDetailsByIdMapper = new BookingDetailsByIdMapper();
 
 const getBookingDetailsByIdUseCase = new GetBookingDetailsByIdUseCase(bookingRepository, bookingDetailsByIdMapper);
-export const bookingsDisplayController = new BookingsDisplayController(getAllBookingsUseCase, getBookingDetailsByIdUseCase);
+const getBookingsByEventIdUseCase = new GetAllBookingsByEventIdUseACase(bookingRepository, bookingMapper);
+export const bookingsDisplayController = new BookingsDisplayController(getAllBookingsUseCase, getBookingDetailsByIdUseCase, getBookingsByEventIdUseCase);
 

@@ -1,7 +1,6 @@
 import { BookingDetailsByIdResponseDTO } from "../../../DTOs/organizer/bookings/bookingDetailsByIdResponseDTO";
 import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
 import { IBookingDetailsByIdMapper } from "../../../interface/mapper/organizer/IBookingDetailsMapper";
-import { IBookingMapper } from "../../../interface/mapper/user/IBookingMapper";
 import { IGetBookingDetailsByIdUseCase } from "../../../interface/useCases/organizer/booking/IGetBookingDetailsByIdUseCase";
 
 export class GetBookingDetailsByIdUseCase implements IGetBookingDetailsByIdUseCase {

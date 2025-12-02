@@ -6,7 +6,7 @@ import { IEventTicketingRepository } from "../../../domain/repositories/organize
 import { EventTicketingDbModel } from "../../../domain/types/OrganizerTypes";
 import { EventTicketingModel, IEventTicketing } from "../../db/models/organizer/events/EventTicketingModel";
 import { BaseRepository } from "../BaseRepository";
-import { TicketRequest } from "../../../application/DTOs/user/booking/TicketReqest";
+
 
 export class EventTicketingRepository extends BaseRepository<IEventTicketing> implements IEventTicketingRepository {
   constructor(

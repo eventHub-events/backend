@@ -9,6 +9,8 @@ import { ILoginUserUseCase } from "../../../application/interface/useCases/user/
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 import { ILogoutUseCase } from "../../../application/interface/useCases/user/ILogoutUseCase";
 import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
+import { ErrorMessages } from "../../../constants/errorMessages";
+import { CookieOptionsUtility } from "../../../utils/CookieOptions.utility";
 
 
 export class AuthController {
@@ -36,7 +38,7 @@ export class AuthController {
     try {
       
          const { email } = req.body;
-          console.log("email in resent otp", email);
+          
           const result = await this._resendOtpUseCase.execute(email);
 
      res.status(HttpStatusCode.OK).json(ApiResponse.success(result,HttpStatusCode.OK,result));
@@ -51,7 +53,7 @@ export class AuthController {
       const { email, otp } = req.body;
 
       const result = await this._verifyOtpUseCase.execute(email, otp);
-      console.log("result after verification", result);
+    
      
        res
         .status(HttpStatusCode.OK)
@@ -65,34 +67,24 @@ export class AuthController {
     try {
       const { email, password } = req.body;
     
-       
       if (!email || !password) {
          res
           .status(HttpStatusCode.BAD_REQUEST)
-          .json(ApiResponse.error("Email and password are required"));
+          .json(ApiResponse.error(ErrorMessages.AUTH.EMAIL_AND_PASSWORD_REQUIRED));
       }
 
-      console.log("user is login ",email,password)
+     
       const { token, refreshToken,user } = await this._loginUserUseCase.loginUser(
         email,
         password
       );
 
-      res.cookie("authToken", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 15 * 60 * 1000,
-      });
-      res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-        maxAge: 7 * 24 * 60 * 60 * 1000
-      });
+      const authCookieOptions = CookieOptionsUtility.create(15 * 60 * 1000);
+      res.cookie("authToken", token, authCookieOptions);
 
-     
-
+      const refreshCookieOption = CookieOptionsUtility.create(7 * 24 * 60 * 60 * 1000);
+       res.cookie("refreshToken", refreshToken,refreshCookieOption);
+       
        res
         .status(HttpStatusCode.OK)
         .json(ApiResponse.success(ResponseMessages.AUTHENTICATION.LOGIN.SUCCESS,HttpStatusCode.OK,user));
@@ -106,12 +98,7 @@ export class AuthController {
         try{
           const result=await this._logoutUserUseCase.execute()
 
-           const cookieOptions = {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === "production",
-                     sameSite: "strict"  as const,
-                   };
-
+          const cookieOptions = CookieOptionsUtility.create();
           res.clearCookie("authToken",cookieOptions)
           res.clearCookie("refreshToken",cookieOptions)
    res.status(HttpStatusCode.OK).json(ApiResponse.success(result,HttpStatusCode.OK))

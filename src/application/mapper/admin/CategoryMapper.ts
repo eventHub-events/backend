@@ -2,7 +2,6 @@ import { CategoryResponseDTO } from "../../DTOs/admin/category/CategoryResponseD
 import { CreateCategoryRequestDTO } from "../../DTOs/admin/category/CreateCategoryRequestDTO";
 import { UpdateCategoryRequestDTO } from "../../DTOs/admin/category/UpdateCategoryRequestDTO";
 import { CategoryEntity } from "../../../domain/entities/admin/Category";
-import { categoryDbModel } from "../../../domain/types/AdminDbTypes";
 import { ICategoryMapper } from "../../interface/mapper/admin/ICategoryMapper";
 
 export class  CategoryMapper implements ICategoryMapper {

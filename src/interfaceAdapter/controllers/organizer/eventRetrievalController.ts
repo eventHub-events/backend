@@ -6,6 +6,8 @@ import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthen
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
+import { ErrorMessages } from "../../../constants/errorMessages";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 
 export class EventRetrievalController {
   constructor(
@@ -17,10 +19,10 @@ export class EventRetrievalController {
   async getEventById(req: IAuthenticatedRequest, res: Response, next: NextFunction): Promise< void> {
     try{
            const { eventId } = req.params;
-          if(!eventId) throw new CustomError("EventId is required", HttpStatusCode.BAD_REQUEST);
+          if(!eventId) throw new CustomError(ErrorMessages.EVENT.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
 
         const event = await this._getByIdUseCase.execute(eventId);
-    res.status(HttpStatusCode.OK).json(ApiResponse.success("Event fetched successfully", HttpStatusCode.OK, event));
+    res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT.EVENT_DETAILS_FETCH_SUCCESS, HttpStatusCode.OK, event));
 
      }catch(err){
        next(err)
@@ -31,11 +33,11 @@ export class EventRetrievalController {
       try{
           const{ organizerId}  = req.params;
          
-          if(!organizerId) throw new CustomError("OrganizerId is required", HttpStatusCode.BAD_REQUEST);
+          if(!organizerId) throw new CustomError(ErrorMessages.ORGANIZER.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
 
           const events = await this._getByOrganizerIdUseCase.execute(organizerId);
-          console.log("events ",events)
-      res.status(HttpStatusCode.OK).json(ApiResponse.success("Events fetched successfully", HttpStatusCode.OK, events));
+          
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT.EVENTS_FETCH_SUCCESS, HttpStatusCode.OK, events));
 
       }catch(err){
          next(err)
@@ -46,7 +48,7 @@ async getAllEvents(req: IAuthenticatedRequest, res: Response, next: NextFunction
      try{
           const events = await this._getAllEventsUseCase.execute();
 
-          res.status(HttpStatusCode.OK).json(ApiResponse.success("All events fetched Successfully", HttpStatusCode.OK, events));
+          res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.EVENT.EVENTS_FETCH_SUCCESS, HttpStatusCode.OK, events));
      }catch(err){
        next(err)
      }

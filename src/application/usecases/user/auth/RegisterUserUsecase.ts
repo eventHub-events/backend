@@ -6,6 +6,8 @@ import { HttpStatusCode } from '../../../../infrastructure/interface/enums/HttpS
 import { IEmailService } from '../../../interface/useCases/user/IEmailService';
 import { IGenerateOtpUseCase } from '../../../interface/useCases/user/IGenerateOtpUseCase';
 import { IRegisterUserUseCase } from '../../../interface/useCases/user/IRegisterUserUsecase';
+import { ResponseMessages } from '../../../../infrastructure/constants/responseMessages';
+import { ErrorMessages } from '../../../../constants/errorMessages';
 
 
 
@@ -20,7 +22,7 @@ export class RegisterUserUseCase implements IRegisterUserUseCase {
 
     const existing = await this._userRepo.findByEmail(data.email);
 
-    if (existing) throw new CustomError('User already  exists',HttpStatusCode.BAD_REQUEST );
+    if (existing) throw new CustomError(ErrorMessages.USER.USER_ALREADY_EXITS,HttpStatusCode.BAD_REQUEST );
 
     const otp = await this._generateOtpUseCase.execute(data.email, data);
     console.log(` OTP for ${data.email}: ${otp}`);
@@ -29,6 +31,6 @@ export class RegisterUserUseCase implements IRegisterUserUseCase {
       'Your OTP code',
       `<h2> your OTP is ${otp}</h2>`,
     );
-    return { message: 'OTP sent successfully' };
+    return { message: ResponseMessages.AUTHENTICATION.OTP.OTP_SENT_SUCCESS };
   }
 }

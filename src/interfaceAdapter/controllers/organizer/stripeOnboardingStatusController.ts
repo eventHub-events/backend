@@ -3,6 +3,8 @@ import { IVerifyStripeOnboardingStatusUseCase } from "../../../application/inter
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
+import { ErrorMessages } from "../../../constants/errorMessages";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 
 export class StripeOnboardingStatusController {
   constructor(
@@ -11,13 +13,13 @@ export class StripeOnboardingStatusController {
   async verify(req: Request, res: Response, next: NextFunction) : Promise<void> {
      try{
           const { organizerId } = req.body;
-          console.log("hello organizerId", organizerId)
-         if(!organizerId) throw new CustomError("organizerId is required", HttpStatusCode.BAD_REQUEST);
+         
+         if(!organizerId) throw new CustomError(ErrorMessages.ORGANIZER.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
          const result=  await this._verifyOnboardingStatus.execute(organizerId);
-       res.status(HttpStatusCode.OK).json(ApiResponse.success("Onboarding Status verified successfully", HttpStatusCode.OK,{verified: result}));
+       res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.STRIP_CONNECT.ON_BOARDING_STATUS_VERIFICATION_SUCCESS, HttpStatusCode.OK,{verified: result}));
        
      }catch(err){
-       next(err)
+       next(err);
      }
   }
 }

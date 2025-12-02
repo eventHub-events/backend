@@ -1,4 +1,4 @@
-import { NextFunction, Request ,Response} from "express";
+import {  Request ,Response} from "express";
 import { CustomError } from "../errors/errorClass";
 import { HttpStatusCode } from "../interface/enums/HttpStatusCode";
 import {  ZodError } from "zod";
@@ -8,7 +8,7 @@ import  jwt  from  "jsonwebtoken"
 
 export class ErrorHandlingMiddleware{
 
-static handleError(err:Error|CustomError |ZodError,req:Request,res:Response, next:NextFunction){
+static handleError(err:Error|CustomError |ZodError,req:Request,res:Response){
         if(err instanceof CustomError){
           console.log("error is",err)
           return res.status(err.statusCode).json({

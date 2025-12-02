@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
-import { EventApprovalStatus, EventStatus } from "../../enums/organizer/events";
-import { EventEntity } from "../organizer/EventEntity";
+import { EventApprovalStatus} from "../../enums/organizer/events";
+
 
 
 export class EventModerationEntity {
@@ -11,17 +11,17 @@ export class EventModerationEntity {
   public approvedBy? : string;
   public rejectionReason?: string;
   public flaggedReason? : string;
-  public flaggedBy?: string;;
+  public flaggedBy?: string;
   public flaggedAt? : Date;
   public isBlocked? : boolean;
   public blockedAt?: Date;
-  public blockedBy? : string;;
+  public blockedBy? : string;
   public  id?: Types.ObjectId;
   public moderationHistory?:Array<{
     action : string;
     reason?: string;
     performedBy?: string;
-    performedAt ?:Date
+    performedAt ?:Date;
   }>
 
   constructor(props:{
@@ -104,9 +104,9 @@ rejectEvent(rejectionReason: string, performedBy: string): void {
   
   this.addToHistory("REJECTED", rejectionReason, performedBy);
 }
-computeStatus(event: EventEntity) {
-    // if(event.isDeleted) return EventStatus.Cancelled;
-    //         if (!this.approved) return EventStatus.Draft;
+computeStatus() {
+    //  if(event.isDeleted) return EventStatus.Cancelled;
+    // //         if (!this.approved) return EventStatus.Draft;
             if(this.eventApprovalStatus === EventApprovalStatus.Flagged){
                 return EventApprovalStatus.Flagged
             }

@@ -15,7 +15,7 @@ export class UpdateSubscriptionPlanStatusUseCase implements IUpdateSubscriptionP
           if(status === SubscriptionPlanStatus.BLOCK) planEntity.markAsInActive();
           else planEntity.markAsActive();
 
-       const result =  await this._planRepo.updateSubscriptionPlans(planId, planEntity);
+         await this._planRepo.updateSubscriptionPlans(planId, planEntity);
        return "Subscription Status updated successfully";
         
 }

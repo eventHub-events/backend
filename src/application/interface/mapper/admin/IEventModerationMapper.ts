@@ -4,4 +4,7 @@ import { EventModerationUpdateDTO } from "../../../DTOs/admin/EventModeration/Ev
 import { EventModerationEntity } from "../../../../domain/entities/admin/EventModerationEntity";
 import { IBaseMapper } from "../../common/IBaseMapper";
 
-export interface IEventModerationMapper extends IBaseMapper<EventModerationEntity, EventModerationRequestDTO, EventModerationResponseDTO, EventModerationUpdateDTO> {}
+export interface IEventModerationMapper extends IBaseMapper<EventModerationEntity, EventModerationRequestDTO, EventModerationResponseDTO> {
+  toResponseDTO(entity: EventModerationEntity): EventModerationResponseDTO;
+  toEntityForUpdate(dto: EventModerationUpdateDTO): Partial<EventModerationEntity> ;
+}

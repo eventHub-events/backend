@@ -8,9 +8,9 @@ import { IAdminDashboardUseCase } from "../../../interface/useCases/admin/dashbo
 
 export class AdminDashboardUseCase implements IAdminDashboardUseCase {
   constructor(
-    private readonly userRepo: IUserRepository,
-    private readonly bookingRepo: IBookingRepository,
-    private readonly subscriptionRepo: IOrganizerSubscriptionRepository
+    private readonly _userRepo: IUserRepository,
+    private readonly _bookingRepo: IBookingRepository,
+    private readonly _subscriptionRepo: IOrganizerSubscriptionRepository
   ) {}
 
   async execute(range: ReportRange): Promise<AdminDashboardDTO> {
@@ -23,12 +23,12 @@ export class AdminDashboardUseCase implements IAdminDashboardUseCase {
       payoutSummary,
 
     ] = await Promise.all([
-      this.userRepo.getUserCountSummary(),
-      this.userRepo.getPendingOrganizerVerification(),
-      this.bookingRepo.getRevenueAndBookingSByRange(range),
-      this.subscriptionRepo.getRevenueByRange(range),
-      this.subscriptionRepo.getStatusSummary(),
-      this.bookingRepo.getPendingPayoutSummary()
+      this._userRepo.getUserCountSummary(),
+      this._userRepo.getPendingOrganizerVerification(),
+      this._bookingRepo.getRevenueAndBookingSByRange(range),
+      this._subscriptionRepo.getRevenueByRange(range),
+      this._subscriptionRepo.getStatusSummary(),
+      this._bookingRepo.getPendingPayoutSummary()
     ]);
 
     return {

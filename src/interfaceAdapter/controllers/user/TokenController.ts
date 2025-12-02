@@ -3,6 +3,7 @@ import { IRefreshTokenUseCase } from "../../../application/interface/useCases/us
 import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 
 
 export class TokenController {
@@ -14,8 +15,8 @@ export class TokenController {
 
   async refreshAccessToken(req:IAuthenticatedRequest,res:Response, next: NextFunction){
       try{
-       console.log("get into this route")
-        const {refreshToken}= req.cookies;             
+    
+        const {refreshToken} = req.cookies;             
   
         const accessToken =  await this._generateAccessTokenUseCase.generateAccessToken(refreshToken)
         
@@ -26,7 +27,7 @@ export class TokenController {
           maxAge: 15 * 60 * 1000,
         });
   
-        return res.status(HttpStatusCode.OK).json(ApiResponse.success("Access token creation successful"))
+        return res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.AUTHENTICATION.TOKEN.ACCESS_TOKEN_CREATION_SUCCESS));
   
   
       }catch(err){

@@ -1,8 +1,8 @@
-import { User } from "../../../domain/entities/User";
-import { IUserMinimal } from "../../../domain/types/IUserMinimal";
+import { UserEntity } from "../../../domain/entities/User";
+
 
 export interface OrganizerVerificationResponseDTO{
-    organizerId: User,
+    organizerId: UserEntity,
     location:string,
     organization:string,
     bio:string;

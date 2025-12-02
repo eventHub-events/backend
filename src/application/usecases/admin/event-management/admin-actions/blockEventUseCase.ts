@@ -1,10 +1,7 @@
 import { EventModerationRequestDTO } from "../../../../DTOs/admin/EventModeration/EventModerationReqDTO";
 import { EventModerationResponseDTO } from "../../../../DTOs/admin/EventModeration/EventModerationResponseDTO";
-import { EventModerationEntity } from "../../../../../domain/entities/admin/EventModerationEntity";
-import { IEventStatusCalculatorClass } from "../../../../../domain/interface/services/IEventCalculatorClass";
 import { IEventModerationRepository } from "../../../../../domain/repositories/admin/IEventModerationRepository";
 import { IEventRepository } from "../../../../../domain/repositories/organizer/IEventsRepository";
-import { IEventModeration } from "../../../../../infrastructure/db/models/organizer/events/EventModerationModel";
 import { IEventModerationMapper } from "../../../../interface/mapper/admin/IEventModerationMapper";
 import { IBlockEventUseCase } from "../../../../interface/useCases/admin/event-management/IBlockEventUseCase";
 
@@ -24,13 +21,13 @@ export class BlockEventUseCase implements IBlockEventUseCase {
     if(!eventEntity) throw new Error("Event details not found")
            moderationEntity.blockEvent(data.rejectionReason,data.blockedBy);
           
-          const status =  moderationEntity.computeStatus(eventEntity);
+          const status =  moderationEntity.computeStatus();
            eventEntity.updateStatus(status)
           
           
          ;
-      const [moderation, updatedEvent] = await Promise.all([this._eventModerationRepository.updateEventModeration(data.eventId, moderationEntity), this._eventRepository.updateEvent(data.eventId, eventEntity)])
-          return  this._moderationMapper.toResponseDTO(moderation)
+      const [moderation] = await Promise.all([this._eventModerationRepository.updateEventModeration(data.eventId, moderationEntity), this._eventRepository.updateEvent(data.eventId, eventEntity)])
+          return  this._moderationMapper.toResponseDTO(moderation);
            
 
       

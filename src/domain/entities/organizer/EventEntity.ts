@@ -94,8 +94,16 @@ import { ILocation } from "../../valueObject/organizer/location";
 public cancel(){
   this.status = EventStatus.Cancelled
 }
-   updateStatus(status: EventApprovalStatus){
-      this.approvedStatus= status;
+   updateStatus(status: EventApprovalStatus ){
+      
+    this.approvedStatus = status;
+
+    if (this.approvedStatus === EventApprovalStatus.Blocked) this.status = EventStatus.Blocked;
+        if (this.approvedStatus === EventApprovalStatus.Rejected) this.status= EventStatus.Rejected;
+        if (this.approvedStatus === EventApprovalStatus.Flagged) this.status = EventStatus.Flagged;
+        if (this.approvedStatus === EventApprovalStatus.Approved) this.status = EventStatus.Upcoming;
+        if (this.approvedStatus === EventApprovalStatus.Unblocked) this.status = EventStatus.Upcoming;
+  
   
    }
  get currentStatus(): EventStatus {
@@ -106,7 +114,7 @@ public cancel(){
         const now = new Date();
 
         if (this.approvedStatus === EventApprovalStatus.Blocked) return EventStatus.Blocked;
-        if (this.approvedStatus === EventApprovalStatus.Rejected) return EventStatus.Cancelled;
+        if (this.approvedStatus === EventApprovalStatus.Rejected) return EventStatus.Rejected;
         if (this.approvedStatus === EventApprovalStatus.Flagged) return EventStatus.Flagged;
 
         // Timeline based status

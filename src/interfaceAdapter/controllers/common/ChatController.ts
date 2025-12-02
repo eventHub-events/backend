@@ -12,6 +12,7 @@ import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { SendMessageRequestDTO } from "../../../application/DTOs/common/chat/SentMessageRequestDTO";
 import { IGetOrganizerChatEventUseCase } from "../../../application/interface/useCases/organizer/chat/IGetOrganizerChatEventUseCase";
 import { IGetUserChatEventUseCase } from "../../../application/interface/useCases/organizer/chat/IGetUserEventChatUseCase";
+import { ErrorMessages } from "../../../constants/errorMessages";
 
 
 export class ChatController {
@@ -30,7 +31,7 @@ export class ChatController {
  async startPrivateChat(req: IAuthenticatedRequest, res: Response, next: NextFunction) : Promise<void> {
     try{
           const{ userId, organizerId, eventId } = req.body;
-          console.log("eeee", req.body)
+          
           const result = await this._startPrivateChatUseCase.execute( userId,organizerId, eventId);
 
         
@@ -46,7 +47,7 @@ export class ChatController {
  async getCommunityChat(req: IAuthenticatedRequest, res: Response, next :NextFunction): Promise<void> {
     try{
          const {eventId} = req.params;
-          if(!eventId) throw new CustomError("EventId is required", HttpStatusCode.BAD_REQUEST);
+          if(!eventId) throw new CustomError(ErrorMessages.EVENT.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
         
          const result = await this._getCommunityChatUseCase.execute(eventId);
       res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.CHAT.COMMUNITY_FETCH_SUCCESS, HttpStatusCode.OK, result));
@@ -60,7 +61,7 @@ export class ChatController {
  async getMessages(req: IAuthenticatedRequest, res: Response, next: NextFunction) : Promise<void> {
      try{
            const{ conversationId }  = req.params;
-           if(!conversationId) throw new CustomError("conversationId is required", HttpStatusCode.BAD_REQUEST);
+           if(!conversationId) throw new CustomError(ErrorMessages.CONVERSATION.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
          
          const messages = await this._getMessagesUseCase.execute(conversationId);
         
@@ -92,7 +93,7 @@ export class ChatController {
          
 
 
-         if(!organizerId || !eventId) throw new CustomError("UserId and OrganizerId are required", HttpStatusCode.BAD_REQUEST);
+         if(!organizerId || !eventId) throw new CustomError(ErrorMessages.COMMON.EVENT_AND_ORGANIZER_ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
        
        const chats =  await this._getEventChatUseCase.execute(organizerId, eventId);
     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.CHAT.CHAT_SUCCESS, HttpStatusCode.OK, chats));
@@ -106,7 +107,7 @@ export class ChatController {
          const userId = req.user!.id;
          const { eventId }  = req.params;
          
-         if(!userId || !eventId) throw new CustomError("UserId and eventId are required", HttpStatusCode.BAD_REQUEST);
+         if(!userId || !eventId) throw new CustomError(ErrorMessages.COMMON.USERID_AND_EVENTID, HttpStatusCode.BAD_REQUEST);
        
        const chats =  await this._getEventChatForUserUseCase.execute(userId, eventId);
     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.CHAT.CHAT_SUCCESS, HttpStatusCode.OK, chats));

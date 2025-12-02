@@ -1,3 +1,4 @@
+import { ErrorMessages } from "../../../../constants/errorMessages";
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
 import { IUserLoginResponse } from "../../../../domain/types/IUserLoginResponse";
 
@@ -21,20 +22,20 @@ export class LoginUserUseCase implements ILoginUserUseCase {
     const userDoc = await this._userRepository.verifyUser(email);
  
 
-    if (!userDoc) throw new Error("user is not found");
-    console.log("userDoc",userDoc)
-    if(userDoc.isBlocked) throw new Error("you have been blocked by  admin .")
+    if (!userDoc) throw new Error(ErrorMessages.USER.NOT_FOUND);
+    
+    if(userDoc.isBlocked) throw new Error(ErrorMessages.USER.USER_BLOCK_ADMIN)
     const hashedPassword = userDoc.password;
-  console.log("hashed password",hashedPassword)
+  
     const isPasswordValid = await this._hashService.compare(
       password,
       hashedPassword!
     );
 
-    if (!isPasswordValid) throw new Error("Invalid password");
+    if (!isPasswordValid) throw new Error(ErrorMessages.AUTH.PASSWORD_INVALID);
     const payload: IUserTokenPayload = { id: userDoc.id!, role: userDoc.role! };
 
-console.log("payload is",payload)
+
     const token = await this._tokenService.generateToken(payload);
     const refreshToken = await this._tokenService.generateRefreshToken(payload);
 

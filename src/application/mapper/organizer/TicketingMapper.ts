@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { EventTicketingRequestDTO } from "../../DTOs/organizer/ticketing/EventTicketingRequestDTO";
-import { EventTicketingResponseDTO } from "../../DTOs/organizer/ticketing/EventTicketingResposeDTO";
+import { EventTicketingResponseDTO } from "../../DTOs/organizer/ticketing/EventTicketingResponseDTO";
 import { EventTicketingEntity } from "../../../domain/entities/organizer/EventTicketingEntity";
 import { ITicketingMapper } from "../../interface/mapper/organizer/ITicketingMapper";
 import { EventTicketingEditDTO } from "../../DTOs/organizer/ticketing/EventTicketingEditDTO";

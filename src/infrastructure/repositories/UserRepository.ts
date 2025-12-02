@@ -53,7 +53,7 @@ export class UserRepository extends BaseRepository<IUserDocument>  implements  I
    async  findAllUsers(filter: UserFilterOptions): Promise<{users: UserEntity[]; total: number} | null> {
        
     const{page =1, limit = 5, search, role ,status} =  filter;
-
+         
        const newFilter: FilterQuery<UserEntity> = {
             role:{$ne: "admin"}
        }

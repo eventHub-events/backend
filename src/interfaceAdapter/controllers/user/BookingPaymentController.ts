@@ -3,6 +3,8 @@ import { ICreateTicketPaymentUseCase } from "../../../application/interface/useC
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
+import { ErrorMessages } from "../../../constants/errorMessages";
+import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
 
 export class BookingPaymentController {
     constructor(
@@ -12,10 +14,10 @@ export class BookingPaymentController {
       try{
           const {bookingId}  = req.body;
          
-          if(!bookingId) throw new CustomError("Booking id is required", HttpStatusCode.BAD_REQUEST);
+          if(!bookingId) throw new CustomError(ErrorMessages.BOOKING.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
          
           const url = await this._createPaymentSessionUseCase.execute(bookingId);
-      res.status(HttpStatusCode.OK).json(ApiResponse.success("Payment session created", HttpStatusCode.OK,{url}));
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.BOOKING.PAYMENT_SESSION, HttpStatusCode.OK,{url}));
          
       }catch(err){
         next(err)
