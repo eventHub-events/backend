@@ -5,5 +5,6 @@ export interface IMessageRepository {
   getMessagesByConversationId(conversationId: string): Promise<MessageEntity[]>;
   markMessagesAsRead(conversationId:string, receiverId: string) : Promise<void>;
   countUnread(conversationId: string, receiverId: string): Promise<number>;
+  findMessageById(messageId :string) : Promise<MessageEntity | null> 
 
 }

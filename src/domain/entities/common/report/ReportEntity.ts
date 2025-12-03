@@ -14,6 +14,7 @@ export class ReportEntity {
   public createdAt?:Date;
   public updatedAt?:  Date;
   public action?: ReportActions;
+  public chatId?: string;
 
   constructor(
       props:{
@@ -30,6 +31,7 @@ export class ReportEntity {
            updatedAt?: Date;
            id?: string;
            action?: ReportActions;
+           chatId?:string
 
       }
   ){
@@ -46,6 +48,7 @@ export class ReportEntity {
      this.adminNote = props.adminNote;
      this.status = props.status;
      this.action = props.action;
+     this.chatId = props.chatId
 
 
   }

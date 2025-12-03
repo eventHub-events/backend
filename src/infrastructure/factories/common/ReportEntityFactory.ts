@@ -17,7 +17,8 @@ export class ReportEntityFactory implements IReportEntityFactory {
         createdAt: dbModel.createdAt,
         updatedAt: dbModel.updatedAt,
         id: dbModel._id.toString(),
-        action : dbModel.action
+        action : dbModel.action,
+        chatId : dbModel.chatId
       })
   }
   toDomainList(dbModel: ReportDbModel[]): ReportEntity[] {

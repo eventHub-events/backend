@@ -39,5 +39,10 @@ export class MessageRepository extends BaseRepository<IMessage> implements IMess
 
     return count
   }
+  async findMessageById(messageId :string) : Promise<MessageEntity | null> {
+
+      const message = await super.findById(messageId) as MessageDbModel;
+      return message ? this._messageEntityFactory.toDomain(message): null;
+  }
 
 }

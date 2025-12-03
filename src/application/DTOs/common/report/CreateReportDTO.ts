@@ -8,6 +8,7 @@ export interface CreateReportDTO {
  targetType: ReportTypes;
  reason: string;
  description?: string;
-status?: ReportStatus
+status?: ReportStatus,
+chatId?: string
  
 }

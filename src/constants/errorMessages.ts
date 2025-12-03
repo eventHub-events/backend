@@ -72,6 +72,14 @@ export const ErrorMessages = {
      STATUS_REQUIRED : "Status is required",
      PLAN_ID_REQUIRED : "Plan id is required",
      SUBSCRIPTION_DETAILS : "Subscription details is required"
+  },
+  CHAT : {
+   NOT_ELIGIBLE_TO_REPORT_ORGANIZER: "You are not eligible to report this organizer",
+   CHAT_MESSAGE_NOT_FOUND : "Chat message not found",
+   REPORT_OWN_MESSAGE_ERROR :"You cannot report your own message",
+   CONVERSATION_NOT_FOUND : "Conversation not found",
+   CONVERSATION_NOT_FOUND_FOR_UPDATE: "Conversation not found for update",
+   USERID_NOT_FOUND_IN_CHAT : "You are not part of  this conversation"
   }
   
   

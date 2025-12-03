@@ -15,6 +15,7 @@ export interface IReport extends Document {
   createdAt?:  Date;
   updatedAt?: Date;
   action?: ReportActions;
+  chatId?:string;
 
 }
 const reportSchema = new Schema<IReport>({
@@ -42,6 +43,9 @@ const reportSchema = new Schema<IReport>({
    reason:{
      type: String,
      default:""
+   },
+   chatId: {
+    type :String
    },
    description:{
      type: String,
