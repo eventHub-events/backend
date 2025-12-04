@@ -12,8 +12,10 @@ export const bookingQuerySchema = z.object({
       BookingStatus.CANCELLED,
       BookingStatus.EXPIRED,
       BookingStatus.PENDING_PAYMENT,
+      BookingStatus.PAYMENT_FAILED,
+      BookingStatus.REFUNDED
     ])
-    .optional(),
+    .optional().or(z.literal("")),
 
   startDate: z.string().optional(),
   endDate: z.string().optional(),
