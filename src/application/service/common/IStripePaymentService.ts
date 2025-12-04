@@ -25,5 +25,6 @@ export interface IStripePaymentService {
 }): Promise<string>
   
 createBookingCheckout(dto :BookingCheckoutDTO ): Promise<string>;
-refundPayment(paymentIntentId: string): Promise<void>
+refundPayment(paymentIntentId: string): Promise<void>;
+refundForTicketCancel(paymentIntentId: string, amountInRupees?: number): Promise<void> 
 }

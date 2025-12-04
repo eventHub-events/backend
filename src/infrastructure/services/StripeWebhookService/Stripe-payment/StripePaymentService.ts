@@ -138,4 +138,10 @@ export class StripePaymentService implements IStripePaymentService {
         payment_intent : paymentIntentId
     })
  }
+ async refundForTicketCancel(paymentIntentId: string, amountInRupees?: number): Promise<void> {
+      await this.stripe.refunds.create({
+         payment_intent : paymentIntentId,
+         ...(amountInRupees && {amount: amountInRupees * 100}),
+      })
+ }
 }

@@ -1,3 +1,5 @@
+import { PartitionDateSource } from "@aws-sdk/client-s3";
+
 export const ErrorMessages = {
    ORGANIZER: {
     ID_REQUIRED: "Organizer id is required",
@@ -18,6 +20,10 @@ export const ErrorMessages = {
     ID_REQUIRED: "EventModeration id is required",
     EVENT_MODERATION_DETAILS_REQUIRED : "Event moderation details required",
     EVENT_MODERATION_UPDATE_DETAILS_REQUIRED : "Event moderation update details required"
+  },
+  REFUND : {
+   PAID_REQUEST_ERROR :"Only paid bookings can be cancelled",
+   CANCEL_WINDOW_CLOSED :"Cancellation window closed"
   },
 
    AUTH: {
@@ -75,7 +81,8 @@ export const ErrorMessages = {
   BOOKING :{
      ID_REQUIRED: "Booking id is required",
      SESSION_ID_REQUIRED : "  Session id is required",
-     BOOKINGS_NOT_FOUND: "Bookings not found"
+     BOOKINGS_NOT_FOUND: "Bookings not found",
+     BOOKING_NOT_FOUND : "Booking not found"
   },
   CATEGORY : {
        ID_REQUIRED: "CategoryId is required",
