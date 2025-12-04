@@ -8,6 +8,11 @@ export interface CreateReportDTO {
  targetType: ReportTypes;
  reason: string;
  description?: string;
-status?: ReportStatus
+status?: ReportStatus,
+chatId?: string;
+senderId?: string;
+senderName?:string;
+  mode?:"private"|"community";
+  messageSnapshot?: string
  
 }

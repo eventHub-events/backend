@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const UserFilterOptionsSchema = z.object({
-  page: z.number().optional(),
-  limit: z.number().optional(),
+  page: z.coerce.number().optional(),
+ limit: z.coerce.number().optional(),
   search: z.string().optional(),
   role: z.string().optional(),
   status: z.string().optional(),

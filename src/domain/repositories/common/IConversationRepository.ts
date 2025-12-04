@@ -9,6 +9,7 @@ export interface IConversationRepository {
   updateLastMessage(conversationId: string, message: string, senderId: string): Promise<void>;
   findPrivateChatsByEvent(eventId: string): Promise<ConversationEntity[]>;
   findUserPrivateChatsByEvent (userId: string,  eventId: string): Promise<ConversationEntity[]>;
+  isParticipant(conversationId: string, userId :string) : Promise<boolean>
 
 }
 

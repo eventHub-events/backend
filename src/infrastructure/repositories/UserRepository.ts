@@ -10,6 +10,7 @@ import { UserDbModel } from "../../domain/types/UserTypes";
 import UserModel, { IUserDocument, KycStatus } from "../db/models/user/UserModel";
 import { BaseRepository } from "./BaseRepository"
 import { UserFilterOptions } from "../../application/DTOs/common/userFilterOptions";
+import { ErrorMessages } from "../../constants/errorMessages";
 
 export class UserRepository extends BaseRepository<IUserDocument>  implements  IUserRepository {
      constructor(
@@ -107,7 +108,7 @@ export class UserRepository extends BaseRepository<IUserDocument>  implements  I
         
             if (!result) {
               this._loggerService.error(`User with email ${email} not found`);
-              throw new Error("Error in updating password");
+              throw new Error(ErrorMessages.USER.USER_UPDATE_FAILURE);
             }
 
         return this._userEntityFactory.toDomain(result)

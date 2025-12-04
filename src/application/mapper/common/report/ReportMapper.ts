@@ -14,7 +14,11 @@ export class ReportMapper implements IReportMapper {
          targetType: dto.targetType,
          reason: dto.reason,
          description: dto.description,
-         status: dto.status?? ReportStatus.PENDING
+         status: dto.status?? ReportStatus.PENDING,
+         chatId: dto.chatId,
+         messageSnapshot : dto.messageSnapshot,
+         senderName :dto.senderName,
+         senderId : dto.senderId
       })
   }
   toResponseDTO(entity: ReportEntity): ReportResponseDTO {
@@ -29,7 +33,11 @@ export class ReportMapper implements IReportMapper {
          description : entity.description,
          status: entity.status,
          action : entity.action,
-         reported : entity.createdAt
+         reported : entity.createdAt,
+         chatId : entity.chatId,
+         senderName : entity.senderName,
+         messageSnapshot: entity.messageSnapshot,
+          senderId : entity.senderId
       }
   }
   toResponseDTOList(entity: ReportEntity[]): ReportResponseDTO[] {

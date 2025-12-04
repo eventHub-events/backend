@@ -1,4 +1,6 @@
+import { Types } from "mongoose";
 import { IConversationEntityFactory } from "../../../application/interface/factories/common/IConversationEntityFactory";
+import { ErrorMessages } from "../../../constants/errorMessages";
 import { ConversationEntity } from "../../../domain/entities/common/chat/ConversationEntity";
 import { NotFoundError } from "../../../domain/errors/common";
 import { IConversationRepository } from "../../../domain/repositories/common/IConversationRepository";
@@ -9,14 +11,15 @@ import { BaseRepository } from "../BaseRepository";
 export class ConversationRePository extends BaseRepository<IConversation> implements IConversationRepository {
   
    constructor(
-      private  _conversationEntityFactory : IConversationEntityFactory
+      private  _conversationEntityFactory : IConversationEntityFactory,
+      
    ){
       super(ConversationModel)
    }
 
 async findPrivateConversation(userId: string, organizerId: string, eventId: string): Promise<ConversationEntity|null> {
      const conversation = await ConversationModel.findOne({
-       type: "private",
+       type: ConversationType.PRIVATE,
        eventId,
        participants:{$all: [userId, organizerId]}
      }) as ConversationDbModel|  null;
@@ -28,17 +31,17 @@ async findPrivateChatsByEvent(eventId: string): Promise<ConversationEntity[]> {
    
       const filter = {
           eventId,
-          type:"private"
+          type: ConversationType.PRIVATE
       }
       const conversations = await super.findAll(filter) as ConversationDbModel[];
-      if(!conversations) throw new NotFoundError("conversations not found");
+      if(!conversations) throw new NotFoundError(ErrorMessages.CHAT.CONVERSATION_NOT_FOUND);
   return this._conversationEntityFactory.toDomainList(conversations);
 
 }
 
 async findUserPrivateChatsByEvent (userId: string,  eventId: string): Promise<ConversationEntity[]> {
    const filter = {
-     type:"private",
+     type: ConversationType.PRIVATE,
      eventId,
      participants : userId
    }
@@ -48,7 +51,7 @@ async findUserPrivateChatsByEvent (userId: string,  eventId: string): Promise<Co
 
 async createPrivateConversation(userId: string, organizerId: string, eventId: string, userName: string): Promise<ConversationEntity> {
      const created = await ConversationModel.create({
-         type: "private",
+         type: ConversationType.PRIVATE,
          userId,
           userName,
          eventId,
@@ -60,7 +63,7 @@ async createPrivateConversation(userId: string, organizerId: string, eventId: st
 
 async createCommunityConversation(eventId: string): Promise<ConversationEntity> {
     const created = await ConversationModel.create({
-          type :"community",
+          type : ConversationType.COMMUNITY,
           eventId,
           participants:[]
     }) as ConversationDbModel;
@@ -94,6 +97,15 @@ async updateLastMessage(conversationId: string, message: string, senderId: strin
              updatedAt :new Date()
          }
        const updated = await super.update(conversationId, filter) as ConversationDbModel;
-        if(!updated) throw new NotFoundError("Document not found for update");
+        if(!updated) throw new NotFoundError(ErrorMessages.CHAT.CONVERSATION_NOT_FOUND_FOR_UPDATE);
+}
+async isParticipant(conversationId: string, userId :string) : Promise<boolean> {
+   const conversation =  await super.findOne({
+      _id : new Types.ObjectId(conversationId),
+      participants : userId
+   });
+   console.log("conversa", conversationId)
+   console.log("conver",  userId)
+   return !!conversation
 }
 }

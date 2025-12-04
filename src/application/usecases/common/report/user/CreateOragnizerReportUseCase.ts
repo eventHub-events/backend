@@ -1,3 +1,4 @@
+import { ErrorMessages } from "../../../../../constants/errorMessages";
 import { UnauthorizedError } from "../../../../../domain/errors/common";
 import { IReportRepository } from "../../../../../domain/repositories/common/IReportRepository";
 import { IBookingRepository } from "../../../../../domain/repositories/user/IBookingRepository";
@@ -15,7 +16,7 @@ export class CreateOrganizerReportUseCase implements ICreateOrganizerReportUseCa
   ){}
   async execute(dto: CreateReportDTO): Promise<ReportResponseDTO> {
         const booked = await this._bookingRepo.findBookingsByOrganizerIdAndUserId(dto.targetId,dto.reporterId);
-            if(!booked) throw new UnauthorizedError("Your are not eligible to  report this organizer");
+            if(!booked) throw new UnauthorizedError(ErrorMessages.CHAT.NOT_ELIGIBLE_TO_REPORT_ORGANIZER);
       
           const reportEntity = this._reportMapper.toEntity(dto);
           const created = await this._reportRepo.createReport(reportEntity);

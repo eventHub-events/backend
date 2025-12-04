@@ -11,11 +11,11 @@ export class GetReportsUseCase implements IGetReportsUseCase {
   ){}
 async execute(targetType: ReportTypes, page: string, limit: string): Promise<{reportData:ReportResponseDTO[],total: number}> {
     
-          const {reportEntity, total}  = await this._ReportRepo.getReports(targetType, Number(page), Number(limit));
+          const {reportEntity, totalPages}  = await this._ReportRepo.getReports(targetType, Number(page), Number(limit));
 
           const reportData =  this._reportMapper.toResponseDTOList(reportEntity);
 
-      return {reportData, total};
+      return {reportData, total:totalPages};
       
 
 }

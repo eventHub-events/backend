@@ -12,7 +12,7 @@ export class GetEventByOrganizerUseCase implements IGetEventByOrganizerUseCase {
   async  execute(organizerId: string): Promise<EventResponseDTO[]> {
 
         const eventEntities = await this._eventRepository.findEventsByOrganizerId(organizerId,ACTIVE_EVENTS_FILTER);
-        console.log("event resposn", eventEntities)
+        
         return this._eventMapper.toResponseDTOList(eventEntities);
     }
 

@@ -15,6 +15,10 @@ export interface IReport extends Document {
   createdAt?:  Date;
   updatedAt?: Date;
   action?: ReportActions;
+  chatId?:string;
+  messageSnapshot?:string
+  senderName?: string;
+  senderId?: string;
 
 }
 const reportSchema = new Schema<IReport>({
@@ -28,8 +32,17 @@ const reportSchema = new Schema<IReport>({
    reporterRole: {
       type: String
    },
+   messageSnapshot:{
+    type: String
+   },
+   senderId :{
+     type : String
+   },
    targetId:{
      type: String
+   },
+   senderName : {
+     type :String
    },
    action:{
      type: String,
@@ -42,6 +55,9 @@ const reportSchema = new Schema<IReport>({
    reason:{
      type: String,
      default:""
+   },
+   chatId: {
+    type :String
    },
    description:{
      type: String,

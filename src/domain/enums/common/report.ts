@@ -1,7 +1,8 @@
 export enum ReportTypes {
   EVENT ="event",
   USER = "user",
-  ORGANIZER = "organizer"
+  ORGANIZER = "organizer",
+   CHAT_MESSAGE = "chat_message",
 }
 
 export enum ReportStatus {
@@ -14,5 +15,9 @@ export enum ReportActions {
   BLOCK ="block",
   WARN ="warn",
   NOT_NEEDED ="not needed"
+}
+export enum ConversationType {
+  PRIVATE= "private",
+  COMMUNITY ="community"
 }
 

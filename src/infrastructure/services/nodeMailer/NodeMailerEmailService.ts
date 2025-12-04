@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import  { createTransport, Transporter } from 'nodemailer';
 import { IEmailService } from '../../../application/interface/useCases/user/IEmailService';
+import { ErrorMessages } from '../../../constants/errorMessages';
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ export class NodeMailerEmailService implements IEmailService {
     this.SMTP_PORT = process.env.SMTP_PORT;
 
     if (!this.SMTP_USER || !this.SMTP_PASS) {
-      throw new Error('Email credentials are missing from .env');
+      throw new Error(ErrorMessages.EMAIL.CREDENTIALS_MISSING);
     }
 
     this.mailTransporter = createTransport({
