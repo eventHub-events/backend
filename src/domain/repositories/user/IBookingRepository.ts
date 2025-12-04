@@ -9,7 +9,7 @@ import { BookingStatus } from "../../enums/user/Booking";
 export interface IBookingRepository {
   createBooking(data: BookingEntity) : Promise<BookingEntity>;
   findAllWithFilter(filter: FilterQuery<BookingEntity>): Promise<{bookings:BookingEntity[], totalPages:number}>;
-
+  findExpiredPending(now?: Date) : Promise<BookingEntity[]| null>
   findBookingById(bookingId :string): Promise<BookingEntity>;
   updateBooking(bookingId:string, entity: BookingEntity) :Promise<BookingEntity>;
   findBookingsDueForPayout(currentDate: Date): Promise<BookingEntity[]>;

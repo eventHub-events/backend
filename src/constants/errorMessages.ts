@@ -65,7 +65,8 @@ export const ErrorMessages = {
      NOT_FOUND :"User not found",
      USER_BLOCK_ADMIN : "You are blocked by  admin",
      USER_ALREADY_EXITS :"User already exists",
-     USER_UPDATE_FAILURE: "User update failed"
+     USER_UPDATE_FAILURE: "User update failed",
+   
   },
   EMAIL:{
    CREDENTIALS_MISSING : "Email credentials are missing  from  env"

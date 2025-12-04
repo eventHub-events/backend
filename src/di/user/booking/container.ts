@@ -3,8 +3,10 @@ import { BookTicketUseCase } from "../../../application/useCases/user/booking/Bo
 import { GetUserBookingBySessionId } from "../../../application/useCases/user/booking/GetBookingBySessionIdUseCase";
 import { GetUserBookingByIdUseCase } from "../../../application/useCases/user/booking/GetUserBookingByIdUseCase";
 import { GetUserBookingListUseCase } from "../../../application/useCases/user/booking/GetUserBookingListUseCase";
+import { ReleaseExpiredBookingsUseCase } from "../../../application/useCases/user/booking/ReleaseExpiredBookingsUseCase";
 import { EventTicketingEntityFactory } from "../../../infrastructure/factories/organizer/EventTicketingEntityFactory";
 import { BookingEntityFactory } from "../../../infrastructure/factories/user/BookingEntityFactory";
+import { BookingsExpirationScheduler } from "../../../infrastructure/jobs/BookingsExpirationScheduler";
 import { EventTicketingRepository } from "../../../infrastructure/repositories/organizer/EventTicketingRepository";
 import { BookingRepository } from "../../../infrastructure/repositories/user/booking/BookingRepository";
 import { EventBookingController } from "../../../interfaceAdapter/controllers/user/EventBookingController";
@@ -23,5 +25,8 @@ const getUserBookingsListUseCase = new GetUserBookingListUseCase(bookingReposito
 const getUserBookingByIdUseCase = new GetUserBookingByIdUseCase(bookingRepository, bookingMapper);
 const getBookingBySessionId  = new GetUserBookingBySessionId(bookingRepository, bookingMapper);
 export const getUserBookingsController =  new GetUserBookingsController(getUserBookingsListUseCase, getUserBookingByIdUseCase, getBookingBySessionId);
+
+const releaseExpiredBookingsUseCase = new ReleaseExpiredBookingsUseCase(bookingRepository,ticketingRepository );
+export const bookingsExpirationScheduler = new BookingsExpirationScheduler(releaseExpiredBookingsUseCase);
 
 export const eventBookingController = new EventBookingController(bookTicketUseCase);

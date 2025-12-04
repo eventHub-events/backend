@@ -145,7 +145,7 @@ const bookingSchema = new Schema<IBooking>({
 
 bookingSchema.index({ createdAt: 1 });
 bookingSchema.index({ organizerId: 1 });
-bookingSchema.index({ status: 1 });
+bookingSchema.index({ status: 1 ,expiresAt: 1});
 
 
 export  const  BookingModel =  mongoose.model<IBooking>("Booking", bookingSchema);
