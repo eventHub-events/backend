@@ -2,6 +2,7 @@ import { EventMapper } from "../../application/mapper/organizer/EventMapper";
 import { OrganizerSubscriptionMapper } from "../../application/mapper/organizer/OrganizerSubscriptionMapper";
 import { BookingMapper } from "../../application/mapper/user/BookingMapper";
 import { UserMapper } from "../../application/mapper/user/UserMapper";
+import { HandleEventCancelledRefundUseCase } from "../../application/useCases/common/event-cancel/handleEventCancelledRefundUseCase";
 import { GoogleAuthUseCase } from "../../application/useCases/common/useCases/GoogleAuthUseCase";
 import { HandleStripeWebhookUseCase } from "../../application/useCases/common/useCases/HandleStripeWebhookUseCase";
 import { UpdateEventUseCase } from "../../application/useCases/organizer/events/editEventUseCase";
@@ -106,12 +107,14 @@ const activateSubscriptionUseCase = new ActivateSubScriptionUseCase(subscription
 const upgradeSubscriptionUseCase  = new UpgradeSubscriptionUseCase(subscriptionRepository, organizerSubscriptionMapper);
 
 const bookingEntityFactory = new BookingEntityFactory();
-const bookingRepository = new BookingRepository(bookingEntityFactory);
+export const bookingRepository = new BookingRepository(bookingEntityFactory);
 const bookingMapper =  new BookingMapper ();
 const confirmBookingUseCase = new ConfirmBookingUseCase(subscriptionRepository, bookingRepository,bookingMapper);
 
 const cloudinaryStorageService = new CloudinaryStorageService();
 const generateTicketUseCase = new GenerateTicketUseCase(bookingRepository, cloudinaryStorageService);
 
-const  handleStripeWebhookUseCase = new  HandleStripeWebhookUseCase(stripeWebhookService, activateSubscriptionUseCase, upgradeSubscriptionUseCase, confirmBookingUseCase, generateTicketUseCase);
+const handleEventCancelledRefundUseCase = new HandleEventCancelledRefundUseCase(bookingRepository);
+
+const  handleStripeWebhookUseCase = new  HandleStripeWebhookUseCase(stripeWebhookService, activateSubscriptionUseCase, upgradeSubscriptionUseCase, confirmBookingUseCase, generateTicketUseCase, handleEventCancelledRefundUseCase);
 export const  stripeWebhookController  = new StripeWebhookController(handleStripeWebhookUseCase);

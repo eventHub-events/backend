@@ -8,5 +8,6 @@ export enum BookingStatus {
 
 export enum PayoutStatus {
     PENDING ="pending",
-    PAID ="paid"
+    PAID ="paid",
+    CANCELLED = "cancelled"
 }

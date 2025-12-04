@@ -30,6 +30,9 @@ export interface IBooking extends Document {
    platformFee?: number;
    organizerAmount? : number;
    subScriptionPlanId?: string;
+   paymentIntentId?:string;
+   refundIds?: string[];
+   refundedAmount?: number;
 
 
 }
@@ -47,6 +50,16 @@ const bookingSchema = new Schema<IBooking>({
      },
      sessionId: {
        type: String
+     },
+     refundedAmount:{
+        type: Number,
+        default:0
+     },
+     paymentIntentId :{
+         type :String
+     },
+     refundIds :{
+        type:[String]
      },
      commissionRate:{
         type :Number,

@@ -29,7 +29,11 @@ export class BookingEntity {
    public commissionRate?: number;
    public platformFee?: number;
    public organizerAmount?: number;
-   public subscriptionPlanId?: string
+   public subscriptionPlanId?: string;
+   public paymentIntentId?:string;
+   public  refundIds?: string[];
+   public refundedAmount?: number;
+
 
   constructor(props :{
      userId : Types.ObjectId,
@@ -60,7 +64,11 @@ export class BookingEntity {
        eventImages?: string[]
        organizerId: Types.ObjectId,
        id?: Types.ObjectId,
-       expiresAt?: Date
+       expiresAt?: Date,
+        paymentIntentId?:string;
+        refundIds?: string[];
+        refundedAmount?: number;
+
         
 
 
@@ -95,7 +103,10 @@ export class BookingEntity {
        this.commissionRate = props.commissionRate,
        this.platformFee = props.platformFee?? 0,
        this.organizerAmount = props.organizerAmount,
-       this.subscriptionPlanId = props.subScriptionPlanId
+       this.subscriptionPlanId = props.subScriptionPlanId,
+       this.paymentIntentId = props.paymentIntentId,
+       this.refundIds = props.refundIds,
+       this.refundedAmount = props.refundedAmount
   }
 
   markAsConfirmed() {

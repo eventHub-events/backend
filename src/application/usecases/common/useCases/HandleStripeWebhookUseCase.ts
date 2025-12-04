@@ -4,6 +4,7 @@ import { IStripeWebhookService } from "../../../service/common/IStripeWebhookSer
 import { IUpgradeSubscriptionUseCase } from "../../../interface/useCases/organizer/subscription/IUpgradeSubscriptionUseCase";
 import { IConfirmBookingUseCase } from "../../../interface/useCases/user/booking/IConfirmBookingUseCase";
 import { IGenerateTicketUseCase } from "../../../interface/useCases/user/ticketing/IGenerateTicketUseCase";
+import { IHandleEventCancelledRefundUseCase } from "../../../interface/useCases/common/event-cancel/IHandleEventCancelledRefundUseCase";
 
 export class HandleStripeWebhookUseCase {
   constructor(
@@ -12,12 +13,15 @@ export class HandleStripeWebhookUseCase {
     private _activateSubscriptionUseCase: IActivateSubscriptionUseCase,
     private _upgradeSubscriptionUseCase : IUpgradeSubscriptionUseCase,
     private _confirmBookingUseCase : IConfirmBookingUseCase,
-    private _generateTicketUseCase : IGenerateTicketUseCase
+    private _generateTicketUseCase : IGenerateTicketUseCase,
+    private _handleEventCancelledRefundUseCase : IHandleEventCancelledRefundUseCase
   ) {}
 
   async execute(payload: Buffer, signature: string): Promise<void> {
     const event = this._stripeWebhookService.constructEvent(payload, signature);
      const session = event.data.object as Stripe.Checkout.Session;
+     
+         const paymentIntentId = session.payment_intent as string;  
          const metadata =  session.metadata || {};
          console.log()
 
@@ -66,11 +70,23 @@ export class HandleStripeWebhookUseCase {
                console.log("metadata", metadata);
               const {bookingId, organizerId} = metadata;
               const paymentId = session.id
-             const bookingData = await this._confirmBookingUseCase.execute(organizerId,bookingId, paymentId);
+             const bookingData = await this._confirmBookingUseCase.execute(organizerId,bookingId, paymentId, paymentIntentId);
              const qrUrls = await this._generateTicketUseCase.execute(bookingData);
              console.log("🎟️ Tickets generated:", qrUrls);
          }
         break;
+
+        case "charge.refunded" : 
+          const charge = event.data.object as Stripe.Charge;
+          await this._handleEventCancelledRefundUseCase.execute({
+             paymentId: charge.payment_intent as string,
+             refundAmount: charge.amount_refunded/100
+            }
+          );
+          break;
+
+         
+        
 
       case "payment_intent.succeeded":
         console.log("💰 Payment succeeded:", event.data.object);

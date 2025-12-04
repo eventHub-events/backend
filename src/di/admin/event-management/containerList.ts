@@ -17,7 +17,7 @@ import { EventQueryRepository } from "../../../infrastructure/repositories/admin
 import { EventManagementQueryController } from "../../../interfaceAdapter/controllers/admin/eventManagementQueryController";
 import { EventModerationActionsController } from "../../../interfaceAdapter/controllers/admin/EventModerationActionsController";
 import { EventModerationController } from "../../../interfaceAdapter/controllers/admin/EventModerationController";
-import { eventRepository, updatingEventUseCase } from "../../common/commonContainers";
+import { eventRepository } from "../../common/commonContainers";
 
 
 const eventModerationEntityFactory  = new EventModerationEntityFactory();
@@ -31,7 +31,7 @@ export const eventManagementQueryController  = new EventManagementQueryControlle
 
 
 const createEventModerationUseCase = new CreateEventModerationUseCase(eventModerationRepository, eventModerationMapper);
-const updateEventModerationUseCase = new UpdateEventModerationUseCase(eventModerationRepository,eventModerationMapper,updatingEventUseCase);
+const updateEventModerationUseCase = new UpdateEventModerationUseCase(eventModerationRepository,eventModerationMapper, eventRepository);
 const fetchEventModerationByEventIdUseCase = new  FetchEventModerationByEventIdUseCase(eventModerationRepository, eventModerationMapper);
 
 // admin-actions

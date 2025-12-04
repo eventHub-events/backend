@@ -10,7 +10,8 @@ export const ErrorMessages = {
     SOLD_OUT: "Event is sold out",
     EVENT_DETAILS_REQUIRED :"Event details is required",
     UPDATE_FAILED : "Event update failed",
-    CREATION_FAILED : "Event details not saved"
+    CREATION_FAILED : "Event details not saved",
+    EVENT_ALREADY_CANCELLED:"Event already  cancelled"
    
   },
   EVENT_MODERATION : {
@@ -69,7 +70,8 @@ export const ErrorMessages = {
 
   BOOKING :{
      ID_REQUIRED: "Booking id is required",
-     SESSION_ID_REQUIRED : "  Session id is required"
+     SESSION_ID_REQUIRED : "  Session id is required",
+     BOOKINGS_NOT_FOUND: "Bookings not found"
   },
   CATEGORY : {
        ID_REQUIRED: "CategoryId is required",
