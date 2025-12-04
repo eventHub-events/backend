@@ -49,6 +49,9 @@ export const ErrorMessages = {
   },
   TICKETING :{
     ID_REQUIRED: "Ticketing id is required",
+    DETAILS_NOT_FOUND :"Ticketing Details not found",
+    CREATION_FAILED :"Ticketing details creation  failed",
+    UPDATE_FAILED:"Ticketing details update  failed"
   },
   CONVERSATION : {
      ID_REQUIRED: "Conversation id is required",

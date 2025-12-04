@@ -10,6 +10,7 @@ export interface IEventTicketingRepository {
     deleteTicketing(ticketingId: string): Promise<void>;
     updateTicketingByEventId(eventId: string, data: EventTicketingEntity): Promise<EventTicketingEntity> 
     findTicketingByEventId(eventId: string) :Promise<EventTicketingEntity >;
-    reserveMultipleSeats(eventId: string, tickets:TicketRequest[]) : Promise<boolean>
+    reserveMultipleSeats(eventId: string, tickets:TicketRequest[]) : Promise<boolean>;
+    releaseMultipleSeats(eventId: string, tickets:{name: string, quantity: number}[]): Promise<boolean>
    
 }

@@ -6,19 +6,19 @@ import { IEventTicketingRepository } from "../../../domain/repositories/organize
 import { EventTicketingDbModel } from "../../../domain/types/OrganizerTypes";
 import { EventTicketingModel, IEventTicketing } from "../../db/models/organizer/events/EventTicketingModel";
 import { BaseRepository } from "../BaseRepository";
+import { ErrorMessages } from "../../../constants/errorMessages";
 
-
+ErrorMessages
 export class EventTicketingRepository extends BaseRepository<IEventTicketing> implements IEventTicketingRepository {
   constructor(
        private _eventTicketingEntityFactory : IEventTicketingEntityFactory<EventTicketingDbModel, EventTicketingEntity>
   ){
     super(EventTicketingModel)
-  }
-
+  }               
   async createTicketing(data: EventTicketingEntity): Promise<EventTicketingEntity> {
 
         const ticketingDoc = await super.create (data) as EventTicketingDbModel;
-       if(!ticketingDoc) throw new Error("Ticketing details creation  failed");
+       if(!ticketingDoc) throw new Error(ErrorMessages.TICKETING.CREATION_FAILED);
 
     return this._eventTicketingEntityFactory.toDomain(ticketingDoc);
 
@@ -26,14 +26,14 @@ export class EventTicketingRepository extends BaseRepository<IEventTicketing> im
   async updateTicketing(ticketingId: string, data: EventTicketingEntity): Promise<EventTicketingEntity> {
 
          const updatedDoc = await super.update(ticketingId, data) as EventTicketingDbModel;
-        if(!updatedDoc) throw new Error("Ticketing details creation  failed");
+        if(!updatedDoc) throw new Error(ErrorMessages.TICKETING.UPDATE_FAILED);
 
       return this._eventTicketingEntityFactory.toDomain(updatedDoc);
   }
  async updateTicketingByEventId(eventId: string, data: EventTicketingEntity): Promise<EventTicketingEntity> {
 
          const updatedDoc = await super.findOneAndUpdate({eventId}, data) as EventTicketingDbModel;
-        if(!updatedDoc) throw new Error("Ticketing details creation  failed");
+        if(!updatedDoc) throw new Error(ErrorMessages.TICKETING.UPDATE_FAILED);
 
       return this._eventTicketingEntityFactory.toDomain(updatedDoc);
   }
@@ -42,7 +42,7 @@ export class EventTicketingRepository extends BaseRepository<IEventTicketing> im
 
          const ticketingDocs = await super.findById(ticketingId) as EventTicketingDbModel;
 
-          if(!ticketingDocs) throw new Error("Ticketing Details not found");
+          if(!ticketingDocs) throw new Error(ErrorMessages.TICKETING.DETAILS_NOT_FOUND);
 
         return this._eventTicketingEntityFactory.toDomain(ticketingDocs);
       
@@ -54,7 +54,7 @@ export class EventTicketingRepository extends BaseRepository<IEventTicketing> im
   async findTicketingByEventId(eventId: string) :Promise<EventTicketingEntity > {
 
             const ticketingDocs = await super.findOne({eventId}) as EventTicketingDbModel;
-            if(!ticketingDocs) throw new  NotFoundError("Ticketing Details not found")
+            if(!ticketingDocs) throw new  NotFoundError(ErrorMessages.TICKETING.DETAILS_NOT_FOUND)
             
 
      return this._eventTicketingEntityFactory.toDomain(ticketingDocs);
@@ -102,6 +102,37 @@ export class EventTicketingRepository extends BaseRepository<IEventTicketing> im
     }
 
     return true;
+  }
+
+  async releaseMultipleSeats(eventId: string, tickets:{name: string, quantity: number}[]): Promise<boolean> {
+
+      const eventObjectId = new mongoose.Types.ObjectId(eventId);
+       for(const t of tickets){
+           const event = await super.findOne({
+               eventId: eventObjectId,"tickets.name": t.name
+           },{"tickets.$": 1});
+
+           if(!event|| !event.tickets?.length) {
+            continue;
+           }
+           const ticket = event.tickets[0];
+           const {modifiedCount }  = await super.updateOne(
+             {
+               eventId: eventObjectId,
+               "tickets.name": t.name,
+               "tickets.bookedSeats" : {$gte: t.quantity},
+
+             },
+             {$inc:{"tickets.$.bookedSeats":-t.quantity}}
+           );
+
+           if(modifiedCount === 0){
+              console.warn(
+        `No seats released for "${t.name}" — likely already released or race condition`
+      );
+           }
+       };
+      return true
   }
 
 }
