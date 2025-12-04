@@ -16,4 +16,8 @@ export enum ReportActions {
   WARN ="warn",
   NOT_NEEDED ="not needed"
 }
+export enum ConversationType {
+  PRIVATE= "private",
+  COMMUNITY ="community"
+}
 

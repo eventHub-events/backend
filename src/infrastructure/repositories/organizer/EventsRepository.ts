@@ -5,6 +5,7 @@ import { EventModel, IEvent } from "../../db/models/organizer/events/EventsModel
 import { BaseRepository } from "../BaseRepository";
 import { IEventsEntityFactory } from "../../../application/interface/factories/organizer/IEventsEntityFactory";
 import { EventsDbModel } from "../../../domain/types/OrganizerTypes";
+import { ErrorMessages } from "../../../constants/errorMessages";
 
 
 export class EventRepository extends BaseRepository<IEvent> implements IEventRepository {
@@ -17,13 +18,13 @@ export class EventRepository extends BaseRepository<IEvent> implements IEventRep
 
    async  createEvent(event: EventEntity): Promise<EventEntity> {
         const  result = await super.create(event) as EventsDbModel;
-          if(!result) throw new Error("Event creation failed");
+          if(!result) throw new Error(ErrorMessages.EVENT.CREATION_FAILED);
       return  this._eventEntityMapper.toDomain(result);
     }
    async updateEvent(eventId: string, event: Partial<EventEntity>): Promise<EventEntity | null> {
 
          const updatedDoc = await super.update(eventId,event) as EventsDbModel;
-         if(!updatedDoc) throw new Error("Document update failed");
+         if(!updatedDoc) throw new Error(ErrorMessages.EVENT.UPDATE_FAILED);
        return this._eventEntityMapper.toDomain(updatedDoc);
    }
    async deleteEvent(eventId: string): Promise< void > {
@@ -35,13 +36,13 @@ export class EventRepository extends BaseRepository<IEvent> implements IEventRep
 
       const eventsDoc = await super.findAll({organizerId,... filter}) as EventsDbModel[];
       
-        if(!eventsDoc ) throw new Error("Events not found");
+        if(!eventsDoc ) throw new Error(ErrorMessages.EVENT.NOT_FOUND);
       return this._eventEntityMapper.toDomainList(eventsDoc);
 
    }
    async findAllEvents(filter: Partial<EventEntity>={}): Promise<EventEntity[]> {
       const eventDocs = await super.findAll(filter) as EventsDbModel[];
-       if(!eventDocs )  throw new Error("Events not found");
+       if(!eventDocs )  throw new Error(ErrorMessages.EVENT.NOT_FOUND);
 
         return this._eventEntityMapper.toDomainList(eventDocs);
        
@@ -49,7 +50,7 @@ export class EventRepository extends BaseRepository<IEvent> implements IEventRep
    async findEventById(eventId: string): Promise<EventEntity | null> {
 
        const eventDoc = await super.findById(eventId) as EventsDbModel;
-       if(!eventDoc ) throw new Error("Event not found");
+       if(!eventDoc ) throw new Error(ErrorMessages.EVENT.NOT_FOUND);
         return this._eventEntityMapper.toDomain(eventDoc);
        
    }

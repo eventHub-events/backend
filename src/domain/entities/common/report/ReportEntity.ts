@@ -15,6 +15,9 @@ export class ReportEntity {
   public updatedAt?:  Date;
   public action?: ReportActions;
   public chatId?: string;
+  public messageSnapshot?:string;
+  public senderName?: string;
+  public senderId?: string;
 
   constructor(
       props:{
@@ -31,7 +34,10 @@ export class ReportEntity {
            updatedAt?: Date;
            id?: string;
            action?: ReportActions;
-           chatId?:string
+           chatId?:string;
+           messageSnapshot?:string;
+           senderName?:string;
+           senderId?: string
 
       }
   ){
@@ -48,7 +54,10 @@ export class ReportEntity {
      this.adminNote = props.adminNote;
      this.status = props.status;
      this.action = props.action;
-     this.chatId = props.chatId
+     this.chatId = props.chatId;
+     this.messageSnapshot = props.messageSnapshot;
+     this.senderName = props.senderName;
+     this.senderId= props.senderId
 
 
   }

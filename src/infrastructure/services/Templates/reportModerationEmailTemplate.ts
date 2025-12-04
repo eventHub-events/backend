@@ -1,5 +1,6 @@
 import { ReportTypes } from "../../../domain/enums/common/report";
 import { IReportModerationEmailTemplate } from "../../interface/Templates/IReportModerationEmailTemplate";
+import { TargetPerson } from "../../types/report/report";
 
 export class ReportModerationEmailTemplate  implements IReportModerationEmailTemplate {
   organizerWarningEmail(params: { organizerName: string; adminNote: string; }): {subject:string, html:string} {
@@ -121,5 +122,102 @@ export class ReportModerationEmailTemplate  implements IReportModerationEmailTem
         </div>
       `,
     };
+  }
+  chatWarningEmail(params: { name: string; role: TargetPerson; adminNote: string; }): { subject: string; html: string; } {
+               return {
+    subject: "⚠️ Warning for Inappropriate Chat Behavior on EventHub",
+    html: `
+      <div style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6; color: #333;">
+        <h2>Hello ${params.name},</h2>
+
+        <p>
+          We have reviewed a report regarding your recent
+          <strong>chat messages</strong> on EventHub.
+        </p>
+
+        <p>
+          A message sent by your ${params.role} account
+          was found to violate our communication guidelines.
+        </p>
+
+        <p style="margin-top: 16px;">
+          <strong>Admin Message:</strong>
+        </p>
+
+        <div style="
+          background-color: #f8f9fa;
+          border-left: 4px solid #f59e0b;
+          padding: 12px;
+          margin: 8px 0;
+        ">
+          ${params.adminNote}
+        </div>
+
+        <p>
+          This is a <strong>formal warning</strong>.
+          Continued violations may result in temporary suspension
+          or permanent blocking of your account.
+        </p>
+
+        <p>
+          Please ensure respectful communication within EventHub chats.
+        </p>
+
+        <p style="margin-top: 24px;">
+          Regards,<br/>
+          <strong>EventHub Trust & Safety Team</strong>
+        </p>
+      </div>
+    `,
+  };
+  }
+  chatBlockEmail(params: { name: string; role: "user" | "organizer"; adminNote: string; }): { subject: string; html: string; } {
+               return {
+    subject: "🚫 Account Blocked Due to Chat Violations on EventHub",
+    html: `
+      <div style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6; color: #333;">
+        <h2>Hello ${params.name},</h2>
+
+        <p>
+          After a thorough review, the EventHub Trust & Safety Team has taken action
+          due to repeated or severe violations in chat communications.
+        </p>
+
+        <p>
+          <strong style="color:#dc2626;">
+            Your ${params.role} account has been blocked.
+          </strong>
+        </p>
+
+        <p style="margin-top: 16px;">
+          <strong>Admin Message:</strong>
+        </p>
+
+        <div style="
+          background-color: #fef2f2;
+          border-left: 4px solid #dc2626;
+          padding: 12px;
+          margin: 8px 0;
+        ">
+          ${params.adminNote}
+        </div>
+
+        <p>
+          This action restricts your ability to participate in chats
+          and other platform activities.
+        </p>
+
+        <p>
+          If you believe this action was taken in error,
+          you may contact our support team to appeal.
+        </p>
+
+        <p style="margin-top: 24px;">
+          Regards,<br/>
+          <strong>EventHub Trust & Safety Team</strong>
+        </p>
+      </div>
+    `,
+  };
   }
 }

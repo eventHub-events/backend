@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import { IConversationEntityFactory } from "../../../application/interface/factories/common/IConversationEntityFactory";
 import { ErrorMessages } from "../../../constants/errorMessages";
 import { ConversationEntity } from "../../../domain/entities/common/chat/ConversationEntity";
@@ -100,9 +101,11 @@ async updateLastMessage(conversationId: string, message: string, senderId: strin
 }
 async isParticipant(conversationId: string, userId :string) : Promise<boolean> {
    const conversation =  await super.findOne({
-      _id : conversationId,
+      _id : new Types.ObjectId(conversationId),
       participants : userId
    });
+   console.log("conversa", conversationId)
+   console.log("conver",  userId)
    return !!conversation
 }
 }

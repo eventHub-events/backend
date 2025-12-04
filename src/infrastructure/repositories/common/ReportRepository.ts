@@ -43,12 +43,13 @@ export class ReportRepository extends BaseRepository<IReport> implements IReport
 
      
  }
- async getReports(targetType: ReportTypes, page: number, limit: number): Promise<{reportEntity:ReportEntity[];total: number}> {
+ async getReports(targetType: ReportTypes, page: number, limit: number): Promise<{reportEntity:ReportEntity[];totalPages: number}> {
         const filter = {targetType}
      const {data,total} = await super.paginate(filter,page,limit) as{data:ReportDbModel[];total: number};
      const reportEntity = this._reportEntityFactory.toDomainList(data);
-
-    return {reportEntity,total}
+        
+       const totalPages = Math.ceil(total / limit);
+    return {reportEntity,totalPages}
 
  }
 }

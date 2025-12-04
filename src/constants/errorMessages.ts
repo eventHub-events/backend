@@ -9,6 +9,8 @@ export const ErrorMessages = {
     NOT_FOUND: "Event not found",
     SOLD_OUT: "Event is sold out",
     EVENT_DETAILS_REQUIRED :"Event details is required",
+    UPDATE_FAILED : "Event update failed",
+    CREATION_FAILED : "Event details not saved"
    
   },
   EVENT_MODERATION : {
@@ -58,8 +60,13 @@ export const ErrorMessages = {
      ID_REQUIRED: "User id is required",
      NOT_FOUND :"User not found",
      USER_BLOCK_ADMIN : "You are blocked by  admin",
-     USER_ALREADY_EXITS :"User already exists"
+     USER_ALREADY_EXITS :"User already exists",
+     USER_UPDATE_FAILURE: "User update failed"
   },
+  EMAIL:{
+   CREDENTIALS_MISSING : "Email credentials are missing  from  env"
+  },
+
   BOOKING :{
      ID_REQUIRED: "Booking id is required",
      SESSION_ID_REQUIRED : "  Session id is required"
@@ -80,7 +87,12 @@ export const ErrorMessages = {
    CONVERSATION_NOT_FOUND : "Conversation not found",
    CONVERSATION_NOT_FOUND_FOR_UPDATE: "Conversation not found for update",
    USERID_NOT_FOUND_IN_CHAT : "You are not part of  this conversation"
+  },
+  REPORT : {
+    NOT_FOUND: "Report not found",
+    TARGET_PERSON_NOT_FOUND: "Target person not found"
   }
+
   
   
 } as const;

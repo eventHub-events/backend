@@ -14,6 +14,9 @@ export interface ReportResponseDTO {
               updatedAt?: Date;
               id?: string;
               action?: ReportActions;
-              chatId?: string
+              chatId?: string;
+              messageSnapshot?:string;
+              senderName?: string;
+              senderId?: string
 
 }
