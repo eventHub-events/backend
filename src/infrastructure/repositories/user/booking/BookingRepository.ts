@@ -100,11 +100,31 @@ export class BookingRepository extends BaseRepository<IBooking> implements IBook
      const booking = await super.findOne({sessionId}) as BookingDbModel;
     return this._bookingEntityFactory.toDomain(booking);
  }
+ async fetchBookingByPaymentIntentId(paymentIntentId: string) : Promise<BookingEntity> {
+
+     const booking = await super.findOne({paymentIntentId}) as BookingDbModel;
+    return this._bookingEntityFactory.toDomain(booking);
+ }
+
 
  async findBookingsByEventIdAndUserId(eventId:string, userId: string) : Promise<BookingEntity | null> {
      const doc = await super.findOne({eventId, userId}) as BookingDbModel;
   return doc ? this._bookingEntityFactory.toDomain(doc): null;
  }
+
+ async findBookingsByEventIdAndStatus(eventId:string, status: BookingStatus) : Promise<BookingEntity[] | null> {
+     const doc = await super.findAll({eventId, status}) as BookingDbModel[];
+  return doc ? this._bookingEntityFactory.toDomainList(doc): null;
+ }
+
+ async findExpiredPending(now?: Date) : Promise<BookingEntity[]| null> {
+     const  docs = await BookingModel.find({
+       status: BookingStatus.PENDING_PAYMENT,
+       expiresAt:{$lte: now}
+     }) as BookingDbModel[];
+    return docs ? this._bookingEntityFactory.toDomainList(docs): null;
+ }
+
  async findBookingsByOrganizerIdAndUserId(organizerId:string, userId: string) : Promise<BookingEntity | null> {
      const doc = await super.findOne({organizerId, userId}) as BookingDbModel;
   return doc ? this._bookingEntityFactory.toDomain(doc): null;

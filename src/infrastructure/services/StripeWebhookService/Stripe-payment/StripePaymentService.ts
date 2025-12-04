@@ -133,4 +133,9 @@ export class StripePaymentService implements IStripePaymentService {
       });
     return session.url!
   }
+ async refundPayment(paymentIntentId: string): Promise<void> {
+    await this.stripe.refunds.create({
+        payment_intent : paymentIntentId
+    })
+ }
 }

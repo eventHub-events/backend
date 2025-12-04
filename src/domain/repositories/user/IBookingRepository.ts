@@ -4,11 +4,12 @@ import { ReportRange } from "../../../infrastructure/types/dashboard/booking";
 import { RevenueAndBookingSummary } from "../../entities/user/RevenueAndBookingSummary";
 import { PayoutSummary } from "../../entities/user/PayoutSummary";
 import { OrganizerEventPerformance, OrganizerEventPerformanceResult, OrganizerPayoutSummary, OrganizerRevenueTimeline } from "../../../application/DTOs/organizer/dashboard/OrganizerDashboardDTO";
+import { BookingStatus } from "../../enums/user/Booking";
 
 export interface IBookingRepository {
   createBooking(data: BookingEntity) : Promise<BookingEntity>;
   findAllWithFilter(filter: FilterQuery<BookingEntity>): Promise<{bookings:BookingEntity[], totalPages:number}>;
-
+  findExpiredPending(now?: Date) : Promise<BookingEntity[]| null>
   findBookingById(bookingId :string): Promise<BookingEntity>;
   updateBooking(bookingId:string, entity: BookingEntity) :Promise<BookingEntity>;
   findBookingsDueForPayout(currentDate: Date): Promise<BookingEntity[]>;
@@ -22,5 +23,7 @@ export interface IBookingRepository {
   getOrganizerEventPerformance(organizerId: string): Promise<OrganizerEventPerformance[]>;
 getOrganizerEventPerformanceForTable(organizerId: string,page: number,limit: number): Promise<OrganizerEventPerformanceResult>
   getOrganizerPayoutSummary(organizerId : string): Promise<OrganizerPayoutSummary>;
+  findBookingsByEventIdAndStatus(eventId:string, status: BookingStatus) : Promise<BookingEntity[] | null> ;
+  fetchBookingByPaymentIntentId(paymentIntentId: string) : Promise<BookingEntity> 
 
 }

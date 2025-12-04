@@ -21,6 +21,7 @@ import { PrivateChatSocketService } from './infrastructure/websocket/chat/privat
 import { CommunityChatSocketService } from './infrastructure/websocket/chat/communityChatSocketService';
 import { markMessagesAsReadUseCase, sendMessagesUseCase } from './di/common/chat/container';
 import reviewRoutes from "./interfaceAdapter/routes/review/reviewRoutes";
+import { bookingsExpirationScheduler } from './di/user/booking/container';
 
 
 
@@ -44,13 +45,14 @@ export const privateChatSocketService = new PrivateChatSocketService(privateChat
 export const communityChatSocketService = new CommunityChatSocketService(communityChatNamespace);
  export const adminSocketService= new AdminSocketService(adminNamespace,io,userNamespace,fetchUserUseCase)
  export  const userSocketService= new UserSocketService(userNamespace)
-
+  
 // initializeWebSocket(server);
 DbConnection.connect();
 app.use("/api/webhooks",stripeWebhookRoute)
 app.use(express.json());
 app.use(cookieParser());
 subscriptionExpiryMonitor.startJob();
+bookingsExpirationScheduler.start();
 payoutSchedulerJob.start();
 app.use(cors({
   origin: 'http://localhost:3000', // Allow frontend origin

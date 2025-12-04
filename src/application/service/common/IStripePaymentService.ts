@@ -24,5 +24,6 @@ export interface IStripePaymentService {
 
 }): Promise<string>
   
-createBookingCheckout(dto :BookingCheckoutDTO ): Promise<string>
+createBookingCheckout(dto :BookingCheckoutDTO ): Promise<string>;
+refundPayment(paymentIntentId: string): Promise<void>
 }

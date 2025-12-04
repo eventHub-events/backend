@@ -10,7 +10,8 @@ export const ErrorMessages = {
     SOLD_OUT: "Event is sold out",
     EVENT_DETAILS_REQUIRED :"Event details is required",
     UPDATE_FAILED : "Event update failed",
-    CREATION_FAILED : "Event details not saved"
+    CREATION_FAILED : "Event details not saved",
+    EVENT_ALREADY_CANCELLED:"Event already  cancelled"
    
   },
   EVENT_MODERATION : {
@@ -48,6 +49,9 @@ export const ErrorMessages = {
   },
   TICKETING :{
     ID_REQUIRED: "Ticketing id is required",
+    DETAILS_NOT_FOUND :"Ticketing Details not found",
+    CREATION_FAILED :"Ticketing details creation  failed",
+    UPDATE_FAILED:"Ticketing details update  failed"
   },
   CONVERSATION : {
      ID_REQUIRED: "Conversation id is required",
@@ -61,7 +65,8 @@ export const ErrorMessages = {
      NOT_FOUND :"User not found",
      USER_BLOCK_ADMIN : "You are blocked by  admin",
      USER_ALREADY_EXITS :"User already exists",
-     USER_UPDATE_FAILURE: "User update failed"
+     USER_UPDATE_FAILURE: "User update failed",
+   
   },
   EMAIL:{
    CREDENTIALS_MISSING : "Email credentials are missing  from  env"
@@ -69,7 +74,8 @@ export const ErrorMessages = {
 
   BOOKING :{
      ID_REQUIRED: "Booking id is required",
-     SESSION_ID_REQUIRED : "  Session id is required"
+     SESSION_ID_REQUIRED : "  Session id is required",
+     BOOKINGS_NOT_FOUND: "Bookings not found"
   },
   CATEGORY : {
        ID_REQUIRED: "CategoryId is required",
