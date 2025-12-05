@@ -18,10 +18,12 @@ export const ResponseMessages = {
    EVENT_MODERATION_FETCH_SUCCESS : "Event moderation  fetch  success"
 
   },
+
   BOOKING :{
      BOOKING_SUCCESS : "Tickets booked successfully",
      BOOKING_FAILURE : "Tickets not available",
-     PAYMENT_SESSION :"Payment session created"
+     PAYMENT_SESSION :"Payment session created",
+     BOOKING_CANCEL_SUCCESS :"Booking cancelled successfully"
   },
   BOOKING_DETAILS : {
       BOOKING_DETAILS_SUCCESS: "Booking details fetched successfully",
@@ -128,7 +130,8 @@ export const ResponseMessages = {
       CATEGORY_CREATION_SUCCESS: "Category  created successfully",
       CATEGORY_EDIT_SUCCESS :"Category edited successfully",
       CATEGORIES_FETCH_SUCCESS :"Categories fetched successfully",
-      CATEGORY_FETCH_SUCCESS :"Categories fetched successfully"
+      CATEGORY_FETCH_SUCCESS :"Categories fetched successfully",
+      CATEGORY_DELETE_SUCCESS: "Category deleted successfully "
       
     },
     ORGANIZER_VERIFICATION : {

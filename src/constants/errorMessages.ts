@@ -16,10 +16,15 @@ export const ErrorMessages = {
     EVENT_ALREADY_CANCELLED:"Event already  cancelled"
    
   },
+  SUBSCRIPTION_PLAN : {
+      PLAN_NOT_FOUND: "Subscription plan not found",
+      STATUS_UPDATE_SUCCESS :"Subscription status updated successfully"
+  },
   EVENT_MODERATION : {
     ID_REQUIRED: "EventModeration id is required",
     EVENT_MODERATION_DETAILS_REQUIRED : "Event moderation details required",
-    EVENT_MODERATION_UPDATE_DETAILS_REQUIRED : "Event moderation update details required"
+    EVENT_MODERATION_UPDATE_DETAILS_REQUIRED : "Event moderation update details required",
+    EVENT_MODERATION_DETAILS_NOT_FOUND: "Event Moderation details not found"
   },
   REFUND : {
    PAID_REQUEST_ERROR :"Only paid bookings can be cancelled",
@@ -86,6 +91,7 @@ export const ErrorMessages = {
   },
   CATEGORY : {
        ID_REQUIRED: "CategoryId is required",
+       NOT_FOUND:"Category not found"
   },
   SUBSCRIPTION : {
      ID_REQUIRED: "Subscription id is required",

@@ -34,6 +34,9 @@ export class  UserMapper implements IUserMapper {
       stripeOnboarded: entity.stripeOnboarded
     };
    }
+   toResponseDTOList(entities : UserEntity[]) : UserResponseDTO [] {
+       return entities.map((m) => this.toResponseDTO(m));
+   }
   toResponseDTOForAdmin(entity: UserEntity): UserResponseDTO {
         return {
       id: entity.id ?? '',

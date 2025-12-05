@@ -6,6 +6,7 @@ import { IEventModerationMapper } from "../../../../interface/mapper/admin/IEven
 import { IUpdateEventModerationUseCase } from "../../../../interface/useCases/admin/event-management/IUpdateEventModerationUseCase";
 import { IEventRepository } from "../../../../../domain/repositories/organizer/IEventsRepository";
 import { NotFoundError } from "../../../../../domain/errors/common";
+import { ErrorMessages } from "../../../../../constants/errorMessages";
 
 export class UpdateEventModerationUseCase implements IUpdateEventModerationUseCase {
   constructor(
@@ -20,7 +21,7 @@ export class UpdateEventModerationUseCase implements IUpdateEventModerationUseCa
        const updateEntity =  fetchedEntity.update(updateData);
         
        const eventEntity =  await this._eventRepo.findEventById(eventId);
-         if(!eventEntity) throw new NotFoundError("EventId not found");
+         if(!eventEntity) throw new NotFoundError(ErrorMessages.EVENT.NOT_FOUND);
 
              eventEntity?.updateStatus(dto.eventApprovalStatus);
              const status = eventEntity.currentStatus;

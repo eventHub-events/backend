@@ -49,6 +49,7 @@ router.post("/events/:eventId/book",authenticationMiddleWare.authenticateUser.bi
 router.get("/bookings/session/:sessionId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: Request, res: Response, next: NextFunction) => getUserBookingsController.getBookingBySessionId(req, res, next));
 router.get("/:userId/bookings", InputDataValidator.validateQuery(bookingQuerySchema),authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => getUserBookingsController.getUserBookings(req, res, next));
 router.get("/bookings/:bookingId", (req: Request, res: Response, next: NextFunction) => getUserBookingsController.getBookingById(req, res, next));
+router.post("/bookings/cancel/:bookingId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventBookingController.cancelPaidBooking(req, res, next));
 
 
 //google-login

@@ -1,8 +1,8 @@
 import { OrganizerUploadDocumentMapper } from "../../application/mapper/admin/OrganizerUploadDocumentMapper";
 import { UploadDocumentsMapper } from "../../application/mapper/admin/UploadDocumentsMapper";
 
-import { GeneratePresignedUrlUseCase } from "../../application/useCases/organizer/generatePresignedUrlUseCase";
-import { OrganizerAccountSecurityUseCase } from "../../application/useCases/organizer/organizerAccountsecurityUseCase";
+
+import { OrganizerAccountSecurityUseCase } from "../../application/useCases/organizer/organizerAccountSecurityUseCase";
 import { OrganizerProfileUseCase } from "../../application/useCases/organizer/organizerProfileUseCase";
 import { OrganizerBlankProfileCreationUseCase } from "../../application/useCases/organizer/profile/organizerBlankProfileCreationUseCase";
 import { UploadDocumentUseCase } from "../../application/useCases/organizer/uploadDocumentUseCase";
@@ -14,10 +14,10 @@ import { OrganizerProfileRepository } from "../../infrastructure/repositories/or
 import { UploadDocumentRepository } from "../../infrastructure/repositories/UploadDocumentRepository";
 import { UserRepository } from "../../infrastructure/repositories/UserRepository";
 import { WinstonLoggerService } from "../../infrastructure/services/logger/loggerService";
-import { S3Service } from "../../infrastructure/services/S3Service/S3Service";
+
 import { VerificationEmailTemplate } from "../../infrastructure/services/Templates/verificationEmailTemplate";
 import { DocumentController } from "../../interfaceAdapter/controllers/organizer/documentController";
-import { OrganizerAccountSecurityController } from "../../interfaceAdapter/controllers/organizer/organizerAccoutSecurityController";
+import { OrganizerAccountSecurityController } from "../../interfaceAdapter/controllers/organizer/organizerAccountSecurityController";
 import { OrganizerDocumentVerificationRequestController } from "../../interfaceAdapter/controllers/organizer/organizerDocumentVerificationController";
 import { OrganizerProfileController } from "../../interfaceAdapter/controllers/organizer/profileController";
 import { emailService, hashService } from "../common/commonContainers";
@@ -32,14 +32,14 @@ export const organizerProfileRepository= new OrganizerProfileRepository(loggerSe
 const  organizerProfileUseCase = new  OrganizerProfileUseCase(organizerProfileRepository, userRepository);
 export const organizerProfileController = new  OrganizerProfileController(organizerProfileUseCase);
 
-const s3Service= new S3Service();
-const generatePresignedUrlUseCase = new GeneratePresignedUrlUseCase(s3Service);
+// const s3Service= new S3Service();
+// const generatePresignedUrlUseCase = new GeneratePresignedUrlUseCase(s3Service);
 const organizerUploadDocumentMapper = new OrganizerUploadDocumentMapper();
 const uploadDocumentsMapper        = new UploadDocumentsMapper(organizerUploadDocumentMapper);
 const  uploadDocumentFactory       = new UploadDocumentFactory();
 export const uploadDocumentRepository = new UploadDocumentRepository(loggerService,uploadDocumentFactory);
 const  uploadDocumentUseCase   = new UploadDocumentUseCase(uploadDocumentRepository, organizerUploadDocumentMapper, uploadDocumentsMapper, userRepository);
-export const documentController= new DocumentController(generatePresignedUrlUseCase,uploadDocumentUseCase);
+export const documentController= new DocumentController(uploadDocumentUseCase);
 export const organizerBlankProfileCreationUseCase = new OrganizerBlankProfileCreationUseCase (organizerProfileRepository);
 
 const verificationEmailTemplate  = new VerificationEmailTemplate();

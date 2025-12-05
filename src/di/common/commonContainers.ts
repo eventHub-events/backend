@@ -99,7 +99,7 @@ export const googleAuthController = new GoogleAuthController(googleAuthService, 
 
 //
 
-const stripeWebhookService = new StripeWebhookService( process.env.STRIPE_SECRET_KEY!)
+export const stripeWebhookService = new StripeWebhookService( process.env.STRIPE_SECRET_KEY!)
 const subscriptionEntityFactory = new OrganizerSubscriptionEntityFactory();
 const subscriptionRepository = new OrganizerSubscriptionRepository(subscriptionEntityFactory);
 const organizerSubscriptionMapper = new OrganizerSubscriptionMapper();

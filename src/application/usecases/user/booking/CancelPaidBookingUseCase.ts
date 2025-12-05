@@ -27,6 +27,16 @@ async execute(userId: string, bookingId: string): Promise<void> {
      const allowed = this._cancellationPolicy.canUserCancelBooking(eventDate, new Date);
 
       if(!allowed) throw new BadRequestError(ErrorMessages.REFUND.CANCEL_WINDOW_CLOSED);
+      await this._paymentService.refundForTicketCancel(booking.paymentIntentId!);
+       booking.cancelBooking();
 
+        await this._eventTicketRepo.releaseMultipleSeats(
+            booking.eventId.toString(),
+            booking.tickets.map(t => ({
+               name: t.name,
+               quantity: t.quantity
+            }))
+        )
+     await this._bookingRepo.updateBooking(booking.id!.toString(), booking);
 }
 }

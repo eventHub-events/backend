@@ -86,7 +86,29 @@ export class HandleStripeWebhookUseCase {
           break;
 
          
-        
+           case "charge.refund.updated": {
+                    const refund = event.data.object as Stripe.Refund;
+
+                  if (!refund.payment_intent) return;
+
+                   if (refund.status === "succeeded") {
+                  await this._handleEventCancelledRefundUseCase.execute({
+                  paymentId: refund.payment_intent as string,
+                    
+                    refundAmount: refund.amount / 100,
+                     });
+                   }      
+
+            // if (refund.status === "failed") {
+            //     await this._handleEventCancelledRefundUseCase.execute({
+            //         paymentIntentId: refund.payment_intent as string,
+            //            status: "FAILED",
+            //       failureReason: refund.failure_reason ?? "unknown",
+            //     });
+            //   }
+
+             break;
+         }
 
       case "payment_intent.succeeded":
         console.log("💰 Payment succeeded:", event.data.object);
