@@ -1,7 +1,7 @@
 import { UpdateOrganizerOverallVerificationStatusDTO } from "../../../DTOs/admin/OrganizerOverallVerificationDTO";
 import { OrganizerVerificationResponseDTO } from "../../../DTOs/admin/OrganizerVerificationResponseDTO";
 import { UpdatedUploadDocumentResponseDTO } from "../../../DTOs/admin/UpdatedUploadedDocumentDTO";
-import { UploadDocumentUpdateDTO } from "../../../DTOs/admin/UploadDocumentUpdationDTO";
+import { UploadDocumentUpdateDTO } from "../../../DTOs/admin/UploadDocumentUpdateDTO";
 import { CompleteOrganizerDetailResponseDTO } from "../../../DTOs/admin/UserWithOrganizerProfileDTO";
 import { UserResponseDTO } from "../../../DTOs/user/UserResponseDTO";
 

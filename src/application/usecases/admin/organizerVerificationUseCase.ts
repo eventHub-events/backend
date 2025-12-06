@@ -1,7 +1,7 @@
 import { UpdateOrganizerOverallVerificationStatusDTO } from "../../DTOs/admin/OrganizerOverallVerificationDTO";
 import { OrganizerVerificationResponseDTO } from "../../DTOs/admin/OrganizerVerificationResponseDTO";
 import { UpdatedUploadDocumentResponseDTO } from "../../DTOs/admin/UpdatedUploadedDocumentDTO";
-import { UploadDocumentUpdateDTO } from "../../DTOs/admin/UploadDocumentUpdationDTO";
+import { UploadDocumentUpdateDTO } from "../../DTOs/admin/UploadDocumentUpdateDTO";
 import { CompleteOrganizerDetailResponseDTO } from "../../DTOs/admin/UserWithOrganizerProfileDTO";
 import { UserResponseDTO } from "../../DTOs/user/UserResponseDTO";
 import { UserRole } from "../../../domain/enums/user/userRoles";
@@ -54,7 +54,7 @@ export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCa
   async getPendingOrganizers():Promise<{ users: Omit<UserResponseDTO, "phone" | "password">[] } >{
        try{
         const pendingOrganizer= await this._userRepository.findAllWithFilter({role: UserRole.ORGANIZER, kycStatus: KycStatus.Pending});
-        if(!pendingOrganizer) throw new Error("Pending organizers doesn't  exist");
+        if(!pendingOrganizer) throw new Error(ErrorMessages.ORGANIZER.PENDING_ORGANIZER_NOT_EXIST);
        
         const  organizers = this._userMapper.toResponseDTOList(pendingOrganizer);
         return {users: organizers};
@@ -102,7 +102,7 @@ export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCa
     try{
          const{user,profile}=data;
       await Promise.all([this._userRepository.updateUser(organizerId,user),this._organizerProfileRepo.updateProfile(organizerId,profile)])   
-     return "Organizer overall status updated successfully" ;
+     return ErrorMessages.ORGANIZER.OVER_ALL_STATUS_UPDATE_SUCCESS;
 
     }catch(error){
        const err=HandleErrorUtility.handleError(error);

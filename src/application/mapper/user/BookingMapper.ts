@@ -22,7 +22,8 @@ export class BookingMapper implements IBookingMapper {
           totalAmount: totalAmount,
           userName : dto.userName,
           organizerId: new Types.ObjectId(dto.organizerId),
-          eventImages: dto.eventImages
+          eventImages: dto.eventImages,
+          userEmail: dto.userEmail
           
 
       })
@@ -40,7 +41,8 @@ export class BookingMapper implements IBookingMapper {
          eventDate: entity.eventDate,
          id: entity.id?.toString(),
          userName: entity.userName,
-         eventImages: entity.eventImages
+         eventImages: entity.eventImages,
+         userEmail: entity.userEmail
       }
   }
   toResponseDTOList(entity: BookingEntity[]) : BookingResponseDTO[] {

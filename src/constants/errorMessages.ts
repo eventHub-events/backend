@@ -1,10 +1,12 @@
-import { PartitionDateSource } from "@aws-sdk/client-s3";
+
 
 export const ErrorMessages = {
    ORGANIZER: {
     ID_REQUIRED: "Organizer id is required",
     NOT_FOUND: "Organizer not found",
     BLOCKED: "Organizer is blocked",
+    PENDING_ORGANIZER_NOT_EXIST: "Pending organizers doesn't exist",
+    OVER_ALL_STATUS_UPDATE_SUCCESS : "Over all status updated successfully"
   },
    EVENT: {
     ID_REQUIRED: "Event id is required",
@@ -15,6 +17,9 @@ export const ErrorMessages = {
     CREATION_FAILED : "Event details not saved",
     EVENT_ALREADY_CANCELLED:"Event already  cancelled"
    
+  },
+  ERROR_CODES:{
+   USER_BLOCKED: "USER_BLOCKED"
   },
   SUBSCRIPTION_PLAN : {
       PLAN_NOT_FOUND: "Subscription plan not found",
@@ -39,7 +44,8 @@ export const ErrorMessages = {
     TOKEN_VERIFICATION_FAILURE : "Token verification failed",
     PASSWORD_INVALID : "Invalid password",
     OTP_REQUIRED: "OTP is required",
-    OTP_EXPIRED_OR_INVALID: "OTP expired or invalid"
+    OTP_EXPIRED_OR_INVALID: "OTP expired or invalid",
+    BLOCK_ERROR :  "Your account has been blocked. Contact support."
   },
   COMMON: {
     INVALID_INPUT: "Invalid input provided",
@@ -67,9 +73,21 @@ export const ErrorMessages = {
   CONVERSATION : {
      ID_REQUIRED: "Conversation id is required",
   },
+  GOOGLE_LOGIN: {
+     TOKEN_INVALID :"Invalid Google token",
+     NAME_AND_EMAIL_REQUIRED: "name and email is required"
+  },
   REVIEW : {
      ID_REQUIRED: "Review id is required",
-     TARGET_ID_REQUIRED : "TargetId is required"
+     TARGET_ID_REQUIRED : "TargetId is required",
+     NOT_FOUND : "Review Not found",
+     UPDATE_FAILED : "Review Update failed",
+     ALREADY_REVIEWED_ERROR: "You already reviewed this event",
+     BOOK_EVENT_ERROR: "You must book the ticket before reviewing the event",
+     REVIEW_CREATION_FAILED : "Review creation failed",
+     ORGANIZER_REVIEW_ERROR :"You must have booked an event from this organizer to review them.",
+     ALREADY_REVIEWED_ORGANIZER_ERROR: "You already authorized this organizer",
+
   },
   USER:{
      ID_REQUIRED: "User id is required",
@@ -105,11 +123,13 @@ export const ErrorMessages = {
    REPORT_OWN_MESSAGE_ERROR :"You cannot report your own message",
    CONVERSATION_NOT_FOUND : "Conversation not found",
    CONVERSATION_NOT_FOUND_FOR_UPDATE: "Conversation not found for update",
-   USERID_NOT_FOUND_IN_CHAT : "You are not part of  this conversation"
+   USERID_NOT_FOUND_IN_CHAT : "You are not part of  this conversation",
+   MESSAGE_NOT_SAVED : "Message not saved"
   },
   REPORT : {
     NOT_FOUND: "Report not found",
-    TARGET_PERSON_NOT_FOUND: "Target person not found"
+    TARGET_PERSON_NOT_FOUND: "Target person not found",
+    NOT_ELIGIBLE_TO_REPORT : "You are not eligible to report this event"
   }
 
   

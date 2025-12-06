@@ -1,4 +1,6 @@
-import {  UnauthorizedError } from "../../../../../domain/errors/common";
+import { ErrorMessages } from "../../../../../constants/errorMessages";
+import {  BadRequestError, NotFoundError } from "../../../../../domain/errors/common";
+import { IBookingRepository } from "../../../../../domain/repositories/user/IBookingRepository";
 import { IReviewRepository } from "../../../../../domain/repositories/user/IReviewRepository";
 import { ReviewType } from "../../../../../infrastructure/types/review/review";
 import { AddReviewDTO } from "../../../../DTOs/common/review/addReviewDTO";
@@ -10,17 +12,18 @@ export class AddEventReviewUseCase implements IAddEventReviewUseCase {
    constructor(
     
       private _reviewRepo : IReviewRepository,
-      private _reviewMapper : IReviewMapper
+      private _reviewMapper : IReviewMapper,
+      private _bookingRepo : IBookingRepository
    ){}
 
  async execute( eventId: string, dto: AddReviewDTO): Promise<ReviewResponseDTO> {
-             console.log("dto", dto)
-        // const hasBooked = await this._bookingRepo.findBookingsByEventIdAndUserId(eventId, dto.userId);
-        //    if(!hasBooked) throw new NotFoundError("You must book this event before reviewing.");
+             
+         const hasBooked = await this._bookingRepo.findBookingsByEventIdAndUserId(eventId, dto.userId);
+            if(!hasBooked) throw new NotFoundError(ErrorMessages.REVIEW.BOOK_EVENT_ERROR);
 
           const existing = await this._reviewRepo.findReviewByUserAndTarget(dto.userId, dto.targetId, ReviewType.EVENT);
          
-            if(existing) throw new UnauthorizedError("You have already reviewed this event");
+            if(existing) throw new BadRequestError(ErrorMessages.REVIEW.ALREADY_REVIEWED_ERROR);
    
         const reviewEntity = this._reviewMapper.toEntity(dto);
    

@@ -33,7 +33,7 @@ export interface IBooking extends Document {
    paymentIntentId?:string;
    refundIds?: string[];
    refundedAmount?: number;
-
+  userEmail?: string;
 
 }
 
@@ -42,6 +42,9 @@ const bookingSchema = new Schema<IBooking>({
      type: Schema.Types.ObjectId,
      ref: "User",
      required: true
+      },
+      userEmail : {
+          type: String
       },
    eventId : {
       type: Schema.Types.ObjectId,

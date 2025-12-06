@@ -1,3 +1,4 @@
+import { ErrorMessages } from "../../../../constants/errorMessages";
 import { NotFoundError } from "../../../../domain/errors/common";
 import { IConversationRepository } from "../../../../domain/repositories/common/IConversationRepository";
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
@@ -18,7 +19,7 @@ export class StartPrivateChatUseCase implements IStartPrivateChatUseCase {
 
       if(!conversation) {
           const user = await this._userRepo.findUserById(userId);
-          if(!user) throw new NotFoundError("User not found");
+          if(!user) throw new NotFoundError(ErrorMessages.USER.NOT_FOUND);
 
           conversation = await this._conversationRepo.createPrivateConversation(userId, organizerId, eventId, user?.name);
       }

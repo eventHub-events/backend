@@ -103,7 +103,7 @@ export class StripePaymentService implements IStripePaymentService {
   }
 
   async createBookingCheckout(dto :BookingCheckoutDTO ): Promise<string> {
-     console.log("bookingid in ddddddd", dto.bookingId)
+    
       const session = await this.stripe.checkout.sessions.create({
            mode: "payment",
            payment_method_types:["card"],

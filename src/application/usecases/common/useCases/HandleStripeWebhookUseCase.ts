@@ -76,7 +76,7 @@ export class HandleStripeWebhookUseCase {
          }
         break;
 
-        case "charge.refunded" : 
+        case "charge.refunded" : {
           const charge = event.data.object as Stripe.Charge;
           await this._handleEventCancelledRefundUseCase.execute({
              paymentId: charge.payment_intent as string,
@@ -84,7 +84,7 @@ export class HandleStripeWebhookUseCase {
             }
           );
           break;
-
+        }
          
            case "charge.refund.updated": {
                     const refund = event.data.object as Stripe.Refund;

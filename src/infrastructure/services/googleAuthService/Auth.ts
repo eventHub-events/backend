@@ -1,6 +1,7 @@
 import { OAuth2Client } from "google-auth-library";
 import dotenv from "dotenv"
 import { IGoogleAuthService } from "../../../application/service/common/IGoogleAuthService";
+import { ErrorMessages } from "../../../constants/errorMessages";
 dotenv.config()
 
 export class GoogleAuthService implements IGoogleAuthService {
@@ -16,11 +17,11 @@ export class GoogleAuthService implements IGoogleAuthService {
           audience: process.env.GOOGLE_CLIENT_ID,
          });
          
-         console.log("gggg",role)
+        
       const payload = ticket.getPayload();
-      if(!payload) throw new Error("Invalid Google token");
+      if(!payload) throw new Error(ErrorMessages.GOOGLE_LOGIN.TOKEN_INVALID);
 
-       if(!payload.name|| !payload.email ) throw new Error(" name and email is required");
+       if(!payload.name|| !payload.email ) throw new Error(ErrorMessages.GOOGLE_LOGIN.NAME_AND_EMAIL_REQUIRED);
       return {
          googleId: payload.sub,
          email: payload.email,

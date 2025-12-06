@@ -24,6 +24,7 @@ import { OrganizerSubscriptionEntityFactory } from "../../infrastructure/factori
 import { BookingEntityFactory } from "../../infrastructure/factories/user/BookingEntityFactory";
 import { UserEntityFactory } from "../../infrastructure/factories/user/UserEntityFactory";
 import { UserProfileEntityFactory } from "../../infrastructure/factories/user/UserProfileEntityFactory";
+import { CheckBlockedMiddleware } from "../../infrastructure/middleware/BlockedCheck/CheckBlockedMiddlware";
 import { EventRepository } from "../../infrastructure/repositories/organizer/EventsRepository";
 import { OrganizerProfileRepository } from "../../infrastructure/repositories/organizer/OrganizerProfileRepository";
 import { OrganizerSubscriptionRepository } from "../../infrastructure/repositories/organizer/OrganizerSubscriptionRepository";
@@ -42,6 +43,7 @@ import { OtpService } from "../../infrastructure/services/otp/OtpService";
 import { RedisCacheService } from "../../infrastructure/services/otp/RedisCacheService";
 import { CloudinaryStorageService } from "../../infrastructure/services/storageService/CloudinaryStorageService";
 import { StripeWebhookService } from "../../infrastructure/services/StripeWebhookService/StripeWebHookService";
+import { RefundConfirmationEmailTemplate } from "../../infrastructure/services/Templates/refundConfirmationEmailTemplate";
 import { GoogleAuthController } from "../../interfaceAdapter/controllers/common/GoogleAuthController";
 import { StripeWebhookController } from "../../interfaceAdapter/controllers/common/StripWebhookController";
 import { PasswordController } from "../../interfaceAdapter/controllers/user/PasswordController";
@@ -113,8 +115,10 @@ const confirmBookingUseCase = new ConfirmBookingUseCase(subscriptionRepository, 
 
 const cloudinaryStorageService = new CloudinaryStorageService();
 const generateTicketUseCase = new GenerateTicketUseCase(bookingRepository, cloudinaryStorageService);
+const refundConfirmationTemplate = new RefundConfirmationEmailTemplate();
 
-const handleEventCancelledRefundUseCase = new HandleEventCancelledRefundUseCase(bookingRepository);
+const handleEventCancelledRefundUseCase = new HandleEventCancelledRefundUseCase(bookingRepository, refundConfirmationTemplate, emailService);
 
 const  handleStripeWebhookUseCase = new  HandleStripeWebhookUseCase(stripeWebhookService, activateSubscriptionUseCase, upgradeSubscriptionUseCase, confirmBookingUseCase, generateTicketUseCase, handleEventCancelledRefundUseCase);
 export const  stripeWebhookController  = new StripeWebhookController(handleStripeWebhookUseCase);
+export const checkBlockedMiddleware = new CheckBlockedMiddleware(userRepository);

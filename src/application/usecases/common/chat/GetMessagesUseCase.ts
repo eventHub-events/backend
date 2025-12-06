@@ -1,3 +1,4 @@
+import { ErrorMessages } from "../../../../constants/errorMessages";
 import { NotFoundError } from "../../../../domain/errors/common";
 import { IMessageRepository } from "../../../../domain/repositories/common/IMessageRepository";
 import { MessageResponseDTO } from "../../../DTOs/common/chat/MessageResponseDTO";
@@ -13,7 +14,7 @@ export class GetMessagesUseCase implements IGetMessagesUseCase {
  async execute(conversationId: string): Promise<MessageResponseDTO[]> {
 
        const messages = await this._messageRepo.getMessagesByConversationId(conversationId);
-       if(!messages) throw new NotFoundError("messages not found");
+       if(!messages) throw new NotFoundError(ErrorMessages.CHAT.CHAT_MESSAGE_NOT_FOUND);
 
     return this._messageMapper.toResponseDTOList(messages);
  }

@@ -115,7 +115,7 @@ export class EventTicketingRepository extends BaseRepository<IEventTicketing> im
            if(!event|| !event.tickets?.length) {
             continue;
            }
-           const ticket = event.tickets[0];
+          //  const ticket = event.tickets[0];
            const {modifiedCount }  = await super.updateOne(
              {
                eventId: eventObjectId,
@@ -129,9 +129,9 @@ export class EventTicketingRepository extends BaseRepository<IEventTicketing> im
            if(modifiedCount === 0){
               console.warn(
         `No seats released for "${t.name}" — likely already released or race condition`
-      );
+      )
            }
-       };
+       }
       return true
   }
 

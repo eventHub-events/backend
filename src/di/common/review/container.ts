@@ -20,7 +20,7 @@ const reviewMapper = new ReviewMapper();
 const bookingEntityFactory = new BookingEntityFactory();
 const bookingRepository = new BookingRepository(bookingEntityFactory);
 
-const addEventReviewUseCase = new AddEventReviewUseCase(bookingRepository, reviewRepository, reviewMapper);
+const addEventReviewUseCase = new AddEventReviewUseCase( reviewRepository, reviewMapper, bookingRepository,);
 const addOrganizerReviewUseCase = new AddOrganizerReviewUseCase(bookingRepository, reviewRepository, reviewMapper);
 const updateReviewUseCase = new UpdateReviewUseCase(reviewRepository, reviewMapper);
 const deleteReviewUseCase = new DeleteReviewUseCase(reviewRepository);

@@ -21,7 +21,7 @@ export class BookingsExpirationScheduler implements IBookingExpirationScheduler 
       try {
         await this._releaseExpiredBookingUseCase.execute(new Date());
       } catch (err) {
-      
+            // Error intentionally ignored
       } finally {
         this._isRunning = false;
       }

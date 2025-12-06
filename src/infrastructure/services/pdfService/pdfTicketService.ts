@@ -4,7 +4,7 @@ import QRCode from "qrcode";
 import PDFDocument from "pdfkit";
 
 export class PdfTicketService implements IPdfTicketService {
-  async generate(booking: UserBookingListResponseDTO, ticket: any): Promise<Buffer> {
+  async generate(booking: UserBookingListResponseDTO, ticket: {name:string, quantity:number, price: number}): Promise<Buffer> {
     const doc = new PDFDocument({
       size: "A5",
       margin: 20,

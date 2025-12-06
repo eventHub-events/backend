@@ -25,7 +25,7 @@ export class ReleaseExpiredBookingsUseCase implements IReleaseExpiredBookingsUse
           )
           booking.markAsExpired();
 
-         await this._bookingRepo.updateBooking(booking.id?.toString()!, booking)
+         await this._bookingRepo.updateBooking(booking.id!.toString()!, booking)
       }
   }
 }
