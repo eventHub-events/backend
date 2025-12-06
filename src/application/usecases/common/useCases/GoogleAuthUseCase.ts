@@ -10,6 +10,11 @@ import { IUserMapper } from "../../../interface/useCases/user/mapper/IUserMapper
 import { KycStatus } from "../../../../infrastructure/db/models/user/UserModel";
 import { UserResponseDTO } from "../../../DTOs/user/UserResponseDTO";
 
+import { ForbiddenError } from "../../../../domain/errors/userProfile";
+import { ErrorMessages } from "../../../../constants/errorMessages";
+import { UserRole } from "../../../../domain/enums/user/userRoles";
+
+
 export class GoogleAuthUseCase implements IGoogleAuthUseCase {
 
   constructor(
@@ -24,28 +29,36 @@ export class GoogleAuthUseCase implements IGoogleAuthUseCase {
   async execute(googleUser: { googleId: string; role:string, email: string; name: string; picture?: string; }): Promise<{token: string, refreshToken: string, userData: UserResponseDTO}> {
     
      let user = await this._userRepository.findByEmail(googleUser.email);
+       
+
+           if (user) {
+            if (user.isBlocked) {
+                  throw new ForbiddenError(ErrorMessages.AUTH.BLOCK_ERROR, ErrorMessages.ERROR_CODES.USER_BLOCKED, user.role);
+            }
+          }
+
     
      if(!user) {
 
-       const userData = {
+       const userData = {  
            name: googleUser.name,
            email: googleUser.email,
            googleId :googleUser.googleId,
-           isVerified: googleUser.role ==="user"? true : false,
+           isVerified: googleUser.role === UserRole.USER? true : false,
            password: googleUser.googleId,
            role:  googleUser.role,
            registrationMode: RegistrationTypes.GoogleAuth,
            phone: undefined,
            isBlocked: false,
-           kycStatus : googleUser.role === "user"?KycStatus.NotApplicable:KycStatus.Pending
+           kycStatus : googleUser.role === UserRole.USER ? KycStatus.NotApplicable:KycStatus.Pending
            
          }
          const userEntity = this._userMapper.toEntity(userData);
        user = await this._userRepository.createUser(userEntity);
       
-       if(googleUser.role === "user") {
+       if(googleUser.role ===  UserRole.USER) {
            await this._userBlankProfileCreationUseCase.createBlankProfile(user.id!);
-       }else if(googleUser.role === "organizer") {
+       }else if(googleUser.role === UserRole.ORGANIZER) {
           await this._organizerBlankProfileCreationUseCase.createBlankProfile(user.id!);
        }
          

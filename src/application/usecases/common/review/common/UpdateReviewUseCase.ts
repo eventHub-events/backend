@@ -1,3 +1,4 @@
+import { ErrorMessages } from "../../../../../constants/errorMessages";
 import { NotFoundError } from "../../../../../domain/errors/common";
 import { IReviewRepository } from "../../../../../domain/repositories/user/IReviewRepository";
 import { ReviewResponseDTO } from "../../../../DTOs/common/review/reviewResponseDTO";
@@ -14,12 +15,12 @@ export class UpdateReviewUseCase implements IUpdateReviewUseCase {
  async execute(reviewId: string, dto: UpdateReviewDTO): Promise<ReviewResponseDTO> {
 
      const existing = await this._reviewRepo.getReviewsById(reviewId);
-         if(!existing) throw new NotFoundError("Review not found");
+         if(!existing) throw new NotFoundError(ErrorMessages.REVIEW.NOT_FOUND);
         
        existing.update(dto);
 
       const saved = await this._reviewRepo.updateReview(reviewId, existing);
-        if(!saved) throw new Error("Error in  updating review");
+        if(!saved) throw new Error(ErrorMessages.REVIEW.UPDATE_FAILED);
 
    return this._reviewMapper.toResponseDTO(saved);
    

@@ -20,13 +20,13 @@ export class CreateChatMessageReportUseCase implements ICreateChatMessageReportU
     ){}
   async execute(dto: CreateReportDTO): Promise<ReportResponseDTO> {
        
-      console.log("report ", dto)
+      
     const message = await this._messageRepo.findMessageById(dto.targetId);
     if(!message) throw new BadRequestError(ErrorMessages.CHAT.CHAT_MESSAGE_NOT_FOUND);
     
      if (message.senderId === dto.reporterId) {
       throw new BadRequestError(ErrorMessages.CHAT.REPORT_OWN_MESSAGE_ERROR);
-    };
+    }
      if( dto.mode === ConversationType.PRIVATE){
            const isParticipant = await this._conversationRepo.isParticipant(dto.chatId!, dto.reporterId);
 

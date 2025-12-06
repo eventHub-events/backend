@@ -1,7 +1,7 @@
 import { UpdateOrganizerOverallVerificationStatusDTO } from "../../DTOs/admin/OrganizerOverallVerificationDTO";
 import { OrganizerVerificationResponseDTO } from "../../DTOs/admin/OrganizerVerificationResponseDTO";
 import { UpdatedUploadDocumentResponseDTO } from "../../DTOs/admin/UpdatedUploadedDocumentDTO";
-import { UploadDocumentUpdateDTO } from "../../DTOs/admin/UploadDocumentUpdationDTO";
+import { UploadDocumentUpdateDTO } from "../../DTOs/admin/UploadDocumentUpdateDTO";
 import { CompleteOrganizerDetailResponseDTO } from "../../DTOs/admin/UserWithOrganizerProfileDTO";
 import { UserResponseDTO } from "../../DTOs/user/UserResponseDTO";
 import { UserRole } from "../../../domain/enums/user/userRoles";
@@ -13,6 +13,8 @@ import { KycStatus } from "../../../infrastructure/db/models/user/UserModel";
 import { HandleErrorUtility } from "../../../utils/HandleErrorUtility";
 import { IOrganizerVerificationMapper } from "../../interface/useCases/admin/IOrganizerVerificationMapper";
 import { IOrganizerVerificationUseCase } from "../../interface/useCases/admin/IOrganizerVerificationUseCase";
+import { ErrorMessages } from "../../../constants/errorMessages";
+import { IUserMapper } from "../../interface/useCases/user/mapper/IUserMapper";
 
 
 export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCase{
@@ -21,21 +23,22 @@ export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCa
     private  _uploadDocumentRepo:IUploadDocumentRepository,
     private _userRepository :IUserRepository,
     private _userQueryRepo:IUserQueryRepository,
-    private _verificationMapper: IOrganizerVerificationMapper
+    private _verificationMapper: IOrganizerVerificationMapper,
+    private _userMapper : IUserMapper
   ){}
 
   async getOrganizerVerificationDetails(organizerId: string): Promise<OrganizerVerificationResponseDTO> {
 
       try{
-        console.log("hello  from  get")
+        
         const   organizerDetails = await this._organizerProfileRepo.getProfileWithUser(organizerId);
 
         const organizerDocs= await this._uploadDocumentRepo.findDocuments(organizerId);
 
-        if(!organizerDetails || !organizerDocs) throw new Error("Organizer profile or  organizerDocs is missing");
+        if(!organizerDetails || !organizerDocs) throw new Error(ErrorMessages.ORGANIZER.NOT_FOUND);
 
         const{profile, user}  = organizerDetails;
-        console.log("organizer Verification  details is",organizerDetails)
+
         
          const result =  this._verificationMapper.toResponse(profile, user, organizerDocs);
          console.log(result)
@@ -51,8 +54,10 @@ export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCa
   async getPendingOrganizers():Promise<{ users: Omit<UserResponseDTO, "phone" | "password">[] } >{
        try{
         const pendingOrganizer= await this._userRepository.findAllWithFilter({role: UserRole.ORGANIZER, kycStatus: KycStatus.Pending});
-        if(!pendingOrganizer) throw new Error("Pending organizers doesn't  exist");
-        return pendingOrganizer
+        if(!pendingOrganizer) throw new Error(ErrorMessages.ORGANIZER.PENDING_ORGANIZER_NOT_EXIST);
+       
+        const  organizers = this._userMapper.toResponseDTOList(pendingOrganizer);
+        return {users: organizers};
          
         
 
@@ -97,7 +102,7 @@ export class OrganizerVerificationUseCase implements IOrganizerVerificationUseCa
     try{
          const{user,profile}=data;
       await Promise.all([this._userRepository.updateUser(organizerId,user),this._organizerProfileRepo.updateProfile(organizerId,profile)])   
-     return "Organizer overall status updated successfully" ;
+     return ErrorMessages.ORGANIZER.OVER_ALL_STATUS_UPDATE_SUCCESS;
 
     }catch(error){
        const err=HandleErrorUtility.handleError(error);

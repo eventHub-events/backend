@@ -6,6 +6,7 @@ import {  UserFilterOptions } from "../../DTOs/common/userFilterOptions";
 import { IFetchUserUseCase } from "../../interface/useCases/admin/IFetchUsersUseCase";
 import { IUserMapper } from "../../interface/useCases/user/mapper/IUserMapper";
 import { UserEntity } from "../../../domain/entities/User";
+import { ErrorMessages } from "../../../constants/errorMessages";
 
 export class FetchUserUseCase implements IFetchUserUseCase{
   constructor(
@@ -16,7 +17,7 @@ export class FetchUserUseCase implements IFetchUserUseCase{
    
 
              const usersEntity = await this._userRepo.findAllUsers( userFilters);
-              if(!usersEntity) throw new Error("Error in  fetching user");
+              if(!usersEntity) throw new Error(ErrorMessages.USER.NOT_FOUND);
 
             const{users,total} = usersEntity;
              const usersList = this._userMapper.toResponseDTOListForAdmin(users);

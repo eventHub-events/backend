@@ -50,6 +50,7 @@ export class ReportController {
      }catch(err){
        if(err instanceof BadRequestError) throw new CustomError(err.message, HttpStatusCode.BAD_REQUEST);
        if(err instanceof NotFoundError) throw new CustomError(err.message, HttpStatusCode.NOT_FOUND);
+       next(err)
      }
  }
 }

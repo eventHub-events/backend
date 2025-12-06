@@ -33,6 +33,7 @@ export class BookingEntity {
    public paymentIntentId?:string;
    public  refundIds?: string[];
    public refundedAmount?: number;
+   public userEmail?: string;
 
 
   constructor(props :{
@@ -53,6 +54,7 @@ export class BookingEntity {
           organizerStripId?: string;
           paymentId?: string
        organizerName: string,
+       userEmail?: string,
        ticketUrls?: string[];
        eventVenue: string,
        sessionId?: string,
@@ -106,7 +108,8 @@ export class BookingEntity {
        this.subscriptionPlanId = props.subScriptionPlanId,
        this.paymentIntentId = props.paymentIntentId,
        this.refundIds = props.refundIds,
-       this.refundedAmount = props.refundedAmount
+       this.refundedAmount = props.refundedAmount,
+       this.userEmail = props.userEmail
   }
 
   markAsConfirmed() {

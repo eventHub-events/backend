@@ -103,7 +103,7 @@ export class StripePaymentService implements IStripePaymentService {
   }
 
   async createBookingCheckout(dto :BookingCheckoutDTO ): Promise<string> {
-     console.log("bookingid in ddddddd", dto.bookingId)
+    
       const session = await this.stripe.checkout.sessions.create({
            mode: "payment",
            payment_method_types:["card"],
@@ -137,5 +137,11 @@ export class StripePaymentService implements IStripePaymentService {
     await this.stripe.refunds.create({
         payment_intent : paymentIntentId
     })
+ }
+ async refundForTicketCancel(paymentIntentId: string, amountInRupees?: number): Promise<void> {
+      await this.stripe.refunds.create({
+         payment_intent : paymentIntentId,
+         ...(amountInRupees && {amount: amountInRupees * 100}),
+      })
  }
 }

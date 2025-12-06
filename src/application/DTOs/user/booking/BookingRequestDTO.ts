@@ -15,5 +15,6 @@ export interface BookingRequestDTO {
   eventVenue: string,
    createdAt? : Date ,
    organizerId: string,
-   eventImages?: string[]
+   eventImages?: string[],
+   userEmail?: string;
 }

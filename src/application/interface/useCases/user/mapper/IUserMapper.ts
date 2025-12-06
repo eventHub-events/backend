@@ -12,6 +12,7 @@ export interface IUserMapper {
   toEntity(dto: UserRegisterDTO) : UserEntity;
   toResponseDTO(entity: UserEntity): UserResponseDTO;
   toResponseDTOForAdmin(entity: UserEntity): UserResponseDTO;
+  toResponseDTOList(entities : UserEntity[]) : UserResponseDTO []
   toResponseDTOListForAdmin(entity: UserEntity[]): UserResponseDTO[];
 
 }

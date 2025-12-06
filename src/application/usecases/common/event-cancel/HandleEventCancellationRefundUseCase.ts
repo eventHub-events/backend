@@ -15,7 +15,7 @@ export class HandleEventCancellationRefundUseCase implements IHandleEventCancell
       const bookings = await this._bookingRepo.findBookingsByEventIdAndStatus(eventId, BookingStatus.CONFIRMED);
       if(!bookings) throw new NotFoundError(ErrorMessages.BOOKING.BOOKINGS_NOT_FOUND);
       for(const booking of bookings) {
-        console.log("Refunding paymentIntentId:", booking.paymentIntentId);
+       
          await this._stripeService.refundPayment(booking.paymentIntentId!);
       }
   }

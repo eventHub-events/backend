@@ -1,3 +1,4 @@
+import { ErrorMessages } from "../../../../../constants/errorMessages";
 import { CreationFailedError, NotFoundError, UnauthorizedError } from "../../../../../domain/errors/common";
 import { IBookingRepository } from "../../../../../domain/repositories/user/IBookingRepository";
 import { IReviewRepository } from "../../../../../domain/repositories/user/IReviewRepository";
@@ -17,14 +18,14 @@ export class AddOrganizerReviewUseCase implements IAddOrganizerReviewUseCase {
  async execute(dto: AddReviewDTO): Promise<ReviewResponseDTO> {
        
          const hasBooked = await this._bookingRepo.findBookingsByOrganizerIdAndUserId(dto.targetId,dto.userId);
-           if(!hasBooked) throw new NotFoundError("You must have booked an event from this organizer to review them.");
+           if(!hasBooked) throw new NotFoundError(ErrorMessages.REVIEW.ORGANIZER_REVIEW_ERROR);
 
      const existing = await this._reviewRepo.findReviewByUserAndTarget(dto.userId, dto.targetId, ReviewType.ORGANIZER);
-         if(existing) throw new UnauthorizedError(" You already authorized this organizer");
+         if(existing) throw new UnauthorizedError(ErrorMessages.REVIEW.ALREADY_REVIEWED_ORGANIZER_ERROR);
      
        const reviewEntity = this._reviewMapper.toEntity(dto);
        const created  = await this._reviewRepo.createReview(reviewEntity);
-         if(!created) throw new CreationFailedError("Review creation failed");
+         if(!created) throw new CreationFailedError(ErrorMessages.REVIEW.REVIEW_CREATION_FAILED);
     
   return this._reviewMapper.toResponseDTO(created);
  }

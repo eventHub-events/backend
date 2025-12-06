@@ -5,6 +5,7 @@ import { IEventModerationRepository } from "../../../../../domain/repositories/a
 import { IEventRepository } from "../../../../../domain/repositories/organizer/IEventsRepository";
 import { IEventModerationMapper } from "../../../../interface/mapper/admin/IEventModerationMapper";
 import { IApproveEventUseCase } from "../../../../interface/useCases/admin/event-management/IApproveEventUseCase";
+import { ErrorMessages } from "../../../../../constants/errorMessages";
 
 export class ApproveEventUseCase implements IApproveEventUseCase {
  constructor(
@@ -16,14 +17,14 @@ export class ApproveEventUseCase implements IApproveEventUseCase {
  ){}
  async execute(eventId: string, data: EventModerationRequestDTO): Promise<EventModerationResponseDTO>{
   const moderationEntity = await this._eventModerationRepository.findEventModerationByEventId(data.eventId);
-         if(!moderationEntity) throw new Error("Moderation  details not found");
+         if(!moderationEntity) throw new Error(ErrorMessages.EVENT_MODERATION.EVENT_MODERATION_DETAILS_REQUIRED);
 
       const eventEntity = await this._eventRepository.findEventById(data.eventId);
-    if(!eventEntity) throw new Error("Event details not found")
+    if(!eventEntity) throw new Error(ErrorMessages.EVENT.NOT_FOUND)
            moderationEntity.approveEvent(data.approvedBy!);
           
           const status =  moderationEntity.computeStatus();
-           console.log("status", status);
+         
 
          
           eventEntity.updateStatus(status as EventApprovalStatus);

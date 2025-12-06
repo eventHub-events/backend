@@ -21,7 +21,7 @@ export class GetUserBookingsController  {
     async getUserBookings(req: Request, res: Response, next: NextFunction) : Promise<void> {
         try{
            const{ userId } = req.params;
-        
+            console.log("query is", req.query)
           const filters = req.validatedQuery as BookingQueryFilter;
          const{ bookingsList, totalPages}  = await this._getUserBookingsListUseCase.execute({userId, ...filters});
 

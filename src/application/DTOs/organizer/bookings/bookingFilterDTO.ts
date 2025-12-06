@@ -8,7 +8,7 @@ export interface BookingFilterDTO {
   userId?: string;
   startDate?: string;
   endDate?: string;
-  status?: BookingStatus;
+  status?: BookingStatus| "";
   page?: number;
   limit?: number;
   organizerName?: string;

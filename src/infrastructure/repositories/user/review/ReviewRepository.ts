@@ -79,7 +79,7 @@ async getReviewsById(reviewId: string): Promise<ReviewEntity> {
       ];
 
       const result = await ReviewModel.aggregate(pipeline);
-      console.log("rsult is", result)
+    
 
     if(result.length === 0){
        return {
@@ -94,8 +94,7 @@ async getReviewsById(reviewId: string): Promise<ReviewEntity> {
     summary.stars.forEach((star: 1 | 2 | 3 | 4 | 5) => {
       distribution[star] += 1;
     });
-  console.log("summary", summary)
-  console.log("distribution", distribution)
+  
     return {
       averageRating: summary.avgRating,
       totalReviews: summary.total,

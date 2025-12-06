@@ -1,4 +1,4 @@
-import {  Request ,Response} from "express";
+import {  NextFunction, Request ,Response} from "express";
 import { CustomError } from "../errors/errorClass";
 import { HttpStatusCode } from "../interface/enums/HttpStatusCode";
 import {  ZodError } from "zod";
@@ -8,12 +8,14 @@ import  jwt  from  "jsonwebtoken"
 
 export class ErrorHandlingMiddleware{
 
-static handleError(err:Error|CustomError |ZodError,req:Request,res:Response){
+static handleError(err:Error|CustomError |ZodError,req:Request,res:Response,next: NextFunction){
         if(err instanceof CustomError){
           console.log("error is",err)
           return res.status(err.statusCode).json({
             success:false,
             statusCode:err.statusCode,
+             errCode: err.errCode,
+             role: err.role,
             message:err.message,
             errors:err.errors ||[]
           })
@@ -45,7 +47,7 @@ static handleError(err:Error|CustomError |ZodError,req:Request,res:Response){
 
   }
            console.log("eerrrrrrrrr")
-        res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
           success:false,
           statusCode:HttpStatusCode.INTERNAL_SERVER_ERROR,
           message:"internalServer error",

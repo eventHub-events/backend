@@ -5,6 +5,9 @@ import { ResponseMessages } from "../../../infrastructure/constants/responseMess
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { IGoogleAuthService } from "../../../application/service/common/IGoogleAuthService";
 import { CookieOptionsUtility } from "../../../utils/CookieOptions.utility";
+import { ForbiddenError } from "../../../domain/errors/userProfile";
+import { CustomError } from "../../../infrastructure/errors/errorClass";
+import { TokenTypes } from "../../../infrastructure/types/common/tokenTypes";
 
 export class GoogleAuthController {
      constructor(
@@ -22,15 +25,16 @@ export class GoogleAuthController {
 
 
          const authCookieOptions = CookieOptionsUtility.create(15 * 60 * 1000);
-              res.cookie("authToken", jwtToken, authCookieOptions);
+              res.cookie(TokenTypes.AUTH_TOKEN, jwtToken, authCookieOptions);
         
               const refreshCookieOption = CookieOptionsUtility.create(7 * 24 * 60 * 60 * 1000);
-               res.cookie("refreshToken", refreshToken,refreshCookieOption);
+               res.cookie(TokenTypes.REFRESH_TOKEN, refreshToken,refreshCookieOption);
 
   res
           .status(HttpStatusCode.OK)
           .json(ApiResponse.success(ResponseMessages.AUTHENTICATION.LOGIN.SUCCESS,HttpStatusCode.OK,userData));
        }catch(err){
+           if(err instanceof ForbiddenError)  throw new CustomError(err.message,HttpStatusCode.FORBIDDEN,err.errCode,err.role);
           next(err)
        }
     }

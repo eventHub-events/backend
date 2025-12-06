@@ -34,14 +34,14 @@ export class OrganizerAccountSecurityUseCase implements IOrganizerAccountSecurit
     }
 
     // 2. Compare current password with stored hash
-    const isSame = await this._hashingService.compare(currentPassword, organizer.password);
+    const isSame = await this._hashingService.compare(currentPassword, organizer.password!);
     if (!isSame) {
       throw new CustomError("Current password is incorrect", HttpStatusCode.UNAUTHORIZED);
     }
 
     // 3. Check if new password is same as current one
     const newHash = await this._hashingService.hash(newPassword);
-    const isReused = await this._hashingService.compare(newPassword, organizer.password);
+    const isReused = await this._hashingService.compare(newPassword, organizer.password!);
     if (isReused) {
       throw new CustomError("Please use a different password", HttpStatusCode.BAD_REQUEST);
     }

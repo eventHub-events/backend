@@ -5,3 +5,4 @@ export class DuplicatePasswordError extends Error {}
 export class UpdateFailedError extends Error {}
 export class CreationFailedError extends Error {}
 export class BadRequestError extends Error{}
+export class FORBIDDENError extends Error{}

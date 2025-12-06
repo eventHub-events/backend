@@ -2,7 +2,7 @@ import { authController, passwordController, userProfileController } from '../..
 import express, { NextFunction, Request, Response } from 'express';
 import { authenticationMiddleWare } from '../../../di/container';
 import { IAuthenticatedRequest } from '../../../infrastructure/interface/IAuthenticatedRequest';
-import { googleAuthController, tokenController } from '../../../di/common/commonContainers';
+import {  googleAuthController, tokenController } from '../../../di/common/commonContainers';
 import { InputDataValidator } from '../../../infrastructure/middleware/zodMiddleware/inputDataValidator';
 import {  userProfileUpdateSchema} from '../../../infrastructure/validation/schemas/user/userProfileSchema';
 import { eventDisplayController } from '../../../di/user/event-display/container';
@@ -49,6 +49,7 @@ router.post("/events/:eventId/book",authenticationMiddleWare.authenticateUser.bi
 router.get("/bookings/session/:sessionId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: Request, res: Response, next: NextFunction) => getUserBookingsController.getBookingBySessionId(req, res, next));
 router.get("/:userId/bookings", InputDataValidator.validateQuery(bookingQuerySchema),authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => getUserBookingsController.getUserBookings(req, res, next));
 router.get("/bookings/:bookingId", (req: Request, res: Response, next: NextFunction) => getUserBookingsController.getBookingById(req, res, next));
+router.patch("/bookings/cancel/:bookingId", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => eventBookingController.cancelPaidBooking(req, res, next));
 
 
 //google-login

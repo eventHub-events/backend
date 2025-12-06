@@ -2,6 +2,7 @@ import { CategoryEntity } from "../../../../domain/entities/admin/Category";
 import { ICategoryRepository } from "../../../../domain/repositories/admin/ICategoryRepository";
 import { IFetchCategoryUseCase } from "../../../interface/useCases/admin/category/IFetchCategoryUseCase";
 import { ICategoryMapper } from "../../../interface/mapper/admin/ICategoryMapper";
+import { ErrorMessages } from "../../../../constants/errorMessages";
 
 export  class FetchCategoryUseCase implements IFetchCategoryUseCase {
    constructor(
@@ -14,7 +15,7 @@ export  class FetchCategoryUseCase implements IFetchCategoryUseCase {
           const fetchedDoc = await this._categoryRepo.fetchCategoryById(categoryId);
 
            if(!fetchedDoc){
-             throw new Error("Category not Found")
+             throw new Error(ErrorMessages.CATEGORY.NOT_FOUND);
            }
 
            return [this._categoryMapper.toResponseDTO(fetchedDoc)]

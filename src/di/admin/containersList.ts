@@ -24,5 +24,5 @@ const organizerVerificationMapper = new OrganizerVerificationMapper()
 
 // organizer verification related//
 const userQueryRepository= new UserQueryRepository()
-const organizerVerificationUseCase= new OrganizerVerificationUseCase(organizerProfileRepository, uploadDocumentRepository, userRepository, userQueryRepository, organizerVerificationMapper);
+const organizerVerificationUseCase= new OrganizerVerificationUseCase(organizerProfileRepository, uploadDocumentRepository, userRepository, userQueryRepository, organizerVerificationMapper, userMapper);
 export const organizerVerificationController= new OrganizerVerificationController(organizerVerificationUseCase)

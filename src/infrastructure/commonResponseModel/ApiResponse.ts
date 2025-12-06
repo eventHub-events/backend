@@ -4,6 +4,8 @@ export class ApiResponse<T> {
     public statusCode: number,
     public message: string,
     public data?: T,
+    public errCode?:string,
+    public role?: string,
     public errors?: string[],
   ) {}
 
@@ -11,7 +13,7 @@ export class ApiResponse<T> {
     return new ApiResponse(true, statusCode, message, data);
   }
 
-  static error<T>(message:string,  statusCode:number = 400,errors?:string[]) {
-    return new ApiResponse<T>(false, statusCode, message, undefined, errors);
+  static error<T>(message:string,  statusCode:number = 400,errCode?: string,role?: string,errors?:string[]) {
+    return new ApiResponse<T>(false, statusCode, message, undefined,errCode,role, errors);
   }
 }

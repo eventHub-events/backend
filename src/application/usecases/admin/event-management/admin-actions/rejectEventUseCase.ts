@@ -5,6 +5,7 @@ import { IEventRepository } from "../../../../../domain/repositories/organizer/I
 import { IEventModerationMapper } from "../../../../interface/mapper/admin/IEventModerationMapper";
 
 import { IRejectEventUseCase } from "../../../../interface/useCases/admin/event-management/IRejectEventUseCase";
+import { ErrorMessages } from "../../../../../constants/errorMessages";
 
 export class RejectEventUseCase implements IRejectEventUseCase {
  constructor(
@@ -15,12 +16,12 @@ export class RejectEventUseCase implements IRejectEventUseCase {
 
  ){}
  async execute(eventId: string, data: EventModerationRequestDTO): Promise<EventModerationResponseDTO>{
-  console.log("daat is", data)
+  
   const moderationEntity = await this._eventModerationRepository.findEventModerationByEventId(data.eventId);
-         if(!moderationEntity) throw new Error("Moderation  details not found");
+         if(!moderationEntity) throw new Error(ErrorMessages.EVENT_MODERATION.EVENT_MODERATION_DETAILS_NOT_FOUND);
 
       const eventEntity = await this._eventRepository.findEventById(data.eventId);
-    if(!eventEntity) throw new Error("Event details not found")
+    if(!eventEntity) throw new Error(ErrorMessages.EVENT.NOT_FOUND);
            moderationEntity.rejectEvent(data.rejectionReason!,data.approvedBy!);
           
           const status =  moderationEntity.computeStatus();
