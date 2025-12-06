@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { BookingStatus, PayoutStatus } from "../../enums/user/Booking";
+import { BookingStatus, PaymentMethod, PayoutStatus, RefundStatus } from "../../enums/user/Booking";
 
 export class BookingEntity {
    public  userId : Types.ObjectId;
@@ -34,6 +34,9 @@ export class BookingEntity {
    public  refundIds?: string[];
    public refundedAmount?: number;
    public userEmail?: string;
+   public refundDate?: Date;
+   public refundStatus?: RefundStatus;
+   public paymentMethod?: PaymentMethod
 
 
   constructor(props :{
@@ -70,6 +73,9 @@ export class BookingEntity {
         paymentIntentId?:string;
         refundIds?: string[];
         refundedAmount?: number;
+         refundStatus?: RefundStatus;
+          paymentMethod?:PaymentMethod;
+          refundDate?: Date;
 
         
 
@@ -109,7 +115,10 @@ export class BookingEntity {
        this.paymentIntentId = props.paymentIntentId,
        this.refundIds = props.refundIds,
        this.refundedAmount = props.refundedAmount,
-       this.userEmail = props.userEmail
+       this.userEmail = props.userEmail,
+       this.refundDate = props.refundDate,
+       this.refundStatus = props.refundStatus,
+       this.paymentMethod = props.paymentMethod
   }
 
   markAsConfirmed() {

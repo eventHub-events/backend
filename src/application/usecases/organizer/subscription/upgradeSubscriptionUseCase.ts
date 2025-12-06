@@ -14,7 +14,7 @@ async execute(dto: OrganizerSubscriptionRequestDTO): Promise<void> {
   const currentSub = await this._subscriptionRepo.fetchSubscriptionById(dto.organizerId); 
    
      if(currentSub){
-          currentSub.markAsExpired();
+          currentSub.markAsUpgraded();
            await this._subscriptionRepo.updateSubscription(currentSub.id!, currentSub);
         }
      

@@ -34,7 +34,10 @@ toDomain(dbModel: BookingDbModel): BookingEntity {
       paymentIntentId: dbModel.paymentIntentId,
       refundIds: dbModel.refundIds,
       refundedAmount: dbModel.refundedAmount,
-      userEmail: dbModel.userEmail
+      userEmail: dbModel.userEmail,
+      paymentMethod: dbModel.paymentMethod,
+      refundStatus: dbModel.refundStatus,
+      refundDate: dbModel.refundDate
 
     })
 }

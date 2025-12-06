@@ -67,7 +67,7 @@ export class HandleStripeWebhookUseCase {
               await this._upgradeSubscriptionUseCase.execute(dto);
               return
          }else if(metadata.paymentType === "ticket") {
-               console.log("metadata", metadata);
+                    
               const {bookingId, organizerId} = metadata;
               const paymentId = session.id
              const bookingData = await this._confirmBookingUseCase.execute(organizerId,bookingId, paymentId, paymentIntentId);
@@ -78,9 +78,14 @@ export class HandleStripeWebhookUseCase {
 
         case "charge.refunded" : {
           const charge = event.data.object as Stripe.Charge;
+            const refund = charge.refunds?.data[0];
+            if (!refund) return;
+
+          const refundId = refund.id;
           await this._handleEventCancelledRefundUseCase.execute({
              paymentId: charge.payment_intent as string,
-             refundAmount: charge.amount_refunded/100
+             refundAmount: charge.amount_refunded/100,
+             refundId
             }
           );
           break;
@@ -96,6 +101,7 @@ export class HandleStripeWebhookUseCase {
                   paymentId: refund.payment_intent as string,
                     
                     refundAmount: refund.amount / 100,
+                    refundId: refund.id
                      });
                    }      
 

@@ -1,5 +1,5 @@
 import { ErrorMessages } from "../../../../constants/errorMessages";
-import { BookingStatus, PayoutStatus } from "../../../../domain/enums/user/Booking";
+import { BookingStatus, PayoutStatus, RefundStatus } from "../../../../domain/enums/user/Booking";
 import { NotFoundError } from "../../../../domain/errors/common";
 import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
 import { IRefundConfirmationEmailTemplate } from "../../../../infrastructure/interface/Templates/IRefundConfirmationEmailTemplate";
@@ -12,7 +12,7 @@ export class HandleEventCancelledRefundUseCase  implements IHandleEventCancelled
         private _refundConfirmationTemplate : IRefundConfirmationEmailTemplate,
         private _emailService : IEmailService
       ){}
-async execute(data:{paymentId: string, refundAmount: number}): Promise<void> {
+async execute(data:{paymentId: string, refundAmount: number, refundId :string}): Promise<void> {
      const {paymentId, refundAmount} = data;
       const booking = await this._bookingRepo.fetchBookingByPaymentIntentId(paymentId);
       if(!booking) throw new NotFoundError(ErrorMessages.BOOKING.BOOKINGS_NOT_FOUND);
@@ -22,6 +22,9 @@ async execute(data:{paymentId: string, refundAmount: number}): Promise<void> {
          booking.organizerAmount = 0;
          booking.payoutStatus = PayoutStatus.CANCELLED;
          booking.refundedAmount = refundAmount;
+         booking.refundDate = new Date;
+         booking.refundStatus = RefundStatus.SUCCEEDED;
+         booking.refundIds?.push(data.refundId)
         
           const template = this._refundConfirmationTemplate.refundBooking({
                 userName   :   booking.userName,

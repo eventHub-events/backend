@@ -12,3 +12,13 @@ export enum PayoutStatus {
     PAID ="paid",
     CANCELLED = "cancelled"
 }
+export enum RefundStatus {
+    NONE ="none",
+    PENDING = "pending",
+    SUCCEEDED = "succeeded",
+    FAILED = "failed"
+}
+
+export enum PaymentMethod {
+   CARD ="card"
+}

@@ -65,7 +65,7 @@ app.use('/api/organizer',organizerRoutes);
 app.use('/api/admin',adminRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/reviews', reviewRoutes);
- app.use(ErrorHandlingMiddleware.handleError);
+ //app.use(ErrorHandlingMiddleware.handleError);
 
 
 server.listen(process.env.PORT, () => {
