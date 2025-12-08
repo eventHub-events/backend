@@ -21,7 +21,7 @@ export class AdminFinanceQueryRepository implements IAdminFinanceQueryRepository
 const to = filter.to ? new Date(filter.to) : now;
 to.setHours(23, 59, 59, 999); 
 
-    console.log("fiorm", from, to)
+   
     // ───────────────────────────────────────────────
     // BOOKINGS AGGREGATION (Totals + Trends)
     // ───────────────────────────────────────────────

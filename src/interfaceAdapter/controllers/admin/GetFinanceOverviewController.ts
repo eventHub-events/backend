@@ -5,10 +5,13 @@ import { FinanceOverviewFilter } from "../../../domain/interface/admin-finance-q
 import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
 import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
 import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
+import { TransactionsFilter } from "../../../domain/interface/admin-finance-query/transactions";
+import { IGetTransactionsUseCase } from "../../../application/interface/useCases/admin/finance-payout/IGetTransactionsUseCase";
 
 export class GetFinanceAndPayoutController {
   constructor(
-     private readonly _getFinanceOverviewUseCase : IGetFinanceOverviewUseCase
+     private readonly _getFinanceOverviewUseCase : IGetFinanceOverviewUseCase,
+     private readonly _getTransactionsUseCase : IGetTransactionsUseCase
   ){}
 async getOverView(req: IAuthenticatedRequest, res: Response, next :NextFunction) : Promise<void> {
   try{
@@ -20,6 +23,17 @@ async getOverView(req: IAuthenticatedRequest, res: Response, next :NextFunction)
     
   }catch(err){
     next(err)
+  }
+}
+
+async getTransactions(req: IAuthenticatedRequest, res: Response, next :NextFunction) : Promise<void> {
+  try{
+     const filter  = req.validatedQuery as TransactionsFilter;
+     const result = await this._getTransactionsUseCase.execute(filter);
+   res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_TRANSACTIONS_SUCCESS, HttpStatusCode.OK, result));
+
+  }catch(err){
+     next(err);
   }
 }
 }

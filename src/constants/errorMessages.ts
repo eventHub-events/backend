@@ -148,8 +148,15 @@ export const ErrorMessages = {
       ON_ONBOARDING_FAILED: "Stripe onBoarding failed",
       VERIFICATION_FAILED:"Verification failed"
     }
-  }
+  },
+  Transactions : {
+    NOT_FOUND : "Transactions not found"
+  },
 
+  TRANSACTIONS_QUERY_SCHEMA :{
+    FROM_DATE_ERROR : " Invalid from-date",
+    TO_DATE_ERROR : " Invalid to-date"
+  }
   
   
 } as const;
