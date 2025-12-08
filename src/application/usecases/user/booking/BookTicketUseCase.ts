@@ -5,6 +5,7 @@ import { IBookingRepository } from "../../../../domain/repositories/user/IBookin
 import { IBookingMapper } from "../../../interface/mapper/user/IBookingMapper";
 
 import { IBookTicketUseCase } from "../../../interface/useCases/user/booking/IBookTicketUseCase";
+import { ErrorMessages } from "../../../../constants/errorMessages";
 
 export  class BookTicketUseCase implements IBookTicketUseCase {
   constructor(
@@ -17,8 +18,8 @@ export  class BookTicketUseCase implements IBookTicketUseCase {
   async execute(eventId: string, dto: BookingRequestDTO): Promise<BookingResponseDTO> {
 
       const reserved =  await this._ticketingRepository.reserveMultipleSeats(eventId, dto.tickets);
-      console.log("res", reserved)
-      if(!reserved) throw new Error("Booking failed - seats not available");
+        
+      if(!reserved) throw new Error(ErrorMessages.BOOKING.BOOKING_SEAT_NOT_AVAILABLE);
 
          const bookingEntity = this._bookingMapper.toEntity(dto);
       const  createdBookingEntity = await this._bookingRepository.createBooking(bookingEntity);

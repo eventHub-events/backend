@@ -88,7 +88,8 @@ export const ResponseMessages = {
    USER :{
       PROFILE: {
           FETCH_SUCCESS : "User profile fetched successfully",
-          UPDATE_SUCCESS : "User Profile Updated successfully"
+          UPDATE_SUCCESS : "User Profile Updated successfully",
+          USER_PROFILE_CREATE_SUCCESS :"UserProfileCreatedSuccessfully"
       },
       USER_LIST: {
          USER_LIST_FETCH_SUCCESS : "UserList fetched successfully",
@@ -107,6 +108,9 @@ export const ResponseMessages = {
       DOCUMENT_VERIFICATION_REQUEST_SUCCESS : "Verification request sent  successfully",
       DOWNLOAD_SUCCESS : "Document downloaded successfully"
 
+   },
+   FINANCE_PAYOUT : {
+      FETCH_SUCCESS : "Finance overview details fetched successfully"
    },
     PROFILE : {
       PASSWORD_UPDATE_SUCCESS : "Password updated successfully",

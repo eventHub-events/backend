@@ -5,6 +5,7 @@ import { IEventModerationRepository } from "../../../../domain/repositories/admi
 import { IEventRepository } from "../../../../domain/repositories/organizer/IEventsRepository";
 import { ICreateEventUseCase } from "../../../interface/useCases/organizer/events/ICreateEventUseCase";
 import { IEventMapper } from "../../../interface/useCases/organizer/events/IEventMapper";
+import { ErrorMessages } from "../../../../constants/errorMessages";
 
 
 export class CreateEventUseCase implements ICreateEventUseCase {
@@ -21,7 +22,7 @@ export class CreateEventUseCase implements ICreateEventUseCase {
         
 
       const eventData =  await this._eventRepository.createEvent(eventEntity);
-       if(!eventData) throw new Error("Event creation failed");
+       if(!eventData) throw new Error(ErrorMessages.EVENT.CREATION_FAILED);
        const payload= this._eventMapper.toBlankModerationEntity(eventData.eventId!, EventApprovalStatus.Pending)
        await this._eventModerationRepository.createEventModeration(payload);
 

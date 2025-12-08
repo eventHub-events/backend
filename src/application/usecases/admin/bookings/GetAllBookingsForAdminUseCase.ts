@@ -12,6 +12,7 @@ export class GetAllBookingsForAdminUseCase implements IGetAllBookingsForAdminUse
         private  _BookingMapperAdmin: IBookingMapperAdmin
   ) {}
   async execute(filter: BookingFilterForAdminDTO): Promise<{mappedBookings:BookingResponseDTOForAdmin[], totalPages:number }> {
+          
        
       const {bookings, totalPages}  = await this._bookingRepository.findAllWithFilter(filter);
       if(!bookings) throw new  Error(ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_FAILURE);

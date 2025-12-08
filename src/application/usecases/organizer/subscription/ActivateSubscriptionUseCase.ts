@@ -18,7 +18,7 @@ async execute(dto: OrganizerSubscriptionRequestDTO): Promise<OrganizerSubscripti
         endDate.setDate(startDate.getDate()+dto.durationInDays);
         const status = SubscriptionStatus.Active;
       const updatedDto = {startDate,endDate,status,...dto}
-      console.log("updatedDto", updatedDto);
+      
 
      const subscriptionEntity = this._subscriptionMapper.toEntity(updatedDto);
      const created = await this._subscriptionRepository.createSubscription(subscriptionEntity);

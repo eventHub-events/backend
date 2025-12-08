@@ -6,6 +6,7 @@ import { NotFoundError } from "../../../../domain/errors/common";
 import { BookingStatus, PayoutStatus } from "../../../../domain/enums/user/Booking";
 import { IBookingMapper } from "../../../interface/mapper/user/IBookingMapper";
 import { UserBookingListResponseDTO } from "../../../DTOs/user/booking/UserBookingListResponseDTO";
+import { ErrorMessages } from "../../../../constants/errorMessages";
 
 export class ConfirmBookingUseCase implements IConfirmBookingUseCase {
 
@@ -19,12 +20,12 @@ export class ConfirmBookingUseCase implements IConfirmBookingUseCase {
        
    
        const subscription =  await this._subscriptionRepository.fetchSubscriptionById(organizerId);
-       if(!subscription) throw new Error("Subscription details not found");
-      console.log("sub", subscription)
+       if(!subscription) throw new Error(ErrorMessages.SUBSCRIPTION.SUBSCRIPTION_NOT_FOUND);
+      
        const payoutDelayDays = subscription.payoutDelayDays ?? 14
          const booking = await this._bookingRepository.findBookingById(bookingId);
          
-        if(!booking) throw new NotFoundError("Booking details not found");
+        if(!booking) throw new NotFoundError(ErrorMessages.BOOKING.BOOKING_NOT_FOUND);
 
            const status = BookingStatus.CONFIRMED;
             const eventDate =  new Date(booking.eventDate);

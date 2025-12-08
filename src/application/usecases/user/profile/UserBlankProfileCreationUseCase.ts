@@ -1,5 +1,6 @@
 
 import { IUserProfileRepository } from "../../../../domain/repositories/user/IUserProfileRepository";
+import { ResponseMessages } from "../../../../infrastructure/constants/responseMessages";
 import { IUserBlankProfileCreationUseCase } from "../../../interface/useCases/user/user-profile/IUserBlankProfileCreationUseCase";
 
 export class UserBlankProfileCreationUseCase implements  IUserBlankProfileCreationUseCase {
@@ -28,6 +29,6 @@ export class UserBlankProfileCreationUseCase implements  IUserBlankProfileCreati
         });
        
 
-    return "UserProfileCreatedSuccessfully"
+    return ResponseMessages.USER.PROFILE.USER_PROFILE_CREATE_SUCCESS;
   }
 }

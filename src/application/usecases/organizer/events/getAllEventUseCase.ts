@@ -12,7 +12,7 @@ export class GetAllEventUseCase implements IGetAllEventUseCase {
   ){}
   async execute(): Promise<EventResponseDTO[]> {
      const eventEntities = await this._eventRepository.findAllEvents(ACTIVE_EVENTS_FILTER);
-     console.log("eee",eventEntities)
+
      return this._eventMapper.toResponseDTOList(eventEntities);
       
   }

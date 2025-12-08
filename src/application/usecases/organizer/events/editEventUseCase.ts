@@ -3,6 +3,7 @@ import { EventUpdateDTO } from "../../../DTOs/organizer/events/EventUpdateDTO";
 import { IEventRepository } from "../../../../domain/repositories/organizer/IEventsRepository";
 import {  IUpdateEventUseCase } from "../../../interface/useCases/organizer/events/IEditEventUseCase";
 import { IEventMapper } from "../../../interface/useCases/organizer/events/IEventMapper";
+import { ErrorMessages } from "../../../../constants/errorMessages";
 
 export class UpdateEventUseCase implements IUpdateEventUseCase {
   constructor(
@@ -18,7 +19,7 @@ export class UpdateEventUseCase implements IUpdateEventUseCase {
        const updatedEvent = {...existingEvent,...eventEntity};
 
        const savedEvent = await this._EventRepository.updateEvent(eventId, updatedEvent);
-       if(!savedEvent) throw new Error("Event Update  failed")
+       if(!savedEvent) throw new Error(ErrorMessages.EVENT.UPDATE_FAILED);
 
        return this._eventMapper.toResponseDTO(savedEvent);
 

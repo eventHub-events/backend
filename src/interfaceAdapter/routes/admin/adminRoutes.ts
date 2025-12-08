@@ -14,6 +14,8 @@ import { adminReportController } from "../../../di/admin/report/container"
 import { adminDashBoardController } from "../../../di/admin/dashboard/container"
 import { bookingQuerySchema } from "../../../infrastructure/validation/schemas/organizer/bookingQuerySchema"
 import { UserFilterOptionsSchema } from "../../../infrastructure/validation/schemas/admin/userFilterOptionSchema"
+import { getFinanceOverviewController } from "../../../di/admin/finance-payout/container"
+import { FinanceOverviewQuerySchema } from "../../../infrastructure/validation/schemas/admin/financeOverviewSchema"
 
 
 
@@ -73,6 +75,9 @@ import { UserFilterOptionsSchema } from "../../../infrastructure/validation/sche
 
    // dashboard //
   router.get("/dashboard", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => adminDashBoardController.getDashboard(req, res, next));
+
+  // Finance-payout ///
+  router.get("/finance/overview",InputDataValidator.validateQuery(FinanceOverviewQuerySchema) ,authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getOverView(req, res, next));
 
   
  export default router

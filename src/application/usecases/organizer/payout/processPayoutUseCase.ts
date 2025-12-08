@@ -3,6 +3,7 @@ import { IProcessPayoutUseCase } from "../../../interface/useCases/organizer/pay
 import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
 import { NotFoundError } from "../../../../domain/errors/common";
 import { PayoutStatus } from "../../../../domain/enums/user/Booking";
+import { ErrorMessages } from "../../../../constants/errorMessages";
 
 export class ProcessPayoutUseCase implements IProcessPayoutUseCase {
   
@@ -14,7 +15,7 @@ export class ProcessPayoutUseCase implements IProcessPayoutUseCase {
    async execute(): Promise<void> {
        const currentDate = new Date()
        const dueBookings = await this._bookingRepo.findBookingsDueForPayout(currentDate);
-      if(!dueBookings)throw new NotFoundError("No due bookings found")
+      if(!dueBookings)throw new NotFoundError(ErrorMessages.BOOKING.NO_DUE_BOOKINGS_FOUND);
 
          const organizerMap = new Map<string, {totalAmount: number; bookingIds: string[]}>();
 
