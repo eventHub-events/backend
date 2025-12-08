@@ -3,6 +3,7 @@ import {
   FinanceOverviewResults,
   FinanceOverviewSubscription,
 } from "../../../domain/interface/admin-finance-query/finance";
+import { TransactionPaginatedResult, TransactionsFilter, TransactionsRow } from "../../../domain/interface/admin-finance-query/transactions";
 
 import { IAdminFinanceQueryRepository } from "../../../domain/repositories/admin/IAdminFinanceQueryRepository";
 import { OrganizerSubscriptionModel } from "../../db/models/organizer/subscription/OrganizerSubscriptionModel";
@@ -334,5 +335,51 @@ to.setHours(23, 59, 59, 999);
     };
 
     return result;
+  }
+  async getTransactions(filter: TransactionsFilter): Promise<TransactionPaginatedResult> {
+     const{ page, limit, from, to,status,eventTitle, organizerName, userName} = filter;
+
+     const skip = (page -1) * limit;
+
+     const match: Record<string, unknown> = {};
+
+      if(from && to ) match.createdAt = {$gte : from, $lte : to};
+      if(status) match.status = status;
+      if(eventTitle) match.eventTitle = {$regex : eventTitle, $options: "i"};
+      if(organizerName) match.organizer = {$regex: organizerName, $options: "i"};
+      if(userName) match.userName = {$regex: userName,$options:"i" };
+
+      const rows = await BookingModel.aggregate<TransactionsRow>([
+         {$match : match},
+
+         {
+           $project : {
+             bookingId :{$string: "$_id"},
+             eventId : {$toString : "$eventId"},
+             eventTitle : 1,
+             organizerName: 1,
+             userName: 1,
+             totalAmount :1 ,
+             platformFee : 1,
+             organizerAmount: 1,
+             paymentMethod: 1,
+             paymentId: 1,
+             status: 1,
+             createdAt: 1
+           },
+         },
+          {$sort : {createdAt: -1}},
+          {$skip : skip},
+          {$limit : limit}
+      ]);
+
+     const total = await BookingModel.countDocuments(match);
+     return {
+       page,
+       limit,
+       total,
+       totalPages : Math.ceil(total / limit),
+       data: rows
+     }
   }
 }
