@@ -15,6 +15,7 @@ export class VerifyStripeOnboardingStatusUseCase implements IVerifyStripeOnboard
      if(!organizer|| !organizer?.stripeAccountId) throw new NotFoundError(ErrorMessages.ORGANIZER.NOT_FOUND);
 
      const account = await this._stripeConnectService.retrieveAccount(organizer.stripeAccountId!);
+      console.log("account is", account)
          
        if (account.details_submitted && account.payouts_enabled) {
           organizer.update({ stripeOnboarded: true });

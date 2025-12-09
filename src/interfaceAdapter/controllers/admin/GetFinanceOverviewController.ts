@@ -29,6 +29,7 @@ async getOverView(req: IAuthenticatedRequest, res: Response, next :NextFunction)
 async getTransactions(req: IAuthenticatedRequest, res: Response, next :NextFunction) : Promise<void> {
   try{
      const filter  = req.validatedQuery as TransactionsFilter;
+     console.log("filter is", filter)
      const result = await this._getTransactionsUseCase.execute(filter);
    res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_TRANSACTIONS_SUCCESS, HttpStatusCode.OK, result));
 

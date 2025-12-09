@@ -6,25 +6,25 @@ export const TransactionsQuerySchema  = z.object({
     .string()
     .regex(/^\d+$/)
     .transform(Number)
-    .pipe(z.number().min(1)),
+    .pipe(z.number().min(1)).optional(),
 
   limit: z
     .string()
     .regex(/^\d+$/)
     .transform(Number)
-    .pipe(z.number().min(1).max(100)),
+    .pipe(z.number().min(1).max(100)).optional(),
 
   from: z
     .string()
     .optional()
     .refine((v) => !v || !isNaN(Date.parse(v)), ErrorMessages.TRANSACTIONS_QUERY_SCHEMA.FROM_DATE_ERROR)
-    .transform((v) => (v ? new Date(v) : undefined)),
+    .transform((v) => (v ? new Date(v) : undefined)).optional(),
 
   to: z
     .string()
     .optional()
     .refine((v) => !v || !isNaN(Date.parse(v)), ErrorMessages.TRANSACTIONS_QUERY_SCHEMA.TO_DATE_ERROR)
-    .transform((v) => (v ? new Date(v) : undefined)),
+    .transform((v) => (v ? new Date(v) : undefined)).optional(),
 
   status: z.string().optional(),
 

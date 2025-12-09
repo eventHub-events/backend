@@ -16,6 +16,7 @@ import { bookingQuerySchema } from "../../../infrastructure/validation/schemas/o
 import { UserFilterOptionsSchema } from "../../../infrastructure/validation/schemas/admin/userFilterOptionSchema"
 import { getFinanceOverviewController } from "../../../di/admin/finance-payout/container"
 import { FinanceOverviewQuerySchema } from "../../../infrastructure/validation/schemas/admin/financeOverviewSchema"
+import { TransactionsQuerySchema } from "../../../infrastructure/validation/schemas/admin/transactionsQuerySchema"
 
 
 
@@ -78,6 +79,7 @@ import { FinanceOverviewQuerySchema } from "../../../infrastructure/validation/s
 
   // Finance-payout ///
   router.get("/finance/overview",InputDataValidator.validateQuery(FinanceOverviewQuerySchema) ,authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getOverView(req, res, next));
+  router.get("/finance/transactions", InputDataValidator.validateQuery(TransactionsQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getTransactions(req, res, next));
 
   
  export default router

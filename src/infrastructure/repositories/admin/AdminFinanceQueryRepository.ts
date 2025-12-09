@@ -338,7 +338,9 @@ to.setHours(23, 59, 59, 999);
   }
   async getTransactions(filter: TransactionsFilter): Promise<TransactionPaginatedResult> {
      const{ page, limit, from, to,status,eventTitle, organizerName, userName} = filter;
+        
 
+        
      const skip = (page -1) * limit;
 
      const match: Record<string, unknown> = {};
@@ -354,7 +356,7 @@ to.setHours(23, 59, 59, 999);
 
          {
            $project : {
-             bookingId :{$string: "$_id"},
+             bookingId :{$toString: "$_id"},
              eventId : {$toString : "$eventId"},
              eventTitle : 1,
              organizerName: 1,

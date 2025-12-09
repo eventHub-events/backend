@@ -14,7 +14,7 @@ export class CreateStripeAccountUseCase implements ICreateStripeAccountUseCase {
     const organizer = await this._userRepository.findUserById(organizerId);
     if(!organizer) throw new NotFoundError(ErrorMessages.ORGANIZER.NOT_FOUND);
 
-      if(organizer.stripeAccountId) throw new Error(ErrorMessages.STRIPE.ON_BOARDING.AL_READY_COMPLETED);
+       if(organizer.stripeAccountId) throw new Error(ErrorMessages.STRIPE.ON_BOARDING.AL_READY_COMPLETED);
      
       const accountId = await this._stripeConnectService.createConnectedAccount(email);
       if(!accountId) throw new Error(ErrorMessages.STRIPE.ON_BOARDING.ON_ONBOARDING_FAILED);
