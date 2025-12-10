@@ -399,7 +399,7 @@ to.setHours(23, 59, 59, 999);
          paymentMethod,
          userName
       } = filter;
-
+     
      const skip = (page -1) * limit;
     
        const match:Record<string,unknown> = {
@@ -459,12 +459,12 @@ to.setHours(23, 59, 59, 999);
 
   }
 
-  async getRefundOverview(from?: Date, to?: Date) : Promise<RefundOverviewResult> {
+  async getRefundOverview(filter?: RefundsFilter) : Promise<RefundOverviewResult> {
 
        const now = new Date();
        const defaultFrom = new Date(now.getTime()-30*24*3600*1000);
-       const start = from? new Date(from): defaultFrom;
-       const end = to ? new Date(to) : now;
+       const start = filter?.from? new Date(filter.from): defaultFrom;
+       const end = filter?.to ? new Date(filter.to) : now;
        end.setHours(23,59,999);
 
        const agg = await BookingModel.aggregate([
@@ -556,21 +556,27 @@ to.setHours(23, 59, 59, 999);
              }
           }
        ])
-       const data = agg[0];
+     const result = agg[0] || {};
 
-        return {
-      timeRange: { from: start, to: end },
-      totals: data.totals[0] ?? {
-        totalRefundAmount: 0,
-        refundCount: 0,
-        refundsPending: 0,
-        refundsProcessed: 0
-      },
-      trend: {
-        daily: data.daily,
-        monthly: data.monthly,
-        yearly: data.yearly
-      }
-    };
+const totals = result.total?.[0] ?? {
+  totalRefundAmount: 0,
+  refundedCount: 0,
+  refundsPending: 0,
+  refundProcessed: 0,
+};
+
+return {
+   timeRange: { from: start, to: end },
+
+  totals,
+
+  trend: {
+    daily: result.daily ?? [],
+    monthly: result.monthly ?? [],
+    yearly: result.yearly ?? []
+  }
+} as RefundOverviewResult;
+
+
   }
 }

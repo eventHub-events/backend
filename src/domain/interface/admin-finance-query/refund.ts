@@ -36,6 +36,7 @@ export interface RefundPaginatedResult {
 export interface RefundOverviewTotals {
     totalRefundAmount : number;
     refundedCount : number;
+    refundsPending: number;
     refundProcessed : number;
 
 }

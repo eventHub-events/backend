@@ -17,6 +17,7 @@ import { UserFilterOptionsSchema } from "../../../infrastructure/validation/sche
 import { exportFinancePayoutPDFController, getFinanceOverviewController } from "../../../di/admin/finance-payout/container"
 import { FinanceOverviewQuerySchema } from "../../../infrastructure/validation/schemas/admin/financeOverviewSchema"
 import { TransactionsQuerySchema } from "../../../infrastructure/validation/schemas/admin/transactionsQuerySchema"
+import { RefundQuerySchema } from "../../../infrastructure/validation/schemas/admin/refundQuerySchema"
 
 
 
@@ -81,7 +82,9 @@ import { TransactionsQuerySchema } from "../../../infrastructure/validation/sche
   // Finance-payout ///
   router.get("/finance/transactions/export/pdf",InputDataValidator.validateQuery(TransactionsQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest, res :Response, next :NextFunction) => exportFinancePayoutPDFController.exportTransactionPdf(req, res, next))
   router.get("/finance/overview",InputDataValidator.validateQuery(FinanceOverviewQuerySchema) ,authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getOverView(req, res, next));
+  router.get("/finance/refunds",InputDataValidator.validateQuery(RefundQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req : IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getRefunds(req, res, next))
   router.get("/finance/transactions", InputDataValidator.validateQuery(TransactionsQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getTransactions(req, res, next));
+  router.get("/finance/refunds/overview",InputDataValidator.validateQuery(RefundQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req : IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getRefundsOverview(req, res, next));
 
   
  export default router

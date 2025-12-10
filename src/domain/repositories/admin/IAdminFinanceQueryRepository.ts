@@ -6,5 +6,5 @@ export interface IAdminFinanceQueryRepository {
   getFinanceOverview(filter : FinanceOverviewFilter) : Promise<FinanceOverviewResults>;
   getTransactions(filter: TransactionsFilter): Promise<TransactionPaginatedResult>;
   getRefunds(filter: RefundsFilter) : Promise<RefundPaginatedResult>;
-  getRefundOverview(from?: Date, to?: Date) : Promise<RefundOverviewResult>
+  getRefundOverview(filter?: RefundsFilter) : Promise<RefundOverviewResult>
 }

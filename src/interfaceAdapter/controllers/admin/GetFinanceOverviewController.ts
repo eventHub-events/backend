@@ -44,7 +44,8 @@ async getTransactions(req: IAuthenticatedRequest, res: Response, next :NextFunct
 }
 async getRefunds(req:IAuthenticatedRequest, res : Response, next: NextFunction) : Promise<void> {
   try{
-       const filter = req.validatedQuery as RefundsFilter;
+    const filter = req.validatedQuery as RefundsFilter;
+    console.log("reqq", filter)
        const result = await this._getRefundsUseCase.execute(filter);
     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_REFUND_SUCCESS, HttpStatusCode.OK, result));
 
@@ -55,6 +56,7 @@ async getRefunds(req:IAuthenticatedRequest, res : Response, next: NextFunction) 
 async getRefundsOverview(req: IAuthenticatedRequest, res :Response, next :NextFunction) : Promise<void> {
    try{
          const filter = req.validatedQuery as RefundsFilter;
+        console.log("hello", filter)
          const result = await this._getRefundOverviewUseCase.execute(filter);
      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_REFUND_OVERVIEW_SUCCESS, HttpStatusCode.OK, result));
    }catch(err){

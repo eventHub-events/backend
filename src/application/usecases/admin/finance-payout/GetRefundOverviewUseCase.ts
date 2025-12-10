@@ -1,4 +1,4 @@
-import { RefundOverviewResult } from "../../../../domain/interface/admin-finance-query/refund";
+import { RefundOverviewResult, RefundsFilter } from "../../../../domain/interface/admin-finance-query/refund";
 import { IAdminFinanceQueryRepository } from "../../../../domain/repositories/admin/IAdminFinanceQueryRepository";
 import { IGetRefundOverviewUseCase } from "../../../interface/useCases/admin/finance-payout/IGetRefundOverviewUseCase";
 
@@ -7,7 +7,8 @@ export class GetRefundOverviewUseCase implements IGetRefundOverviewUseCase {
       private _repo : IAdminFinanceQueryRepository
   ){}
 
-  async execute(from?: Date, to?: Date): Promise<RefundOverviewResult> {
-      return this._repo.getRefundOverview(from,to);
+  async execute(filter?: RefundsFilter): Promise<RefundOverviewResult> {
+  
+      return this._repo.getRefundOverview(filter);
   }
 }
