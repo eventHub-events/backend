@@ -5,6 +5,7 @@ export interface BookingCheckoutDTO {
     totalAmount: number;
     eventTitle: string;
      ticketType?: string;
-     organizerStripeId? :string
+     organizerStripeId? :string;
+     platformCommissionRate?: number
 
 }

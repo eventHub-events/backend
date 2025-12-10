@@ -15,6 +15,7 @@ import { StripePaymentService } from "../../../infrastructure/services/StripeWeb
 import { EventBookingController } from "../../../interfaceAdapter/controllers/user/EventBookingController";
 import { GetUserBookingsController } from "../../../interfaceAdapter/controllers/user/GetUserBookingsController";
   import dotenv from "dotenv";
+import { userRepository } from "../../common/commonContainers";
   dotenv.config();
 const bookingEntityFactory = new BookingEntityFactory();
 const bookingRepository = new BookingRepository(bookingEntityFactory);
@@ -23,7 +24,7 @@ const bookingMapper =  new BookingMapper ();
 const eventTicketingEntityFactory = new EventTicketingEntityFactory();
 const  ticketingRepository = new EventTicketingRepository(eventTicketingEntityFactory);
 
-const bookTicketUseCase = new BookTicketUseCase(ticketingRepository, bookingRepository, bookingMapper);
+const bookTicketUseCase = new BookTicketUseCase(ticketingRepository, bookingRepository, bookingMapper, userRepository);
 
 const getUserBookingsListUseCase = new GetUserBookingListUseCase(bookingRepository, bookingMapper);
 const getUserBookingByIdUseCase = new GetUserBookingByIdUseCase(bookingRepository, bookingMapper);

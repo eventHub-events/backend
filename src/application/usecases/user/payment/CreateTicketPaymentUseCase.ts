@@ -31,7 +31,8 @@ export class CreateTicketPaymentUseCase  implements ICreateTicketPaymentUseCase{
           organizerId: booking.organizerId.toString(),
           totalAmount : booking.totalAmount,
           eventTitle: booking.eventTitle,
-          organizerStripeId
+          organizerStripeId,
+          platformCommissionRate: booking.commissionRate
       })
     
     return url;

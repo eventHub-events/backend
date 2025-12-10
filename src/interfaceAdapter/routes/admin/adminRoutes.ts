@@ -14,9 +14,10 @@ import { adminReportController } from "../../../di/admin/report/container"
 import { adminDashBoardController } from "../../../di/admin/dashboard/container"
 import { bookingQuerySchema } from "../../../infrastructure/validation/schemas/organizer/bookingQuerySchema"
 import { UserFilterOptionsSchema } from "../../../infrastructure/validation/schemas/admin/userFilterOptionSchema"
-import { getFinanceOverviewController } from "../../../di/admin/finance-payout/container"
+import { exportFinancePayoutPDFController, getFinanceOverviewController } from "../../../di/admin/finance-payout/container"
 import { FinanceOverviewQuerySchema } from "../../../infrastructure/validation/schemas/admin/financeOverviewSchema"
 import { TransactionsQuerySchema } from "../../../infrastructure/validation/schemas/admin/transactionsQuerySchema"
+
 
 
 
@@ -78,6 +79,7 @@ import { TransactionsQuerySchema } from "../../../infrastructure/validation/sche
   router.get("/dashboard", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: Request, res: Response, next: NextFunction) => adminDashBoardController.getDashboard(req, res, next));
 
   // Finance-payout ///
+  router.get("/finance/transactions/export/pdf",InputDataValidator.validateQuery(TransactionsQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare), (req: IAuthenticatedRequest, res :Response, next :NextFunction) => exportFinancePayoutPDFController.exportTransactionPdf(req, res, next))
   router.get("/finance/overview",InputDataValidator.validateQuery(FinanceOverviewQuerySchema) ,authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getOverView(req, res, next));
   router.get("/finance/transactions", InputDataValidator.validateQuery(TransactionsQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getTransactions(req, res, next));
 

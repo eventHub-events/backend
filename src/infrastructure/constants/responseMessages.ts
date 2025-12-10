@@ -18,6 +18,12 @@ export const ResponseMessages = {
    EVENT_MODERATION_FETCH_SUCCESS : "Event moderation  fetch  success"
 
   },
+  TRANSACTION_PDF_REPORT : {
+     SET_HEADER_ONE:"content-Disposition",
+     ATTACHMENT: `attachment; filename="transactions_${Date.now()}.pdf`,
+     CONTENT_TYPE : "Content-Type",
+     APPLICATION_PDF: "application/pdf"
+  },
 
   BOOKING :{
      BOOKING_SUCCESS : "Tickets booked successfully",

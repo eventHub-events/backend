@@ -23,7 +23,8 @@ export class BookingMapper implements IBookingMapper {
           userName : dto.userName,
           organizerId: new Types.ObjectId(dto.organizerId),
           eventImages: dto.eventImages,
-          userEmail: dto.userEmail
+          userEmail: dto.userEmail,
+          organizerStripeId : dto.organizerStripeId
           
 
       })

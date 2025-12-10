@@ -16,6 +16,7 @@ export class ProcessPayoutUseCase implements IProcessPayoutUseCase {
        const currentDate = new Date()
        const dueBookings = await this._bookingRepo.findBookingsDueForPayout(currentDate);
       if(!dueBookings)throw new NotFoundError(ErrorMessages.BOOKING.NO_DUE_BOOKINGS_FOUND);
+      console.log("due bookings", dueBookings)
 
          const organizerMap = new Map<string, {totalAmount: number; bookingIds: string[]}>();
 
@@ -24,7 +25,7 @@ export class ProcessPayoutUseCase implements IProcessPayoutUseCase {
              if(!organizerId) continue;
 
             const data = organizerMap.get(organizerId) || { totalAmount: 0, bookingIds: [] };
-            data.totalAmount += booking.totalAmount;
+            data.totalAmount += booking.organizerAmount!;
             data.bookingIds.push(booking.id!.toString());
             organizerMap.set(organizerId, data);
         }
@@ -33,7 +34,7 @@ export class ProcessPayoutUseCase implements IProcessPayoutUseCase {
             try{
                   await this.stripe.transfers.create({
                       amount: Math.round(totalAmount * 100), // convert to paise
-                    currency: "inr",
+                    currency: "usd",
                    destination: organizerStripeId,
                     });
                      console.log(`✅ ₹${totalAmount} payout sent to organizer ${organizerStripeId}`);

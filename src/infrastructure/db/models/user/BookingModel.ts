@@ -22,7 +22,7 @@ export interface IBooking extends Document {
    payoutStatus :PayoutStatus;
    payoutDueDate : Date;
    payoutDate: Date;
-   organizerStripId: string;
+   organizerStripeId: string;
    paymentId: string;
    ticketUrls?: string[];
    sessionId?:string;
@@ -119,7 +119,7 @@ const bookingSchema = new Schema<IBooking>({
    payoutDate: {
        type: Date
    },
-   organizerStripId:{
+   organizerStripeId:{
      type: String
    },
     paymentId :{
