@@ -1,8 +1,10 @@
+import { regex } from "zod";
 import {
   FinanceOverviewFilter,
   FinanceOverviewResults,
   FinanceOverviewSubscription,
 } from "../../../domain/interface/admin-finance-query/finance";
+import { RefundOverviewResult, RefundPaginatedResult, RefundRow, RefundsFilter } from "../../../domain/interface/admin-finance-query/refund";
 import { TransactionPaginatedResult, TransactionsFilter, TransactionsRow } from "../../../domain/interface/admin-finance-query/transactions";
 
 import { IAdminFinanceQueryRepository } from "../../../domain/repositories/admin/IAdminFinanceQueryRepository";
@@ -383,5 +385,192 @@ to.setHours(23, 59, 59, 999);
        totalPages : Math.ceil(total / limit),
        data: rows
      }
+  }
+
+  async getRefunds(filter: RefundsFilter) : Promise<RefundPaginatedResult> {
+      const {
+         page = 1,
+         limit =10,
+         from,
+         to,
+         status,
+         eventTitle,
+         organizerName,
+         paymentMethod,
+         userName
+      } = filter;
+
+     const skip = (page -1) * limit;
+    
+       const match:Record<string,unknown> = {
+        refundedAmount : {$gt : 0} 
+       }
+      
+     if(from && to) {
+      match.refundDate = {
+         $gte: new Date(from),
+         $lte : new Date(to)
+      };
+     }
+
+     if(status) match.refundStatus = status;
+     if(eventTitle) match.eventTitle ={$regex : eventTitle, $options : "i"};
+     if(organizerName) match.organizerName = {$regex : organizerName, $options : "i"};
+     if(userName) match.userName ={$regex : userName, $options : "i"};
+     if(paymentMethod) match.paymentMethod = paymentMethod;
+
+     const rows = await BookingModel.aggregate<RefundRow>([
+       {$match : match},
+
+       {
+         $project : {
+           bookingId :{$toString: "$_id"},
+           eventId : {$toString: "$eventId"},
+           eventTitle : 1,
+           organizerName : 1,
+           userName : 1,
+
+           refundedAmount : 1,
+           refundStatus : 1,
+           refundDate : 1,
+           paymentMethod : 1,
+           paymentId : 1,
+
+           refundId : {$arrayElemAt : ["$refundIds", 0]},
+           createdAt :1
+         }
+       },
+
+       {$sort : {refundDate : -1}},
+       {$skip : skip},
+       {$limit : limit}
+       
+     ]);
+   
+    const total = await BookingModel.countDocuments(match);
+
+    return {
+       page,
+       limit,
+       total,
+       totalPages :Math.ceil(total/ limit),
+       data : rows
+    }
+
+  }
+
+  async getRefundOverview(from?: Date, to?: Date) : Promise<RefundOverviewResult> {
+
+       const now = new Date();
+       const defaultFrom = new Date(now.getTime()-30*24*3600*1000);
+       const start = from? new Date(from): defaultFrom;
+       const end = to ? new Date(to) : now;
+       end.setHours(23,59,999);
+
+       const agg = await BookingModel.aggregate([
+          {
+             $match : {
+               refundedAmount : {$gt: 0},
+               refundDate: {$gte:start,$lte: end}
+             }
+          },
+
+          {
+             $facet: {
+              total:[
+                {
+                   $group: {
+                    _id: null,
+                    totalRefundedAmount :{$sum : "$refundedAmount"},
+                    refundCount : {$sum :1},
+                    refundsPending : {
+                      $sum :{$cond : [{$eq: ["$refundStatus","pending"]},1,0]}
+
+                    },
+                    refundsProcessed :{
+                      $sum:{$cond :[{$eq : ["$refundStatus","succeeded"]},1,0]}
+                    }
+                   }
+                }
+              ],
+                     daily: [
+            {
+              $group: {
+                _id: {
+                  date: { $dateToString: { format: "%Y-%m-%d", date: "$refundDate" } }
+                },
+                amount: { $sum: "$refundedAmount" },
+                count: { $sum: 1 }
+              }
+            },
+            { $sort: { "_id.date": 1 } },
+            {
+              $project: {
+                _id: 0,
+                date: "$_id.date",
+                amount: 1,
+                count: 1
+              }
+            }
+          ],
+              monthly: [
+            {
+              $group: {
+                _id: {
+                  month: { $dateToString: { format: "%Y-%m", date: "$refundDate" } }
+                },
+                amount: { $sum: "$refundedAmount" },
+                count: { $sum: 1 }
+              }
+            },
+            { $sort: { "_id.month": 1 } },
+            {
+              $project: {
+                _id: 0,
+                month: "$_id.month",
+                amount: 1,
+                count: 1
+              }
+            }
+          ],
+             yearly: [
+            {
+              $group: {
+                _id: {
+                  year: { $dateToString: { format: "%Y", date: "$refundDate" } }
+                },
+                amount: { $sum: "$refundedAmount" },
+                count: { $sum: 1 }
+              }
+            },
+            { $sort: { "_id.year": 1 } },
+            {
+              $project: {
+                _id: 0,
+                year: "$_id.year",
+                amount: 1,
+                count: 1
+              }
+            }
+          ]
+             }
+          }
+       ])
+       const data = agg[0];
+
+        return {
+      timeRange: { from: start, to: end },
+      totals: data.totals[0] ?? {
+        totalRefundAmount: 0,
+        refundCount: 0,
+        refundsPending: 0,
+        refundsProcessed: 0
+      },
+      trend: {
+        daily: data.daily,
+        monthly: data.monthly,
+        yearly: data.yearly
+      }
+    };
   }
 }
