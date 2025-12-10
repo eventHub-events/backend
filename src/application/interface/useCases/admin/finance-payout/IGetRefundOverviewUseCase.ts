@@ -1,6 +1,6 @@
-import { RefundOverviewResult } from "../../../../../domain/interface/admin-finance-query/refund";
+import { RefundOverviewResult, RefundsFilter } from "../../../../../domain/interface/admin-finance-query/refund";
 
 export interface IGetRefundOverviewUseCase {
-  execute(from? : Date, to?: Date): Promise<RefundOverviewResult>;
-  
+  execute(filter?: RefundsFilter): Promise<RefundOverviewResult>;
+
 }
