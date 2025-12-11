@@ -12,6 +12,7 @@ import { OrganizerSubscriptionModel } from "../../db/models/organizer/subscripti
 import { BookingModel, IBooking } from "../../db/models/user/BookingModel";
 import { PayoutOverviewResult, PayoutPaginatedResult, PayoutsFilter } from "../../../domain/interface/admin-finance-query/payout";
 import { FilterQuery } from "mongoose";
+import { EventRevenueFilter, EventRevenuePaginated, EventRevenueRow } from "../../../domain/interface/admin-finance-query/eventRevenue";
 
 export class AdminFinanceQueryRepository implements IAdminFinanceQueryRepository {
   async getFinanceOverview(
@@ -775,5 +776,97 @@ async getPayouts(filter: PayoutsFilter): Promise<PayoutPaginatedResult> {
     data: rows
   };
 }
+async getEventRevenueSummary(filter: EventRevenueFilter) : Promise<EventRevenuePaginated> {
+   const {
+    page = 1,
+    limit = 10,
+    eventTitle,
+    organizerName,
+    from,
+    to
+  } = filter;
 
+  const skip = (page - 1) * limit;
+
+  const match: FilterQuery<IBooking> = {
+    status: { $in: ["confirmed", "refunded"] }
+  };
+
+  if (from && to) {
+    match.createdAt = {
+      $gte: new Date(from),
+      $lte: new Date(to)
+    };
+  }
+
+  if (eventTitle)
+    match.eventTitle = { $regex: eventTitle, $options: "i" };
+
+  if (organizerName)
+    match.organizerName = { $regex: organizerName, $options: "i" };
+
+  const agg = await BookingModel.aggregate<EventRevenueRow>([
+    { $match: match },
+
+    // ---------------------------- GROUP BY EVENT ----------------------------
+    {
+      $group: {
+        _id: "$eventId",
+
+        eventTitle: { $first: "$eventTitle" },
+        organizerName: { $first: "$organizerName" },
+
+        ticketsSold: {
+          $sum: {
+            $sum: "$tickets.quantity"
+          }
+        },
+
+        grossRevenue: { $sum: "$totalAmount" },
+        platformRevenue: { $sum: "$platformFee" },
+        organizerRevenue: { $sum: "$organizerAmount" },
+        refundedAmount: { $sum: "$refundedAmount" }
+      }
+    },
+
+    // ---------------------------- COMPUTED NET REVENUE ----------------------------
+    {
+      $addFields: {
+        netRevenue: {
+          $subtract: ["$grossRevenue", "$refundedAmount"]
+        }
+      }
+    },
+
+    // ---------------------------- FORMAT FIELDS ----------------------------
+    {
+      $project: {
+        _id: 0,
+        eventId: { $toString: "$_id" },
+        eventTitle: 1,
+        organizerName: 1,
+        ticketsSold: 1,
+        grossRevenue: 1,
+        platformRevenue: 1,
+        organizerRevenue: 1,
+        refundedAmount: 1,
+        netRevenue: 1
+      }
+    },
+
+    { $sort: { grossRevenue: -1 } }, // default sort by highest selling
+    { $skip: skip },
+    { $limit: limit }
+  ]);
+
+  const total = await BookingModel.countDocuments(match);
+
+  return {
+    page,
+    limit,
+    total,
+    totalPages: Math.ceil(total / limit),
+    data: agg
+  };
+}
 }
