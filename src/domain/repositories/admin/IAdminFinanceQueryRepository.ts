@@ -2,6 +2,7 @@ import { EventRevenueFilter, EventRevenuePaginated } from "../../interface/admin
 import { FinanceOverviewFilter, FinanceOverviewResults } from "../../interface/admin-finance-query/finance";
 import { PayoutOverviewResult, PayoutPaginatedResult, PayoutsFilter } from "../../interface/admin-finance-query/payout";
 import { RefundOverviewResult, RefundPaginatedResult, RefundsFilter } from "../../interface/admin-finance-query/refund";
+import { SubscriptionOverviewFilter, SubscriptionOverviewResult } from "../../interface/admin-finance-query/subcription";
 import { TransactionPaginatedResult, TransactionsFilter } from "../../interface/admin-finance-query/transactions";
 
 export interface IAdminFinanceQueryRepository {
@@ -11,5 +12,6 @@ export interface IAdminFinanceQueryRepository {
   getRefundOverview(filter?: RefundsFilter) : Promise<RefundOverviewResult>;
   getPayouts(filter: PayoutsFilter): Promise<PayoutPaginatedResult>;
   getPayoutOverview(filter?: FinanceOverviewFilter): Promise<PayoutOverviewResult>;
-  getEventRevenueSummary(filter: EventRevenueFilter) : Promise<EventRevenuePaginated> 
+  getEventRevenueSummary(filter: EventRevenueFilter) : Promise<EventRevenuePaginated>;
+  getSubscriptionOverview(filter?: SubscriptionOverviewFilter): Promise<SubscriptionOverviewResult>;
 }

@@ -13,6 +13,8 @@ import { BookingModel, IBooking } from "../../db/models/user/BookingModel";
 import { PayoutOverviewResult, PayoutPaginatedResult, PayoutsFilter } from "../../../domain/interface/admin-finance-query/payout";
 import { FilterQuery } from "mongoose";
 import { EventRevenueFilter, EventRevenuePaginated, EventRevenueRow } from "../../../domain/interface/admin-finance-query/eventRevenue";
+import { SubscriptionOverviewFilter, SubscriptionOverviewResult, SubscriptionPlanPaginatedResult, SubscriptionPlanRow, SubscriptionPlansFilter } from "../../../domain/interface/admin-finance-query/subcription";
+import { subscriptionPlansModel } from "../../db/models/admin/SubscriptionPlansModel";
 
 export class AdminFinanceQueryRepository implements IAdminFinanceQueryRepository {
   async getFinanceOverview(
@@ -869,4 +871,177 @@ async getEventRevenueSummary(filter: EventRevenueFilter) : Promise<EventRevenueP
     data: agg
   };
 }
+
+async getSubscriptionOverview(filter?: SubscriptionOverviewFilter): Promise<SubscriptionOverviewResult> {
+  const now = new Date();
+  const defaultFrom = new Date(now.getTime() - 30 * 24 * 3600 * 1000); // last 30 days
+
+  const from = filter?.from ? new Date(filter.from) : defaultFrom;
+  const to = filter?.to ? new Date(filter.to) : now;
+  to.setHours(23, 59, 59, 999);
+
+  const agg = await OrganizerSubscriptionModel.aggregate([
+    {
+      $match: {
+        createdAt: { $gte: from, $lte: to },
+        status: { $in: ["active", "succeeded", "upgraded"] }
+      }
+    },
+
+    {
+      $facet: {
+        // ------------------ TOTALS ------------------
+        totals: [
+          {
+            $group: {
+              _id: null,
+              totalRevenue: { $sum: "$price" },
+              activeSubscribers: {
+                $sum: { $cond: [{ $eq: ["$status", "active"] }, 1, 0] }
+              },
+              totalSubscriptions: { $sum: 1 }
+            }
+          }
+        ],
+
+        // ------------------ DAILY TREND ------------------
+        daily: [
+          {
+            $group: {
+              _id: {
+                date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }
+              },
+              revenue: { $sum: "$price" },
+              count: { $sum: 1 }
+            }
+          },
+          { $sort: { "_id.date": 1 } },
+          { $project: { _id: 0, date: "$_id.date", revenue: 1, count: 1 } }
+        ],
+
+        // ------------------ MONTHLY TREND ------------------
+        monthly: [
+          {
+            $group: {
+              _id: {
+                month: { $dateToString: { format: "%Y-%m", date: "$createdAt" } }
+              },
+              revenue: { $sum: "$price" },
+              count: { $sum: 1 }
+            }
+          },
+          { $sort: { "_id.month": 1 } },
+          { $project: { _id: 0, month: "$_id.month", revenue: 1, count: 1 } }
+        ],
+
+        // ------------------ YEARLY TREND ------------------
+        yearly: [
+          {
+            $group: {
+              _id: {
+                year: { $dateToString: { format: "%Y", date: "$createdAt" } }
+              },
+              revenue: { $sum: "$price" },
+              count: { $sum: 1 }
+            }
+          },
+          { $sort: { "_id.year": 1 } },
+          { $project: { _id: 0, year: "$_id.year", revenue: 1, count: 1 } }
+        ]
+      }
+    }
+  ]);
+
+  const result = agg[0];
+  return {
+    timeRange: { from, to },
+    totals: result.totals[0] ?? {
+      totalRevenue: 0,
+      activeSubscribers: 0,
+      totalSubscriptions: 0
+    },
+    trend: {
+      daily: result.daily,
+      monthly: result.monthly,
+      yearly: result.yearly
+    }
+  };
+}
+async getSubscriptionPlans(filter: SubscriptionPlansFilter): Promise<SubscriptionPlanPaginatedResult> {
+   const page = filter.page ?? 1;
+  const limit = filter.limit ?? 10;
+  const skip = (page - 1) * limit;
+
+  const match: Record<string, unknown> = {};
+  if (filter.name) match.name = { $regex: filter.name, $options: "i" };
+
+  const from = filter.from ? new Date(filter.from) : null;
+  const to = filter.to ? new Date(filter.to) : null;
+
+  const dateMatch: any = {};
+  if (from && to) {
+    dateMatch.createdAt = { $gte: from, $lte: to };
+  }
+
+  const plans = await subscriptionPlansModel.aggregate<SubscriptionPlanRow>([
+    { $match: match },
+
+    {
+      $lookup: {
+        from: "organizersubscriptions",
+        localField: "_id",
+        foreignField: "planId",
+        pipeline: [
+          { $match: dateMatch },
+          {
+            $group: {
+              _id: null,
+              subscribers: { $sum: 1 },
+              revenue: { $sum: "$price" }
+            }
+          }
+        ],
+        as: "stats"
+      }
+    },
+
+    {
+      $project: {
+        name: 1,
+        price: 1,
+        durationInDays: 1,
+        description: 1,
+        subscribers: { $ifNull: [{ $arrayElemAt: ["$stats.subscribers", 0] }, 0] },
+        revenue: { $ifNull: [{ $arrayElemAt: ["$stats.revenue", 0] }, 0] },
+        avgRevenue: {
+          $cond: [
+            { $gt: [{ $arrayElemAt: ["$stats.subscribers", 0] }, 0] },
+            {
+              $divide: [
+                { $arrayElemAt: ["$stats.revenue", 0] },
+                { $arrayElemAt: ["$stats.subscribers", 0] }
+              ]
+            },
+            0
+          ]
+        }
+      }
+    },
+
+    { $sort: { revenue: -1 } },
+    { $skip: skip },
+    { $limit: limit }
+  ]);
+
+  const total = await subscriptionPlansModel.countDocuments(match);
+
+  return {
+    page,
+    limit,
+    total,
+    totalPages: Math.ceil(total / limit),
+    data: plans
+  };
+}
+
 }
