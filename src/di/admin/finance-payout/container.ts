@@ -5,6 +5,8 @@ import { GetPayoutOverviewUseCase } from "../../../application/useCases/admin/fi
 import { GetPayoutsUseCase } from "../../../application/useCases/admin/finance-payout/GetPayoutsUseCase";
 import { GetRefundOverviewUseCase } from "../../../application/useCases/admin/finance-payout/GetRefundOverviewUseCase";
 import { GetRefundsUseCase } from "../../../application/useCases/admin/finance-payout/GetRefundsUseCase";
+import { GetSubscriptionOverviewUseCase } from "../../../application/useCases/admin/finance-payout/GetSubcriptionOverviewUseCas";
+import { GetSubscriptionPlansUseCase } from "../../../application/useCases/admin/finance-payout/GetSubscriptionPlansUseCase";
 import { GetTransactionsUseCase } from "../../../application/useCases/admin/finance-payout/GetTransactionsUseCase";
 import { AdminFinanceQueryRepository } from "../../../infrastructure/repositories/admin/AdminFinanceQueryRepository";
 import { PdfReportService } from "../../../infrastructure/services/pdfService/pdfReportService";
@@ -23,7 +25,9 @@ const getRefundOverviewUseCase = new GetRefundOverviewUseCase(financeRepo);
 const getPayoutsUseCase  = new GetPayoutsUseCase(financeRepo);
 const getPayoutOverviewUseCase = new GetPayoutOverviewUseCase(financeRepo);
 const eventRevenueSummaryUseCase = new EventRevenueSummaryUseCase(financeRepo);
-export const getFinanceOverviewController = new GetFinanceAndPayoutController(getFinanceOverviewUseCase, getTransactionsUseCase, getRefundsUseCase, getRefundOverviewUseCase, getPayoutsUseCase,getPayoutOverviewUseCase, eventRevenueSummaryUseCase);
+const getSubscriptionPlansUseCase = new GetSubscriptionPlansUseCase(financeRepo);
+const getSubscriptionOverviewUseCase = new GetSubscriptionOverviewUseCase(financeRepo);
+export const getFinanceOverviewController = new GetFinanceAndPayoutController(getFinanceOverviewUseCase, getTransactionsUseCase, getRefundsUseCase, getRefundOverviewUseCase, getPayoutsUseCase,getPayoutOverviewUseCase, eventRevenueSummaryUseCase, getSubscriptionPlansUseCase, getSubscriptionOverviewUseCase);
 
 const pdfReportService = new PdfReportService();
 

@@ -15,6 +15,9 @@ import { IGetPayoutOverviewUseCase } from "../../../application/interface/useCas
 import { PayoutsFilter } from "../../../domain/interface/admin-finance-query/payout";
 import { IGetEventRevenueSummaryUseCase } from "../../../application/interface/useCases/admin/finance-payout/IGetEventRevenueSummaryUseCase";
 import { EventRevenueFilter } from "../../../domain/interface/admin-finance-query/eventRevenue";
+import { IGetSubscriptionPlansUseCase } from "../../../application/interface/useCases/admin/finance-payout/IGetSubscriptionUseCase";
+import { IGetSubscriptionOverviewUseCase } from "../../../application/interface/useCases/admin/finance-payout/IGetSubscriptionOverviewUseCase";
+import { SubscriptionOverviewFilter, SubscriptionPlansFilter } from "../../../domain/interface/admin-finance-query/subcription";
 
 export class GetFinanceAndPayoutController {
   constructor(
@@ -24,7 +27,9 @@ export class GetFinanceAndPayoutController {
      private readonly _getRefundOverviewUseCase : IGetRefundOverviewUseCase,
      private readonly _getPayoutsUseCase : IGetPayoutUseCase,
      private readonly _getPayoutsOverviewUseCase :IGetPayoutOverviewUseCase,
-     private readonly _getEventSummary : IGetEventRevenueSummaryUseCase
+     private readonly _getEventSummary : IGetEventRevenueSummaryUseCase,
+     private readonly _getSubscriptionPlansUseCase : IGetSubscriptionPlansUseCase,
+     private readonly _getSubscriptionOverviewUseCase : IGetSubscriptionOverviewUseCase
   ){}
 async getOverView(req: IAuthenticatedRequest, res: Response, next :NextFunction) : Promise<void> {
   try{
@@ -89,6 +94,29 @@ async getPayoutsOverview(req: IAuthenticatedRequest, res :Response, next :NextFu
         
          const result = await this._getPayoutsOverviewUseCase.execute(filter);
      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_PAYOUTS_OVERVIEW_SUCCESS, HttpStatusCode.OK, result));
+   }catch(err){
+     next(err)
+   }
+}
+async getSubscriptions(req:IAuthenticatedRequest, res : Response, next: NextFunction) : Promise<void> {
+  try{
+    
+    const filter = req.validatedQuery as SubscriptionPlansFilter;
+   
+       const result = await this._getSubscriptionPlansUseCase.execute(filter);
+    res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_SUBSCRIPTION_PLAN_REVENUE_SUCCESS, HttpStatusCode.OK, result));
+
+  }catch(err){
+    next(err)
+  }
+}
+async getSubscriptionsOverview(req: IAuthenticatedRequest, res :Response, next :NextFunction) : Promise<void> {
+   try{
+          console.log("filter is", req.query)
+         const filter = req.validatedQuery as SubscriptionOverviewFilter;
+        
+         const result = await this._getSubscriptionOverviewUseCase.execute(filter);
+     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_SUBSCRIPTION_PLAN_OVERVIEW_DETAILS_SUCCESSFULLY, HttpStatusCode.OK, result));
    }catch(err){
      next(err)
    }

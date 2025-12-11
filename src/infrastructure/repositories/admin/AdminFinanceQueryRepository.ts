@@ -884,7 +884,7 @@ async getSubscriptionOverview(filter?: SubscriptionOverviewFilter): Promise<Subs
     {
       $match: {
         createdAt: { $gte: from, $lte: to },
-        status: { $in: ["active", "succeeded", "upgraded"] }
+        status: { $in: ["active", "succeeded","expired" ,"upgraded"] }
       }
     },
 
