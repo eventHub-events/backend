@@ -122,6 +122,7 @@ export const ResponseMessages = {
       FETCH_REFUND_OVERVIEW_SUCCESS :"Fetch refunds overview details successfully",
       FETCH_PAYOUTS_SUCCESS : "Fetch payouts overview details successfully",
       FETCH_PAYOUTS_OVERVIEW_SUCCESS :"Fetch payouts overview details successfully",
+      FETCH_EVENT_REVENUE_SUMMARY_SUCCESS : "Fetch event revenue summary successfully"
 
    },
     PROFILE : {

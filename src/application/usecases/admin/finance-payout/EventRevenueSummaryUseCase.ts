@@ -1,8 +1,8 @@
 import { EventRevenueFilter, EventRevenuePaginated } from "../../../../domain/interface/admin-finance-query/eventRevenue";
 import { IAdminFinanceQueryRepository } from "../../../../domain/repositories/admin/IAdminFinanceQueryRepository";
-import { IEventRevenueSummaryUseCase } from "../../../interface/useCases/admin/finance-payout/IGetEventRevenueSummaryUseCase";
+import { IGetEventRevenueSummaryUseCase } from "../../../interface/useCases/admin/finance-payout/IGetEventRevenueSummaryUseCase";
 
-export class EventRevenueSummaryUseCase implements IEventRevenueSummaryUseCase {
+export class EventRevenueSummaryUseCase implements IGetEventRevenueSummaryUseCase {
 
    constructor(
       private _repo : IAdminFinanceQueryRepository

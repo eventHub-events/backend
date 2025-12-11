@@ -1,3 +1,4 @@
+import { EventRevenueSummaryUseCase } from "../../../application/useCases/admin/finance-payout/EventRevenueSummaryUseCase";
 import { ExportTransactionsReportUseCase } from "../../../application/useCases/admin/finance-payout/ExportTransactionsReportUseCase";
 import { GetFinanceOverviewUseCase } from "../../../application/useCases/admin/finance-payout/GetFinanceOverviewUseCase";
 import { GetPayoutOverviewUseCase } from "../../../application/useCases/admin/finance-payout/GetPayoutOverviewUseCase";
@@ -21,7 +22,8 @@ const getRefundOverviewUseCase = new GetRefundOverviewUseCase(financeRepo);
 
 const getPayoutsUseCase  = new GetPayoutsUseCase(financeRepo);
 const getPayoutOverviewUseCase = new GetPayoutOverviewUseCase(financeRepo);
-export const getFinanceOverviewController = new GetFinanceAndPayoutController(getFinanceOverviewUseCase, getTransactionsUseCase, getRefundsUseCase, getRefundOverviewUseCase, getPayoutsUseCase,getPayoutOverviewUseCase);
+const eventRevenueSummaryUseCase = new EventRevenueSummaryUseCase(financeRepo);
+export const getFinanceOverviewController = new GetFinanceAndPayoutController(getFinanceOverviewUseCase, getTransactionsUseCase, getRefundsUseCase, getRefundOverviewUseCase, getPayoutsUseCase,getPayoutOverviewUseCase, eventRevenueSummaryUseCase);
 
 const pdfReportService = new PdfReportService();
 

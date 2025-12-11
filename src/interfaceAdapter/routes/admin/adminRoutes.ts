@@ -19,6 +19,7 @@ import { FinanceOverviewQuerySchema } from "../../../infrastructure/validation/s
 import { TransactionsQuerySchema } from "../../../infrastructure/validation/schemas/admin/transactionsQuerySchema"
 import { RefundQuerySchema } from "../../../infrastructure/validation/schemas/admin/refundQuerySchema"
 import { PayoutQuerySchema } from "../../../infrastructure/validation/schemas/admin/payoutQuerySchema"
+import { EventRevenueFilterSchema } from "../../../infrastructure/validation/schemas/admin/eventRevenueFilterSchema"
 
 
 
@@ -88,6 +89,7 @@ import { PayoutQuerySchema } from "../../../infrastructure/validation/schemas/ad
   router.get("/finance/payouts",InputDataValidator.validateQuery(PayoutQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res : Response, next :NextFunction) => getFinanceOverviewController.getPayouts(req, res, next));
   router.get("/finance/refunds/overview",InputDataValidator.validateQuery(RefundQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req : IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getRefundsOverview(req, res, next));
   router.get("/finance/payouts/overview",InputDataValidator.validateQuery(FinanceOverviewQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res : Response, next :NextFunction) => getFinanceOverviewController.getPayoutsOverview(req, res, next));
+  router.get("/finance/event-revenue-summary",InputDataValidator.validateQuery(EventRevenueFilterSchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res : Response, next :NextFunction) => getFinanceOverviewController.getEventRevenueSummary(req, res, next));
 
   
  export default router

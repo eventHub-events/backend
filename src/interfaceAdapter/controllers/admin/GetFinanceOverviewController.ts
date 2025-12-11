@@ -13,6 +13,8 @@ import { RefundsFilter } from "../../../domain/interface/admin-finance-query/ref
 import { IGetPayoutUseCase } from "../../../application/interface/useCases/admin/finance-payout/IGetPayoutUseCase";
 import { IGetPayoutOverviewUseCase } from "../../../application/interface/useCases/admin/finance-payout/IGetPayoutOverviewUseCase";
 import { PayoutsFilter } from "../../../domain/interface/admin-finance-query/payout";
+import { IGetEventRevenueSummaryUseCase } from "../../../application/interface/useCases/admin/finance-payout/IGetEventRevenueSummaryUseCase";
+import { EventRevenueFilter } from "../../../domain/interface/admin-finance-query/eventRevenue";
 
 export class GetFinanceAndPayoutController {
   constructor(
@@ -21,7 +23,8 @@ export class GetFinanceAndPayoutController {
      private readonly _getRefundsUseCase : IGetRefundsUseCase,
      private readonly _getRefundOverviewUseCase : IGetRefundOverviewUseCase,
      private readonly _getPayoutsUseCase : IGetPayoutUseCase,
-     private readonly _getPayoutsOverviewUseCase :IGetPayoutOverviewUseCase
+     private readonly _getPayoutsOverviewUseCase :IGetPayoutOverviewUseCase,
+     private readonly _getEventSummary : IGetEventRevenueSummaryUseCase
   ){}
 async getOverView(req: IAuthenticatedRequest, res: Response, next :NextFunction) : Promise<void> {
   try{
@@ -70,7 +73,7 @@ async getRefundsOverview(req: IAuthenticatedRequest, res :Response, next :NextFu
 }
 async getPayouts(req:IAuthenticatedRequest, res : Response, next: NextFunction) : Promise<void> {
   try{
-    console.log("filter is" ,req.query)
+    
     const filter = req.validatedQuery as PayoutsFilter;
    
        const result = await this._getPayoutsUseCase.execute(filter);
@@ -86,6 +89,16 @@ async getPayoutsOverview(req: IAuthenticatedRequest, res :Response, next :NextFu
         
          const result = await this._getPayoutsOverviewUseCase.execute(filter);
      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_PAYOUTS_OVERVIEW_SUCCESS, HttpStatusCode.OK, result));
+   }catch(err){
+     next(err)
+   }
+}
+async getEventRevenueSummary(req: IAuthenticatedRequest, res :Response, next :NextFunction) : Promise<void> {
+   try{
+         const filter = req.validatedQuery as EventRevenueFilter;
+        
+         const result = await this._getEventSummary.execute(filter);
+     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_EVENT_REVENUE_SUMMARY_SUCCESS, HttpStatusCode.OK, result));
    }catch(err){
      next(err)
    }
