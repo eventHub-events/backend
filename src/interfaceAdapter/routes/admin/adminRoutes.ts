@@ -18,6 +18,7 @@ import { exportFinancePayoutPDFController, getFinanceOverviewController } from "
 import { FinanceOverviewQuerySchema } from "../../../infrastructure/validation/schemas/admin/financeOverviewSchema"
 import { TransactionsQuerySchema } from "../../../infrastructure/validation/schemas/admin/transactionsQuerySchema"
 import { RefundQuerySchema } from "../../../infrastructure/validation/schemas/admin/refundQuerySchema"
+import { PayoutQuerySchema } from "../../../infrastructure/validation/schemas/admin/payoutQuerySchema"
 
 
 
@@ -84,7 +85,9 @@ import { RefundQuerySchema } from "../../../infrastructure/validation/schemas/ad
   router.get("/finance/overview",InputDataValidator.validateQuery(FinanceOverviewQuerySchema) ,authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getOverView(req, res, next));
   router.get("/finance/refunds",InputDataValidator.validateQuery(RefundQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req : IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getRefunds(req, res, next))
   router.get("/finance/transactions", InputDataValidator.validateQuery(TransactionsQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getTransactions(req, res, next));
+  router.get("/finance/payouts",InputDataValidator.validateQuery(PayoutQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res : Response, next :NextFunction) => getFinanceOverviewController.getPayouts(req, res, next));
   router.get("/finance/refunds/overview",InputDataValidator.validateQuery(RefundQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req : IAuthenticatedRequest, res: Response, next: NextFunction) => getFinanceOverviewController.getRefundsOverview(req, res, next));
+  router.get("/finance/payouts/overview",InputDataValidator.validateQuery(FinanceOverviewQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res : Response, next :NextFunction) => getFinanceOverviewController.getPayoutsOverview(req, res, next));
 
   
  export default router

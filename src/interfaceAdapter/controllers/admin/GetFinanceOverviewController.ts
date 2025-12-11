@@ -10,13 +10,18 @@ import { IGetTransactionsUseCase } from "../../../application/interface/useCases
 import { IGetRefundsUseCase } from "../../../application/interface/useCases/admin/finance-payout/IGetRefundsUseCase";
 import { IGetRefundOverviewUseCase } from "../../../application/interface/useCases/admin/finance-payout/IGetRefundOverviewUseCase";
 import { RefundsFilter } from "../../../domain/interface/admin-finance-query/refund";
+import { IGetPayoutUseCase } from "../../../application/interface/useCases/admin/finance-payout/IGetPayoutUseCase";
+import { IGetPayoutOverviewUseCase } from "../../../application/interface/useCases/admin/finance-payout/IGetPayoutOverviewUseCase";
+import { PayoutsFilter } from "../../../domain/interface/admin-finance-query/payout";
 
 export class GetFinanceAndPayoutController {
   constructor(
      private readonly _getFinanceOverviewUseCase : IGetFinanceOverviewUseCase,
      private readonly _getTransactionsUseCase : IGetTransactionsUseCase,
      private readonly _getRefundsUseCase : IGetRefundsUseCase,
-     private readonly _getRefundOverviewUseCase : IGetRefundOverviewUseCase
+     private readonly _getRefundOverviewUseCase : IGetRefundOverviewUseCase,
+     private readonly _getPayoutsUseCase : IGetPayoutUseCase,
+     private readonly _getPayoutsOverviewUseCase :IGetPayoutOverviewUseCase
   ){}
 async getOverView(req: IAuthenticatedRequest, res: Response, next :NextFunction) : Promise<void> {
   try{
@@ -45,7 +50,7 @@ async getTransactions(req: IAuthenticatedRequest, res: Response, next :NextFunct
 async getRefunds(req:IAuthenticatedRequest, res : Response, next: NextFunction) : Promise<void> {
   try{
     const filter = req.validatedQuery as RefundsFilter;
-    console.log("reqq", filter)
+   
        const result = await this._getRefundsUseCase.execute(filter);
     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_REFUND_SUCCESS, HttpStatusCode.OK, result));
 
@@ -56,9 +61,31 @@ async getRefunds(req:IAuthenticatedRequest, res : Response, next: NextFunction) 
 async getRefundsOverview(req: IAuthenticatedRequest, res :Response, next :NextFunction) : Promise<void> {
    try{
          const filter = req.validatedQuery as RefundsFilter;
-        console.log("hello", filter)
+        
          const result = await this._getRefundOverviewUseCase.execute(filter);
      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_REFUND_OVERVIEW_SUCCESS, HttpStatusCode.OK, result));
+   }catch(err){
+     next(err)
+   }
+}
+async getPayouts(req:IAuthenticatedRequest, res : Response, next: NextFunction) : Promise<void> {
+  try{
+    console.log("filter is" ,req.query)
+    const filter = req.validatedQuery as PayoutsFilter;
+   
+       const result = await this._getPayoutsUseCase.execute(filter);
+    res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_PAYOUTS_SUCCESS, HttpStatusCode.OK, result));
+
+  }catch(err){
+    next(err)
+  }
+}
+async getPayoutsOverview(req: IAuthenticatedRequest, res :Response, next :NextFunction) : Promise<void> {
+   try{
+         const filter = req.validatedQuery as FinanceOverviewFilter;
+        
+         const result = await this._getPayoutsOverviewUseCase.execute(filter);
+     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.FINANCE_PAYOUT.FETCH_PAYOUTS_OVERVIEW_SUCCESS, HttpStatusCode.OK, result));
    }catch(err){
      next(err)
    }

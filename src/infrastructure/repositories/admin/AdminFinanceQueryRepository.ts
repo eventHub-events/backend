@@ -1,4 +1,4 @@
-import { regex } from "zod";
+
 import {
   FinanceOverviewFilter,
   FinanceOverviewResults,
@@ -9,8 +9,9 @@ import { TransactionPaginatedResult, TransactionsFilter, TransactionsRow } from 
 
 import { IAdminFinanceQueryRepository } from "../../../domain/repositories/admin/IAdminFinanceQueryRepository";
 import { OrganizerSubscriptionModel } from "../../db/models/organizer/subscription/OrganizerSubscriptionModel";
-import { BookingModel } from "../../db/models/user/BookingModel";
+import { BookingModel, IBooking } from "../../db/models/user/BookingModel";
 import { PayoutOverviewResult, PayoutPaginatedResult, PayoutsFilter } from "../../../domain/interface/admin-finance-query/payout";
+import { FilterQuery } from "mongoose";
 
 export class AdminFinanceQueryRepository implements IAdminFinanceQueryRepository {
   async getFinanceOverview(
@@ -581,40 +582,57 @@ return {
 
   }
 
-  async getPayoutOverview(filter: FinanceOverviewFilter): Promise<PayoutOverviewResult> {
+ async getPayoutOverview(filter?: FinanceOverviewFilter): Promise<PayoutOverviewResult> {
   const now = new Date();
-  const defaultFrom = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const defaultFrom = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000); // last 30 days
 
-  const from = filter.from ? new Date(filter.from) : defaultFrom;
-  const to = filter.to ? new Date(filter.to) : now;
+  const from = filter?.from ? new Date(filter.from) : defaultFrom;
+  const to = filter?.to ? new Date(filter.to) : now;
   to.setHours(23, 59, 59, 999);
 
   const agg = await BookingModel.aggregate([
     {
+      // MAIN MATCH: used only for TOTALS
       $match: {
         organizerAmount: { $gt: 0 },
         createdAt: { $gte: from, $lte: to }
       }
     },
+
     {
       $facet: {
+        // --------------------------------------------------
+        // TOTALS SECTION (pending + paid)
+        // --------------------------------------------------
         totals: [
           {
             $group: {
               _id: null,
+
               totalPendingPayout: {
                 $sum: {
-                  $cond: [{ $eq: ["$payoutStatus", "pending"] }, "$organizerAmount", 0]
+                  $cond: [
+                    { $eq: ["$payoutStatus", "pending"] },
+                    "$organizerAmount",
+                    0
+                  ]
                 }
               },
+
               totalPaidPayout: {
                 $sum: {
-                  $cond: [{ $eq: ["$payoutStatus", "paid"] }, "$organizerAmount", 0]
+                  $cond: [
+                    { $eq: ["$payoutStatus", "paid"] },
+                    "$organizerAmount",
+                    0
+                  ]
                 }
               },
+
               pendingCount: {
                 $sum: { $cond: [{ $eq: ["$payoutStatus", "pending"] }, 1, 0] }
               },
+
               paidCount: {
                 $sum: { $cond: [{ $eq: ["$payoutStatus", "paid"] }, 1, 0] }
               }
@@ -622,51 +640,66 @@ return {
           }
         ],
 
+        // --------------------------------------------------
+        // DAILY TREND (only paid payouts)
+        // --------------------------------------------------
         daily: [
+          { 
+            $match: {
+              payoutStatus: "paid",
+              payoutDate: { $gte: from, $lte: to }
+            }
+          },
           {
             $group: {
               _id: {
                 date: { $dateToString: { format: "%Y-%m-%d", date: "$payoutDate" } }
               },
-              amount: {
-                $sum: {
-                  $cond: [{ $eq: ["$payoutStatus", "paid"] }, "$organizerAmount", 0]
-                }
-              }
+              amount: { $sum: "$organizerAmount" }
             }
           },
           { $sort: { "_id.date": 1 } },
           { $project: { _id: 0, date: "$_id.date", amount: 1 } }
         ],
 
+        // --------------------------------------------------
+        // MONTHLY TREND
+        // --------------------------------------------------
         monthly: [
+          { 
+            $match: {
+              payoutStatus: "paid",
+              payoutDate: { $gte: from, $lte: to }
+            }
+          },
           {
             $group: {
               _id: {
                 month: { $dateToString: { format: "%Y-%m", date: "$payoutDate" } }
               },
-              amount: {
-                $sum: {
-                  $cond: [{ $eq: ["$payoutStatus", "paid"] }, "$organizerAmount", 0]
-                }
-              }
+              amount: { $sum: "$organizerAmount" }
             }
           },
           { $sort: { "_id.month": 1 } },
           { $project: { _id: 0, month: "$_id.month", amount: 1 } }
         ],
 
+        // --------------------------------------------------
+        // YEARLY TREND
+        // --------------------------------------------------
         yearly: [
+          { 
+            $match: {
+              payoutStatus: "paid",
+              payoutDate: { $gte: from, $lte: to }
+            }
+          },
           {
             $group: {
               _id: {
                 year: { $dateToString: { format: "%Y", date: "$payoutDate" } }
               },
-              amount: {
-                $sum: {
-                  $cond: [{ $eq: ["$payoutStatus", "paid"] }, "$organizerAmount", 0]
-                }
-              }
+              amount: { $sum: "$organizerAmount" }
             }
           },
           { $sort: { "_id.year": 1 } },
@@ -677,31 +710,35 @@ return {
   ]);
 
   const result = agg[0];
+
   return {
     timeRange: { from, to },
-    totals: result.totals[0] ?? {
+
+    totals: result.totals?.[0] ?? {
       totalPendingPayout: 0,
       totalPaidPayout: 0,
       pendingCount: 0,
       paidCount: 0
     },
+
     trend: {
-      daily: result.daily,
-      monthly: result.monthly,
-      yearly: result.yearly
+      daily: result.daily ?? [],
+      monthly: result.monthly ?? [],
+      yearly: result.yearly ?? []
     }
   };
 }
+
 async getPayouts(filter: PayoutsFilter): Promise<PayoutPaginatedResult> {
   const { page = 1, limit = 10, from, to, status, organizerName, eventTitle } = filter;
 
   const skip = (page - 1) * limit;
 
-  const match: any = {
+  const match: FilterQuery<IBooking> = {
     organizerAmount: { $gt: 0 }
   };
 
-  if (from && to) match.createdAt = { $gte: new Date(from), $lte: new Date(to) };
+  if (from && to) match.payoutDueDate = { $gte: new Date(from), $lte: new Date(to) };
   if (status) match.payoutStatus = status;
   if (organizerName) match.organizerName = { $regex: organizerName, $options: "i" };
   if (eventTitle) match.eventTitle = { $regex: eventTitle, $options: "i" };

@@ -21,7 +21,7 @@ export class BookingEntity {
    public eventImages?:string[];
    public payoutStatus?: PayoutStatus;
    public payoutDueDate?: Date;
-   public PayoutDate?: Date;
+   public payoutDate?: Date;
    public paymentId?: string;
    public organizerStripeId?: string;
    public ticketUrls?: string[];
@@ -104,7 +104,7 @@ export class BookingEntity {
        this.paymentId = props.paymentId;
        this.payoutStatus = props.payoutStatus;
        this.payoutDueDate = props.payoutDueDate;
-       this.PayoutDate = props.payoutDate;
+       this.payoutDate = props.payoutDate;
        this.organizerStripeId = props.organizerStripeId;
        this.ticketUrls = props.ticketUrls,
        this.sessionId = props.sessionId,

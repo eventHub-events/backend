@@ -40,7 +40,7 @@ export class ProcessPayoutUseCase implements IProcessPayoutUseCase {
                      console.log(`✅ ₹${totalAmount} payout sent to organizer ${organizerStripeId}`);
                      await this._bookingRepo.updateManyBookings(
                          {_id: {$in: bookingIds}},
-                         {payoutStatus: PayoutStatus.PAID, PayoutDate: new Date()}
+                         {payoutStatus: PayoutStatus.PAID, payoutDate: new Date()}
                      );
 
             }catch(err){

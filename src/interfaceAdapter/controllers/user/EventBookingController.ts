@@ -8,6 +8,7 @@ import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthen
 import { ICancelPaidBookingUseCase } from "../../../application/interface/useCases/user/booking/ICancelPaidBookingUseCase";
 import { CustomError } from "../../../infrastructure/errors/errorClass";
 import { ErrorMessages } from "../../../constants/errorMessages";
+import { BadRequestError } from "../../../domain/errors/common";
 
 export class EventBookingController {
   constructor(
@@ -37,6 +38,7 @@ export class EventBookingController {
         await this._cancelPaidBookingUseCase.execute(userId!, bookingId);
     res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.BOOKING.BOOKING_CANCEL_SUCCESS));
    }catch(err){
+      if(err instanceof BadRequestError) throw new CustomError(err.message,HttpStatusCode.BAD_REQUEST);
      next(err)
    }
  }

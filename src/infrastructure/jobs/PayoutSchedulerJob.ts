@@ -5,7 +5,8 @@ import { IProcessPayoutUseCase } from "../../application/interface/useCases/orga
 export class PayoutSchedulerJob implements IPayoutSchedulerJob {
     private _task: ScheduledTask | null = null;
    constructor(
-          private readonly _schedule :string = "0 1 * * *",
+          private readonly _schedule :string = "* * * * *"
+,
           private _processPayoutUseCase: IProcessPayoutUseCase
    ){}
    start(): void {

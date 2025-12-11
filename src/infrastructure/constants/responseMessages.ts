@@ -119,7 +119,10 @@ export const ResponseMessages = {
       FETCH_SUCCESS : "Finance overview details fetched successfully",
       FETCH_TRANSACTIONS_SUCCESS : "Fetch transactions successfully",
       FETCH_REFUND_SUCCESS :"Fetch refunds successfully",
-      FETCH_REFUND_OVERVIEW_SUCCESS :"Fetch refunds overview details successfully"
+      FETCH_REFUND_OVERVIEW_SUCCESS :"Fetch refunds overview details successfully",
+      FETCH_PAYOUTS_SUCCESS : "Fetch payouts overview details successfully",
+      FETCH_PAYOUTS_OVERVIEW_SUCCESS :"Fetch payouts overview details successfully",
+
    },
     PROFILE : {
       PASSWORD_UPDATE_SUCCESS : "Password updated successfully",

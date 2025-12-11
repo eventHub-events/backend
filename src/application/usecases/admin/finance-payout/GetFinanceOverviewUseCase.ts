@@ -7,7 +7,7 @@ export class GetFinanceOverviewUseCase implements IGetFinanceOverviewUseCase {
      private readonly _financeQueryRepo : IAdminFinanceQueryRepository
   ){}
  async execute(filter: FinanceOverviewFilter): Promise<FinanceOverviewResults> {
-  console.log("filter is ", filter)
+  
      return this._financeQueryRepo.getFinanceOverview(filter);
  }
 }
