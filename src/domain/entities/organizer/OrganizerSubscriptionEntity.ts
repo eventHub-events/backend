@@ -60,5 +60,8 @@ export class OrganizerSubscriptionEntity {
   markAsExpired() {
       this.status = SubscriptionStatus.Expired
   }
+  markAsUpgraded(){
+    this.status = SubscriptionStatus.Upgraded
+  }
 
 } 

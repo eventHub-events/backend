@@ -3,6 +3,7 @@ import { TrendingEventDisplayResponseDTO } from "../../../DTOs/user/event-displa
 import { IEventDisplayQueryRepository } from "../../../../domain/repositories/user/IEventDisplayQueryRepository";
 import { IEventDisplayMapper } from "../../../interface/mapper/user/IEventDisplayMapper";
 import { IGetFeaturedEventUseCase } from "../../../interface/useCases/user/event-display/IGetFeaturedEventsUseCase";
+import { ErrorMessages } from "../../../../constants/errorMessages";
 
 export class GetFeaturedEventUseCase implements IGetFeaturedEventUseCase  {
 
@@ -12,7 +13,7 @@ export class GetFeaturedEventUseCase implements IGetFeaturedEventUseCase  {
   ){}
   async execute(): Promise<TrendingEventDisplayResponseDTO[]> {
       const  {data} = await this._eventDisplayQueryRepository.findFeaturedEvents({});
-      if(!data) throw new Error("featured events Not found");
+      if(!data) throw new Error(ErrorMessages.EVENT.FEATURED_EVENT_NOT_FOUND);
 
     return this._eventDisplayMapper.toResponseDTOList(data);
   }

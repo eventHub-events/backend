@@ -1,0 +1,1047 @@
+
+import {
+  FinanceOverviewFilter,
+  FinanceOverviewResults,
+  FinanceOverviewSubscription,
+} from "../../../domain/interface/admin-finance-query/finance";
+import { RefundOverviewResult, RefundPaginatedResult, RefundRow, RefundsFilter } from "../../../domain/interface/admin-finance-query/refund";
+import { TransactionPaginatedResult, TransactionsFilter, TransactionsRow } from "../../../domain/interface/admin-finance-query/transactions";
+
+import { IAdminFinanceQueryRepository } from "../../../domain/repositories/admin/IAdminFinanceQueryRepository";
+import { OrganizerSubscriptionModel } from "../../db/models/organizer/subscription/OrganizerSubscriptionModel";
+import { BookingModel, IBooking } from "../../db/models/user/BookingModel";
+import { PayoutOverviewResult, PayoutPaginatedResult, PayoutsFilter } from "../../../domain/interface/admin-finance-query/payout";
+import { FilterQuery } from "mongoose";
+import { EventRevenueFilter, EventRevenuePaginated, EventRevenueRow } from "../../../domain/interface/admin-finance-query/eventRevenue";
+import { SubscriptionOverviewFilter, SubscriptionOverviewResult, SubscriptionPlanPaginatedResult, SubscriptionPlanRow, SubscriptionPlansFilter } from "../../../domain/interface/admin-finance-query/subcription";
+import { subscriptionPlansModel } from "../../db/models/admin/SubscriptionPlansModel";
+
+export class AdminFinanceQueryRepository implements IAdminFinanceQueryRepository {
+  async getFinanceOverview(
+    filter: FinanceOverviewFilter
+  ): Promise<FinanceOverviewResults> {
+    const now = new Date();
+    const defaultFrom = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+   const from = filter.from ? new Date(filter.from) : defaultFrom;
+
+const to = filter.to ? new Date(filter.to) : now;
+to.setHours(23, 59, 59, 999); 
+
+   
+    // ───────────────────────────────────────────────
+    // BOOKINGS AGGREGATION (Totals + Trends)
+    // ───────────────────────────────────────────────
+
+    const bookingsAgg = await BookingModel.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: from, $lte: to },
+        },
+      },
+
+      {
+        $facet: {
+          // -------------------- TOTALS --------------------
+          totals: [
+            {
+              $group: {
+                _id: null,
+
+                totalBookings: { $sum: 1 },
+
+                confirmedBookings: {
+                  $sum: { $cond: [{ $eq: ["$status", "confirmed"] }, 1, 0] },
+                },
+
+                cancelledBookings: {
+                  $sum: {
+                    $cond: [
+                      { $in: ["$status", ["cancelled", "refunded"]] },
+                      1,
+                      0,
+                    ],
+                  },
+                },
+
+                failedPayments: {
+                  $sum: {
+                    $cond: [{ $eq: ["$status", "payment-failed"] }, 1, 0],
+                  },
+                },
+
+                refundedBookings: {
+                  $sum: {
+                    $cond: [{ $eq: ["$status", "refunded"] }, 1, 0],
+                  },
+                },
+
+                grossTicketSales: {
+                  $sum: {
+                    $cond: [
+                      { $in: ["$status", ["confirmed", "refunded"]] },
+                      "$totalAmount",
+                      0,
+                    ],
+                  },
+                },
+
+                totalRefunds: { $sum: "$refundedAmount" },
+                platformRevenueFromTickets: { $sum: "$platformFee" },
+                organizerRevenueFromTickets: { $sum: "$organizerAmount" },
+
+                pendingPayoutAmount: {
+                  $sum: {
+                    $cond: [
+                      {
+                        $and: [
+                          { $eq: ["$payoutStatus", "pending"] },
+                          { $eq: ["$status", "confirmed"] },
+                        ],
+                      },
+                      "$organizerAmount",
+                      0,
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+
+          // -------------------- DAILY TREND --------------------
+          dailyTrend: [
+            {
+              $group: {
+                _id: {
+                  date: {
+                    $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+                  },
+                },
+                revenue: { $sum: "$platformFee" },
+                refunds: { $sum: "$refundedAmount" },
+              },
+            },
+            { $sort: { "_id.date": 1 } },
+            {
+              $project: {
+                _id: 0,
+                date: "$_id.date",
+                revenue: 1,
+                refunds: 1,
+              },
+            },
+          ],
+
+          // -------------------- MONTHLY TREND --------------------
+          monthlyTrend: [
+            {
+              $group: {
+                _id: {
+                  month: {
+                    $dateToString: { format: "%Y-%m", date: "$createdAt" },
+                  },
+                },
+                revenue: { $sum: "$platformFee" },
+                refunds: { $sum: "$refundedAmount" },
+              },
+            },
+            { $sort: { "_id.month": 1 } },
+            {
+              $project: {
+                _id: 0,
+                month: "$_id.month",
+                revenue: 1,
+                refunds: 1,
+              },
+            },
+          ],
+
+          // -------------------- YEARLY TREND --------------------
+          yearlyTrend: [
+            {
+              $group: {
+                _id: {
+                  year: {
+                    $dateToString: { format: "%Y", date: "$createdAt" },
+                  },
+                },
+                revenue: { $sum: "$platformFee" },
+                refunds: { $sum: "$refundedAmount" },
+              },
+            },
+            { $sort: { "_id.year": 1 } },
+            {
+              $project: {
+                _id: 0,
+                year: "$_id.year",
+                revenue: 1,
+                refunds: 1,
+              },
+            },
+          ],
+        },
+      },
+    ]);
+
+    const bookingData = bookingsAgg[0];
+    const totals = bookingData?.totals[0] ?? {
+      totalBookings: 0,
+      confirmedBookings: 0,
+      cancelledBookings: 0,
+      failedPayments: 0,
+      refundedBookings: 0,
+      grossTicketSales: 0,
+      totalRefunds: 0,
+      platformRevenueFromTickets: 0,
+      organizerRevenueFromTickets: 0,
+      pendingPayoutAmount: 0,
+    };
+
+    // ───────────────────────────────────────────────
+    // SUBSCRIPTION AGGREGATION (Totals + Trends)
+    // ───────────────────────────────────────────────
+
+    const subscriptionAgg = await OrganizerSubscriptionModel.aggregate([
+      {
+        $match: {
+          createdAt: { $gte: from, $lte: to },
+          // status: { $in: ["active",  "upgraded"] },
+        },
+      },
+
+      {
+        $facet: {
+          totals: [
+            {
+              $group: {
+                _id: null,
+                subscriptionRevenue: { $sum: "$price" },
+                totalSubscription: { $sum: 1 },
+              },
+            },
+          ],
+
+          // DAILY
+          dailyTrend: [
+            {
+              $group: {
+                _id: {
+                  date: {
+                    $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
+                  },
+                },
+                revenue: { $sum: "$price" },
+              },
+            },
+            { $sort: { "_id.date": 1 } },
+            {
+              $project: {
+                _id: 0,
+                date: "$_id.date",
+                revenue: 1,
+              },
+            },
+          ],
+
+          // MONTHLY
+          monthlyTrend: [
+            {
+              $group: {
+                _id: {
+                  month: {
+                    $dateToString: { format: "%Y-%m", date: "$createdAt" },
+                  },
+                },
+                revenue: { $sum: "$price" },
+              },
+            },
+            { $sort: { "_id.month": 1 } },
+            {
+              $project: {
+                _id: 0,
+                month: "$_id.month",
+                revenue: 1,
+              },
+            },
+          ],
+
+          // YEARLY
+          yearlyTrend: [
+            {
+              $group: {
+                _id: {
+                  year: {
+                    $dateToString: { format: "%Y", date: "$createdAt" },
+                  },
+                },
+                revenue: { $sum: "$price" },
+              },
+            },
+            { $sort: { "_id.year": 1 } },
+            {
+              $project: {
+                _id: 0,
+                year: "$_id.year",
+                revenue: 1,
+              },
+            },
+          ],
+        },
+      },
+    ]);
+
+    const subscription =
+      subscriptionAgg[0]?.totals[0] ??
+      ({
+        subscriptionRevenue: 0,
+        totalSubscription: 0,
+      } as FinanceOverviewSubscription);
+
+    // ───────────────────────────────────────────────
+    // FINAL RESULT
+    // ───────────────────────────────────────────────
+
+    const result: FinanceOverviewResults = {
+      timeRange: { from, to },
+
+      totals: {
+        grossTicketSales: totals.grossTicketSales || 0,
+        totalRefunds: totals.totalRefunds || 0,
+        platformRevenueFromTickets:
+          totals.platformRevenueFromTickets || 0,
+        organizerRevenueFromTickets:
+          totals.organizerRevenueFromTickets || 0,
+
+        totalBookings: totals.totalBookings || 0,
+        confirmedBookings: totals.confirmedBookings || 0,
+        cancelledBookings: totals.cancelledBookings || 0,
+        failedPayments: totals.failedPayments || 0,
+        refundedBookings: totals.refundedBookings || 0,
+      },
+
+      subscription: {
+        subscriptionRevenue: subscription.subscriptionRevenue || 0,
+        totalSubscription: subscription.totalSubscription || 0,
+      },
+
+      payouts: {
+        pendingPayoutAmount: totals.pendingPayoutAmount || 0,
+        paidPayoutAmount: totals.paidPayoutAmount || 0,
+      },
+
+      trend: {
+        daily: bookingData.dailyTrend,
+        monthly: bookingData.monthlyTrend,
+        yearly: bookingData.yearlyTrend,
+
+        // subscription trends
+        subscriptionDaily: subscriptionAgg[0].dailyTrend,
+        subscriptionMonthly: subscriptionAgg[0].monthlyTrend,
+        subscriptionYearly: subscriptionAgg[0].yearlyTrend,
+      },
+    };
+
+    return result;
+  }
+  async getTransactions(filter: TransactionsFilter): Promise<TransactionPaginatedResult> {
+     const{ page, limit, from, to,status,eventTitle, organizerName, userName} = filter;
+        
+
+        
+     const skip = (page -1) * limit;
+
+     const match: Record<string, unknown> = {};
+
+      if(from && to ) match.createdAt = {$gte : from, $lte : to};
+      if(status) match.status = status;
+      if(eventTitle) match.eventTitle = {$regex : eventTitle, $options: "i"};
+      if(organizerName) match.organizer = {$regex: organizerName, $options: "i"};
+      if(userName) match.userName = {$regex: userName,$options:"i" };
+
+      const rows = await BookingModel.aggregate<TransactionsRow>([
+         {$match : match},
+
+         {
+           $project : {
+             bookingId :{$toString: "$_id"},
+             eventId : {$toString : "$eventId"},
+             eventTitle : 1,
+             organizerName: 1,
+             userName: 1,
+             totalAmount :1 ,
+             platformFee : 1,
+             organizerAmount: 1,
+             paymentMethod: 1,
+             paymentId: 1,
+             status: 1,
+             createdAt: 1
+           },
+         },
+          {$sort : {createdAt: -1}},
+          {$skip : skip},
+          {$limit : limit}
+      ]);
+
+     const total = await BookingModel.countDocuments(match);
+     return {
+       page,
+       limit,
+       total,
+       totalPages : Math.ceil(total / limit),
+       data: rows
+     }
+  }
+
+  async getRefunds(filter: RefundsFilter) : Promise<RefundPaginatedResult> {
+      const {
+         page = 1,
+         limit =10,
+         from,
+         to,
+         status,
+         eventTitle,
+         organizerName,
+         paymentMethod,
+         userName
+      } = filter;
+     
+     const skip = (page -1) * limit;
+    
+       const match:Record<string,unknown> = {
+        refundedAmount : {$gt : 0} 
+       }
+      
+     if(from && to) {
+      match.refundDate = {
+         $gte: new Date(from),
+         $lte : new Date(to)
+      };
+     }
+
+     if(status) match.refundStatus = status;
+     if(eventTitle) match.eventTitle ={$regex : eventTitle, $options : "i"};
+     if(organizerName) match.organizerName = {$regex : organizerName, $options : "i"};
+     if(userName) match.userName ={$regex : userName, $options : "i"};
+     if(paymentMethod) match.paymentMethod = paymentMethod;
+
+     const rows = await BookingModel.aggregate<RefundRow>([
+       {$match : match},
+
+       {
+         $project : {
+           bookingId :{$toString: "$_id"},
+           eventId : {$toString: "$eventId"},
+           eventTitle : 1,
+           organizerName : 1,
+           userName : 1,
+
+           refundedAmount : 1,
+           refundStatus : 1,
+           refundDate : 1,
+           paymentMethod : 1,
+           paymentId : 1,
+
+           refundId : {$arrayElemAt : ["$refundIds", 0]},
+           createdAt :1
+         }
+       },
+
+       {$sort : {refundDate : -1}},
+       {$skip : skip},
+       {$limit : limit}
+       
+     ]);
+   
+    const total = await BookingModel.countDocuments(match);
+
+    return {
+       page,
+       limit,
+       total,
+       totalPages :Math.ceil(total/ limit),
+       data : rows
+    }
+
+  }
+
+  async getRefundOverview(filter?: RefundsFilter) : Promise<RefundOverviewResult> {
+
+       const now = new Date();
+       const defaultFrom = new Date(now.getTime()-30*24*3600*1000);
+       const start = filter?.from? new Date(filter.from): defaultFrom;
+       const end = filter?.to ? new Date(filter.to) : now;
+       end.setHours(23,59,999);
+
+       const agg = await BookingModel.aggregate([
+          {
+             $match : {
+               refundedAmount : {$gt: 0},
+               refundDate: {$gte:start,$lte: end}
+             }
+          },
+
+          {
+             $facet: {
+              total:[
+                {
+                   $group: {
+                    _id: null,
+                    totalRefundedAmount :{$sum : "$refundedAmount"},
+                    refundCount : {$sum :1},
+                    refundsPending : {
+                      $sum :{$cond : [{$eq: ["$refundStatus","pending"]},1,0]}
+
+                    },
+                    refundsProcessed :{
+                      $sum:{$cond :[{$eq : ["$refundStatus","succeeded"]},1,0]}
+                    }
+                   }
+                }
+              ],
+                     daily: [
+            {
+              $group: {
+                _id: {
+                  date: { $dateToString: { format: "%Y-%m-%d", date: "$refundDate" } }
+                },
+                amount: { $sum: "$refundedAmount" },
+                count: { $sum: 1 }
+              }
+            },
+            { $sort: { "_id.date": 1 } },
+            {
+              $project: {
+                _id: 0,
+                date: "$_id.date",
+                amount: 1,
+                count: 1
+              }
+            }
+          ],
+              monthly: [
+            {
+              $group: {
+                _id: {
+                  month: { $dateToString: { format: "%Y-%m", date: "$refundDate" } }
+                },
+                amount: { $sum: "$refundedAmount" },
+                count: { $sum: 1 }
+              }
+            },
+            { $sort: { "_id.month": 1 } },
+            {
+              $project: {
+                _id: 0,
+                month: "$_id.month",
+                amount: 1,
+                count: 1
+              }
+            }
+          ],
+             yearly: [
+            {
+              $group: {
+                _id: {
+                  year: { $dateToString: { format: "%Y", date: "$refundDate" } }
+                },
+                amount: { $sum: "$refundedAmount" },
+                count: { $sum: 1 }
+              }
+            },
+            { $sort: { "_id.year": 1 } },
+            {
+              $project: {
+                _id: 0,
+                year: "$_id.year",
+                amount: 1,
+                count: 1
+              }
+            }
+          ]
+             }
+          }
+       ])
+     const result = agg[0] || {};
+
+const totals = result.total?.[0] ?? {
+  totalRefundAmount: 0,
+  refundedCount: 0,
+  refundsPending: 0,
+  refundProcessed: 0,
+};
+
+return {
+   timeRange: { from: start, to: end },
+
+  totals,
+
+  trend: {
+    daily: result.daily ?? [],
+    monthly: result.monthly ?? [],
+    yearly: result.yearly ?? []
+  }
+} as RefundOverviewResult;
+
+
+  }
+
+ async getPayoutOverview(filter?: FinanceOverviewFilter): Promise<PayoutOverviewResult> {
+  const now = new Date();
+  const defaultFrom = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000); // last 30 days
+
+  const from = filter?.from ? new Date(filter.from) : defaultFrom;
+  const to = filter?.to ? new Date(filter.to) : now;
+  to.setHours(23, 59, 59, 999);
+
+  const agg = await BookingModel.aggregate([
+    {
+      // MAIN MATCH: used only for TOTALS
+      $match: {
+        organizerAmount: { $gt: 0 },
+        createdAt: { $gte: from, $lte: to }
+      }
+    },
+
+    {
+      $facet: {
+        // --------------------------------------------------
+        // TOTALS SECTION (pending + paid)
+        // --------------------------------------------------
+        totals: [
+          {
+            $group: {
+              _id: null,
+
+              totalPendingPayout: {
+                $sum: {
+                  $cond: [
+                    { $eq: ["$payoutStatus", "pending"] },
+                    "$organizerAmount",
+                    0
+                  ]
+                }
+              },
+
+              totalPaidPayout: {
+                $sum: {
+                  $cond: [
+                    { $eq: ["$payoutStatus", "paid"] },
+                    "$organizerAmount",
+                    0
+                  ]
+                }
+              },
+
+              pendingCount: {
+                $sum: { $cond: [{ $eq: ["$payoutStatus", "pending"] }, 1, 0] }
+              },
+
+              paidCount: {
+                $sum: { $cond: [{ $eq: ["$payoutStatus", "paid"] }, 1, 0] }
+              }
+            }
+          }
+        ],
+
+        // --------------------------------------------------
+        // DAILY TREND (only paid payouts)
+        // --------------------------------------------------
+        daily: [
+          { 
+            $match: {
+              payoutStatus: "paid",
+              payoutDate: { $gte: from, $lte: to }
+            }
+          },
+          {
+            $group: {
+              _id: {
+                date: { $dateToString: { format: "%Y-%m-%d", date: "$payoutDate" } }
+              },
+              amount: { $sum: "$organizerAmount" }
+            }
+          },
+          { $sort: { "_id.date": 1 } },
+          { $project: { _id: 0, date: "$_id.date", amount: 1 } }
+        ],
+
+        // --------------------------------------------------
+        // MONTHLY TREND
+        // --------------------------------------------------
+        monthly: [
+          { 
+            $match: {
+              payoutStatus: "paid",
+              payoutDate: { $gte: from, $lte: to }
+            }
+          },
+          {
+            $group: {
+              _id: {
+                month: { $dateToString: { format: "%Y-%m", date: "$payoutDate" } }
+              },
+              amount: { $sum: "$organizerAmount" }
+            }
+          },
+          { $sort: { "_id.month": 1 } },
+          { $project: { _id: 0, month: "$_id.month", amount: 1 } }
+        ],
+
+        // --------------------------------------------------
+        // YEARLY TREND
+        // --------------------------------------------------
+        yearly: [
+          { 
+            $match: {
+              payoutStatus: "paid",
+              payoutDate: { $gte: from, $lte: to }
+            }
+          },
+          {
+            $group: {
+              _id: {
+                year: { $dateToString: { format: "%Y", date: "$payoutDate" } }
+              },
+              amount: { $sum: "$organizerAmount" }
+            }
+          },
+          { $sort: { "_id.year": 1 } },
+          { $project: { _id: 0, year: "$_id.year", amount: 1 } }
+        ]
+      }
+    }
+  ]);
+
+  const result = agg[0];
+
+  return {
+    timeRange: { from, to },
+
+    totals: result.totals?.[0] ?? {
+      totalPendingPayout: 0,
+      totalPaidPayout: 0,
+      pendingCount: 0,
+      paidCount: 0
+    },
+
+    trend: {
+      daily: result.daily ?? [],
+      monthly: result.monthly ?? [],
+      yearly: result.yearly ?? []
+    }
+  };
+}
+
+async getPayouts(filter: PayoutsFilter): Promise<PayoutPaginatedResult> {
+  const { page = 1, limit = 10, from, to, status, organizerName, eventTitle } = filter;
+
+  const skip = (page - 1) * limit;
+
+  const match: FilterQuery<IBooking> = {
+    organizerAmount: { $gt: 0 }
+  };
+
+  if (from && to) match.payoutDueDate = { $gte: new Date(from), $lte: new Date(to) };
+  if (status) match.payoutStatus = status;
+  if (organizerName) match.organizerName = { $regex: organizerName, $options: "i" };
+  if (eventTitle) match.eventTitle = { $regex: eventTitle, $options: "i" };
+
+  const rows = await BookingModel.aggregate([
+    { $match: match },
+    {
+      $project: {
+        bookingId: { $toString: "$_id" },
+        eventId: { $toString: "$eventId" },
+        eventTitle: 1,
+        organizerName: 1,
+        organizerAmount: 1,
+        payoutStatus: 1,
+        payoutDueDate: 1,
+        payoutDate: 1,
+        paymentMethod: 1,
+        paymentId: 1,
+        createdAt: 1
+      }
+    },
+    { $sort: { createdAt: -1 } },
+    { $skip: skip },
+    { $limit: limit }
+  ]);
+
+  const total = await BookingModel.countDocuments(match);
+
+  return {
+    page,
+    limit,
+    total,
+    totalPages: Math.ceil(total / limit),
+    data: rows
+  };
+}
+async getEventRevenueSummary(filter: EventRevenueFilter) : Promise<EventRevenuePaginated> {
+   const {
+    page = 1,
+    limit = 10,
+    eventTitle,
+    organizerName,
+    from,
+    to
+  } = filter;
+
+  const skip = (page - 1) * limit;
+
+  const match: FilterQuery<IBooking> = {
+    status: { $in: ["confirmed", "refunded"] }
+  };
+
+  if (from && to) {
+    match.createdAt = {
+      $gte: new Date(from),
+      $lte: new Date(to)
+    };
+  }
+
+  if (eventTitle)
+    match.eventTitle = { $regex: eventTitle, $options: "i" };
+
+  if (organizerName)
+    match.organizerName = { $regex: organizerName, $options: "i" };
+
+  const agg = await BookingModel.aggregate<EventRevenueRow>([
+    { $match: match },
+
+    // ---------------------------- GROUP BY EVENT ----------------------------
+    {
+      $group: {
+        _id: "$eventId",
+
+        eventTitle: { $first: "$eventTitle" },
+        organizerName: { $first: "$organizerName" },
+
+        ticketsSold: {
+          $sum: {
+            $sum: "$tickets.quantity"
+          }
+        },
+
+        grossRevenue: { $sum: "$totalAmount" },
+        platformRevenue: { $sum: "$platformFee" },
+        organizerRevenue: { $sum: "$organizerAmount" },
+        refundedAmount: { $sum: "$refundedAmount" }
+      }
+    },
+
+    // ---------------------------- COMPUTED NET REVENUE ----------------------------
+    {
+      $addFields: {
+        netRevenue: {
+          $subtract: ["$grossRevenue", "$refundedAmount"]
+        }
+      }
+    },
+
+    // ---------------------------- FORMAT FIELDS ----------------------------
+    {
+      $project: {
+        _id: 0,
+        eventId: { $toString: "$_id" },
+        eventTitle: 1,
+        organizerName: 1,
+        ticketsSold: 1,
+        grossRevenue: 1,
+        platformRevenue: 1,
+        organizerRevenue: 1,
+        refundedAmount: 1,
+        netRevenue: 1
+      }
+    },
+
+    { $sort: { grossRevenue: -1 } }, // default sort by highest selling
+    { $skip: skip },
+    { $limit: limit }
+  ]);
+
+  const total = await BookingModel.countDocuments(match);
+
+  return {
+    page,
+    limit,
+    total,
+    totalPages: Math.ceil(total / limit),
+    data: agg
+  };
+}
+
+async getSubscriptionOverview(filter?: SubscriptionOverviewFilter): Promise<SubscriptionOverviewResult> {
+  const now = new Date();
+  const defaultFrom = new Date(now.getTime() - 30 * 24 * 3600 * 1000); // last 30 days
+
+  const from = filter?.from ? new Date(filter.from) : defaultFrom;
+  const to = filter?.to ? new Date(filter.to) : now;
+  to.setHours(23, 59, 59, 999);
+
+  const agg = await OrganizerSubscriptionModel.aggregate([
+    {
+      $match: {
+        createdAt: { $gte: from, $lte: to },
+        status: { $in: ["active", "succeeded","expired" ,"upgraded"] }
+      }
+    },
+
+    {
+      $facet: {
+        // ------------------ TOTALS ------------------
+        totals: [
+          {
+            $group: {
+              _id: null,
+              totalRevenue: { $sum: "$price" },
+              activeSubscribers: {
+                $sum: { $cond: [{ $eq: ["$status", "active"] }, 1, 0] }
+              },
+              totalSubscriptions: { $sum: 1 }
+            }
+          }
+        ],
+
+        // ------------------ DAILY TREND ------------------
+        daily: [
+          {
+            $group: {
+              _id: {
+                date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } }
+              },
+              revenue: { $sum: "$price" },
+              count: { $sum: 1 }
+            }
+          },
+          { $sort: { "_id.date": 1 } },
+          { $project: { _id: 0, date: "$_id.date", revenue: 1, count: 1 } }
+        ],
+
+        // ------------------ MONTHLY TREND ------------------
+        monthly: [
+          {
+            $group: {
+              _id: {
+                month: { $dateToString: { format: "%Y-%m", date: "$createdAt" } }
+              },
+              revenue: { $sum: "$price" },
+              count: { $sum: 1 }
+            }
+          },
+          { $sort: { "_id.month": 1 } },
+          { $project: { _id: 0, month: "$_id.month", revenue: 1, count: 1 } }
+        ],
+
+        // ------------------ YEARLY TREND ------------------
+        yearly: [
+          {
+            $group: {
+              _id: {
+                year: { $dateToString: { format: "%Y", date: "$createdAt" } }
+              },
+              revenue: { $sum: "$price" },
+              count: { $sum: 1 }
+            }
+          },
+          { $sort: { "_id.year": 1 } },
+          { $project: { _id: 0, year: "$_id.year", revenue: 1, count: 1 } }
+        ]
+      }
+    }
+  ]);
+
+  const result = agg[0];
+  return {
+    timeRange: { from, to },
+    totals: result.totals[0] ?? {
+      totalRevenue: 0,
+      activeSubscribers: 0,
+      totalSubscriptions: 0
+    },
+    trend: {
+      daily: result.daily,
+      monthly: result.monthly,
+      yearly: result.yearly
+    }
+  };
+}
+async getSubscriptionPlans(filter: SubscriptionPlansFilter): Promise<SubscriptionPlanPaginatedResult> {
+   const page = filter.page ?? 1;
+  const limit = filter.limit ?? 10;
+  const skip = (page - 1) * limit;
+
+  const match: Record<string, unknown> = {};
+  if (filter.name) match.name = { $regex: filter.name, $options: "i" };
+
+  const from = filter.from ? new Date(filter.from) : null;
+  const to = filter.to ? new Date(filter.to) : null;
+
+  const dateMatch: any = {};
+  if (from && to) {
+    dateMatch.createdAt = { $gte: from, $lte: to };
+  }
+
+  const plans = await subscriptionPlansModel.aggregate<SubscriptionPlanRow>([
+    { $match: match },
+
+    {
+      $lookup: {
+        from: "organizersubscriptions",
+        localField: "_id",
+        foreignField: "planId",
+        pipeline: [
+          { $match: dateMatch },
+          {
+            $group: {
+              _id: null,
+              subscribers: { $sum: 1 },
+              revenue: { $sum: "$price" }
+            }
+          }
+        ],
+        as: "stats"
+      }
+    },
+
+    {
+      $project: {
+        name: 1,
+        price: 1,
+        durationInDays: 1,
+        description: 1,
+        subscribers: { $ifNull: [{ $arrayElemAt: ["$stats.subscribers", 0] }, 0] },
+        revenue: { $ifNull: [{ $arrayElemAt: ["$stats.revenue", 0] }, 0] },
+        avgRevenue: {
+          $cond: [
+            { $gt: [{ $arrayElemAt: ["$stats.subscribers", 0] }, 0] },
+            {
+              $divide: [
+                { $arrayElemAt: ["$stats.revenue", 0] },
+                { $arrayElemAt: ["$stats.subscribers", 0] }
+              ]
+            },
+            0
+          ]
+        }
+      }
+    },
+
+    { $sort: { revenue: -1 } },
+    { $skip: skip },
+    { $limit: limit }
+  ]);
+
+  const total = await subscriptionPlansModel.countDocuments(match);
+
+  return {
+    page,
+    limit,
+    total,
+    totalPages: Math.ceil(total / limit),
+    data: plans
+  };
+}
+
+}

@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema, Types } from "mongoose";
-import { BookingStatus, PayoutStatus } from "../../../../domain/enums/user/Booking";
+import { BookingStatus, PaymentMethod, PayoutStatus, RefundStatus } from "../../../../domain/enums/user/Booking";
 
 export interface IBooking extends Document {
    userId: Types.ObjectId;
@@ -22,7 +22,7 @@ export interface IBooking extends Document {
    payoutStatus :PayoutStatus;
    payoutDueDate : Date;
    payoutDate: Date;
-   organizerStripId: string;
+   organizerStripeId: string;
    paymentId: string;
    ticketUrls?: string[];
    sessionId?:string;
@@ -34,6 +34,10 @@ export interface IBooking extends Document {
    refundIds?: string[];
    refundedAmount?: number;
   userEmail?: string;
+  refundStatus?: RefundStatus;
+  paymentMethod?:PaymentMethod;
+  refundDate?: Date;
+
 
 }
 
@@ -45,6 +49,19 @@ const bookingSchema = new Schema<IBooking>({
       },
       userEmail : {
           type: String
+      },
+      refundStatus:{
+         type : String,
+         enum: Object.values(RefundStatus),
+         default: RefundStatus.NONE
+      },
+      paymentMethod: {
+         type :String,
+         enum: Object.values(PaymentMethod),
+         default: PaymentMethod.CARD
+      },
+      refundDate :{
+         type: Date
       },
    eventId : {
       type: Schema.Types.ObjectId,
@@ -102,7 +119,7 @@ const bookingSchema = new Schema<IBooking>({
    payoutDate: {
        type: Date
    },
-   organizerStripId:{
+   organizerStripeId:{
      type: String
    },
     paymentId :{

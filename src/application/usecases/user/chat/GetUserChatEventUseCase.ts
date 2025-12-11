@@ -1,3 +1,4 @@
+import { ErrorMessages } from "../../../../constants/errorMessages";
 import { NotFoundError } from "../../../../domain/errors/common";
 import { IConversationRepository } from "../../../../domain/repositories/common/IConversationRepository";
 import { IMessageRepository } from "../../../../domain/repositories/common/IMessageRepository";
@@ -15,7 +16,7 @@ export class GetUserChatEventUseCase implements IGetUserChatEventUseCase {
  async execute(userId: string, eventId: string): Promise<ConversationResponseDTO[]> {
 
      const privateChats = await this._conversationRepo.findUserPrivateChatsByEvent(userId, eventId);
-     if(privateChats.length === 0) throw new NotFoundError("Private chats not found");
+     if(privateChats.length === 0) throw new NotFoundError(ErrorMessages.CHAT.PRIVATE_CHATS_NOT_FOUND);
      
      const privateChatWithUnread = await Promise.all(
          privateChats.map(async (chat) => {

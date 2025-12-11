@@ -6,7 +6,8 @@ export const ErrorMessages = {
     NOT_FOUND: "Organizer not found",
     BLOCKED: "Organizer is blocked",
     PENDING_ORGANIZER_NOT_EXIST: "Pending organizers doesn't exist",
-    OVER_ALL_STATUS_UPDATE_SUCCESS : "Over all status updated successfully"
+    OVER_ALL_STATUS_UPDATE_SUCCESS : "Over all status updated successfully",
+    PROFILE_CREATION_FAILED: "Organizer Profile creation failed"
   },
    EVENT: {
     ID_REQUIRED: "Event id is required",
@@ -15,7 +16,8 @@ export const ErrorMessages = {
     EVENT_DETAILS_REQUIRED :"Event details is required",
     UPDATE_FAILED : "Event update failed",
     CREATION_FAILED : "Event details not saved",
-    EVENT_ALREADY_CANCELLED:"Event already  cancelled"
+    EVENT_ALREADY_CANCELLED:"Event already  cancelled",
+    FEATURED_EVENT_NOT_FOUND : "featured events Not found"
    
   },
   ERROR_CODES:{
@@ -81,6 +83,7 @@ export const ErrorMessages = {
      ID_REQUIRED: "Review id is required",
      TARGET_ID_REQUIRED : "TargetId is required",
      NOT_FOUND : "Review Not found",
+     REVIEWS_NOT_FOUND : "Reviews Not found",
      UPDATE_FAILED : "Review Update failed",
      ALREADY_REVIEWED_ERROR: "You already reviewed this event",
      BOOK_EVENT_ERROR: "You must book the ticket before reviewing the event",
@@ -95,6 +98,7 @@ export const ErrorMessages = {
      USER_BLOCK_ADMIN : "You are blocked by  admin",
      USER_ALREADY_EXITS :"User already exists",
      USER_UPDATE_FAILURE: "User update failed",
+     
    
   },
   EMAIL:{
@@ -105,7 +109,11 @@ export const ErrorMessages = {
      ID_REQUIRED: "Booking id is required",
      SESSION_ID_REQUIRED : "  Session id is required",
      BOOKINGS_NOT_FOUND: "Bookings not found",
-     BOOKING_NOT_FOUND : "Booking not found"
+     BOOKING_NOT_FOUND : "Booking not found",
+     BOOKING_SEAT_NOT_AVAILABLE : "Booking failed - seats not available",
+     USER_BOOKING_LIST_NOT_FOUND : "User Booking List not Found",
+     BOOKING_ALREADY_PROCESSED:"Booking already processed",
+     NO_DUE_BOOKINGS_FOUND:"No due bookings found"
   },
   CATEGORY : {
        ID_REQUIRED: "CategoryId is required",
@@ -115,7 +123,8 @@ export const ErrorMessages = {
      ID_REQUIRED: "Subscription id is required",
      STATUS_REQUIRED : "Status is required",
      PLAN_ID_REQUIRED : "Plan id is required",
-     SUBSCRIPTION_DETAILS : "Subscription details is required"
+     SUBSCRIPTION_DETAILS : "Subscription details is required",
+     SUBSCRIPTION_NOT_FOUND: "Subscription details not found"
   },
   CHAT : {
    NOT_ELIGIBLE_TO_REPORT_ORGANIZER: "You are not eligible to report this organizer",
@@ -124,14 +133,30 @@ export const ErrorMessages = {
    CONVERSATION_NOT_FOUND : "Conversation not found",
    CONVERSATION_NOT_FOUND_FOR_UPDATE: "Conversation not found for update",
    USERID_NOT_FOUND_IN_CHAT : "You are not part of  this conversation",
-   MESSAGE_NOT_SAVED : "Message not saved"
+   MESSAGE_NOT_SAVED : "Message not saved",
+   PRIVATE_CHATS_NOT_FOUND : "Private chats not found",
+   PRIVATE_CONVERSATION_NOT_FOUND : "Private conversations not found"
   },
   REPORT : {
     NOT_FOUND: "Report not found",
     TARGET_PERSON_NOT_FOUND: "Target person not found",
     NOT_ELIGIBLE_TO_REPORT : "You are not eligible to report this event"
-  }
+  },
+  STRIPE:{
+    ON_BOARDING: {
+      AL_READY_COMPLETED :"stripe Onboarding already completed",
+      ON_ONBOARDING_FAILED: "Stripe onBoarding failed",
+      VERIFICATION_FAILED:"Verification failed"
+    }
+  },
+  Transactions : {
+    NOT_FOUND : "Transactions not found"
+  },
 
+  TRANSACTIONS_QUERY_SCHEMA :{
+    FROM_DATE_ERROR : " Invalid from-date",
+    TO_DATE_ERROR : " Invalid to-date"
+  }
   
   
 } as const;

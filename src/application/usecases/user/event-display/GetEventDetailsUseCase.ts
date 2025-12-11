@@ -2,6 +2,7 @@ import { EventDetailsResponseDTO } from "../../../DTOs/user/event-display/EventD
 import { IEventDisplayQueryRepository } from "../../../../domain/repositories/user/IEventDisplayQueryRepository";
 import { IEventDisplayMapper } from "../../../interface/mapper/user/IEventDisplayMapper";
 import { IGetEventDetailsUseCase } from "../../../interface/useCases/user/event-display/IGetEventDetailsUseCase";
+import { ErrorMessages } from "../../../../constants/errorMessages";
 
 export class GetEventDetailsUseCase implements IGetEventDetailsUseCase {
   constructor(
@@ -11,10 +12,8 @@ export class GetEventDetailsUseCase implements IGetEventDetailsUseCase {
   async execute(eventId: string): Promise<EventDetailsResponseDTO> {
 
       const event  = await this._eventDisplayQueryRepository.findEventById(eventId);
-      console.log("eventId is", eventId)
-      console.log("event is",  event)
      
-      if(!event) throw new Error("Event details not found");
+      if(!event) throw new Error(ErrorMessages.EVENT.NOT_FOUND);
 
     return this._eventMapper.toEventDetailsResponseDTO(event);
 

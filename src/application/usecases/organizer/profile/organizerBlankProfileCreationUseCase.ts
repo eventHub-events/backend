@@ -1,14 +1,13 @@
 import { BlankOrganizerProfileDTO } from "../../../DTOs/organizer/BlackOrganizerProfileDTO";
-// import { OrganizerProfileDTO } from "../../../domain/dtos/organizer/OrganizerProfileDTO";
-// import { OrganizerProfileResponseDTO } from "../../../domain/dtos/organizer/OrganizerProfileResponseDTO";
 
 import { IOrganizerProfileRepository } from "../../../../domain/repositories/organizer/IOrganizerProfileRepository";
-// import { IUserMinimal } from "../../../domain/types/IUserMinimal";
-// import { IOrganizerProfile } from "../../../infrastructure/db/models/organizer/profile/OrganizerProfile";
+
 import { CustomError } from "../../../../infrastructure/errors/errorClass";
 import { HttpStatusCode } from "../../../../infrastructure/interface/enums/HttpStatusCode";
 import { IOrganizerBlankProfileCreationUseCase } from "../../../interface/useCases/organizer/IOrganizerBlankProfileCreationUseCase";
 import { OrganizerProfileMapper } from "../../../mapper/organizer/OrganizerProfileMapper";
+import { ErrorMessages } from "../../../../constants/errorMessages";
+import { ResponseMessages } from "../../../../infrastructure/constants/responseMessages";
 
 
 
@@ -43,9 +42,9 @@ export class OrganizerBlankProfileCreationUseCase implements IOrganizerBlankProf
     //  return final
     // //  return result
     if(!result){
-       throw new CustomError("Organizer profile creation failed", HttpStatusCode.INTERNAL_SERVER_ERROR);
+       throw new CustomError(ErrorMessages.ORGANIZER.PROFILE_CREATION_FAILED, HttpStatusCode.INTERNAL_SERVER_ERROR);
     }
-    return "Profile created Successfully"
+    return ResponseMessages.PROFILE.PROFILE_CREATION_SUCCESS;
        
    }
 

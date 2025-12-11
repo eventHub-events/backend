@@ -5,6 +5,7 @@ import { IUserProfileRepository } from "../../../../domain/repositories/user/IUs
 import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
 import { IUserProfileUseCase } from "../../../interface/useCases/user/IUserProfileUseCase";
 import { IUserProfileMapper } from "../../../interface/useCases/user/mapper/IUserProfileMapper";
+import { ErrorMessages } from "../../../../constants/errorMessages";
 
 export class UserProfileUseCase implements IUserProfileUseCase {
 
@@ -28,8 +29,8 @@ export class UserProfileUseCase implements IUserProfileUseCase {
   async editProfileData(profileId: string, data: UserProfileEditRequestDTO): Promise<UserProfileResponseDTO> {
    
       const userId = data.user?.userId;
-      console.log("userId is", data)
-      if(!userId) throw new ForbiddenError("userId is required");
+     
+      if(!userId) throw new ForbiddenError(ErrorMessages.USER.ID_REQUIRED);
       const {profile, user} = this._profileMapper.toDomainForUpdate(data);
 
       const updatedData= await Promise.all([this._userProfileRepository.updateProfile(profileId, profile), this._userRepo.updateUser(userId, user)]);

@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { BookingStatus, PayoutStatus } from "../../enums/user/Booking";
+import { BookingStatus, PaymentMethod, PayoutStatus, RefundStatus } from "../../enums/user/Booking";
 
 export class BookingEntity {
    public  userId : Types.ObjectId;
@@ -21,7 +21,7 @@ export class BookingEntity {
    public eventImages?:string[];
    public payoutStatus?: PayoutStatus;
    public payoutDueDate?: Date;
-   public PayoutDate?: Date;
+   public payoutDate?: Date;
    public paymentId?: string;
    public organizerStripeId?: string;
    public ticketUrls?: string[];
@@ -34,6 +34,9 @@ export class BookingEntity {
    public  refundIds?: string[];
    public refundedAmount?: number;
    public userEmail?: string;
+   public refundDate?: Date;
+   public refundStatus?: RefundStatus;
+   public paymentMethod?: PaymentMethod
 
 
   constructor(props :{
@@ -51,7 +54,7 @@ export class BookingEntity {
           payoutStatus? :PayoutStatus;
           payoutDueDate?: Date;
           payoutDate?: Date;
-          organizerStripId?: string;
+          organizerStripeId?: string;
           paymentId?: string
        organizerName: string,
        userEmail?: string,
@@ -70,6 +73,9 @@ export class BookingEntity {
         paymentIntentId?:string;
         refundIds?: string[];
         refundedAmount?: number;
+         refundStatus?: RefundStatus;
+          paymentMethod?:PaymentMethod;
+          refundDate?: Date;
 
         
 
@@ -98,8 +104,8 @@ export class BookingEntity {
        this.paymentId = props.paymentId;
        this.payoutStatus = props.payoutStatus;
        this.payoutDueDate = props.payoutDueDate;
-       this.PayoutDate = props.payoutDate;
-       this.organizerStripeId = props.organizerStripId;
+       this.payoutDate = props.payoutDate;
+       this.organizerStripeId = props.organizerStripeId;
        this.ticketUrls = props.ticketUrls,
        this.sessionId = props.sessionId,
        this.commissionRate = props.commissionRate,
@@ -109,7 +115,10 @@ export class BookingEntity {
        this.paymentIntentId = props.paymentIntentId,
        this.refundIds = props.refundIds,
        this.refundedAmount = props.refundedAmount,
-       this.userEmail = props.userEmail
+       this.userEmail = props.userEmail,
+       this.refundDate = props.refundDate,
+       this.refundStatus = props.refundStatus,
+       this.paymentMethod = props.paymentMethod
   }
 
   markAsConfirmed() {

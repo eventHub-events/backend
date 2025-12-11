@@ -1,3 +1,4 @@
+import { ErrorMessages } from "../../../../constants/errorMessages";
 import { BookingStatus } from "../../../../domain/enums/user/Booking";
 import { NotFoundError } from "../../../../domain/errors/common";
 import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
@@ -16,12 +17,12 @@ export class CreateTicketPaymentUseCase  implements ICreateTicketPaymentUseCase{
       
           const booking = await this._bookingRepository.findBookingById(bookingId);
 
-        if(!booking) throw new NotFoundError("Booking details not found");
-        if(booking.status !== BookingStatus.PENDING_PAYMENT) throw new Error("booking already processed");
+        if(!booking) throw new NotFoundError(ErrorMessages.BOOKING.BOOKING_NOT_FOUND);
+        if(booking.status !== BookingStatus.PENDING_PAYMENT) throw new Error(ErrorMessages.BOOKING.BOOKING_ALREADY_PROCESSED);
 
         const organizer = await this._userRepository.findUserById(booking.organizerId.toString());
         
-        if(!organizer) throw new Error("Organizer not found")
+        if(!organizer) throw new Error(ErrorMessages.ORGANIZER.NOT_FOUND)
          const organizerStripeId = organizer.stripeAccountId;
       
       const url = await this._paymentService.createBookingCheckout({
@@ -30,7 +31,8 @@ export class CreateTicketPaymentUseCase  implements ICreateTicketPaymentUseCase{
           organizerId: booking.organizerId.toString(),
           totalAmount : booking.totalAmount,
           eventTitle: booking.eventTitle,
-          organizerStripeId
+          organizerStripeId,
+          platformCommissionRate: booking.commissionRate
       })
     
     return url;

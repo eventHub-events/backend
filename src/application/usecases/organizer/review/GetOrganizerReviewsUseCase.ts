@@ -1,3 +1,4 @@
+import { ErrorMessages } from "../../../../constants/errorMessages";
 import { NotFoundError } from "../../../../domain/errors/common";
 import { IReviewRepository } from "../../../../domain/repositories/user/IReviewRepository";
 import { ReviewType } from "../../../../infrastructure/types/review/review";
@@ -13,7 +14,7 @@ export class GetOrganizerReviewsUseCase implements IGetOrganizerReviewsUseCase {
   async execute(targetId: string, targetType: ReviewType,page: string, limit: string): Promise<{ reviews: ReviewResponseDTO[]; total: number; }> {
         
       const{entity,total} = await this._reviewRepo.getReviewsForOrganizer(targetId, targetType,parseInt(page),parseInt(limit));
-      if(!entity) throw new NotFoundError("reviews not found");
+      if(!entity) throw new NotFoundError(ErrorMessages.REVIEW.REVIEWS_NOT_FOUND);
     
        const reviews = this._reviewMapper.toResponseDTOList(entity);
     return {reviews,total}

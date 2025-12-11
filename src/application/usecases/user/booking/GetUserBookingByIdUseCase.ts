@@ -1,3 +1,4 @@
+import { ErrorMessages } from "../../../../constants/errorMessages";
 import { NotFoundError } from "../../../../domain/errors/common";
 import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
 import { UserBookingListResponseDTO } from "../../../DTOs/user/booking/UserBookingListResponseDTO";
@@ -12,7 +13,7 @@ export class GetUserBookingByIdUseCase implements IGetUserBookingById {
   async execute(bookingId: string): Promise<UserBookingListResponseDTO> {
       
       const booking = await this._bookingRepo.findBookingById(bookingId);
-      if(!booking) throw new NotFoundError("Booking Not found");
+      if(!booking) throw new NotFoundError(ErrorMessages.BOOKING.BOOKING_NOT_FOUND);
 
       return this._bookingMapper.toUserResponseDTO(booking);
   }

@@ -18,6 +18,12 @@ export const ResponseMessages = {
    EVENT_MODERATION_FETCH_SUCCESS : "Event moderation  fetch  success"
 
   },
+  TRANSACTION_PDF_REPORT : {
+     SET_HEADER_ONE:"content-Disposition",
+     ATTACHMENT: `attachment; filename="transactions_${Date.now()}.pdf`,
+     CONTENT_TYPE : "Content-Type",
+     APPLICATION_PDF: "application/pdf"
+  },
 
   BOOKING :{
      BOOKING_SUCCESS : "Tickets booked successfully",
@@ -88,7 +94,8 @@ export const ResponseMessages = {
    USER :{
       PROFILE: {
           FETCH_SUCCESS : "User profile fetched successfully",
-          UPDATE_SUCCESS : "User Profile Updated successfully"
+          UPDATE_SUCCESS : "User Profile Updated successfully",
+          USER_PROFILE_CREATE_SUCCESS :"UserProfileCreatedSuccessfully"
       },
       USER_LIST: {
          USER_LIST_FETCH_SUCCESS : "UserList fetched successfully",
@@ -106,6 +113,18 @@ export const ResponseMessages = {
       DOCUMENT_UPDATE_SUCCESS :"Document updated successfully",
       DOCUMENT_VERIFICATION_REQUEST_SUCCESS : "Verification request sent  successfully",
       DOWNLOAD_SUCCESS : "Document downloaded successfully"
+
+   },
+   FINANCE_PAYOUT : {
+      FETCH_SUCCESS : "Finance overview details fetched successfully",
+      FETCH_TRANSACTIONS_SUCCESS : "Fetch transactions successfully",
+      FETCH_REFUND_SUCCESS :"Fetch refunds successfully",
+      FETCH_REFUND_OVERVIEW_SUCCESS :"Fetch refunds overview details successfully",
+      FETCH_PAYOUTS_SUCCESS : "Fetch payouts overview details successfully",
+      FETCH_PAYOUTS_OVERVIEW_SUCCESS :"Fetch payouts overview details successfully",
+      FETCH_EVENT_REVENUE_SUMMARY_SUCCESS : "Fetch event revenue summary successfully",
+      FETCH_SUBSCRIPTION_PLAN_REVENUE_SUCCESS :"Fetch  subscriptionPlan revenue details successfully",
+      FETCH_SUBSCRIPTION_PLAN_OVERVIEW_DETAILS_SUCCESSFULLY :"Fetch subscription overview details successfully"
 
    },
     PROFILE : {
