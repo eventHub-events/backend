@@ -1,5 +1,5 @@
 import { FinanceOverviewFilter } from "../../../../domain/interface/admin-finance-query/finance";
-import { PayoutsFilter, PayoutOverviewResult } from "../../../../domain/interface/admin-finance-query/payout";
+import {  PayoutOverviewResult } from "../../../../domain/interface/admin-finance-query/payout";
 import { IAdminFinanceQueryRepository } from "../../../../domain/repositories/admin/IAdminFinanceQueryRepository";
 import { IGetPayoutOverviewUseCase } from "../../../interface/useCases/admin/finance-payout/IGetPayoutOverviewUseCase";
 

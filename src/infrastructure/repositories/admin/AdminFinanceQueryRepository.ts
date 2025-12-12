@@ -978,7 +978,7 @@ async getSubscriptionPlans(filter: SubscriptionPlansFilter): Promise<Subscriptio
   const from = filter.from ? new Date(filter.from) : null;
   const to = filter.to ? new Date(filter.to) : null;
 
-  const dateMatch: any = {};
+  const dateMatch: Record<string, unknown> = {};
   if (from && to) {
     dateMatch.createdAt = { $gte: from, $lte: to };
   }

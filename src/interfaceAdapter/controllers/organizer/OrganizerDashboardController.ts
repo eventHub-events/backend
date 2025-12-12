@@ -22,16 +22,5 @@ export class OrganizerDashboardController {
       next(err)
     }
   }
-  // async getDashboardTable(req: IAuthenticatedRequest, res :Response, next :NextFunction) : Promise<void> {
-  //   try{
-  //        const organizerId = req.user!.id;
-  //        const {page, limit} = req.query
-
-
-  //    const data = await this._organizerDashboardUseCase.execute(organizerId, range );
-  //  res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.ORGANIZER_DASHBOARD.ON_SUCCESS,HttpStatusCode.OK, data));
-  //   }catch(err){
-  //     next(err)
-  //   }
-  // }
+  
 }

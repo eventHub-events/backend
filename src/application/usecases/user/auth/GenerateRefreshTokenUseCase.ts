@@ -9,6 +9,7 @@ import { IRefreshTokenUseCase } from "../../../interface/useCases/user/IRefreshT
 
       const result= await this._tokenService.verifyRefreshToken(token)
       const { exp, iat, ...cleanPayload } = result as IUserTokenPayload;
+      console.log(exp,iat);
         
       const accessToken = await this._tokenService.generateToken( cleanPayload )
        

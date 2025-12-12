@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RefundStatus } from "../../../../domain/enums/user/Booking";
+
 
 export const RefundQuerySchema = z.object({
   page: z.coerce.number().optional(),
