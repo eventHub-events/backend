@@ -22,6 +22,10 @@ export interface IOrganizerEventRow {
   grossRevenue: number;
   refundedAmount: number;
   netRevenue: number;
+  organizerRevenue: number;
+  platformFee: number;
+ payoutPending: number,
+    payoutReceived: number
 }
 
 export interface IOrganizerEventPerformance {

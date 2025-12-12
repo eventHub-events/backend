@@ -144,14 +144,54 @@ export class OrganizerDashboardRepository implements IOrganizerDashboardReposito
         $group: {
           _id: "$eventId",
           eventTitle: { $first: "$eventTitle" },
-          ticketsSold: { $sum: { $sum: "$tickets.quantity" } },
+         ticketsSold: {
+  $sum: {
+    $sum: {
+      $map: {
+        input: "$tickets",
+        as: "t",
+        in: {
+          $cond: [
+            { $eq: ["$status", "confirmed"] },  // Only count successful
+            "$$t.quantity",
+            0
+          ]
+        }
+      }
+    }
+  }
+},
+
           grossRevenue: { $sum: "$totalAmount" },
           refundedAmount: { $sum: "$refundedAmount" },
           netRevenue: {
             $sum: {
               $subtract: ["$totalAmount", "$refundedAmount"]
             }
-          }
+          },
+           organizerRevenue: { $sum: "$organizerAmount" },
+        platformFee: { $sum: "$platformFee" },
+         
+          payoutPending: {
+      $sum: {
+        $cond: [
+          { $eq: ["$payoutStatus", "pending"] },
+          "$organizerAmount",
+          0
+        ]
+      }
+    },
+
+    payoutReceived: {
+      $sum: {
+        $cond: [
+          { $eq: ["$payoutStatus", "paid"] },
+          "$organizerAmount",
+          0
+        ]
+      }
+    }
+        
         }
       },
 
@@ -164,7 +204,11 @@ export class OrganizerDashboardRepository implements IOrganizerDashboardReposito
           ticketsSold: 1,
           grossRevenue: 1,
           refundedAmount: 1,
-          netRevenue: 1
+          netRevenue: 1,
+          organizerRevenue: 1,
+        platformFee: 1,
+         payoutPending: 1,
+    payoutReceived: 1
         }
       }
     ]);
@@ -222,7 +266,8 @@ export class OrganizerDashboardRepository implements IOrganizerDashboardReposito
     const sub = await OrganizerSubscriptionModel.findOne({
       organizerId,
       status: "active",
-      createdAt: { $gte: from, $lte: to } 
+      
+
     }).sort({ createdAt: -1 });
 
     if (!sub) return null;

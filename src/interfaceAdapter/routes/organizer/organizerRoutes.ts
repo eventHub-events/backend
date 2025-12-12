@@ -17,6 +17,7 @@ import { stripeConnectController, stripeOnboardingStatusController } from "../..
 import { chatController } from "../../../di/common/chat/container";
 import { organizerDashboardController } from "../../../di/organizer/dashboard/container";
 import { bookingQuerySchema } from "../../../infrastructure/validation/schemas/organizer/bookingQuerySchema";
+import { OrganizerDashboardQuerySchema } from "../../../infrastructure/validation/schemas/organizer/organizerDashboardQuerySchema";
 // import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
 
 
@@ -82,6 +83,7 @@ router.get("/chat/event/:eventId", authenticationMiddleWare.authenticateUser.bin
 // dashboard //
 
 router.get("/dashboard", authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),checkBlockedMiddleware.execute,(req: IAuthenticatedRequest, res :Response, next: NextFunction) => organizerDashboardController.getDashboard(req, res, next));
+router.get("/dashboard-details", InputDataValidator.validateQuery(OrganizerDashboardQuerySchema), authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),checkBlockedMiddleware.execute,(req: IAuthenticatedRequest, res :Response, next: NextFunction) => organizerDashboardController.getDashboardDetails(req, res, next));
 
 
  

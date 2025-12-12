@@ -46,19 +46,29 @@ export class OrganizerSubscriptionRepository extends BaseRepository<IOrganizerSu
   }
 
  async getRevenueByRange(range: ReportRange): Promise<SubscriptionRevenueTimeline> {
-      const now = new Date();
-  const fromDate = new Date();
-  let format = "%Y-%m-%d";
+  const now = new Date();
+let fromDate = new Date();
+let format = "%Y-%m-%d";
 
-  if (range === "monthly") {
-    fromDate.setMonth(now.getMonth() - 5);
-    format = "%Y-%m";
-  }
 
-  if (range === "yearly") {
-    fromDate.setFullYear(now.getFullYear() - 4);
-    format = "%Y";
-  }
+if (range === "daily") {
+  fromDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 29);
+  format = "%Y-%m-%d";
+}
+
+
+if (range === "monthly") {
+  fromDate = new Date(now.getFullYear(), now.getMonth() - 5, 1);
+  format = "%Y-%m";
+}
+
+
+if (range === "yearly") {
+  fromDate = new Date(now.getFullYear() - 4, 0, 1);
+  format = "%Y";
+}
+
+
 
   const rows = await OrganizerSubscriptionModel.aggregate<{
     _id: string;
@@ -67,7 +77,7 @@ export class OrganizerSubscriptionRepository extends BaseRepository<IOrganizerSu
   }>([
     {
       $match: {
-        status: SubscriptionStatus.Active,
+         status: { $in: ["active", "succeeded","expired" ,"upgraded"] },
         createdAt: { $gte: fromDate, $lte: now }
       }
     },
