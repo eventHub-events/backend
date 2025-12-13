@@ -24,6 +24,9 @@ export const ResponseMessages = {
     CONTENT_TYPE: 'Content-Type',
     APPLICATION_PDF: 'application/pdf',
   },
+  CLOUDINARY :{
+  CLOUDINARY_SIGNATURE_CREATION_SUCCESS : "Signature created successfully"
+  },
 
   BOOKING: {
     BOOKING_SUCCESS: 'Tickets booked successfully',

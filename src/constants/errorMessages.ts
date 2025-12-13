@@ -8,7 +8,8 @@ export const ErrorMessages = {
     PROFILE_CREATION_FAILED: 'Organizer Profile creation failed',
   },
   CLOUDINARY :{
-   GENERATE_SIGNATURE_ERROR : "Cloudinary signature creation failed"
+   GENERATE_SIGNATURE_ERROR : "Cloudinary signature creation failed",
+   FOLDER_REQUIRED_ERROR :"Folder  name is required"
   },
   EVENT: {
     ID_REQUIRED: 'Event id is required',
