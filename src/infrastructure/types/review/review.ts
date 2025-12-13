@@ -1,4 +1,4 @@
-export   enum ReviewType {
-  EVENT = "event",
-  ORGANIZER = "organizer"
+export enum ReviewType {
+  EVENT = 'event',
+  ORGANIZER = 'organizer',
 }

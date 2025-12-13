@@ -1,6 +1,5 @@
+import { OrganizerProfileWithUser } from '../../types/OrganizerTypes';
 
-import { OrganizerProfileWithUser } from "../../types/OrganizerTypes";
-
-export interface IUserQueryRepository{
-  findPendingOrganizersWithProfile():Promise<OrganizerProfileWithUser[]>;
+export interface IUserQueryRepository {
+  findPendingOrganizersWithProfile(): Promise<OrganizerProfileWithUser[]>;
 }

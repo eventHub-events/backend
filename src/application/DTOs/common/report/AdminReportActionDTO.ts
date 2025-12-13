@@ -1,11 +1,13 @@
-import { ReportActions, ReportStatus } from "../../../../domain/enums/common/report";
+import {
+  ReportActions,
+  ReportStatus,
+} from '../../../../domain/enums/common/report';
 
 export interface AdminActionDTO {
-  reportId:  string;
+  reportId: string;
   status: ReportStatus;
   adminNote?: string;
-  action : ReportActions;
+  action: ReportActions;
   adminId?: string;
   targetId?: string;
-
 }

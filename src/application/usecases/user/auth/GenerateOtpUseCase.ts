@@ -3,9 +3,9 @@ import { IOtpService } from '../../../../infrastructure/interface/IOtpService';
 import { IGenerateOtpUseCase } from '../../../interface/useCases/user/IGenerateOtpUseCase';
 
 export class GenerateOtpUseCase implements IGenerateOtpUseCase {
-  constructor(private _otpService:IOtpService) {}
+  constructor(private _otpService: IOtpService) {}
 
-  async execute(email:string, data:UserRegisterDTO): Promise<string> {
+  async execute(email: string, data: UserRegisterDTO): Promise<string> {
     const otp = await this._otpService.generateOtp(email, data);
     return otp;
   }
@@ -14,9 +14,11 @@ export class GenerateOtpUseCase implements IGenerateOtpUseCase {
     const otp = await this._otpService.reGenerateOtp(email);
     return otp;
   }
-  async executeForForgetPassword(email:string,user:UserRegisterDTO): Promise<string>{
-   
-    const otp= await this._otpService.generateOtp(email,user)
-    return otp
+  async executeForForgetPassword(
+    email: string,
+    user: UserRegisterDTO
+  ): Promise<string> {
+    const otp = await this._otpService.generateOtp(email, user);
+    return otp;
   }
 }

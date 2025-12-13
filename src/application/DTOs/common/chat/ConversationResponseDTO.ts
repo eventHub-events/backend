@@ -1,4 +1,4 @@
-import { ConversationType } from "../../../../infrastructure/db/models/common/chat/ConversationModel";
+import { ConversationType } from '../../../../infrastructure/db/models/common/chat/ConversationModel';
 
 export interface ConversationResponseDTO {
   id?: string;
@@ -6,8 +6,8 @@ export interface ConversationResponseDTO {
   participants: string[];
   lastMessage?: string;
   type: ConversationType;
-  lastSenderId?:  string;
-  userId?:string
-  userName?:string;
-  unreadCount?:number;
+  lastSenderId?: string;
+  userId?: string;
+  userName?: string;
+  unreadCount?: number;
 }

@@ -1,11 +1,14 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
+import mongoose, { Document, Schema, Types } from 'mongoose';
 
-import { ILocation } from "../../../../../domain/valueObject/organizer/location";
-import { locationSchema } from "./LocationModel";
+import { ILocation } from '../../../../../domain/valueObject/organizer/location';
+import { locationSchema } from './LocationModel';
 
-import {  EventApprovalStatus, EventStatus, EventType, EventVisibility } from "../../../../../domain/enums/organizer/events";
-
-
+import {
+  EventApprovalStatus,
+  EventStatus,
+  EventType,
+  EventVisibility,
+} from '../../../../../domain/enums/organizer/events';
 
 export interface IEvent extends Document {
   organizerId: Types.ObjectId;
@@ -13,17 +16,17 @@ export interface IEvent extends Document {
   categoryId: Types.ObjectId;
   location: ILocation;
   totalCapacity: number;
-  description : string;
+  description: string;
   title: string;
   startDate: Date;
   endDate: Date;
   images: string[];
-  approvedStatus?:EventApprovalStatus;
+  approvedStatus?: EventApprovalStatus;
   category?: string;
 
-   status: EventStatus;
-  ticketsSold:  number;
-   isDeleted :boolean;
+  status: EventStatus;
+  ticketsSold: number;
+  isDeleted: boolean;
 
   featured?: boolean;
   startTime?: string;
@@ -36,136 +39,129 @@ export interface IEvent extends Document {
   videos?: string[];
   visibility?: EventVisibility;
 
-  tags?:string[];
+  tags?: string[];
 
-   reviews?: Types.ObjectId;
-
-  
+  reviews?: Types.ObjectId;
 }
 
-const EventSchema = new Schema<IEvent>({
-  organizerId: {
-       type: Schema.Types.ObjectId,
-       ref: "User",
-       required: true
-     },
- 
-  title: {
-    type: String,
-    required: true,
-    trim: true,
-   },
-   category:{
-      type: String
-   },
-  type:{
-     type: String,
-     enum: Object.values(EventType),
-     required: true,
-     trim: true
-   },
-  categoryId: {
-     type: Schema.Types.ObjectId,
-     ref: "Category",
-     required: true
-   },
-  description: {
-     type: String,
-   },
-  location: {
-     type:  locationSchema,
-   },
-   approvedStatus:{
+const EventSchema = new Schema<IEvent>(
+  {
+    organizerId: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    category: {
+      type: String,
+    },
+    type: {
+      type: String,
+      enum: Object.values(EventType),
+      required: true,
+      trim: true,
+    },
+    categoryId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
+      required: true,
+    },
+    description: {
+      type: String,
+    },
+    location: {
+      type: locationSchema,
+    },
+    approvedStatus: {
       type: String,
       enum: Object.values(EventApprovalStatus),
-      default: EventApprovalStatus.Pending
-   },
-  
-  totalCapacity: {
+      default: EventApprovalStatus.Pending,
+    },
+
+    totalCapacity: {
       type: Number,
       required: true,
-      min: 1
-   },
-  
-   videos: 
+      min: 1,
+    },
 
-   [{type: String}],
+    videos: [{ type: String }],
 
-  startDate : {
-     type: Date
-   },
-  endDate : {
-     type: Date
-   },
- 
-  images : 
-    [{type: String, required: true}],
- 
-  status: {
-     type: String,
-     enum: Object.values(EventStatus),
-     default: EventStatus.Draft
+    startDate: {
+      type: Date,
+    },
+    endDate: {
+      type: Date,
+    },
 
-   },
-  
-  featured : {
-     type: Boolean,
-     default: false
+    images: [{ type: String, required: true }],
+
+    status: {
+      type: String,
+      enum: Object.values(EventStatus),
+      default: EventStatus.Draft,
+    },
+
+    featured: {
+      type: Boolean,
+      default: false,
     },
     startTime: {
-       type: String
+      type: String,
     },
     endTime: {
-       type: String
+      type: String,
     },
-  ticketsSold: {
-     type: Number,
-     default: 0
-   },
-  
-  tags : [{
-       type: String
-  }],
-  createdBy: {
-     type: String
-  },
-  isDeleted: {
-     type: Boolean,
-     default: false
-  },
- 
+    ticketsSold: {
+      type: Number,
+      default: 0,
+    },
+
+    tags: [
+      {
+        type: String,
+      },
+    ],
+    createdBy: {
+      type: String,
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+
     organizerEmail: {
-       type: String,
-
+      type: String,
     },
 
-visibility: {
-   type: String,
-   enum: Object.values(EventVisibility),
-   default: EventVisibility.Public
-},
+    visibility: {
+      type: String,
+      enum: Object.values(EventVisibility),
+      default: EventVisibility.Public,
+    },
 
-reviews: {
-   type: Schema.Types.ObjectId,
-   ref: "Review"
-},
-
-
-
-},{timestamps: true}
-)
+    reviews: {
+      type: Schema.Types.ObjectId,
+      ref: 'Review',
+    },
+  },
+  { timestamps: true }
+);
 
 //  Indexing For Performance //
 
-EventSchema.index({title: 1, organizerId: 1});
-EventSchema.index({categoryId:1});
-EventSchema.index({status: 1});
-EventSchema.index({featured: 1});
-EventSchema.index({"location.city":1, startDate: -1});
-EventSchema.index({startDate:1, endDate: 1});
-EventSchema.index({tags: 1});
-
+EventSchema.index({ title: 1, organizerId: 1 });
+EventSchema.index({ categoryId: 1 });
+EventSchema.index({ status: 1 });
+EventSchema.index({ featured: 1 });
+EventSchema.index({ 'location.city': 1, startDate: -1 });
+EventSchema.index({ startDate: 1, endDate: 1 });
+EventSchema.index({ tags: 1 });
 
 // model Export //
 
-export const EventModel = mongoose.model<IEvent>("Event", EventSchema);
+export const EventModel = mongoose.model<IEvent>('Event', EventSchema);

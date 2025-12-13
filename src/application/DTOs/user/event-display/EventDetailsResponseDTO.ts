@@ -1,7 +1,7 @@
-import { ILocation } from "../../../../domain/valueObject/organizer/location";
-import { ITicketTier } from "../../../../domain/valueObject/organizer/ticketTier";
+import { ILocation } from '../../../../domain/valueObject/organizer/location';
+import { ITicketTier } from '../../../../domain/valueObject/organizer/ticketTier';
 
-export interface EventDetailsResponseDTO{
+export interface EventDetailsResponseDTO {
   id: string;
   title: string;
   description: string;

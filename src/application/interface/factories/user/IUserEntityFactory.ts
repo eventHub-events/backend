@@ -1,3 +1,6 @@
-import { IDomainFactory } from "../IDomainFactory";
+import { IDomainFactory } from '../IDomainFactory';
 
-export interface IUserEntityFactory<DbType, DomainType> extends IDomainFactory<DbType, DomainType> {}
+export interface IUserEntityFactory<DbType, DomainType> extends IDomainFactory<
+  DbType,
+  DomainType
+> {}

@@ -1,6 +1,8 @@
-import { OrganizerChangePasswordDTO } from "../../../DTOs/organizer/OrganizerChangePasswordDTO";
+import { OrganizerChangePasswordDTO } from '../../../DTOs/organizer/OrganizerChangePasswordDTO';
 
 export interface IOrganizerAccountSecurityUseCase {
-  changePassword(organizerId:string,passwordData:OrganizerChangePasswordDTO):Promise<string>
-
+  changePassword(
+    organizerId: string,
+    passwordData: OrganizerChangePasswordDTO
+  ): Promise<string>;
 }

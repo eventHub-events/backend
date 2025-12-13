@@ -1,4 +1,4 @@
 export enum SubscriptionPlanStatus {
-  BLOCK = "block",
-  UNBLOCK = "unblock"
+  BLOCK = 'block',
+  UNBLOCK = 'unblock',
 }

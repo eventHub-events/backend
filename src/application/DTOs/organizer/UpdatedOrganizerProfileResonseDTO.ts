@@ -1,3 +1,1 @@
-export class UpdatedOrganizerProfileDTO {
-  
-}
+export class UpdatedOrganizerProfileDTO {}

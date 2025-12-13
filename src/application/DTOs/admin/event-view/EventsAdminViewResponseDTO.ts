@@ -1,4 +1,4 @@
-import { ILocation } from "../../../../domain/valueObject/organizer/location";
+import { ILocation } from '../../../../domain/valueObject/organizer/location';
 
 export interface EventsAdminViewResponseDTO {
   id: string;
@@ -6,17 +6,17 @@ export interface EventsAdminViewResponseDTO {
   type: string;
   category?: string;
   startDate: Date;
-  endDate : Date;
+  endDate: Date;
   featured?: boolean;
   totalCapacity: number;
-  organizerEmail?:string;
+  organizerEmail?: string;
   approvedStatus?: string;
-  images?:string[];
+  images?: string[];
   eventApprovalStatus?: string;
   isBlocked?: boolean;
   blockedReason?: string;
   totalRevenue?: number;
-  platformCommission?:number;
+  platformCommission?: number;
   ticketsSold?: number;
   location?: ILocation;
 }

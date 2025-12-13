@@ -1,6 +1,9 @@
-import { BookingStatus, PayoutStatus } from "../../../domain/enums/user/Booking";
+import {
+  BookingStatus,
+  PayoutStatus,
+} from '../../../domain/enums/user/Booking';
 
-export type ReportRange = "daily" | "monthly" | "yearly";
+export type ReportRange = 'daily' | 'monthly' | 'yearly';
 export interface BookingMatchFilter {
   status: BookingStatus;
   payoutStatus?: PayoutStatus;

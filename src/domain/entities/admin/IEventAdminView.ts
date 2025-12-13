@@ -1,30 +1,29 @@
-import { ILocation } from "../../valueObject/organizer/location";
+import { ILocation } from '../../valueObject/organizer/location';
 
 export interface IEventAdminView {
   _id: string;
-  title :string;
+  title: string;
   type: string;
   category?: {
     name: string;
   };
-  startDate :Date;
-  endDate : Date;
+  startDate: Date;
+  endDate: Date;
   images: string[];
   organizerEmail: string;
   totalCapacity: number;
   status: string;
   approvedStatus?: string;
   featured?: boolean;
-  moderation? : {
+  moderation?: {
     eventApprovalStatus?: string;
     isBlocked?: boolean;
     blockedReason?: string;
   };
   ticketing?: {
-     totalRevenue?: number;
-     ticketsSold?: number;
-     platformCommission?: number
-
+    totalRevenue?: number;
+    ticketsSold?: number;
+    platformCommission?: number;
   };
   location?: ILocation;
 }

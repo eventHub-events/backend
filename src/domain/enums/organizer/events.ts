@@ -1,39 +1,37 @@
 export enum EventStatus {
-  Draft = "draft",
-  Upcoming = "upcoming",
-  Active = "active",
-  Completed = "completed",
-  Cancelled = "cancelled",
-  Flagged = "flagged",
-  Blocked ="blocked",
-   Rejected = "rejected",
-
+  Draft = 'draft',
+  Upcoming = 'upcoming',
+  Active = 'active',
+  Completed = 'completed',
+  Cancelled = 'cancelled',
+  Flagged = 'flagged',
+  Blocked = 'blocked',
+  Rejected = 'rejected',
 }
 
-export  enum EventType {
+export enum EventType {
   // Conference  = 'conference',
   // Workshop   = "workshop",
   //  Sports   = "sports",
   //  Other  = "other"
-  Online ="online",
-  Offline ="offline"
+  Online = 'online',
+  Offline = 'offline',
 }
 
 export enum TicketStatus {
-  Active = "Active",
-  Inactive = "Inactive"
+  Active = 'Active',
+  Inactive = 'Inactive',
 }
 export enum EventVisibility {
-   Public = "public",
-   Private = "private",
-   InviteOnly = "invite-only"
-
+  Public = 'public',
+  Private = 'private',
+  InviteOnly = 'invite-only',
 }
 export enum EventApprovalStatus {
-  Pending = "pending",
-  Approved = "approved",
-  Rejected = "rejected",
-  Flagged = "flagged",
-  Blocked = "blocked",
-  Unblocked ="unblocked"
+  Pending = 'pending',
+  Approved = 'approved',
+  Rejected = 'rejected',
+  Flagged = 'flagged',
+  Blocked = 'blocked',
+  Unblocked = 'unblocked',
 }

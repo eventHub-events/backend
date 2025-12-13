@@ -1,66 +1,59 @@
-import { UpdatedUploadDocumentResponseDTO } from "../../DTOs/admin/UpdatedUploadedDocumentDTO";
-import { UploadDocumentResponseDTO } from "../../DTOs/admin/UploadDocumentResponseDTO";
-import { UploadDocumentDTO } from "../../DTOs/organizer/DocumentDTO";
-import { UpdateDocumentRequestDTO } from "../../DTOs/organizer/UpdateDocumentRequestDto";
-import { UploadDocument } from "../../../domain/entities/organizer/Document";
+import { UpdatedUploadDocumentResponseDTO } from '../../DTOs/admin/UpdatedUploadedDocumentDTO';
+import { UploadDocumentResponseDTO } from '../../DTOs/admin/UploadDocumentResponseDTO';
+import { UploadDocumentDTO } from '../../DTOs/organizer/DocumentDTO';
+import { UpdateDocumentRequestDTO } from '../../DTOs/organizer/UpdateDocumentRequestDto';
+import { UploadDocument } from '../../../domain/entities/organizer/Document';
 
-import { IOrganizerUploadDocumentMapper } from "../../interface/useCases/admin/IOrganizerUploadDocumentMapper";
-
+import { IOrganizerUploadDocumentMapper } from '../../interface/useCases/admin/IOrganizerUploadDocumentMapper';
 
 export class OrganizerUploadDocumentMapper implements IOrganizerUploadDocumentMapper {
+  toResponse(UploadDocument: UploadDocument): UploadDocumentResponseDTO {
+    return {
+      organizerId: UploadDocument.organizerId.toString(),
+      id: UploadDocument.id?.toString(),
+      name: UploadDocument.fileName,
+      type: UploadDocument.type,
+      url: UploadDocument.url,
+      uploadedAt: UploadDocument.uploadedAt,
+      status: UploadDocument.status,
+      verified: UploadDocument.verified,
+      reason: UploadDocument.reason,
+      reviewedAt: UploadDocument.reviewedAt,
+      reviewedBy: UploadDocument.reviewedBy,
+    };
+  }
+  toResponseToAdmin(
+    UploadDocument: UploadDocument
+  ): UpdatedUploadDocumentResponseDTO {
+    return {
+      organizerId: UploadDocument.organizerId.toString(),
+      name: UploadDocument.fileName,
+      type: UploadDocument.type,
+      url: UploadDocument.url,
+      uploadedAt: UploadDocument.uploadedAt,
+      status: UploadDocument.status,
+      verified: UploadDocument.verified,
+      reviewedBy: UploadDocument.reviewedBy,
+      reviewedAt: UploadDocument.reviewedAt,
+      reason: UploadDocument.reason,
+    };
+  }
 
- toResponse( UploadDocument: UploadDocument ): UploadDocumentResponseDTO {
+  toEntity(dto: UploadDocumentDTO): UploadDocument {
+    return {
+      organizerId: dto.organizerId,
+      fileName: dto.name,
+      type: dto.type,
+      url: dto.url,
+      uploadedAt: new Date(),
+    };
+  }
 
-  return {
-    organizerId  :   UploadDocument.organizerId.toString(),
-    id           :   UploadDocument.id?.toString(),
-    name         :   UploadDocument.fileName,
-    type         :   UploadDocument.type,
-    url          :   UploadDocument.url,
-    uploadedAt   :   UploadDocument.uploadedAt,
-    status       :   UploadDocument.status,
-    verified     :   UploadDocument.verified,
-    reason       :   UploadDocument.reason,
-    reviewedAt   :   UploadDocument.reviewedAt,
-    reviewedBy   :    UploadDocument.reviewedBy
-
-    
+  toEntityForUpdate(dto: UpdateDocumentRequestDTO): Partial<UploadDocument> {
+    return {
+      url: dto.url,
+      status: dto.status,
+      uploadedAt: new Date(),
+    };
   }
 }
-   toResponseToAdmin( UploadDocument: UploadDocument): UpdatedUploadDocumentResponseDTO {
-   return{
-    organizerId  :  UploadDocument.organizerId.toString(),
-    name         :  UploadDocument.fileName,
-    type         :  UploadDocument.type,
-    url          :  UploadDocument.url,
-    uploadedAt   :  UploadDocument.uploadedAt,
-    status       :  UploadDocument.status,
-    verified     :  UploadDocument.verified,
-    reviewedBy   :  UploadDocument.reviewedBy,
-    reviewedAt   :  UploadDocument.reviewedAt,
-    reason       :  UploadDocument.reason
-
-   }  
-
-  
-   }
-
-    toEntity( dto: UploadDocumentDTO) : UploadDocument {
-      return {
-        organizerId : dto.organizerId ,
-        fileName    : dto .name ,
-        type        : dto.type,
-        url         : dto. url,
-       uploadedAt   : new Date()
-      }
-
-   }
-
-   toEntityForUpdate( dto: UpdateDocumentRequestDTO) : Partial<UploadDocument >{
-       return {
-          url        : dto.url,
-          status     : dto.status,
-          uploadedAt : new Date()
-       }
-   }
-} 

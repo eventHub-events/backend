@@ -1,3 +1,3 @@
 export interface IDeleteReviewUseCase {
-  execute(reviewId: string) : Promise<boolean>;
+  execute(reviewId: string): Promise<boolean>;
 }

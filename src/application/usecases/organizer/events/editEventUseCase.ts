@@ -1,27 +1,31 @@
-import { EventResponseDTO } from "../../../DTOs/organizer/events/EventResponseDTO";
-import { EventUpdateDTO } from "../../../DTOs/organizer/events/EventUpdateDTO";
-import { IEventRepository } from "../../../../domain/repositories/organizer/IEventsRepository";
-import {  IUpdateEventUseCase } from "../../../interface/useCases/organizer/events/IEditEventUseCase";
-import { IEventMapper } from "../../../interface/useCases/organizer/events/IEventMapper";
-import { ErrorMessages } from "../../../../constants/errorMessages";
+import { EventResponseDTO } from '../../../DTOs/organizer/events/EventResponseDTO';
+import { EventUpdateDTO } from '../../../DTOs/organizer/events/EventUpdateDTO';
+import { IEventRepository } from '../../../../domain/repositories/organizer/IEventsRepository';
+import { IUpdateEventUseCase } from '../../../interface/useCases/organizer/events/IEditEventUseCase';
+import { IEventMapper } from '../../../interface/useCases/organizer/events/IEventMapper';
+import { ErrorMessages } from '../../../../constants/errorMessages';
 
 export class UpdateEventUseCase implements IUpdateEventUseCase {
   constructor(
-       private _EventRepository: IEventRepository,
-       private _eventMapper: IEventMapper
-   ){}
+    private _EventRepository: IEventRepository,
+    private _eventMapper: IEventMapper
+  ) {}
 
-   async execute(eventId: string, data: EventUpdateDTO): Promise< EventResponseDTO> {
+  async execute(
+    eventId: string,
+    data: EventUpdateDTO
+  ): Promise<EventResponseDTO> {
+    const existingEvent = await this._EventRepository.findEventById(eventId);
+    const eventEntity = this._eventMapper.toEntityForUpdate(data);
 
-       const  existingEvent = await this._EventRepository.findEventById(eventId);
-       const eventEntity = this._eventMapper.toEntityForUpdate(data);
+    const updatedEvent = { ...existingEvent, ...eventEntity };
 
-       const updatedEvent = {...existingEvent,...eventEntity};
+    const savedEvent = await this._EventRepository.updateEvent(
+      eventId,
+      updatedEvent
+    );
+    if (!savedEvent) throw new Error(ErrorMessages.EVENT.UPDATE_FAILED);
 
-       const savedEvent = await this._EventRepository.updateEvent(eventId, updatedEvent);
-       if(!savedEvent) throw new Error(ErrorMessages.EVENT.UPDATE_FAILED);
-
-       return this._eventMapper.toResponseDTO(savedEvent);
-
-   }
+    return this._eventMapper.toResponseDTO(savedEvent);
+  }
 }

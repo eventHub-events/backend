@@ -3,7 +3,7 @@ export interface TrendingEventDisplayResponseDTO {
   title: string;
   category: string;
   images: string[];
-  location:  string;
+  location: string;
   attendees?: number;
   startDate: string;
   tags?: string[];
@@ -12,6 +12,4 @@ export interface TrendingEventDisplayResponseDTO {
   availability?: number;
   organizer?: string;
   description?: string;
-
-
 }

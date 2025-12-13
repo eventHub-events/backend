@@ -1,5 +1,5 @@
-declare module "pdfkit" {
+declare module 'pdfkit' {
   interface PDFPage {
-    number: number; 
+    number: number;
   }
 }

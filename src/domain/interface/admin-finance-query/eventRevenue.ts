@@ -3,12 +3,12 @@ export interface EventRevenueRow {
   eventTitle: string;
   organizerName: string;
 
-  ticketsSold: number;              
-  grossRevenue: number;             
-  platformRevenue: number;          
-  organizerRevenue: number;         
-  refundedAmount: number;           
-  netRevenue: number;               
+  ticketsSold: number;
+  grossRevenue: number;
+  platformRevenue: number;
+  organizerRevenue: number;
+  refundedAmount: number;
+  netRevenue: number;
 }
 
 export interface EventRevenuePaginated {

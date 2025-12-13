@@ -1,5 +1,5 @@
-import { UserBookingListResponseDTO } from "../../../../DTOs/user/booking/UserBookingListResponseDTO";
+import { UserBookingListResponseDTO } from '../../../../DTOs/user/booking/UserBookingListResponseDTO';
 
 export interface IGetBookingBySessionId {
-    execute(sessionId: string): Promise<UserBookingListResponseDTO>;
+  execute(sessionId: string): Promise<UserBookingListResponseDTO>;
 }

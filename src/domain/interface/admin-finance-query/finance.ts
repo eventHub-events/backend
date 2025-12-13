@@ -1,49 +1,47 @@
-
-
 export interface FinanceOverviewFilter {
-   from?: Date;
-   to?:Date;
+  from?: Date;
+  to?: Date;
 }
 
 export interface FinanceOverviewTotals {
-  grossTicketSales : number;
-  totalRefunds : number;
-  platformRevenueFromTickets : number;
-  organizerRevenueFromTickets : number;
+  grossTicketSales: number;
+  totalRefunds: number;
+  platformRevenueFromTickets: number;
+  organizerRevenueFromTickets: number;
 
-  totalBookings : number;
-  confirmedBookings : number;
-  cancelledBookings : number;
+  totalBookings: number;
+  confirmedBookings: number;
+  cancelledBookings: number;
   failedPayments: number;
-  refundedBookings :number;
+  refundedBookings: number;
 }
- export interface FinanceDailyTrend {
-  date: string;      // "2025-02-01"
-  revenue: number;   // platformFee that day
-  refunds: number;   // refundedAmount that day
-  bookings: number;  // confirmed bookings that day
+export interface FinanceDailyTrend {
+  date: string; // "2025-02-01"
+  revenue: number; // platformFee that day
+  refunds: number; // refundedAmount that day
+  bookings: number; // confirmed bookings that day
 }
 
 export interface FinanceMonthlyTrend {
-  month: string;     // "2025-02"
+  month: string; // "2025-02"
   revenue: number;
   refunds: number;
 }
 
 export interface FinanceYearlyTrend {
-  year: string;   // "2024"
+  year: string; // "2024"
   revenue: number;
   refunds: number;
 }
 
 export interface FinanceOverviewPayouts {
-  pendingPayoutAmount: number;     
-  paidPayoutAmount: number;        
+  pendingPayoutAmount: number;
+  paidPayoutAmount: number;
 }
 
 export interface FinanceOverviewSubscription {
-  subscriptionRevenue : number;
-  totalSubscription : number;
+  subscriptionRevenue: number;
+  totalSubscription: number;
 }
 export interface SubscriptionTrendDaily {
   date: string;
@@ -69,14 +67,13 @@ export interface FinanceOverviewTrend {
   subscriptionYearly: SubscriptionTrendYearly[];
 }
 
-
 export interface FinanceOverviewResults {
-   timeRange : {
+  timeRange: {
     from: Date;
     to: Date;
-   };
-   totals :FinanceOverviewTotals;
-   subscription : FinanceOverviewSubscription;
-   payouts :FinanceOverviewPayouts;
-   trend:  FinanceOverviewTrend;
+  };
+  totals: FinanceOverviewTotals;
+  subscription: FinanceOverviewSubscription;
+  payouts: FinanceOverviewPayouts;
+  trend: FinanceOverviewTrend;
 }

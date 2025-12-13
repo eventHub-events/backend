@@ -1,3 +1,3 @@
 export interface IProcessPayoutUseCase {
-  execute() :Promise<void>
+  execute(): Promise<void>;
 }

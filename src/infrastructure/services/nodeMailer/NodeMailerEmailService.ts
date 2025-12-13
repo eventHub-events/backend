@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import  { createTransport, Transporter } from 'nodemailer';
+import { createTransport, Transporter } from 'nodemailer';
 import { IEmailService } from '../../../application/interface/useCases/user/IEmailService';
 import { ErrorMessages } from '../../../constants/errorMessages';
 

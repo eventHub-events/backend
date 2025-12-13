@@ -1,75 +1,72 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
-import UserModel from "./UserModel";
-import { Address } from "../../../../domain/valueObject/user/address";
+import mongoose, { Document, Schema, Types } from 'mongoose';
+import UserModel from './UserModel';
+import { Address } from '../../../../domain/valueObject/user/address';
 
-
-
-export interface IUserProfileDocument extends Document{
-  
-  user: Types.ObjectId,
+export interface IUserProfileDocument extends Document {
+  user: Types.ObjectId;
   name: string;
   address: Address;
   memberSince: Date;
   image?: string;
   twoFAEnabled?: boolean;
-  favorites?: string [];
-
+  favorites?: string[];
 }
 
 const AddressSchema = new Schema({
   line1: {
     type: String,
-    
   },
   line2: {
-     type: String
+    type: String,
   },
   city: {
-     type: String
+    type: String,
   },
   state: {
-    type: String
+    type: String,
   },
   country: {
-    type: String
+    type: String,
   },
-  pin:{
-    type: String
-  }
+  pin: {
+    type: String,
+  },
+});
 
-})
+const UserProfileSchema = new Schema<IUserProfileDocument>(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: UserModel,
+    },
+    name: {
+      type: String,
+    },
+    address: {
+      type: AddressSchema,
+    },
 
-const UserProfileSchema = new Schema<IUserProfileDocument> ({
- 
-  user: {
-    type: Schema.Types.ObjectId,
-    ref : UserModel,
-  },
-  name : {
-    type : String
-  },
-  address: {
-     type : AddressSchema
-  },
- 
-  memberSince: {
-    type:Date
-  },
-  image : {
-    type: String
-  },
+    memberSince: {
+      type: Date,
+    },
+    image: {
+      type: String,
+    },
 
-  twoFAEnabled: {
-    type: Boolean,
-    default : false
+    twoFAEnabled: {
+      type: Boolean,
+      default: false,
+    },
+    favorites: [
+      {
+        type: String,
+      },
+    ],
   },
-  favorites:[
-    {
-      type: String
-    }
-  ]
+  { timestamps: true }
+);
 
-
-},{timestamps: true})
-
-export default mongoose.model<IUserProfileDocument>("UserProfile", UserProfileSchema);
+export default mongoose.model<IUserProfileDocument>(
+  'UserProfile',
+  UserProfileSchema
+);

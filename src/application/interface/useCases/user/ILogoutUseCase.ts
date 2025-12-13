@@ -1,3 +1,3 @@
-export interface ILogoutUseCase{
-  execute():Promise<string>
+export interface ILogoutUseCase {
+  execute(): Promise<string>;
 }

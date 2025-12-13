@@ -4,16 +4,30 @@ export class ApiResponse<T> {
     public statusCode: number,
     public message: string,
     public data?: T,
-    public errCode?:string,
+    public errCode?: string,
     public role?: string,
-    public errors?: string[],
+    public errors?: string[]
   ) {}
 
-  static success<T>(message: string,  statusCode: number = 200,data?: T,) {
+  static success<T>(message: string, statusCode: number = 200, data?: T) {
     return new ApiResponse(true, statusCode, message, data);
   }
 
-  static error<T>(message:string,  statusCode:number = 400,errCode?: string,role?: string,errors?:string[]) {
-    return new ApiResponse<T>(false, statusCode, message, undefined,errCode,role, errors);
+  static error<T>(
+    message: string,
+    statusCode: number = 400,
+    errCode?: string,
+    role?: string,
+    errors?: string[]
+  ) {
+    return new ApiResponse<T>(
+      false,
+      statusCode,
+      message,
+      undefined,
+      errCode,
+      role,
+      errors
+    );
   }
 }

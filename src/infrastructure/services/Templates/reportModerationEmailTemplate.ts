@@ -1,12 +1,14 @@
-import { ReportTypes } from "../../../domain/enums/common/report";
-import { IReportModerationEmailTemplate } from "../../interface/Templates/IReportModerationEmailTemplate";
-import { TargetPerson } from "../../types/report/report";
+import { ReportTypes } from '../../../domain/enums/common/report';
+import { IReportModerationEmailTemplate } from '../../interface/Templates/IReportModerationEmailTemplate';
+import { TargetPerson } from '../../types/report/report';
 
-export class ReportModerationEmailTemplate  implements IReportModerationEmailTemplate {
-  organizerWarningEmail(params: { organizerName: string; adminNote: string; }): {subject:string, html:string} {
-            
-         return {
-      subject: "⚠️ Warning from EventHub Trust & Safety Team",
+export class ReportModerationEmailTemplate implements IReportModerationEmailTemplate {
+  organizerWarningEmail(params: { organizerName: string; adminNote: string }): {
+    subject: string;
+    html: string;
+  } {
+    return {
+      subject: '⚠️ Warning from EventHub Trust & Safety Team',
       html: `
         <div style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6; color: #333;">
           <h2>Hello ${params.organizerName},</h2>
@@ -54,12 +56,16 @@ export class ReportModerationEmailTemplate  implements IReportModerationEmailTem
       `,
     };
   }
-  blockActionEmail(params: { name: string; targetType: ReportTypes; adminNote: string; }): {subject:string, html:string}{
-         const isEvent = params.targetType === "event";
-              return {
+  blockActionEmail(params: {
+    name: string;
+    targetType: ReportTypes;
+    adminNote: string;
+  }): { subject: string; html: string } {
+    const isEvent = params.targetType === 'event';
+    return {
       subject: isEvent
-        ? "🚫 Event Blocked by EventHub"
-        : "🚫 Organizer Account Blocked by EventHub",
+        ? '🚫 Event Blocked by EventHub'
+        : '🚫 Organizer Account Blocked by EventHub',
 
       html: `
         <div style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6; color: #333;">
@@ -67,13 +73,13 @@ export class ReportModerationEmailTemplate  implements IReportModerationEmailTem
 
           <p>
             After careful review, the EventHub Trust & Safety Team has taken
-            action on your <strong>${isEvent ? "event" : "organizer account"}</strong>
+            action on your <strong>${isEvent ? 'event' : 'organizer account'}</strong>
             due to repeated or serious violations of our platform policies.
           </p>
 
           <p>
             <strong style="color:#dc2626;">
-              This ${isEvent ? "event" : "organizer account"} has been blocked.
+              This ${isEvent ? 'event' : 'organizer account'} has been blocked.
             </strong>
           </p>
 
@@ -123,10 +129,14 @@ export class ReportModerationEmailTemplate  implements IReportModerationEmailTem
       `,
     };
   }
-  chatWarningEmail(params: { name: string; role: TargetPerson; adminNote: string; }): { subject: string; html: string; } {
-               return {
-    subject: "⚠️ Warning for Inappropriate Chat Behavior on EventHub",
-    html: `
+  chatWarningEmail(params: {
+    name: string;
+    role: TargetPerson;
+    adminNote: string;
+  }): { subject: string; html: string } {
+    return {
+      subject: '⚠️ Warning for Inappropriate Chat Behavior on EventHub',
+      html: `
       <div style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6; color: #333;">
         <h2>Hello ${params.name},</h2>
 
@@ -169,12 +179,16 @@ export class ReportModerationEmailTemplate  implements IReportModerationEmailTem
         </p>
       </div>
     `,
-  };
+    };
   }
-  chatBlockEmail(params: { name: string; role: "user" | "organizer"; adminNote: string; }): { subject: string; html: string; } {
-               return {
-    subject: "🚫 Account Blocked Due to Chat Violations on EventHub",
-    html: `
+  chatBlockEmail(params: {
+    name: string;
+    role: 'user' | 'organizer';
+    adminNote: string;
+  }): { subject: string; html: string } {
+    return {
+      subject: '🚫 Account Blocked Due to Chat Violations on EventHub',
+      html: `
       <div style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6; color: #333;">
         <h2>Hello ${params.name},</h2>
 
@@ -218,6 +232,6 @@ export class ReportModerationEmailTemplate  implements IReportModerationEmailTem
         </p>
       </div>
     `,
-  };
+    };
   }
 }

@@ -1,47 +1,58 @@
-
-import { IOrganizerSubscriptionRepository } from "../../../../domain/repositories/organizer/IOrganizerSubscriptionRepository";
-import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
-import { IConfirmBookingUseCase } from "../../../interface/useCases/user/booking/IConfirmBookingUseCase";
-import { NotFoundError } from "../../../../domain/errors/common";
-import { BookingStatus, PayoutStatus } from "../../../../domain/enums/user/Booking";
-import { IBookingMapper } from "../../../interface/mapper/user/IBookingMapper";
-import { UserBookingListResponseDTO } from "../../../DTOs/user/booking/UserBookingListResponseDTO";
-import { ErrorMessages } from "../../../../constants/errorMessages";
+import { IOrganizerSubscriptionRepository } from '../../../../domain/repositories/organizer/IOrganizerSubscriptionRepository';
+import { IBookingRepository } from '../../../../domain/repositories/user/IBookingRepository';
+import { IConfirmBookingUseCase } from '../../../interface/useCases/user/booking/IConfirmBookingUseCase';
+import { NotFoundError } from '../../../../domain/errors/common';
+import {
+  BookingStatus,
+  PayoutStatus,
+} from '../../../../domain/enums/user/Booking';
+import { IBookingMapper } from '../../../interface/mapper/user/IBookingMapper';
+import { UserBookingListResponseDTO } from '../../../DTOs/user/booking/UserBookingListResponseDTO';
+import { ErrorMessages } from '../../../../constants/errorMessages';
 
 export class ConfirmBookingUseCase implements IConfirmBookingUseCase {
+  constructor(
+    private _subscriptionRepository: IOrganizerSubscriptionRepository,
+    private _bookingRepository: IBookingRepository,
+    private _bookingMapper: IBookingMapper
+  ) {}
+  async execute(
+    organizerId: string,
+    bookingId: string,
+    paymentId: string,
+    paymentIntentId: string
+  ): Promise<UserBookingListResponseDTO> {
+    const subscription =
+      await this._subscriptionRepository.fetchSubscriptionById(organizerId);
+    if (!subscription)
+      throw new Error(ErrorMessages.SUBSCRIPTION.SUBSCRIPTION_NOT_FOUND);
 
-   constructor(
-         private _subscriptionRepository : IOrganizerSubscriptionRepository,
-         private _bookingRepository : IBookingRepository,
-         private _bookingMapper : IBookingMapper
-   ){}
-   async execute(organizerId: string, bookingId: string, paymentId: string,paymentIntentId: string): Promise<UserBookingListResponseDTO> {
+    const payoutDelayDays = subscription.payoutDelayDays ?? 14;
+    const booking = await this._bookingRepository.findBookingById(bookingId);
 
-       
-   
-       const subscription =  await this._subscriptionRepository.fetchSubscriptionById(organizerId);
-       if(!subscription) throw new Error(ErrorMessages.SUBSCRIPTION.SUBSCRIPTION_NOT_FOUND);
-      
-       const payoutDelayDays = subscription.payoutDelayDays ?? 14
-         const booking = await this._bookingRepository.findBookingById(bookingId);
-         
-        if(!booking) throw new NotFoundError(ErrorMessages.BOOKING.BOOKING_NOT_FOUND);
+    if (!booking)
+      throw new NotFoundError(ErrorMessages.BOOKING.BOOKING_NOT_FOUND);
 
-           const status = BookingStatus.CONFIRMED;
-            const eventDate =  new Date(booking.eventDate);
-          const payoutDueDate = new Date(eventDate);
-          payoutDueDate.setDate(eventDate.getDate() + payoutDelayDays);
-           const payoutStatus  = PayoutStatus.PENDING;
-               
-            booking.applyCommission(subscription.commissionRate!);
-              
-           
-            
+    const status = BookingStatus.CONFIRMED;
+    const eventDate = new Date(booking.eventDate);
+    const payoutDueDate = new Date(eventDate);
+    payoutDueDate.setDate(eventDate.getDate() + payoutDelayDays);
+    const payoutStatus = PayoutStatus.PENDING;
 
+    booking.applyCommission(subscription.commissionRate!);
 
-           booking.update({status, payoutDueDate,payoutStatus,paymentId, sessionId: paymentId,paymentIntentId});
-         const updated = await this._bookingRepository.updateBooking(bookingId, booking);
-      return this._bookingMapper.toUserResponseDTO(updated);
-
-   }
+    booking.update({
+      status,
+      payoutDueDate,
+      payoutStatus,
+      paymentId,
+      sessionId: paymentId,
+      paymentIntentId,
+    });
+    const updated = await this._bookingRepository.updateBooking(
+      bookingId,
+      booking
+    );
+    return this._bookingMapper.toUserResponseDTO(updated);
+  }
 }

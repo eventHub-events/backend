@@ -1,7 +1,5 @@
-import { OrganizerSubscriptionRequestDTO } from "../../../../DTOs/organizer/subscription/OrganizerSubscriptionRequestDTO";
-
+import { OrganizerSubscriptionRequestDTO } from '../../../../DTOs/organizer/subscription/OrganizerSubscriptionRequestDTO';
 
 export interface IUpgradeSubscriptionUseCase {
-  
-    execute(dto: OrganizerSubscriptionRequestDTO): Promise<void>;
+  execute(dto: OrganizerSubscriptionRequestDTO): Promise<void>;
 }

@@ -1,11 +1,11 @@
-import { ReviewType } from "../../../../infrastructure/types/review/review";
+import { ReviewType } from '../../../../infrastructure/types/review/review';
 
 export interface ReviewResponseDTO {
-   id: string;
-   targetType: ReviewType;
-   rating: number;
-   review: string;
-   userId: string;
-   createdAt: Date;
-   userName?: string;
+  id: string;
+  targetType: ReviewType;
+  rating: number;
+  review: string;
+  userId: string;
+  createdAt: Date;
+  userName?: string;
 }

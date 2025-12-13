@@ -1,5 +1,5 @@
-import { ITicketTier } from "../../../../domain/valueObject/organizer/ticketTier";
-import { IWaitingListEntry } from "../../../../domain/valueObject/organizer/WaitingListEntry";
+import { ITicketTier } from '../../../../domain/valueObject/organizer/ticketTier';
+import { IWaitingListEntry } from '../../../../domain/valueObject/organizer/WaitingListEntry';
 
 export interface EventTicketingRequestDTO {
   eventId: string;
@@ -10,5 +10,4 @@ export interface EventTicketingRequestDTO {
   waitingListEnabled: boolean;
   waitingList?: IWaitingListEntry[];
   platformCommission?: number;
-
 }

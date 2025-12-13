@@ -1,10 +1,9 @@
-
-import { IOrganizerSubscriptionRepository } from "../../../../domain/repositories/organizer/IOrganizerSubscriptionRepository";
-import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
-import { IUserRepository } from "../../../../domain/repositories/user/IUserRepository";
-import { ReportRange } from "../../../../infrastructure/types/dashboard/booking";
-import { AdminDashboardDTO } from "../../../DTOs/admin/dashboard/AdminDashboardDTO";
-import { IAdminDashboardUseCase } from "../../../interface/useCases/admin/dashboard/IAdminDashboardUseCase";
+import { IOrganizerSubscriptionRepository } from '../../../../domain/repositories/organizer/IOrganizerSubscriptionRepository';
+import { IBookingRepository } from '../../../../domain/repositories/user/IBookingRepository';
+import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
+import { ReportRange } from '../../../../infrastructure/types/dashboard/booking';
+import { AdminDashboardDTO } from '../../../DTOs/admin/dashboard/AdminDashboardDTO';
+import { IAdminDashboardUseCase } from '../../../interface/useCases/admin/dashboard/IAdminDashboardUseCase';
 
 export class AdminDashboardUseCase implements IAdminDashboardUseCase {
   constructor(
@@ -21,14 +20,13 @@ export class AdminDashboardUseCase implements IAdminDashboardUseCase {
       subscriptionRevenue,
       subscriptionStatus,
       payoutSummary,
-
     ] = await Promise.all([
       this._userRepo.getUserCountSummary(),
       this._userRepo.getPendingOrganizerVerification(),
       this._bookingRepo.getRevenueAndBookingSByRange(range),
       this._subscriptionRepo.getRevenueByRange(range),
       this._subscriptionRepo.getStatusSummary(),
-      this._bookingRepo.getPendingPayoutSummary()
+      this._bookingRepo.getPendingPayoutSummary(),
     ]);
 
     return {
@@ -37,7 +35,7 @@ export class AdminDashboardUseCase implements IAdminDashboardUseCase {
         activeUsers: userSummary.activeUsers,
         totalOrganizers: userSummary.totalOrganizers,
         activeOrganizers: userSummary.activeOrganizers,
-        pendingOrganizerVerification
+        pendingOrganizerVerification,
       },
 
       bookings: {
@@ -45,20 +43,20 @@ export class AdminDashboardUseCase implements IAdminDashboardUseCase {
         platformRevenue: bookingRevenue.totals.platformRevenue,
         organizerRevenue: bookingRevenue.totals.organizerRevenue,
         bookingsCount: bookingRevenue.totals.bookingsCount,
-         timeline: bookingRevenue.timeline 
+        timeline: bookingRevenue.timeline,
       },
 
       subscriptions: {
         totalRevenue: subscriptionRevenue.totalRevenue,
         totalSubscriptions: subscriptionRevenue.totalSubscriptions,
         activeSubscriptions: subscriptionStatus.active,
-        timeline: subscriptionRevenue.timeline 
+        timeline: subscriptionRevenue.timeline,
       },
 
       payouts: {
         pendingAmount: payoutSummary.pendingAmount,
-        pendingCount: payoutSummary.pendingCount
-      }
+        pendingCount: payoutSummary.pendingCount,
+      },
     };
   }
 }

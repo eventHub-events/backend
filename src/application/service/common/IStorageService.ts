@@ -1,3 +1,3 @@
 export interface IStorageService {
-  uploadBuffer(buffer: Buffer, filePath:string): Promise<string>;
+  uploadBuffer(buffer: Buffer, filePath: string): Promise<string>;
 }

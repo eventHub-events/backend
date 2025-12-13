@@ -1,3 +1,3 @@
-export interface ISeedAdmin{
-  execute():Promise<void>
+export interface ISeedAdmin {
+  execute(): Promise<void>;
 }

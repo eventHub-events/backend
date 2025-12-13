@@ -1,19 +1,18 @@
 export class OrganizerProfileDTO {
-  name?:string;
-  email?:string;
-  phone?:number;
+  name?: string;
+  email?: string;
+  phone?: number;
   organizerId?: string;
   location?: string;
   organization?: string;
   website?: string;
   profilePicture?: string;
   bio?: string;
-  trustScore:number = 0;
-  totalEarnings:number = 0;
+  trustScore: number = 0;
+  totalEarnings: number = 0;
 
   constructor(data: Partial<OrganizerProfileDTO>) {
-
-    Object.assign(this,data)
+    Object.assign(this, data);
     // if (data.location && this.locationValidation(data.location.trim())) {
     //   this.location = data.location.trim();
     // }

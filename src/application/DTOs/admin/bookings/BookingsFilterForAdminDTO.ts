@@ -1,13 +1,12 @@
-import { BookingStatus } from "../../../../domain/enums/user/Booking";
+import { BookingStatus } from '../../../../domain/enums/user/Booking';
 
 export interface BookingFilterForAdminDTO {
-    userName?: string;
-    status?: BookingStatus;
-    organizerName?: string;
-    startDate?: string;
-    endDate?:string;
-    title?: string;
-    page?: number;
-    limit?: number;
-
+  userName?: string;
+  status?: BookingStatus;
+  organizerName?: string;
+  startDate?: string;
+  endDate?: string;
+  title?: string;
+  page?: number;
+  limit?: number;
 }

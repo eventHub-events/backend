@@ -1,9 +1,9 @@
-import { NextFunction, Response } from "express";
-import { IAuthMiddleware } from "../../application/interface/useCases/user/IAuthMiddleware";
-import { HttpStatusCode } from "../../infrastructure/interface/enums/HttpStatusCode";
-import { ApiResponse } from "../../infrastructure/commonResponseModel/ApiResponse";
-import { IAuthenticatedRequest } from "../../infrastructure/interface/IAuthenticatedRequest";
-import { IRefreshTokenUseCase } from "../../application/interface/useCases/user/IRefreshTokenUseCase";
+import { NextFunction, Response } from 'express';
+import { IAuthMiddleware } from '../../application/interface/useCases/user/IAuthMiddleware';
+import { HttpStatusCode } from '../../infrastructure/interface/enums/HttpStatusCode';
+import { ApiResponse } from '../../infrastructure/commonResponseModel/ApiResponse';
+import { IAuthenticatedRequest } from '../../infrastructure/interface/IAuthenticatedRequest';
+import { IRefreshTokenUseCase } from '../../application/interface/useCases/user/IRefreshTokenUseCase';
 
 export class AuthenticationMiddleWare {
   constructor(
@@ -20,13 +20,12 @@ export class AuthenticationMiddleWare {
       let accessToken = req.cookies?.authToken;
       const refreshToken = req.cookies?.refreshToken;
       if (!accessToken && refreshToken) {
-        const token = await this._refreshTokenUseCase.generateAccessToken(
-          refreshToken
-        );
-        res.cookie("authToken", token, {
+        const token =
+          await this._refreshTokenUseCase.generateAccessToken(refreshToken);
+        res.cookie('authToken', token, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "strict",
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict',
           maxAge: 15 * 60 * 1000,
         });
 
@@ -35,14 +34,13 @@ export class AuthenticationMiddleWare {
       if (!refreshToken && accessToken) {
         return res
           .status(HttpStatusCode.UNAUTHORIZED)
-          .json(ApiResponse.error("Unauthorized", HttpStatusCode.UNAUTHORIZED));
+          .json(ApiResponse.error('Unauthorized', HttpStatusCode.UNAUTHORIZED));
       }
 
       const resetToken = req.cookies?.resetToken ?? null;
 
-      const decoded = await this._authMiddlewareService.authenticateUser(
-        accessToken
-      );
+      const decoded =
+        await this._authMiddlewareService.authenticateUser(accessToken);
       req.user = decoded;
       req.resetToken = resetToken;
       next();
@@ -51,7 +49,7 @@ export class AuthenticationMiddleWare {
         .status(HttpStatusCode.UNAUTHORIZED)
         .json(
           ApiResponse.error(
-            "Invalid or expired token",
+            'Invalid or expired token',
             HttpStatusCode.UNAUTHORIZED
           )
         );
@@ -64,20 +62,21 @@ export class AuthenticationMiddleWare {
   ) {
     try {
       const resetToken = req.cookies?.resetToken ?? null;
-      console.log("reset token is ",resetToken)
+      console.log('reset token is ', resetToken);
       if (!resetToken) {
         return res
           .status(HttpStatusCode.UNAUTHORIZED)
           .json(
             ApiResponse.error(
-              "Unauthorized to reset password",
+              'Unauthorized to reset password',
               HttpStatusCode.UNAUTHORIZED
             )
           );
       }
-   console.log("Middleware: before authenticateUser");
-const decoded = await this._authMiddlewareService.authenticateUser(resetToken);
-console.log("Middleware: after authenticateUser");
+      console.log('Middleware: before authenticateUser');
+      const decoded =
+        await this._authMiddlewareService.authenticateUser(resetToken);
+      console.log('Middleware: after authenticateUser');
       req.user = decoded;
       req.resetToken = resetToken;
       next();
@@ -86,7 +85,7 @@ console.log("Middleware: after authenticateUser");
         .status(HttpStatusCode.UNAUTHORIZED)
         .json(
           ApiResponse.error(
-            "Invalid or expired token",
+            'Invalid or expired token',
             HttpStatusCode.UNAUTHORIZED
           )
         );
@@ -105,27 +104,22 @@ console.log("Middleware: after authenticateUser");
           .status(HttpStatusCode.UNAUTHORIZED)
           .json(
             ApiResponse.error(
-              "refreshToken missing",
+              'refreshToken missing',
               HttpStatusCode.UNAUTHORIZED
             )
           );
       }
-      const decoded = await this._authMiddlewareService.validateRefreshToken(
-        refreshToken
-      );
+      const decoded =
+        await this._authMiddlewareService.validateRefreshToken(refreshToken);
       req.refreshToken = refreshToken;
       req.user = decoded;
       next();
     } catch (err: unknown) {
-      const errMessage = err instanceof Error? err.message : "Invalid or expired refresh token" 
+      const errMessage =
+        err instanceof Error ? err.message : 'Invalid or expired refresh token';
       return res
         .status(HttpStatusCode.UNAUTHORIZED)
-        .json(
-          ApiResponse.error(
-           errMessage,
-            HttpStatusCode.UNAUTHORIZED
-          )
-        );
+        .json(ApiResponse.error(errMessage, HttpStatusCode.UNAUTHORIZED));
     }
   }
 }

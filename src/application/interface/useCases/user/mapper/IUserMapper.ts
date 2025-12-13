@@ -1,18 +1,11 @@
-
-
-import { UserRegisterDTO } from "../../../../DTOs/user/RegisterUserDTO";
-import { UserResponseDTO } from "../../../../DTOs/user/UserResponseDTO";
-import { UserEntity } from "../../../../../domain/entities/User";
-
-
-
-
+import { UserRegisterDTO } from '../../../../DTOs/user/RegisterUserDTO';
+import { UserResponseDTO } from '../../../../DTOs/user/UserResponseDTO';
+import { UserEntity } from '../../../../../domain/entities/User';
 
 export interface IUserMapper {
-  toEntity(dto: UserRegisterDTO) : UserEntity;
+  toEntity(dto: UserRegisterDTO): UserEntity;
   toResponseDTO(entity: UserEntity): UserResponseDTO;
   toResponseDTOForAdmin(entity: UserEntity): UserResponseDTO;
-  toResponseDTOList(entities : UserEntity[]) : UserResponseDTO []
+  toResponseDTOList(entities: UserEntity[]): UserResponseDTO[];
   toResponseDTOListForAdmin(entity: UserEntity[]): UserResponseDTO[];
-
 }

@@ -1,41 +1,48 @@
+import { UserRegisterDTO } from '../../../DTOs/user/RegisterUserDTO';
+import { ResetPasswordOtpDTO } from '../../../DTOs/user/ResetPasswordDTO';
+import { CustomError } from '../../../../infrastructure/errors/errorClass';
+import { HttpStatusCode } from '../../../../infrastructure/interface/enums/HttpStatusCode';
+import { ICacheService } from '../../../../infrastructure/interface/ICacheService';
+import { IOtpService } from '../../../../infrastructure/interface/IOtpService';
 
-import { UserRegisterDTO } from "../../../DTOs/user/RegisterUserDTO";
-import { ResetPasswordOtpDTO } from "../../../DTOs/user/ResetPasswordDTO";
-import { CustomError } from "../../../../infrastructure/errors/errorClass";
-import { HttpStatusCode } from "../../../../infrastructure/interface/enums/HttpStatusCode";
-import { ICacheService } from "../../../../infrastructure/interface/ICacheService";
-import { IOtpService } from "../../../../infrastructure/interface/IOtpService";
+import { IHashService } from '../../../interface/useCases/user/IHashService';
+import { IVerifyResetPasswordOtpUseCase } from '../../../interface/useCases/user/IResetPasswordOTPUseCase';
+import { ITokenService } from '../../../interface/useCases/user/ITokenService';
+import { ErrorMessages } from '../../../../constants/errorMessages';
 
-import { IHashService } from "../../../interface/useCases/user/IHashService";
-import {  IVerifyResetPasswordOtpUseCase } from "../../../interface/useCases/user/IResetPasswordOTPUseCase";
-import { ITokenService } from "../../../interface/useCases/user/ITokenService";
-import { ErrorMessages } from "../../../../constants/errorMessages";
+export class VerifyResetPasswordOtpUseCase implements IVerifyResetPasswordOtpUseCase {
+  constructor(
+    private _otpService: IOtpService,
+    private _hashingService: IHashService,
+    private _tokenService: ITokenService,
+    private _cacheService: ICacheService
+  ) {}
+  async resetPassword(
+    data: ResetPasswordOtpDTO
+  ): Promise<{ user: UserRegisterDTO; token: string }> {
+    const { otp } = data;
 
-export class VerifyResetPasswordOtpUseCase implements IVerifyResetPasswordOtpUseCase{
-  constructor(private _otpService : IOtpService,
-              private _hashingService : IHashService,
-              private _tokenService : ITokenService,
-              private _cacheService: ICacheService){}
-  async resetPassword(data:ResetPasswordOtpDTO): Promise<{user:UserRegisterDTO,token:string}> {
-
-    const{otp} = data;
-
-      if(!otp){
-        throw new CustomError(ErrorMessages.AUTH.OTP_REQUIRED, HttpStatusCode.BAD_REQUEST);
-      }
-
-    const email=await this._cacheService.get(`otp:reset:${otp}`)
-
-     if (!email) {
-      throw new CustomError(ErrorMessages.AUTH.OTP_EXPIRED_OR_INVALID,HttpStatusCode.BAD_REQUEST);
+    if (!otp) {
+      throw new CustomError(
+        ErrorMessages.AUTH.OTP_REQUIRED,
+        HttpStatusCode.BAD_REQUEST
+      );
     }
 
-   const user= await  this._otpService.verifyOtp(email,otp) 
+    const email = await this._cacheService.get(`otp:reset:${otp}`);
 
-     const payload={email,type:"reset"}
-   const token = await this._tokenService.generateResetToken(payload)
+    if (!email) {
+      throw new CustomError(
+        ErrorMessages.AUTH.OTP_EXPIRED_OR_INVALID,
+        HttpStatusCode.BAD_REQUEST
+      );
+    }
 
- 
-      return  {user,token}
+    const user = await this._otpService.verifyOtp(email, otp);
+
+    const payload = { email, type: 'reset' };
+    const token = await this._tokenService.generateResetToken(payload);
+
+    return { user, token };
   }
 }

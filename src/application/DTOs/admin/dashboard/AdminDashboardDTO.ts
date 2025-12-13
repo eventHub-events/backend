@@ -21,7 +21,7 @@ export interface SubscriptionMetricsDTO {
   totalRevenue: number;
   totalSubscriptions: number;
   activeSubscriptions: number;
-   timeline: SubscriptionTimelineItem[];
+  timeline: SubscriptionTimelineItem[];
 }
 
 // ---- Payout ----

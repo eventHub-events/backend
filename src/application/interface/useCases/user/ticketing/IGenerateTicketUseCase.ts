@@ -1,5 +1,5 @@
-import { UserBookingListResponseDTO } from "../../../../DTOs/user/booking/UserBookingListResponseDTO";
+import { UserBookingListResponseDTO } from '../../../../DTOs/user/booking/UserBookingListResponseDTO';
 
 export interface IGenerateTicketUseCase {
-  execute(booking: UserBookingListResponseDTO) : Promise<string[]>;
+  execute(booking: UserBookingListResponseDTO): Promise<string[]>;
 }

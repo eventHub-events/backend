@@ -1,3 +1,3 @@
 export interface IUserBlankProfileCreationUseCase {
-  createBlankProfile(userId :string):Promise<string> ;
+  createBlankProfile(userId: string): Promise<string>;
 }

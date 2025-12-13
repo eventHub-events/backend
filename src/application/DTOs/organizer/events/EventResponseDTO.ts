@@ -1,6 +1,10 @@
-import { EventApprovalStatus, EventStatus, EventType, EventVisibility } from "../../../../domain/enums/organizer/events";
-import { ILocation } from "../../../../domain/valueObject/organizer/location";
-
+import {
+  EventApprovalStatus,
+  EventStatus,
+  EventType,
+  EventVisibility,
+} from '../../../../domain/enums/organizer/events';
+import { ILocation } from '../../../../domain/valueObject/organizer/location';
 
 export interface EventResponseDTO {
   organizerId: string;
@@ -19,11 +23,8 @@ export interface EventResponseDTO {
   organizerEmail?: string;
   approvedStatus?: EventApprovalStatus;
   featured?: boolean;
-  visibility?:EventVisibility;
+  visibility?: EventVisibility;
   tags?: string[];
   status?: EventStatus;
-  category?:string;
-
-
-
+  category?: string;
 }

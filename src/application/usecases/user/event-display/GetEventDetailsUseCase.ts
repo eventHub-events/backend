@@ -1,23 +1,20 @@
-import { EventDetailsResponseDTO } from "../../../DTOs/user/event-display/EventDetailsResponseDTO";
-import { IEventDisplayQueryRepository } from "../../../../domain/repositories/user/IEventDisplayQueryRepository";
-import { IEventDisplayMapper } from "../../../interface/mapper/user/IEventDisplayMapper";
-import { IGetEventDetailsUseCase } from "../../../interface/useCases/user/event-display/IGetEventDetailsUseCase";
-import { ErrorMessages } from "../../../../constants/errorMessages";
+import { EventDetailsResponseDTO } from '../../../DTOs/user/event-display/EventDetailsResponseDTO';
+import { IEventDisplayQueryRepository } from '../../../../domain/repositories/user/IEventDisplayQueryRepository';
+import { IEventDisplayMapper } from '../../../interface/mapper/user/IEventDisplayMapper';
+import { IGetEventDetailsUseCase } from '../../../interface/useCases/user/event-display/IGetEventDetailsUseCase';
+import { ErrorMessages } from '../../../../constants/errorMessages';
 
 export class GetEventDetailsUseCase implements IGetEventDetailsUseCase {
   constructor(
-      private _eventDisplayQueryRepository : IEventDisplayQueryRepository,
-      private _eventMapper: IEventDisplayMapper
-  ){}
+    private _eventDisplayQueryRepository: IEventDisplayQueryRepository,
+    private _eventMapper: IEventDisplayMapper
+  ) {}
   async execute(eventId: string): Promise<EventDetailsResponseDTO> {
+    const event =
+      await this._eventDisplayQueryRepository.findEventById(eventId);
 
-      const event  = await this._eventDisplayQueryRepository.findEventById(eventId);
-     
-      if(!event) throw new Error(ErrorMessages.EVENT.NOT_FOUND);
+    if (!event) throw new Error(ErrorMessages.EVENT.NOT_FOUND);
 
     return this._eventMapper.toEventDetailsResponseDTO(event);
-
-      
-
   }
 }

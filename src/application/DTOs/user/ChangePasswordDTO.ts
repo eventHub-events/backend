@@ -1,5 +1,3 @@
-
-
 // export class  ChangePasswordDTO{
 //   // readonly  email:string;
 //   public  password :string;
@@ -25,6 +23,6 @@
 // }
 
 export interface ChangePasswordDTO {
-    password:string;
-    confirmPassword:string;
+  password: string;
+  confirmPassword: string;
 }

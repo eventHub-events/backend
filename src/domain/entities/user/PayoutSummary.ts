@@ -1,4 +1,4 @@
 export interface PayoutSummary {
-   pendingAmount: number;
-   pendingCount: number;
+  pendingAmount: number;
+  pendingCount: number;
 }

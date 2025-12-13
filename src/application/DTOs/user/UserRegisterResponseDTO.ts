@@ -1,3 +1,3 @@
-export interface UserRegisterResponseDTO{
-  message:string
+export interface UserRegisterResponseDTO {
+  message: string;
 }

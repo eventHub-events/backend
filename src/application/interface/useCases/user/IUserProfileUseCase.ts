@@ -1,9 +1,9 @@
-import { UserProfileEditRequestDTO } from "../../../DTOs/user/profile/UserProfileEditRequestDTO";
-import { UserProfileResponseDTO } from "../../../DTOs/user/profile/UserProfileResponseDTO";
+import { UserProfileEditRequestDTO } from '../../../DTOs/user/profile/UserProfileEditRequestDTO';
+import { UserProfileResponseDTO } from '../../../DTOs/user/profile/UserProfileResponseDTO';
 
 /**
  * Defines user profile-related use cases in the application layer.
- * Each method represents a single business operation and remains 
+ * Each method represents a single business operation and remains
  * independent of infrastructure concerns.
  */
 export interface IUserProfileUseCase {
@@ -19,5 +19,8 @@ export interface IUserProfileUseCase {
    * @param data - Partial user profile data to update.
    * @return  A promise that  resolves with the updated user profile entity
    */
-  editProfileData(profileId: string, data: UserProfileEditRequestDTO): Promise<UserProfileResponseDTO>;
+  editProfileData(
+    profileId: string,
+    data: UserProfileEditRequestDTO
+  ): Promise<UserProfileResponseDTO>;
 }
