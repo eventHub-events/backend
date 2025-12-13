@@ -7,6 +7,9 @@ export const ErrorMessages = {
     OVER_ALL_STATUS_UPDATE_SUCCESS: 'Over all status updated successfully',
     PROFILE_CREATION_FAILED: 'Organizer Profile creation failed',
   },
+  CLOUDINARY :{
+   GENERATE_SIGNATURE_ERROR : "Cloudinary signature creation failed"
+  },
   EVENT: {
     ID_REQUIRED: 'Event id is required',
     NOT_FOUND: 'Event not found',
