@@ -1,8 +1,5 @@
-
-
-//--------------> it is the common interface for profile creation 
+//--------------> it is the common interface for profile creation
 
 export interface IProfileCreator {
   createProfile(userId: string): Promise<void>;
-
 }

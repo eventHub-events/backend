@@ -1,4 +1,8 @@
-import { ReportActions, ReportStatus, ReportTypes } from "../../../enums/common/report";
+import {
+  ReportActions,
+  ReportStatus,
+  ReportTypes,
+} from '../../../enums/common/report';
 
 export class ReportEntity {
   public reporterId: string;
@@ -11,58 +15,53 @@ export class ReportEntity {
   public status: ReportStatus;
   public id?: string;
   public adminNote?: string;
-  public createdAt?:Date;
-  public updatedAt?:  Date;
+  public createdAt?: Date;
+  public updatedAt?: Date;
   public action?: ReportActions;
   public chatId?: string;
-  public messageSnapshot?:string;
+  public messageSnapshot?: string;
   public senderName?: string;
   public senderId?: string;
 
-  constructor(
-      props:{
-          reporterId: string;
-          reporterName: string;
-          reporterRole?: string;
-          targetId: string;
-          targetType: ReportTypes;
-          reason: string;
-          description?: string;
-          status: ReportStatus;
-          adminNote?: string;
-          createdAt?:  Date;
-           updatedAt?: Date;
-           id?: string;
-           action?: ReportActions;
-           chatId?:string;
-           messageSnapshot?:string;
-           senderName?:string;
-           senderId?: string
-
-      }
-  ){
-     this.reporterId = props.reporterId;
-     this.reporterName = props.reporterName;
-     this.reporterRole = props.reporterRole;
-     this.targetId  = props.targetId;
-     this.reason = props.reason;
-     this.targetType = props.targetType;
-     this.id = props.id;
-     this.description = props.description;
-     this.createdAt = props.createdAt;
-     this.updatedAt = props.updatedAt;
-     this.adminNote = props.adminNote;
-     this.status = props.status;
-     this.action = props.action;
-     this.chatId = props.chatId;
-     this.messageSnapshot = props.messageSnapshot;
-     this.senderName = props.senderName;
-     this.senderId= props.senderId
-
-
+  constructor(props: {
+    reporterId: string;
+    reporterName: string;
+    reporterRole?: string;
+    targetId: string;
+    targetType: ReportTypes;
+    reason: string;
+    description?: string;
+    status: ReportStatus;
+    adminNote?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
+    id?: string;
+    action?: ReportActions;
+    chatId?: string;
+    messageSnapshot?: string;
+    senderName?: string;
+    senderId?: string;
+  }) {
+    this.reporterId = props.reporterId;
+    this.reporterName = props.reporterName;
+    this.reporterRole = props.reporterRole;
+    this.targetId = props.targetId;
+    this.reason = props.reason;
+    this.targetType = props.targetType;
+    this.id = props.id;
+    this.description = props.description;
+    this.createdAt = props.createdAt;
+    this.updatedAt = props.updatedAt;
+    this.adminNote = props.adminNote;
+    this.status = props.status;
+    this.action = props.action;
+    this.chatId = props.chatId;
+    this.messageSnapshot = props.messageSnapshot;
+    this.senderName = props.senderName;
+    this.senderId = props.senderId;
   }
-  update(data: Partial<ReportEntity>){
-    Object.assign(this,data);
-  return this;
+  update(data: Partial<ReportEntity>) {
+    Object.assign(this, data);
+    return this;
   }
 }

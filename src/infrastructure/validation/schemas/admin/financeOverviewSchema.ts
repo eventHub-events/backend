@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const FinanceOverviewQuerySchema = z.object({
   from: z.coerce.date().optional(),

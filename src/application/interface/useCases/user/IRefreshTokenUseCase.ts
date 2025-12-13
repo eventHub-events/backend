@@ -1,6 +1,3 @@
-
-
-
-export interface IRefreshTokenUseCase{
-  generateAccessToken(token:string):Promise<string>
+export interface IRefreshTokenUseCase {
+  generateAccessToken(token: string): Promise<string>;
 }

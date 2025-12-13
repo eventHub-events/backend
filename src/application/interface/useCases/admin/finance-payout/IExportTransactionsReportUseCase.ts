@@ -1,5 +1,5 @@
-import { TransactionsFilter } from "../../../../../domain/interface/admin-finance-query/transactions";
+import { TransactionsFilter } from '../../../../../domain/interface/admin-finance-query/transactions';
 
 export interface IExportTransactionsReportUseCase {
-  execute(filter : TransactionsFilter):  Promise<{ pdfBuffer: Buffer }>  ;
+  execute(filter: TransactionsFilter): Promise<{ pdfBuffer: Buffer }>;
 }

@@ -1,9 +1,9 @@
-  export interface IUserUpdateDTO {
+export interface IUserUpdateDTO {
   name?: string;
   email?: string;
   phone?: number;
-  password?:string;
+  password?: string;
   isVerified?: boolean;
   isBlocked?: boolean;
-  kycStatus?:string
-  }
+  kycStatus?: string;
+}

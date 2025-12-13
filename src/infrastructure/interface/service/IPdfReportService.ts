@@ -1,7 +1,8 @@
-import { TransactionsRow } from "../../../domain/interface/admin-finance-query/transactions";
-
+import { TransactionsRow } from '../../../domain/interface/admin-finance-query/transactions';
 
 export interface IPdfReportService {
-  generateTransactionsPDF(rows: TransactionsRow[],   period: { from: Date; to: Date }) : Promise<Buffer> 
-
+  generateTransactionsPDF(
+    rows: TransactionsRow[],
+    period: { from: Date; to: Date }
+  ): Promise<Buffer>;
 }

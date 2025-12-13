@@ -1,5 +1,5 @@
-import { OrganizerVerificationMiddleware } from "../../../infrastructure/middleware/verification/checkVerifiedOrganizer";
-import { userRepository } from "../../common/commonContainers";
+import { OrganizerVerificationMiddleware } from '../../../infrastructure/middleware/verification/checkVerifiedOrganizer';
+import { userRepository } from '../../common/commonContainers';
 
-
-export const organizerVerificationMiddleware = new OrganizerVerificationMiddleware(userRepository);
+export const organizerVerificationMiddleware =
+  new OrganizerVerificationMiddleware(userRepository);

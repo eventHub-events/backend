@@ -1,5 +1,5 @@
-import { EventDetailsResponseDTO } from "../../../../DTOs/user/event-display/EventDetailsResponseDTO";
+import { EventDetailsResponseDTO } from '../../../../DTOs/user/event-display/EventDetailsResponseDTO';
 
 export interface IGetEventDetailsUseCase {
-  execute(eventId: string): Promise<EventDetailsResponseDTO>
+  execute(eventId: string): Promise<EventDetailsResponseDTO>;
 }

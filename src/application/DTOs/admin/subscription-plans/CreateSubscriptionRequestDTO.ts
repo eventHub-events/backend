@@ -1,12 +1,10 @@
-import { IPrivileges } from "../../../../infrastructure/db/models/admin/SubscriptionPrivileges";
-
+import { IPrivileges } from '../../../../infrastructure/db/models/admin/SubscriptionPrivileges';
 
 export interface CreateSubscriptionRequestRequestDTO {
-  name :string;
+  name: string;
   price: number;
   durationInDays: number;
-  description : string;
+  description: string;
   privileges: IPrivileges;
   isActive?: boolean;
-
 }

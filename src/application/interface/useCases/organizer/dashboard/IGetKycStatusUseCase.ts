@@ -1,5 +1,5 @@
-import { IOrganizerKycStatus } from "../../../../../domain/interface/organizer-dashboard/dashboard";
+import { IOrganizerKycStatus } from '../../../../../domain/interface/organizer-dashboard/dashboard';
 
 export interface IGetKycStatusUseCae {
-  execute(organizerId: string): Promise<IOrganizerKycStatus>
+  execute(organizerId: string): Promise<IOrganizerKycStatus>;
 }

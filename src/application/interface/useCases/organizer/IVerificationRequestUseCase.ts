@@ -1,5 +1,8 @@
-import { RequestVerificationDTO } from "../../../DTOs/organizer/verification/requestVerificationDTO";
+import { RequestVerificationDTO } from '../../../DTOs/organizer/verification/requestVerificationDTO';
 
 export interface IVerificationRequestUseCase {
-  requestVerification (organizerId: string, requestData : RequestVerificationDTO): Promise<string>;
+  requestVerification(
+    organizerId: string,
+    requestData: RequestVerificationDTO
+  ): Promise<string>;
 }

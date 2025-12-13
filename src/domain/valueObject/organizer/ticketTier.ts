@@ -1,4 +1,4 @@
-import { TicketStatus } from "../../enums/organizer/events";
+import { TicketStatus } from '../../enums/organizer/events';
 
 export interface ITicketTier {
   name: string;
@@ -11,6 +11,5 @@ export interface ITicketTier {
   saleStartDate?: Date;
   saleEndDate?: Date;
   maxTicketPerUser?: number;
-  isRefundable?: boolean
-
+  isRefundable?: boolean;
 }

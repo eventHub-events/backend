@@ -1,5 +1,5 @@
-import { TrendingEventDisplayResponseDTO } from "../../../../DTOs/user/event-display/TrendingEventDisplayResponseDTO";
+import { TrendingEventDisplayResponseDTO } from '../../../../DTOs/user/event-display/TrendingEventDisplayResponseDTO';
 
 export interface IGetTrendingEventUseCase {
-   execute(): Promise<TrendingEventDisplayResponseDTO[]>;
+  execute(): Promise<TrendingEventDisplayResponseDTO[]>;
 }

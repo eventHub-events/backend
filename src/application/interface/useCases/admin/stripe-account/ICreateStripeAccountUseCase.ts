@@ -1,4 +1,3 @@
 export interface ICreateStripeAccountUseCase {
-  execute(organizerId: string, email: string) : Promise<string>;
-
+  execute(organizerId: string, email: string): Promise<string>;
 }

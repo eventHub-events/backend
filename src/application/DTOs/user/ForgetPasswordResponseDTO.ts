@@ -1,4 +1,3 @@
-export class  ForgetPasswordResponseDTO{
-  constructor(public readonly message : string){}
-
+export class ForgetPasswordResponseDTO {
+  constructor(public readonly message: string) {}
 }

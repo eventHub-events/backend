@@ -1,3 +1,3 @@
 export interface ICancelEventUseCase {
-  execute(eventId: string): Promise<string>
+  execute(eventId: string): Promise<string>;
 }

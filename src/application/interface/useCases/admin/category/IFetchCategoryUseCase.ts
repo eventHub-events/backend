@@ -1,5 +1,5 @@
-import { CategoryEntity } from "../../../../../domain/entities/admin/Category";
+import { CategoryEntity } from '../../../../../domain/entities/admin/Category';
 
-export interface IFetchCategoryUseCase  {
-  execute(categoryId?: string) : Promise< CategoryEntity[]> ;
+export interface IFetchCategoryUseCase {
+  execute(categoryId?: string): Promise<CategoryEntity[]>;
 }

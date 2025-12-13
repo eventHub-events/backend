@@ -24,8 +24,8 @@ export interface IOrganizerEventRow {
   netRevenue: number;
   organizerRevenue: number;
   platformFee: number;
- payoutPending: number,
-    payoutReceived: number
+  payoutPending: number;
+  payoutReceived: number;
 }
 
 export interface IOrganizerEventPerformance {
@@ -36,7 +36,7 @@ export interface IOrganizerEventPerformance {
 export interface IOrganizerPayoutRow {
   bookingId: string;
   payoutAmount: number;
-  payoutStatus: "pending" | "paid";
+  payoutStatus: 'pending' | 'paid';
   payoutDueDate?: string;
   payoutDate?: string;
 }
@@ -58,13 +58,13 @@ export interface IOrganizerSubscriptionSummary {
 export interface IOrganizerKycDocument {
   type: string;
   url: string;
-  status: string;   // Pending | Approved | Rejected
+  status: string; // Pending | Approved | Rejected
   reason?: string;
-  uploadedAt: Date
+  uploadedAt: Date;
 }
 
 export interface IOrganizerKycStatus {
-   kycStatus: "Pending" | "Approved" | "Rejected" | "N/A";
+  kycStatus: 'Pending' | 'Approved' | 'Rejected' | 'N/A';
   isKycResubmitted: boolean;
   documents: IOrganizerKycDocument[];
 }
@@ -78,7 +78,6 @@ export interface IOrganizerDashboardOverview {
   kyc: IOrganizerKycStatus;
 }
 export interface OrganizerDashboardFilter {
-  
   from?: string | Date;
   to?: string | Date;
 }

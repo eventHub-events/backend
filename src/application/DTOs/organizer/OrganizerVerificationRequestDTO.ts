@@ -1,6 +1,5 @@
-import { KycStatus } from "../../../infrastructure/db/models/user/UserModel";
+import { KycStatus } from '../../../infrastructure/db/models/user/UserModel';
 
 export interface OrganizerVerificationRequestDTO {
-  kycStatus : KycStatus;
-
+  kycStatus: KycStatus;
 }

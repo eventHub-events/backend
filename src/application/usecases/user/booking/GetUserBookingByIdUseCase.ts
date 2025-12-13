@@ -1,20 +1,20 @@
-import { ErrorMessages } from "../../../../constants/errorMessages";
-import { NotFoundError } from "../../../../domain/errors/common";
-import { IBookingRepository } from "../../../../domain/repositories/user/IBookingRepository";
-import { UserBookingListResponseDTO } from "../../../DTOs/user/booking/UserBookingListResponseDTO";
-import { IBookingMapper } from "../../../interface/mapper/user/IBookingMapper";
-import { IGetUserBookingById } from "../../../interface/useCases/user/booking/IGetUserBookingByIdUseCase";
+import { ErrorMessages } from '../../../../constants/errorMessages';
+import { NotFoundError } from '../../../../domain/errors/common';
+import { IBookingRepository } from '../../../../domain/repositories/user/IBookingRepository';
+import { UserBookingListResponseDTO } from '../../../DTOs/user/booking/UserBookingListResponseDTO';
+import { IBookingMapper } from '../../../interface/mapper/user/IBookingMapper';
+import { IGetUserBookingById } from '../../../interface/useCases/user/booking/IGetUserBookingByIdUseCase';
 
 export class GetUserBookingByIdUseCase implements IGetUserBookingById {
-     constructor(
-        private _bookingRepo : IBookingRepository,
-        private _bookingMapper : IBookingMapper
-     ){}
+  constructor(
+    private _bookingRepo: IBookingRepository,
+    private _bookingMapper: IBookingMapper
+  ) {}
   async execute(bookingId: string): Promise<UserBookingListResponseDTO> {
-      
-      const booking = await this._bookingRepo.findBookingById(bookingId);
-      if(!booking) throw new NotFoundError(ErrorMessages.BOOKING.BOOKING_NOT_FOUND);
+    const booking = await this._bookingRepo.findBookingById(bookingId);
+    if (!booking)
+      throw new NotFoundError(ErrorMessages.BOOKING.BOOKING_NOT_FOUND);
 
-      return this._bookingMapper.toUserResponseDTO(booking);
+    return this._bookingMapper.toUserResponseDTO(booking);
   }
 }

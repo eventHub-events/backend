@@ -7,17 +7,16 @@ export interface TransactionsFilter {
   eventTitle?: string;
   organizerName?: string;
   userName?: string;
-
 }
 
 export interface TransactionsRow {
-  bookingId : string;
+  bookingId: string;
   eventId: string;
   eventTitle: string;
-  organizerName :string;
-  userName :string;
+  organizerName: string;
+  userName: string;
   totalAmount: number;
-  platformFee : number;
+  platformFee: number;
   organizerAmount: number;
   paymentId: string;
   status: string;
@@ -27,8 +26,8 @@ export interface TransactionsRow {
 
 export interface TransactionPaginatedResult {
   page: number;
-  limit : number;
+  limit: number;
   total: number;
-  totalPages :number;
-  data : TransactionsRow[]
+  totalPages: number;
+  data: TransactionsRow[];
 }

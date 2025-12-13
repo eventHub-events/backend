@@ -1,5 +1,3 @@
-
-
 export interface IDeleteCategoryUseCase {
-  execute(categoryId: string): Promise< string>
+  execute(categoryId: string): Promise<string>;
 }

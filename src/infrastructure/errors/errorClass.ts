@@ -13,15 +13,15 @@ export class CustomError extends Error {
   ) {
     super(message);
 
-    Object.defineProperty(this, "name", {
-      value: "CustomError",
+    Object.defineProperty(this, 'name', {
+      value: 'CustomError',
       writable: false,
       configurable: false,
     });
 
     this.statusCode = statusCode;
-    this.errCode = errCode;  
-    this.role = role;            
+    this.errCode = errCode;
+    this.role = role;
     this.errors = errors;
 
     // Fix prototype chain

@@ -1,1 +1,1 @@
- export const RESETPASSWORD_OTP_TLL = 500
+export const RESETPASSWORD_OTP_TLL = 500;

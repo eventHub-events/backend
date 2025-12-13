@@ -1,19 +1,18 @@
- import { KycStatus } from "../../../infrastructure/db/models/user/UserModel";
-
+import { KycStatus } from '../../../infrastructure/db/models/user/UserModel';
 
 export interface UserRegisterDTO {
-    name: string;
+  name: string;
 
-   email: string;
+  email: string;
 
-    phone?: number;
+  phone?: number;
 
-    password: string;
+  password: string;
 
-    isVerified?:boolean;
+  isVerified?: boolean;
 
-    role:string;
-   isBlocked:boolean;
-    kycStatus:KycStatus;
-   isKycResubmitted? :boolean;
+  role: string;
+  isBlocked: boolean;
+  kycStatus: KycStatus;
+  isKycResubmitted?: boolean;
 }

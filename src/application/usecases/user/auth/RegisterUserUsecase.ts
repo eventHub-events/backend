@@ -9,27 +9,28 @@ import { IRegisterUserUseCase } from '../../../interface/useCases/user/IRegister
 import { ResponseMessages } from '../../../../infrastructure/constants/responseMessages';
 import { ErrorMessages } from '../../../../constants/errorMessages';
 
-
-
 export class RegisterUserUseCase implements IRegisterUserUseCase {
   constructor(
     private _userRepo: IUserRepository,
     private _generateOtpUseCase: IGenerateOtpUseCase,
-    private _emailService: IEmailService,
+    private _emailService: IEmailService
   ) {}
 
-  async execute(data: UserRegisterDTO ): Promise< UserRegisterResponseDTO > {
-
+  async execute(data: UserRegisterDTO): Promise<UserRegisterResponseDTO> {
     const existing = await this._userRepo.findByEmail(data.email);
 
-    if (existing) throw new CustomError(ErrorMessages.USER.USER_ALREADY_EXITS,HttpStatusCode.BAD_REQUEST );
+    if (existing)
+      throw new CustomError(
+        ErrorMessages.USER.USER_ALREADY_EXITS,
+        HttpStatusCode.BAD_REQUEST
+      );
 
     const otp = await this._generateOtpUseCase.execute(data.email, data);
     console.log(` OTP for ${data.email}: ${otp}`);
     await this._emailService.sendMail(
       data.email,
       'Your OTP code',
-      `<h2> your OTP is ${otp}</h2>`,
+      `<h2> your OTP is ${otp}</h2>`
     );
     return { message: ResponseMessages.AUTHENTICATION.OTP.OTP_SENT_SUCCESS };
   }

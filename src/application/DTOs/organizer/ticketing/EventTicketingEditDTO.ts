@@ -1,5 +1,5 @@
-import { ITicketTier } from "../../../../domain/valueObject/organizer/ticketTier";
-import { IWaitingListEntry } from "../../../../domain/valueObject/organizer/WaitingListEntry";
+import { ITicketTier } from '../../../../domain/valueObject/organizer/ticketTier';
+import { IWaitingListEntry } from '../../../../domain/valueObject/organizer/WaitingListEntry';
 
 export interface EventTicketingEditDTO {
   eventId?: string;

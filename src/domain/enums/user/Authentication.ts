@@ -1,4 +1,4 @@
 export enum RegistrationTypes {
-    Normal = "normal",
-    GoogleAuth= "googleAuth"
+  Normal = 'normal',
+  GoogleAuth = 'googleAuth',
 }

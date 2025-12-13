@@ -1,22 +1,22 @@
-import { KycStatus } from "../../db/models/user/UserModel";
-import { IVerificationEmailTemplate } from "../../interface/IVerificationEmailtemplate";
+import { KycStatus } from '../../db/models/user/UserModel';
+import { IVerificationEmailTemplate } from '../../interface/IVerificationEmailtemplate';
 
+export class VerificationEmailTemplate implements IVerificationEmailTemplate {
+  generateHtml(name: string, status: KycStatus): string {
+    let message = '';
 
-export  class VerificationEmailTemplate implements IVerificationEmailTemplate {
- 
-
-   generateHtml(name:string, status: KycStatus): string {
-    let message = "";
-
-    switch(status) {
+    switch (status) {
       case KycStatus.Pending:
-        message = "Your verification request has been received and is being received";
+        message =
+          'Your verification request has been received and is being received';
         break;
       case KycStatus.Approved:
-         message = "Congratulations! Your verification request has been  approved";
-         break;
+        message =
+          'Congratulations! Your verification request has been  approved';
+        break;
       case KycStatus.Rejected:
-        message = "Unfortunately, your verification request has been  rejected. Please review and resubmit.";
+        message =
+          'Unfortunately, your verification request has been  rejected. Please review and resubmit.';
         break;
     }
     return `
@@ -28,7 +28,5 @@ export  class VerificationEmailTemplate implements IVerificationEmailTemplate {
         <p>Thank you,<br/>EventHub Team</p>
       </div>
     `;
-
   }
-
 }

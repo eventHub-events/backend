@@ -1,8 +1,6 @@
-import { DocumentStatus } from "../../../domain/enums/organizer/documentStatus";
-
+import { DocumentStatus } from '../../../domain/enums/organizer/documentStatus';
 
 export interface UpdateDocumentRequestDTO {
-  url?  : string;
+  url?: string;
   status?: DocumentStatus;
-  
 }

@@ -4,7 +4,7 @@ export interface CommunityMessagePayload {
   senderType: string;
   senderName?: string;
   message: string;
-  conversationId?: string;   
+  conversationId?: string;
   createdAt: string;
 }
 export interface JoinEventRoomPayload {
@@ -24,7 +24,7 @@ export interface PrivateMessagePayload {
   eventId: string;
   message: string;
   createdAt: string;
-  senderName: string
+  senderName: string;
 }
 
 export interface OnlineStatusPayload {
@@ -32,6 +32,6 @@ export interface OnlineStatusPayload {
   isOnline: boolean;
 }
 export interface ChatOpenState {
-   userId : string;
-   conversationId :string
+  userId: string;
+  conversationId: string;
 }

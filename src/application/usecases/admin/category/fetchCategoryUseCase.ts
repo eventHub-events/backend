@@ -1,31 +1,26 @@
-import { CategoryEntity } from "../../../../domain/entities/admin/Category";
-import { ICategoryRepository } from "../../../../domain/repositories/admin/ICategoryRepository";
-import { IFetchCategoryUseCase } from "../../../interface/useCases/admin/category/IFetchCategoryUseCase";
-import { ICategoryMapper } from "../../../interface/mapper/admin/ICategoryMapper";
-import { ErrorMessages } from "../../../../constants/errorMessages";
+import { CategoryEntity } from '../../../../domain/entities/admin/Category';
+import { ICategoryRepository } from '../../../../domain/repositories/admin/ICategoryRepository';
+import { IFetchCategoryUseCase } from '../../../interface/useCases/admin/category/IFetchCategoryUseCase';
+import { ICategoryMapper } from '../../../interface/mapper/admin/ICategoryMapper';
+import { ErrorMessages } from '../../../../constants/errorMessages';
 
-export  class FetchCategoryUseCase implements IFetchCategoryUseCase {
-   constructor(
-        private _categoryRepo: ICategoryRepository,
-        private _categoryMapper: ICategoryMapper
-   ){}
+export class FetchCategoryUseCase implements IFetchCategoryUseCase {
+  constructor(
+    private _categoryRepo: ICategoryRepository,
+    private _categoryMapper: ICategoryMapper
+  ) {}
   async execute(categoryId?: string): Promise<CategoryEntity[]> {
+    if (categoryId) {
+      const fetchedDoc = await this._categoryRepo.fetchCategoryById(categoryId);
 
-        if(categoryId){
-          const fetchedDoc = await this._categoryRepo.fetchCategoryById(categoryId);
+      if (!fetchedDoc) {
+        throw new Error(ErrorMessages.CATEGORY.NOT_FOUND);
+      }
 
-           if(!fetchedDoc){
-             throw new Error(ErrorMessages.CATEGORY.NOT_FOUND);
-           }
-
-           return [this._categoryMapper.toResponseDTO(fetchedDoc)]
-
-        }
-        else {
-          const fetchedDocs = await this._categoryRepo.fetchAllCategories();
-       return this._categoryMapper.toResponseDTOList(fetchedDocs)
-
-        }
-
+      return [this._categoryMapper.toResponseDTO(fetchedDoc)];
+    } else {
+      const fetchedDocs = await this._categoryRepo.fetchAllCategories();
+      return this._categoryMapper.toResponseDTOList(fetchedDocs);
+    }
   }
 }

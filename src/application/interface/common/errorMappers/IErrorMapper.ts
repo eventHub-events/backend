@@ -1,5 +1,5 @@
-import { CustomError } from "../../../../infrastructure/errors/errorClass";
+import { CustomError } from '../../../../infrastructure/errors/errorClass';
 
-export interface IErrorMapper{
-  toHttp(error: Error): CustomError
+export interface IErrorMapper {
+  toHttp(error: Error): CustomError;
 }

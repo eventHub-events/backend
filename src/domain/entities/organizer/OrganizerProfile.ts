@@ -9,10 +9,7 @@
 //    totalEarnings:number,
 //    trustScore:number
 
-
-
 // }
-
 
 // export interface OrganizerProfile{
 //    organizerId?:string,
@@ -27,17 +24,15 @@
 
 // }
 export class OrganizerProfile {
-   constructor(
-
-      public location: string,
-      public organization: string,
-      public website: string,
-      public profilePicture: string,
-      public bio: string,
-      public totalEarnings: number,
-      public trustScore: number,
-      public organizerId?: string,
-      public kycVerified?: boolean,
-
-   ){}
+  constructor(
+    public location: string,
+    public organization: string,
+    public website: string,
+    public profilePicture: string,
+    public bio: string,
+    public totalEarnings: number,
+    public trustScore: number,
+    public organizerId?: string,
+    public kycVerified?: boolean
+  ) {}
 }

@@ -1,3 +1,3 @@
 export interface IHandleEventCancellationUseCase {
-  execute(eventId :string) : Promise<void>;
+  execute(eventId: string): Promise<void>;
 }

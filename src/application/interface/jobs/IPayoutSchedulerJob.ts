@@ -1,4 +1,4 @@
 export interface IPayoutSchedulerJob {
-   start():void;
-   stop(): void;
+  start(): void;
+  stop(): void;
 }

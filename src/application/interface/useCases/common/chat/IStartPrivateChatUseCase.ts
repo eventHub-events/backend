@@ -1,5 +1,9 @@
-import { ConversationResponseDTO } from "../../../../DTOs/common/chat/ConversationResponseDTO";
+import { ConversationResponseDTO } from '../../../../DTOs/common/chat/ConversationResponseDTO';
 
 export interface IStartPrivateChatUseCase {
-  execute(userId: string, organizerId: string, eventId: string): Promise< ConversationResponseDTO>;
+  execute(
+    userId: string,
+    organizerId: string,
+    eventId: string
+  ): Promise<ConversationResponseDTO>;
 }

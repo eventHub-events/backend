@@ -1,16 +1,15 @@
-import { UserResponseDTO } from "../../DTOs/user/UserResponseDTO";
-import { IUserDocument } from "../../../infrastructure/db/models/user/UserModel";
-import { IUserMapper } from "../../interface/useCases/user/mapper/IUserMapper";
-import { IUsersMapper } from "../../interface/useCases/user/mapper/IUsersMapper";
+import { UserResponseDTO } from '../../DTOs/user/UserResponseDTO';
+import { IUserDocument } from '../../../infrastructure/db/models/user/UserModel';
+import { IUserMapper } from '../../interface/useCases/user/mapper/IUserMapper';
+import { IUsersMapper } from '../../interface/useCases/user/mapper/IUsersMapper';
 
-export  class UsersMapper implements IUsersMapper{
-  constructor(private _userMapper:IUserMapper){}
+export class UsersMapper implements IUsersMapper {
+  constructor(private _userMapper: IUserMapper) {}
   toResponse(users: IUserDocument[]): UserResponseDTO[] {
-      return users.map((userDoc)=>{
-        const domainUser=this._userMapper.toDomain(userDoc);
-        const response= this._userMapper.toResponse(domainUser)
-         return response
-      })
+    return users.map(userDoc => {
+      const domainUser = this._userMapper.toDomain(userDoc);
+      const response = this._userMapper.toResponse(domainUser);
+      return response;
+    });
   }
-
 }

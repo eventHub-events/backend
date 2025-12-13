@@ -7,5 +7,5 @@ export interface RatingSummaryResponseDTO {
     3: number;
     4: number;
     5: number;
-  }
+  };
 }

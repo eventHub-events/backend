@@ -1,5 +1,11 @@
-import { IOrganizerEventPerformance, OrganizerDashboardFilter } from "../../../../../domain/interface/organizer-dashboard/dashboard";
+import {
+  IOrganizerEventPerformance,
+  OrganizerDashboardFilter,
+} from '../../../../../domain/interface/organizer-dashboard/dashboard';
 
 export interface IGetEventPerformanceUseCase {
-  execute(organizerId :string, filter?:OrganizerDashboardFilter) :Promise<IOrganizerEventPerformance>;
+  execute(
+    organizerId: string,
+    filter?: OrganizerDashboardFilter
+  ): Promise<IOrganizerEventPerformance>;
 }

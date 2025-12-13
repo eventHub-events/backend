@@ -1,17 +1,16 @@
-import { NextFunction, Request, Response } from "express";
-import { UserRegisterDTO } from "../../../application/DTOs/user/RegisterUserDTO";
-import { HttpStatusCode } from "../../../infrastructure/interface/enums/HttpStatusCode";
-import { IRegisterUserUseCase } from "../../../application/interface/useCases/user/IRegisterUserUsecase";
-import { IVerifyOtpUseCase } from "../../../application/interface/useCases/user/IVerifyOtpUseCase";
-import { ApiResponse } from "../../../infrastructure/commonResponseModel/ApiResponse";
-import { IResendOtpUseCase } from "../../../application/interface/useCases/user/IResendOtpUseCase";
-import { ILoginUserUseCase } from "../../../application/interface/useCases/user/ILoginUserUseCase";
-import { IAuthenticatedRequest } from "../../../infrastructure/interface/IAuthenticatedRequest";
-import { ILogoutUseCase } from "../../../application/interface/useCases/user/ILogoutUseCase";
-import { ResponseMessages } from "../../../infrastructure/constants/responseMessages";
-import { ErrorMessages } from "../../../constants/errorMessages";
-import { CookieOptionsUtility } from "../../../utils/CookieOptions.utility";
-
+import { NextFunction, Request, Response } from 'express';
+import { UserRegisterDTO } from '../../../application/DTOs/user/RegisterUserDTO';
+import { HttpStatusCode } from '../../../infrastructure/interface/enums/HttpStatusCode';
+import { IRegisterUserUseCase } from '../../../application/interface/useCases/user/IRegisterUserUsecase';
+import { IVerifyOtpUseCase } from '../../../application/interface/useCases/user/IVerifyOtpUseCase';
+import { ApiResponse } from '../../../infrastructure/commonResponseModel/ApiResponse';
+import { IResendOtpUseCase } from '../../../application/interface/useCases/user/IResendOtpUseCase';
+import { ILoginUserUseCase } from '../../../application/interface/useCases/user/ILoginUserUseCase';
+import { IAuthenticatedRequest } from '../../../infrastructure/interface/IAuthenticatedRequest';
+import { ILogoutUseCase } from '../../../application/interface/useCases/user/ILogoutUseCase';
+import { ResponseMessages } from '../../../infrastructure/constants/responseMessages';
+import { ErrorMessages } from '../../../constants/errorMessages';
+import { CookieOptionsUtility } from '../../../utils/CookieOptions.utility';
 
 export class AuthController {
   constructor(
@@ -19,94 +18,124 @@ export class AuthController {
     private _resendOtpUseCase: IResendOtpUseCase,
     private _verifyOtpUseCase: IVerifyOtpUseCase,
     private _loginUserUseCase: ILoginUserUseCase,
-    private _logoutUserUseCase:ILogoutUseCase,
-   
+    private _logoutUserUseCase: ILogoutUseCase
   ) {}
 
- async registerUser( req: Request, res: Response, next: NextFunction): Promise<void> {
-   try{
-         const dto: UserRegisterDTO = req.body;
-         const result = await this._registerUserCase.execute(dto);
-
-      res.status(HttpStatusCode.OK).json(ApiResponse.success(result.message,HttpStatusCode.OK, result));
-   }catch(err){
-      next(err)
-   }
- }
-
-  async resendOtp(req: Request, res: Response,next :NextFunction):Promise<void> {
+  async registerUser(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
-      
-         const { email } = req.body;
-          
-          const result = await this._resendOtpUseCase.execute(email);
+      const dto: UserRegisterDTO = req.body;
+      const result = await this._registerUserCase.execute(dto);
 
-     res.status(HttpStatusCode.OK).json(ApiResponse.success(result,HttpStatusCode.OK,result));
-
+      res
+        .status(HttpStatusCode.OK)
+        .json(ApiResponse.success(result.message, HttpStatusCode.OK, result));
     } catch (err) {
-       next(err)
+      next(err);
     }
   }
 
-  async verifyOtp(req: Request, res: Response, next: NextFunction) : Promise<void>{
+  async resendOtp(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const { email } = req.body;
+
+      const result = await this._resendOtpUseCase.execute(email);
+
+      res
+        .status(HttpStatusCode.OK)
+        .json(ApiResponse.success(result, HttpStatusCode.OK, result));
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async verifyOtp(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const { email, otp } = req.body;
 
       const result = await this._verifyOtpUseCase.execute(email, otp);
-    
-     
-       res
+
+      res
         .status(HttpStatusCode.OK)
-        .json(ApiResponse.success(ResponseMessages.AUTHENTICATION.OTP.OTP_VERIFICATION_SUCCESS, HttpStatusCode.OK,result));
+        .json(
+          ApiResponse.success(
+            ResponseMessages.AUTHENTICATION.OTP.OTP_VERIFICATION_SUCCESS,
+            HttpStatusCode.OK,
+            result
+          )
+        );
     } catch (err) {
-     
-        next(err)
+      next(err);
     }
   }
-  async loginUser(req: Request, res: Response, next: NextFunction): Promise<void> {
+  async loginUser(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     try {
       const { email, password } = req.body;
-    
+
       if (!email || !password) {
-         res
+        res
           .status(HttpStatusCode.BAD_REQUEST)
-          .json(ApiResponse.error(ErrorMessages.AUTH.EMAIL_AND_PASSWORD_REQUIRED));
+          .json(
+            ApiResponse.error(ErrorMessages.AUTH.EMAIL_AND_PASSWORD_REQUIRED)
+          );
       }
 
-     
-      const { token, refreshToken,user } = await this._loginUserUseCase.loginUser(
-        email,
-        password
-      );
+      const { token, refreshToken, user } =
+        await this._loginUserUseCase.loginUser(email, password);
 
       const authCookieOptions = CookieOptionsUtility.create(15 * 60 * 1000);
-      res.cookie("authToken", token, authCookieOptions);
+      res.cookie('authToken', token, authCookieOptions);
 
-      const refreshCookieOption = CookieOptionsUtility.create(7 * 24 * 60 * 60 * 1000);
-       res.cookie("refreshToken", refreshToken,refreshCookieOption);
-       
-       res
+      const refreshCookieOption = CookieOptionsUtility.create(
+        7 * 24 * 60 * 60 * 1000
+      );
+      res.cookie('refreshToken', refreshToken, refreshCookieOption);
+
+      res
         .status(HttpStatusCode.OK)
-        .json(ApiResponse.success(ResponseMessages.AUTHENTICATION.LOGIN.SUCCESS,HttpStatusCode.OK,user));
+        .json(
+          ApiResponse.success(
+            ResponseMessages.AUTHENTICATION.LOGIN.SUCCESS,
+            HttpStatusCode.OK,
+            user
+          )
+        );
     } catch (err) {
-         next(err)
-      }
+      next(err);
+    }
   }
 
-      async  logout(req:IAuthenticatedRequest,res:Response, next: NextFunction): Promise<void> {
+  async logout(
+    req: IAuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const result = await this._logoutUserUseCase.execute();
 
-        try{
-          const result=await this._logoutUserUseCase.execute()
-
-          const cookieOptions = CookieOptionsUtility.create();
-          res.clearCookie("authToken",cookieOptions)
-          res.clearCookie("refreshToken",cookieOptions)
-   res.status(HttpStatusCode.OK).json(ApiResponse.success(result,HttpStatusCode.OK))
-
-        }catch(err){
-           next(err)
-        }
-
+      const cookieOptions = CookieOptionsUtility.create();
+      res.clearCookie('authToken', cookieOptions);
+      res.clearCookie('refreshToken', cookieOptions);
+      res
+        .status(HttpStatusCode.OK)
+        .json(ApiResponse.success(result, HttpStatusCode.OK));
+    } catch (err) {
+      next(err);
     }
-
+  }
 }
