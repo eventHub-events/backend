@@ -24,6 +24,9 @@ export const ResponseMessages = {
     CONTENT_TYPE: 'Content-Type',
     APPLICATION_PDF: 'application/pdf',
   },
+  EVENT_ANALYTICS: {
+    DETAILS_FETCH_SUCCESS : "Details fetched successfully"
+  },
   CLOUDINARY: {
     CLOUDINARY_SIGNATURE_CREATION_SUCCESS: 'Signature created successfully',
     CLOUDINARY_DOWNLOAD_URL_SUCCESS: 'Signed url  created successfully',
