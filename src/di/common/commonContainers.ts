@@ -2,6 +2,9 @@ import { EventMapper } from '../../application/mapper/organizer/EventMapper';
 import { OrganizerSubscriptionMapper } from '../../application/mapper/organizer/OrganizerSubscriptionMapper';
 import { BookingMapper } from '../../application/mapper/user/BookingMapper';
 import { UserMapper } from '../../application/mapper/user/UserMapper';
+import { GenerateSignedDownloadUrlUseCase } from '../../application/useCases/common/cloudinary/GenerateSignedDownloadUrlUseCase';
+import { GetKycUploadSignatureUseCase } from '../../application/useCases/common/cloudinary/GetKycUploadSignatureUseCase';
+import { GetUploadSignatureUseCase } from '../../application/useCases/common/cloudinary/GetUploadSignatureUseCase';
 import { HandleEventCancelledRefundUseCase } from '../../application/useCases/common/event-cancel/handleEventCancelledRefundUseCase';
 import { GoogleAuthUseCase } from '../../application/useCases/common/useCases/GoogleAuthUseCase';
 import { HandleStripeWebhookUseCase } from '../../application/useCases/common/useCases/HandleStripeWebhookUseCase';
@@ -31,6 +34,8 @@ import { OrganizerSubscriptionRepository } from '../../infrastructure/repositori
 import { BookingRepository } from '../../infrastructure/repositories/user/booking/BookingRepository';
 import { UserProfileRepository } from '../../infrastructure/repositories/user/profile/UserProfileRepository';
 import { UserRepository } from '../../infrastructure/repositories/UserRepository';
+import { CloudinaryService } from '../../infrastructure/services/cloudinary/cloudinaryService';
+import { OrganizerDocumentsCloudinaryService } from '../../infrastructure/services/cloudinary/OrganizerDocumentsCloudinaryService';
 import { GoogleAuthService } from '../../infrastructure/services/googleAuthService/Auth';
 import { BcryptHashService } from '../../infrastructure/services/hashing/BcryptHashService';
 import { HashService } from '../../infrastructure/services/hashing/HashService';
@@ -44,6 +49,7 @@ import { RedisCacheService } from '../../infrastructure/services/otp/RedisCacheS
 import { CloudinaryStorageService } from '../../infrastructure/services/storageService/CloudinaryStorageService';
 import { StripeWebhookService } from '../../infrastructure/services/StripeWebhookService/StripeWebHookService';
 import { RefundConfirmationEmailTemplate } from '../../infrastructure/services/Templates/refundConfirmationEmailTemplate';
+import { CloudinaryController } from '../../interfaceAdapter/controllers/common/CloudinaryController';
 import { GoogleAuthController } from '../../interfaceAdapter/controllers/common/GoogleAuthController';
 import { StripeWebhookController } from '../../interfaceAdapter/controllers/common/StripWebhookController';
 import { PasswordController } from '../../interfaceAdapter/controllers/user/PasswordController';
@@ -194,4 +200,22 @@ export const stripeWebhookController = new StripeWebhookController(
 );
 export const checkBlockedMiddleware = new CheckBlockedMiddleware(
   userRepository
+);
+
+const cloudinaryService = new CloudinaryService();
+const organizerDocumentsCloudinaryService =
+  new OrganizerDocumentsCloudinaryService();
+const getKycUploadSignatureUseCase = new GetKycUploadSignatureUseCase(
+  organizerDocumentsCloudinaryService
+);
+const generateSignedDownloadUrlUseCase = new GenerateSignedDownloadUrlUseCase(
+  organizerDocumentsCloudinaryService
+);
+const getUploadSignatureUseCase = new GetUploadSignatureUseCase(
+  cloudinaryService
+);
+export const cloudinaryController = new CloudinaryController(
+  getUploadSignatureUseCase,
+  getKycUploadSignatureUseCase,
+  generateSignedDownloadUrlUseCase
 );

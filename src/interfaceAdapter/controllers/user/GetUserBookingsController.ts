@@ -24,7 +24,7 @@ export class GetUserBookingsController {
   ): Promise<void> {
     try {
       const { userId } = req.params;
-   
+
       const filters = req.validatedQuery as BookingQueryFilter;
       const { bookingsList, totalPages } =
         await this._getUserBookingsListUseCase.execute({ userId, ...filters });

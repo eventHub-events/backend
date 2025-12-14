@@ -14,7 +14,7 @@ export interface OrganizerVerificationResponseDTO {
     organizerId?: string;
     name: string;
     type: string;
-    url: string;
+    cloudinaryPublicId: string;
     uploadedAt?: Date;
     status?: 'Pending' | 'Approved' | 'Rejected';
     verified?: boolean;

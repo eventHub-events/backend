@@ -7,7 +7,7 @@ export class AuthMiddlewareService implements IAuthMiddleware {
   async authenticateUser(token: string): Promise<IDecodedUserPayload> {
     try {
       const decoded = await this._tokenService.verifyToken(token);
-      
+
       if (!decoded.id || !decoded.role) {
         throw new Error('Invalid token payload');
       }
@@ -26,7 +26,7 @@ export class AuthMiddlewareService implements IAuthMiddleware {
   ): Promise<IDecodedUserPayload> {
     try {
       const decoded = await this._tokenService.verifyRefreshToken(refreshToken);
-      
+
       if (!decoded.id || !decoded.role) {
         throw new Error('Invalid token payload');
       }

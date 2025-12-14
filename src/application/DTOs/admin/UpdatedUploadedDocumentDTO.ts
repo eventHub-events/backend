@@ -4,7 +4,8 @@ export interface UpdatedUploadDocumentResponseDTO {
   organizerId: string;
   name: string;
   type: string;
-  url: string;
+  // url: string;
+  cloudinaryPublicId: string;
   uploadedAt?: Date;
   status?: DocumentStatus;
   verified?: boolean;

@@ -1,5 +1,5 @@
 import { ICloudinaryGetSignatureResponseDTO } from '../../../../DTOs/common/cloudinary/CloudinaryGetSignatureResponseDTO';
 
-export interface IGetUploadSignatureUseCase {
-  execute(folder: string): Promise<ICloudinaryGetSignatureResponseDTO>;
+export interface IGetKycUploadSignatureUseCase {
+  execute(organizerId: string): Promise<ICloudinaryGetSignatureResponseDTO>;
 }

@@ -5,6 +5,12 @@ import { IUploadDocumentUseCase } from '../../../application/interface/useCases/
 import { CustomError } from '../../../infrastructure/errors/errorClass';
 import { ErrorMessages } from '../../../constants/errorMessages';
 import { ResponseMessages } from '../../../infrastructure/constants/responseMessages';
+import {
+  BadRequestError,
+  CreationFailedError,
+  NotFoundError,
+  UpdateFailedError,
+} from '../../../domain/errors/common';
 
 export class DocumentController {
   constructor(private _uploadDocumentUseCase: IUploadDocumentUseCase) {}
@@ -36,6 +42,11 @@ export class DocumentController {
           )
         );
     } catch (err) {
+      if (err instanceof CreationFailedError)
+        throw new CustomError(
+          err.message,
+          HttpStatusCode.INTERNAL_SERVER_ERROR
+        );
       next(err);
     }
   }
@@ -64,6 +75,8 @@ export class DocumentController {
           )
         );
     } catch (err) {
+      if (err instanceof NotFoundError)
+        throw new CustomError(err.message, HttpStatusCode.NOT_FOUND);
       next(err);
     }
   }
@@ -94,6 +107,8 @@ export class DocumentController {
           )
         );
     } catch (err) {
+      if (err instanceof NotFoundError)
+        throw new CustomError(err.message, HttpStatusCode.NOT_FOUND);
       next(err);
     }
   }
@@ -126,6 +141,13 @@ export class DocumentController {
           )
         );
     } catch (err) {
+      if (err instanceof UpdateFailedError)
+        throw new CustomError(
+          err.message,
+          HttpStatusCode.INTERNAL_SERVER_ERROR
+        );
+      if (err instanceof BadRequestError)
+        throw new CustomError(err.message, HttpStatusCode.BAD_REQUEST);
       next(err);
     }
   }

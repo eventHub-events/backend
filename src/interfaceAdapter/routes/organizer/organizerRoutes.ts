@@ -11,6 +11,7 @@ import { ZodPasswordValidator } from '../../../infrastructure/middleware/zodVali
 import { passwordSchema } from '../../../infrastructure/validation/schemas/changePasswordSchema';
 import {
   checkBlockedMiddleware,
+  cloudinaryController,
   passwordController,
 } from '../../../di/common/commonContainers';
 import {
@@ -44,7 +45,7 @@ import { chatController } from '../../../di/common/chat/container';
 import { organizerDashboardController } from '../../../di/organizer/dashboard/container';
 import { bookingQuerySchema } from '../../../infrastructure/validation/schemas/organizer/bookingQuerySchema';
 import { OrganizerDashboardQuerySchema } from '../../../infrastructure/validation/schemas/organizer/organizerDashboardQuerySchema';
-// import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccoutSecurityController";
+// import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccountSecurityController";
 
 const router = express.Router();
 
@@ -88,6 +89,15 @@ router.patch(
     organizerAccountSecurityController.updatePassword(req, res, next)
 );
 
+// ORGANIZER DOCUMENT VERIFICATION //
+
+router.get(
+  '/uploaded-documents/signed-url',
+  authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
+  checkBlockedMiddleware.execute,
+  (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
+    cloudinaryController.getSignedDocumentUrl(req, res, next)
+);
 router.post(
   '/upload-document',
   (req: Request, res: Response, next: NextFunction) =>
@@ -109,6 +119,13 @@ router.patch(
     documentController.updateDocument(req, res, next)
 );
 
+router.get(
+  '/cloudinary/:organizerId/signature',
+  authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
+  checkBlockedMiddleware.execute,
+  (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
+    cloudinaryController.getKycUploadSignature(req, res, next)
+);
 router.patch(
   '/:organizerId/verification-request',
   authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
@@ -119,6 +136,13 @@ router.patch(
       res,
       next
     )
+);
+router.get(
+  '/cloudinary/signature',
+  authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
+  checkBlockedMiddleware.execute,
+  (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
+    cloudinaryController.getSignature(req, res, next)
 );
 
 // Events Related //
@@ -162,6 +186,7 @@ router.patch(
   (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
     eventManagementController.editEvent(req, res, next)
 );
+
 // for soft delete of events //
 router.delete(
   '/events/:eventId/soft-delete',

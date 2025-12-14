@@ -16,7 +16,6 @@ export class ExportFinancePayoutPDFController {
   ) {
     try {
       const filter = req.validatedQuery as TransactionsFilter;
-      
 
       const { pdfBuffer } =
         await this._exportTransactionReportUseCase.execute(filter);

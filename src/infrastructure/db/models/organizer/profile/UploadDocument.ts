@@ -5,13 +5,14 @@ export interface IUploadDocument extends MongooseDocument {
   organizerId: string;
   fileName: string;
   type: string;
-  url: string;
+  url?: string;
   uploadedAt: Date;
   status: DocumentStatus;
   verified: boolean;
   reviewedBy?: string;
   reviewedAt?: Date;
   reason?: string;
+  cloudinaryPublicId: string;
   current: boolean;
 }
 
@@ -28,7 +29,10 @@ const DocumentSchema: Schema = new Schema(
     type: {
       type: String,
     },
-
+    cloudinaryPublicId: {
+      type: String,
+      required: true,
+    },
     url: {
       type: String,
     },

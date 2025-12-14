@@ -7,9 +7,11 @@ export const ErrorMessages = {
     OVER_ALL_STATUS_UPDATE_SUCCESS: 'Over all status updated successfully',
     PROFILE_CREATION_FAILED: 'Organizer Profile creation failed',
   },
-  CLOUDINARY :{
-   GENERATE_SIGNATURE_ERROR : "Cloudinary signature creation failed",
-   FOLDER_REQUIRED_ERROR :"Folder  name is required"
+  CLOUDINARY: {
+    GENERATE_SIGNATURE_ERROR: 'Cloudinary signature creation failed',
+    FOLDER_REQUIRED_ERROR: 'Folder  name is required',
+    CLOUDINARY_PUBLIC_ID_REQUIRED: 'Cloudinary publicId is required',
+    SIGNED_URL_CREATION_FAILED: 'Signed url  creation  failed',
   },
   EVENT: {
     ID_REQUIRED: 'Event id is required',
@@ -62,6 +64,9 @@ export const ErrorMessages = {
   UPLOAD_DOCUMENT: {
     ID_REQUIRED: 'Document id is required',
     INVALID_URL: 'Missing or inValid imageUrl',
+    FAILED_TO_SAVE: 'Failed to  save upload document',
+    DOCUMENT_NOT_FOUND: 'Document not found or could not be deleted',
+    UPDATE_FAILURE: 'Document  update failed',
   },
   PROFILE: {
     DETAILS_EMPTY: 'Update profile details are empty',

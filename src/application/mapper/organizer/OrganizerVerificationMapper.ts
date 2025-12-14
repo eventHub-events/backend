@@ -3,16 +3,17 @@ import { OrganizerVerificationResponseDTO } from '../../DTOs/admin/OrganizerVeri
 import { UpdatedUploadDocumentResponseDTO } from '../../DTOs/admin/UpdatedUploadedDocumentDTO';
 import { UploadDocumentUpdateDTO } from '../../DTOs/admin/UploadDocumentUpdateDTO';
 import { CompleteOrganizerDetailResponseDTO } from '../../DTOs/admin/UserWithOrganizerProfileDTO';
+import { KycStatus } from '../../../infrastructure/db/models/user/UserModel';
 import { UploadDocument } from '../../../domain/entities/organizer/Document';
 import { OrganizerProfile } from '../../../domain/entities/organizer/OrganizerProfile';
-import { User } from '../../../domain/entities/User';
+import { UserEntity } from '../../../domain/entities/User';
 import { OrganizerProfileWithUser } from '../../../domain/types/OrganizerTypes';
 import { IOrganizerVerificationMapper } from '../../interface/useCases/admin/IOrganizerVerificationMapper';
 
 export class OrganizerVerificationMapper implements IOrganizerVerificationMapper {
   toResponse(
     profile: OrganizerProfile,
-    user: User,
+    user: UserEntity,
     Docs: UploadDocument[]
   ): OrganizerVerificationResponseDTO {
     const mappedDocs = Docs.map(doc => {
@@ -20,7 +21,7 @@ export class OrganizerVerificationMapper implements IOrganizerVerificationMapper
         id: doc.id,
         name: doc.fileName,
         type: doc.type,
-        url: doc.url,
+        cloudinaryPublicId: doc.cloudinaryPublicId,
         uploadedAt: doc.uploadedAt,
         status: doc.status,
         verified: doc.verified,
@@ -59,8 +60,8 @@ export class OrganizerVerificationMapper implements IOrganizerVerificationMapper
         id: organizer.user.id,
         name: organizer.user.name,
         email: organizer.user.email,
-        role: organizer.user.role,
-        kycStatus: organizer.user.kycStatus,
+        role: organizer.user.role || '',
+        kycStatus: organizer.user.kycStatus || KycStatus.NotApplicable,
         createdAt: organizer.user.createdAt,
         organizerProfile: organizerProfileDetails,
       };
@@ -73,7 +74,7 @@ export class OrganizerVerificationMapper implements IOrganizerVerificationMapper
       organizerId: documentData.organizerId,
       name: documentData.fileName,
       type: documentData.type,
-      url: documentData.url,
+      cloudinaryPublicId: documentData.cloudinaryPublicId,
       uploadedAt: documentData.uploadedAt,
       status: documentData.status,
       verified: documentData.verified,
@@ -84,7 +85,7 @@ export class OrganizerVerificationMapper implements IOrganizerVerificationMapper
   }
   toDomainForOverallVerification(
     data: UpdateOrganizerOverallVerificationStatusDTO
-  ): { user: Partial<User>; profile: Partial<OrganizerProfile> } {
+  ): { user: Partial<UserEntity>; profile: Partial<OrganizerProfile> } {
     const { user, profile } = data;
     return {
       user,

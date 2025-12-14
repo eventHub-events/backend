@@ -4,8 +4,6 @@ import { UploadDocumentDTO } from '../../DTOs/organizer/DocumentDTO';
 import { UpdateDocumentRequestDTO } from '../../DTOs/organizer/UpdateDocumentRequestDto';
 import { IUploadDocumentRepository } from '../../../domain/repositories/organizer/IUploadDocumentRepository';
 import { IUserRepository } from '../../../domain/repositories/user/IUserRepository';
-import { CustomError } from '../../../infrastructure/errors/errorClass';
-import { HttpStatusCode } from '../../../infrastructure/interface/enums/HttpStatusCode';
 import {
   organizerUploadDocumentSchema,
   organizerUploadDocumentUpdateSchema,
@@ -13,6 +11,13 @@ import {
 import { IOrganizerUploadDocumentMapper } from '../../interface/useCases/admin/IOrganizerUploadDocumentMapper';
 import { IUploadDocumentsMapper } from '../../interface/useCases/organizer/IUploadDocumentsMapper';
 import { IUploadDocumentUseCase } from '../../interface/useCases/organizer/IUploadDocumentUseCase_temp';
+import {
+  BadRequestError,
+  CreationFailedError,
+  NotFoundError,
+  UpdateFailedError,
+} from '../../../domain/errors/common';
+import { ErrorMessages } from '../../../constants/errorMessages';
 
 export class UploadDocumentUseCase implements IUploadDocumentUseCase {
   constructor(
@@ -31,9 +36,8 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
       await this._uploadDocumentRepo.saveDocumentData(documentEntity);
 
     if (!savedDocument) {
-      throw new CustomError(
-        'Failed to save document data',
-        HttpStatusCode.INTERNAL_SERVER_ERROR
+      throw new CreationFailedError(
+        ErrorMessages.UPLOAD_DOCUMENT.FAILED_TO_SAVE
       );
     }
 
@@ -48,10 +52,7 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
     ]);
 
     if (!User) {
-      throw new CustomError(
-        'Failure in  fetching Userdata',
-        HttpStatusCode.INTERNAL_SERVER_ERROR
-      );
+      throw new NotFoundError(ErrorMessages.USER.NOT_FOUND);
     }
 
     if (!docs || docs.length === 0) {
@@ -65,10 +66,7 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
       await this._uploadDocumentRepo.deleteDocument(documentId);
 
     if (!deleteDocument)
-      throw new CustomError(
-        'Document not found or could not be deleted',
-        HttpStatusCode.NOT_FOUND
-      );
+      throw new NotFoundError(ErrorMessages.UPLOAD_DOCUMENT.DOCUMENT_NOT_FOUND);
     return deleteDocument;
   }
   async updateUploadedDocument(
@@ -77,10 +75,9 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
   ): Promise<UploadDocumentResponseDTO> {
     const validatedDto = organizerUploadDocumentUpdateSchema.parse(dto);
 
-    if (!validatedDto.url) {
-      throw new CustomError(
-        'Document Url is required',
-        HttpStatusCode.BAD_REQUEST
+    if (!validatedDto.cloudinaryPublicId) {
+      throw new BadRequestError(
+        ErrorMessages.CLOUDINARY.CLOUDINARY_PUBLIC_ID_REQUIRED
       );
     }
 
@@ -93,10 +90,7 @@ export class UploadDocumentUseCase implements IUploadDocumentUseCase {
     );
 
     if (!updatedDocument) {
-      throw new CustomError(
-        'Document not found or could not be updated',
-        HttpStatusCode.NOT_FOUND
-      );
+      throw new UpdateFailedError(ErrorMessages.UPLOAD_DOCUMENT.UPDATE_FAILURE);
     }
 
     return this._singleDocumentMapper.toResponse(updatedDocument);

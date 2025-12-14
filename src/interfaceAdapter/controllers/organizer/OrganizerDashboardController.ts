@@ -46,9 +46,8 @@ export class OrganizerDashboardController {
   ): Promise<void> {
     try {
       const organizerId = req.user!.id;
-    
+
       const filter = req.validatedQuery as OrganizerDashboardFilter;
-     
 
       const data = await this._organizerDashboardDetailsUseCase.execute(
         organizerId,
