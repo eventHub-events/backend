@@ -11,7 +11,7 @@ export class UploadDocumentFactory implements IDomainFactory<
       dbModel.organizerId.toString(),
       dbModel.fileName,
       dbModel.type,
-      dbModel.url,
+      dbModel.cloudinaryPublicId,
       dbModel._id.toString(),
       dbModel.uploadedAt,
       dbModel.verified,

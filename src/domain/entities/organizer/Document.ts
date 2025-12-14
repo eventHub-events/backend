@@ -5,7 +5,9 @@ export class UploadDocument {
     public organizerId: string,
     public fileName: string,
     public type: string,
-    public url: string,
+    // public url: string,
+    public cloudinaryPublicId: string,
+
     public readonly id?: string,
     public uploadedAt?: Date,
     public verified?: boolean,

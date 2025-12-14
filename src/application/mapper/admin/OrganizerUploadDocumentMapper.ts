@@ -13,7 +13,7 @@ export class OrganizerUploadDocumentMapper implements IOrganizerUploadDocumentMa
       id: UploadDocument.id?.toString(),
       name: UploadDocument.fileName,
       type: UploadDocument.type,
-      url: UploadDocument.url,
+      cloudinaryPublicId: UploadDocument.cloudinaryPublicId,
       uploadedAt: UploadDocument.uploadedAt,
       status: UploadDocument.status,
       verified: UploadDocument.verified,
@@ -29,7 +29,8 @@ export class OrganizerUploadDocumentMapper implements IOrganizerUploadDocumentMa
       organizerId: UploadDocument.organizerId.toString(),
       name: UploadDocument.fileName,
       type: UploadDocument.type,
-      url: UploadDocument.url,
+      // url: UploadDocument.url,
+      cloudinaryPublicId: UploadDocument.cloudinaryPublicId,
       uploadedAt: UploadDocument.uploadedAt,
       status: UploadDocument.status,
       verified: UploadDocument.verified,
@@ -44,14 +45,15 @@ export class OrganizerUploadDocumentMapper implements IOrganizerUploadDocumentMa
       organizerId: dto.organizerId,
       fileName: dto.name,
       type: dto.type,
-      url: dto.url,
+      cloudinaryPublicId: dto.cloudinaryPublicId,
       uploadedAt: new Date(),
     };
   }
 
   toEntityForUpdate(dto: UpdateDocumentRequestDTO): Partial<UploadDocument> {
     return {
-      url: dto.url,
+      // url: dto.url,
+      cloudinaryPublicId: dto.cloudinaryPublicId,
       status: dto.status,
       uploadedAt: new Date(),
     };
