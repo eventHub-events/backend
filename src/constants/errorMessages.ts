@@ -27,7 +27,7 @@ export const ErrorMessages = {
     USER_BLOCKED: 'USER_BLOCKED',
   },
   EVENT_ANALYTICS: {
-   DETAILS_NOT_FOUND : "Event analytics details not found"
+    DETAILS_NOT_FOUND: 'Event analytics details not found',
   },
   SUBSCRIPTION_PLAN: {
     PLAN_NOT_FOUND: 'Subscription plan not found',

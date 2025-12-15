@@ -25,7 +25,7 @@ export const ResponseMessages = {
     APPLICATION_PDF: 'application/pdf',
   },
   EVENT_ANALYTICS: {
-    DETAILS_FETCH_SUCCESS : "Details fetched successfully"
+    DETAILS_FETCH_SUCCESS: 'Details fetched successfully',
   },
   CLOUDINARY: {
     CLOUDINARY_SIGNATURE_CREATION_SUCCESS: 'Signature created successfully',

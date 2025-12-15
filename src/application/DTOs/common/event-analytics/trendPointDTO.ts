@@ -1,4 +1,4 @@
 export interface TrendPointDTO {
-    date: string;
-    value: number;
+  date: string;
+  value: number;
 }

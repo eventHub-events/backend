@@ -45,6 +45,8 @@ import { chatController } from '../../../di/common/chat/container';
 import { organizerDashboardController } from '../../../di/organizer/dashboard/container';
 import { bookingQuerySchema } from '../../../infrastructure/validation/schemas/organizer/bookingQuerySchema';
 import { OrganizerDashboardQuerySchema } from '../../../infrastructure/validation/schemas/organizer/organizerDashboardQuerySchema';
+import { EventAnalyticsQuerySchema } from '../../../infrastructure/validation/schemas/common/eventAnalyticsQuerySchema';
+import { eventAnalyticsController } from '../../../di/common/event-analytics/container';
 // import { OrganizerAccountSecurityController } from "../../controllers/organizer/organizerAccountSecurityController";
 
 const router = express.Router();
@@ -332,6 +334,14 @@ router.get(
   checkBlockedMiddleware.execute,
   (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
     organizerDashboardController.getDashboardDetails(req, res, next)
+);
+router.get(
+  '/event-analytics',
+  InputDataValidator.validateQuery(EventAnalyticsQuerySchema),
+  authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
+  checkBlockedMiddleware.execute,
+  (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
+    eventAnalyticsController.getEventAnalytics(req, res, next)
 );
 
 export default router;

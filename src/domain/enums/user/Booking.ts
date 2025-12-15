@@ -21,4 +21,5 @@ export enum RefundStatus {
 
 export enum PaymentMethod {
   CARD = 'card',
+  UPI = 'upi',
 }
