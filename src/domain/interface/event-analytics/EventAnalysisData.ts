@@ -11,20 +11,16 @@ export interface EventAnalyticsData {
   revenueTrend: TrendPointDTO[];
   paymentSplit: { method: string; amount: number }[];
   refundSplit: { status: string; refundedAmount: number }[];
-  ticketRevenueSplit : TicketRevenueDTO[];
-  ticketTypePerformance : ITicketTypePerformance[];
-  topTicketType : ITicketTypePerformance | null;
-  bookings : BookingsRow[];
-  pagination : {
-    total : number;
+  ticketRevenueSplit: TicketRevenueDTO[];
+  ticketTypePerformance: ITicketTypePerformance[];
+  topTicketType: ITicketTypePerformance | null;
+  bookings: BookingsRow[];
+  pagination: {
+    total: number;
     page: number;
     limit: number;
-    totalPages : number
-  }
+    totalPages: number;
+  };
 }
 
-
-export const SALE_STATUSES = [
-  BookingStatus.CONFIRMED,
-  BookingStatus.REFUNDED
-];
+export const SALE_STATUSES = [BookingStatus.CONFIRMED, BookingStatus.REFUNDED];

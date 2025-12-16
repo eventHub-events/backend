@@ -1,5 +1,5 @@
 export interface ITicketTypePerformance {
-  ticketType : string;
-  ticketsSold : number;
-  revenue : number
+  ticketType: string;
+  ticketsSold: number;
+  revenue: number;
 }

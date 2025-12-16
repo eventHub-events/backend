@@ -9,6 +9,7 @@ import { IGetEventDetailsUseCase } from '../../../application/interface/useCases
 import { IGetAllFeaturedEventUseCase } from '../../../application/interface/useCases/user/event-display/IGetAllFeaturedEventUseCase';
 import { ISearchEventsUseCase } from '../../../application/interface/useCases/user/event-display/ISearchEventsUseCase';
 import { EventSearchFilterDTO } from '../../../application/DTOs/user/eventSearch/EventSearchFilterDTO';
+import { IGetUpcomingEventUseCase } from '../../../application/interface/useCases/user/event-display/IGetUpcomingEventUseCase';
 
 export class EventDisplayController {
   constructor(
@@ -16,7 +17,8 @@ export class EventDisplayController {
     private readonly _getFeaturedEventUseCase: IGetFeaturedEventUseCase,
     private readonly _getEventDetailsUseCase: IGetEventDetailsUseCase,
     private readonly _getAllFeaturedEventUseCase: IGetAllFeaturedEventUseCase,
-    private readonly _searchEventsUseCase: ISearchEventsUseCase
+    private readonly _searchEventsUseCase: ISearchEventsUseCase,
+    private readonly _getUpcomingEventsUseCase : IGetUpcomingEventUseCase
   ) {}
 
   async getTrending(
@@ -114,6 +116,28 @@ export class EventDisplayController {
       const dto = req.validatedQuery as EventSearchFilterDTO;
 
       const result = await this._searchEventsUseCase.execute(dto);
+      res
+        .status(HttpStatusCode.OK)
+        .json(
+          ApiResponse.success(
+            ResponseMessages.EVENT.EVENTS_FETCH_SUCCESS,
+            HttpStatusCode.OK,
+            result
+          )
+        );
+    } catch (err) {
+      next(err);
+    }
+  }
+
+   async getUpcomingEvents(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      console.log("hello iam ")
+      const result = await this._getUpcomingEventsUseCase.execute();
       res
         .status(HttpStatusCode.OK)
         .json(

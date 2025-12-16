@@ -1,5 +1,8 @@
 import { Types } from 'mongoose';
-import { EventAnalyticsData, SALE_STATUSES } from '../../../domain/interface/event-analytics/EventAnalysisData';
+import {
+  EventAnalyticsData,
+  SALE_STATUSES,
+} from '../../../domain/interface/event-analytics/EventAnalysisData';
 import { EventAnalyticsFilter } from '../../../domain/interface/event-analytics/eventAnalyticsFilter';
 import { IEventAnalyticsRepository } from '../../../domain/repositories/common/IEventAnalyticsRepository';
 import { BookingModel, IBooking } from '../../db/models/user/BookingModel';
@@ -10,8 +13,7 @@ export class EventAnalyticsRepository implements IEventAnalyticsRepository {
     organizerId: string,
     filter: EventAnalyticsFilter
   ): Promise<EventAnalyticsData> {
-
-     console.log("filter is", filter)
+    console.log('filter is', filter);
     const match: Record<string, unknown> = {
       organizerId: new Types.ObjectId(organizerId),
       eventId: new Types.ObjectId(filter.eventId),
@@ -57,16 +59,11 @@ export class EventAnalyticsRepository implements IEventAnalyticsRepository {
               },
             },
           },
-         grossRevenue: {
-  $sum: {
-    $cond: [
-      { $in: ['$status', SALE_STATUSES] },
-      '$totalAmount',
-      0
-    ]
-  }
-}
-,
+          grossRevenue: {
+            $sum: {
+              $cond: [{ $in: ['$status', SALE_STATUSES] }, '$totalAmount', 0],
+            },
+          },
           refundedAmount: { $sum: '$refundedAmount' },
           organizerRevenue: { $sum: '$organizerAmount' },
           platformFee: { $sum: '$platformFee' },
@@ -146,119 +143,114 @@ export class EventAnalyticsRepository implements IEventAnalyticsRepository {
       { $project: { _id: 0, date: '$_id', value: 1 } },
     ]);
 
+    const paymentMethodSplitData = await BookingModel.aggregate([
+      { $match: match },
+      {
+        $group: {
+          _id: '$paymentMethod',
+          value: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          name: '$_id',
+          value: 1,
+        },
+      },
+    ]);
 
+    const refundSplit = await BookingModel.aggregate([
+      { $match: match },
+      {
+        $group: {
+          _id: '$refundStatus',
+          value: { $sum: 1 },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          name: '$_id',
+          value: 1,
+        },
+      },
+    ]);
 
-      const paymentMethodSplitData = await BookingModel.aggregate([
-  { $match: match },
-  {
-    $group: {
-      _id: '$paymentMethod',
-      value: { $sum: 1 }
-    }
-  },
-  {
-    $project: {
-      _id: 0,
-      name: '$_id',
-      value: 1
-    }
-  }
-]);
-
-      const refundSplit = await BookingModel.aggregate([
-  { $match: match },
-  {
-    $group: {
-      _id: '$refundStatus',
-      value: { $sum: 1 }
-    }
-  },
-  {
-    $project: {
-      _id: 0,
-      name: '$_id',
-      value: 1
-    }
-  }
-]);
-
-   const totalBookings = await BookingModel.countDocuments(match);
+    const totalBookings = await BookingModel.countDocuments(match);
     const page = filter.page ?? 1;
-   const limit = filter.limit ?? 10;
-   const totalPages = Math.ceil(totalBookings / limit);
-
-  
+    const limit = filter.limit ?? 10;
+    const totalPages = Math.ceil(totalBookings / limit);
 
     const bookings = await BookingModel.find(match)
-  .sort({ createdAt: -1 })
-  .limit(filter.limit ?? 10)
-  .skip(((filter.page ?? 1) - 1) * (filter.limit ?? 10))
-  .select({
-    userName: 1,
-    userEmail: 1,
-    tickets: 1,
-    totalAmount: 1,
-    paymentMethod: 1,
-    refundStatus: 1,
-    status: 1,
-    createdAt: 1
-  }) .lean<IBooking[]>(); 
+      .sort({ createdAt: -1 })
+      .limit(filter.limit ?? 10)
+      .skip(((filter.page ?? 1) - 1) * (filter.limit ?? 10))
+      .select({
+        userName: 1,
+        userEmail: 1,
+        tickets: 1,
+        totalAmount: 1,
+        paymentMethod: 1,
+        refundStatus: 1,
+        status: 1,
+        createdAt: 1,
+      })
+      .lean<IBooking[]>();
 
+    const bookingRows = bookings.map(b => ({
+      id: b._id.toString(),
+      userName: b.userName,
+      userEmail: b.userEmail,
+      tickets: b.tickets.reduce((s, t) => s + t.quantity, 0),
+      amount: b.totalAmount,
+      paymentMethod: b.paymentMethod,
+      refundStatus: b.refundStatus ?? RefundStatus.NONE,
+      status: b.status,
+      createdAt: b.createdAt,
+    }));
 
-     const bookingRows = bookings.map(b => ({
-  id: b._id.toString(),
-  userName: b.userName,
-  userEmail: b.userEmail,
-  tickets: b.tickets.reduce((s, t) => s + t.quantity, 0),
-  amount: b.totalAmount,
-  paymentMethod: b.paymentMethod,
-  refundStatus: b.refundStatus ?? RefundStatus.NONE,
-  status: b.status,
-  createdAt: b.createdAt
-}));
+    /* ---------------- TICKET TYPE PERFORMANCE ---------------- */
+    const ticketTypePerformance = await BookingModel.aggregate([
+      { $match: match },
 
-   /* ---------------- TICKET TYPE PERFORMANCE ---------------- */
-const ticketTypePerformance = await BookingModel.aggregate([
-  { $match: match },
+      { $unwind: '$tickets' },
 
-  { $unwind: '$tickets' },
+      {
+        $match: {
+          status: { $in: SALE_STATUSES },
+        },
+      },
 
-  {
-    $match: {
-       status: { $in: SALE_STATUSES }
-    }
-  },
+      {
+        $group: {
+          _id: '$tickets.name',
+          ticketsSold: { $sum: '$tickets.quantity' },
+          revenue: {
+            $sum: {
+              $multiply: ['$tickets.quantity', '$tickets.price'],
+            },
+          },
+        },
+      },
 
-  {
-    $group: {
-      _id: '$tickets.name',
-      ticketsSold: { $sum: '$tickets.quantity' },
-      revenue: {
-        $sum: {
-          $multiply: ['$tickets.quantity', '$tickets.price']
-        }
-      }
-    }
-  },
+      {
+        $project: {
+          _id: 0,
+          ticketType: '$_id',
+          ticketsSold: 1,
+          revenue: 1,
+        },
+      },
 
-  {
-    $project: {
-      _id: 0,
-      ticketType: '$_id',
-      ticketsSold: 1,
-      revenue: 1
-    }
-  },
+      { $sort: { revenue: -1 } },
+    ]);
 
-  { $sort: { revenue: -1 } }
-]);
-
-   const topTicketType = ticketTypePerformance[0] ?? null;
-   const ticketRevenueSplit = ticketTypePerformance.map(t => ({
-  name: t.ticketType,
-  value: t.revenue
-}));
-
+    const topTicketType = ticketTypePerformance[0] ?? null;
+    const ticketRevenueSplit = ticketTypePerformance.map(t => ({
+      name: t.ticketType,
+      value: t.revenue,
+    }));
 
     return {
       summary: summary ?? {
@@ -277,14 +269,14 @@ const ticketTypePerformance = await BookingModel.aggregate([
       refundSplit,
       ticketRevenueSplit,
       topTicketType,
-      ticketTypePerformance ,
+      ticketTypePerformance,
       bookings: bookingRows,
-      pagination :{
-          total: totalBookings,
-          page,
-         limit,
-         totalPages,
-      }
+      pagination: {
+        total: totalBookings,
+        page,
+        limit,
+        totalPages,
+      },
     };
   }
 }

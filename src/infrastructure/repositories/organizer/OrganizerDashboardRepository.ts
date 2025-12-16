@@ -293,18 +293,15 @@ export class OrganizerDashboardRepository implements IOrganizerDashboardReposito
     };
   }
   async getSubscriptionSummary(
-    organizerId: string,
-   
+    organizerId: string
   ): Promise<IOrganizerSubscriptionSummary | null> {
-   
     const sub = await OrganizerSubscriptionModel.findOne({
       organizerId: new Types.ObjectId(organizerId),
       status: 'active',
-      
     }).sort({ createdAt: -1 });
 
     if (!sub) return null;
-     console.log("subjext", sub)
+    console.log('subjext', sub);
     return {
       planName: sub.planName,
       price: sub.price || 0,

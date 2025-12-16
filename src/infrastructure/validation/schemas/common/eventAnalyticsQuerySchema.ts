@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import {
   BookingStatus,
-  PaymentMethod,
   RefundStatus,
 } from '../../../../domain/enums/user/Booking';
 

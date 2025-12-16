@@ -11,6 +11,7 @@ export const ResponseMessages = {
     EVENT_UPDATE_SUCCESS: 'Event updated successfully',
     EVENT_DELETE_SUCCESS: 'Event deleted successfully',
     EVENT_CANCEL_SUCCESS: 'Event cancelled successfully',
+    
   },
   EVENT_MODERATION: {
     EVENT_MODERATION_UPDATE_SUCCESS: 'Moderation details Updated successfully',

@@ -1,5 +1,6 @@
 import { EventDetailsEntity } from '../../entities/user/EventDetailsEntity';
 import { EventDisplayEntity } from '../../entities/user/EventDisplayEntity';
+import { UpcomingEventsDetails } from '../../entities/user/UpcomingEventsDetails';
 import { IEventSearchCriteria } from '../../queries/EventSearchCriteria';
 
 export interface IEventDisplayQueryRepository {
@@ -15,4 +16,6 @@ export interface IEventDisplayQueryRepository {
   searchEvents(
     filters: IEventSearchCriteria
   ): Promise<{ data: EventDisplayEntity[]; totalPages: number }>;
+
+  upcomingEvents() : Promise<UpcomingEventsDetails[]>;
 }

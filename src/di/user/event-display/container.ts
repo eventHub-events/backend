@@ -3,6 +3,7 @@ import { GetAllFeaturedEventUseCase } from '../../../application/useCases/user/e
 import { GetEventDetailsUseCase } from '../../../application/useCases/user/event-display/GetEventDetailsUseCase';
 import { GetFeaturedEventUseCase } from '../../../application/useCases/user/event-display/GetFeaturedEventsUseCase';
 import { GetTrendingEventUseCase } from '../../../application/useCases/user/event-display/GetTrendingEventsUseCase';
+import { GetUpcomingEventUseCase } from '../../../application/useCases/user/event-display/GetUpcomingEventUseCase';
 import { SearchEventsUseCase } from '../../../application/useCases/user/event-display/SearchEventsUseCase';
 import { EventDisplayQueryRepository } from '../../../infrastructure/repositories/user/events/EventDisplayQueryRepository';
 import { EventDisplayController } from '../../../interfaceAdapter/controllers/user/EventDisplayController';
@@ -30,10 +31,12 @@ const searchEventsUseCase = new SearchEventsUseCase(
   eventDisplayQueryRepository,
   eventDisplayMapper
 );
+const getUpcomingEventUseCase = new GetUpcomingEventUseCase(eventDisplayQueryRepository);
 export const eventDisplayController = new EventDisplayController(
   getTrendingEventUseCase,
   getFeaturedEventUseCase,
   getEventDetailsUseCase,
   getAllFeaturedEventUseCase,
-  searchEventsUseCase
+  searchEventsUseCase,
+  getUpcomingEventUseCase
 );
