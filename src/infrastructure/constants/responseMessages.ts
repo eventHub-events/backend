@@ -11,6 +11,7 @@ export const ResponseMessages = {
     EVENT_UPDATE_SUCCESS: 'Event updated successfully',
     EVENT_DELETE_SUCCESS: 'Event deleted successfully',
     EVENT_CANCEL_SUCCESS: 'Event cancelled successfully',
+    
   },
   EVENT_MODERATION: {
     EVENT_MODERATION_UPDATE_SUCCESS: 'Moderation details Updated successfully',
@@ -23,6 +24,9 @@ export const ResponseMessages = {
     ATTACHMENT: `attachment; filename="transactions_${Date.now()}.pdf`,
     CONTENT_TYPE: 'Content-Type',
     APPLICATION_PDF: 'application/pdf',
+  },
+  EVENT_ANALYTICS: {
+    DETAILS_FETCH_SUCCESS: 'Details fetched successfully',
   },
   CLOUDINARY: {
     CLOUDINARY_SIGNATURE_CREATION_SUCCESS: 'Signature created successfully',

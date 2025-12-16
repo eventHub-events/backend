@@ -26,8 +26,7 @@ export interface IOrganizerDashboardRepository {
     filter?: OrganizerDashboardFilter
   ): Promise<IOrganizerPayoutSummary>;
   getSubscriptionSummary(
-    organizerId: string,
-    filter?: OrganizerDashboardFilter
+    organizerId: string
   ): Promise<IOrganizerSubscriptionSummary | null>;
   getKycStatus(
     organizerId: string,

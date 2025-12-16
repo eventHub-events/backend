@@ -2,7 +2,8 @@ import { z } from 'zod';
 import { EventVisibility } from '../../../../domain/enums/organizer/events';
 
 const titleRegex = /^[A-Z][A-Za-z0-9 ]{4,49}$/;
-const descriptionRegex = /^[A-Z][A-Za-z0-9 ]{14,149}$/;
+const descriptionRegex = /^[A-Z][A-Za-z0-9 ,]{14,149}$/;
+
 const addressRegex = /^[A-Z][a-zA-Z, ]{4,49}$/;
 const cityRegex = /^[A-Z][A-Za-z ]{4,15}$/;
 const pinCodeRegex = /^[0-9]{6}$/;

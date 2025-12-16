@@ -7,6 +7,7 @@ import {
 } from '../../../db/models/organizer/events/EventsModel';
 import { EventDetailsEntity } from '../../../../domain/entities/user/EventDetailsEntity';
 import { IEventSearchCriteria } from '../../../../domain/queries/EventSearchCriteria';
+import { UpcomingEventsDetails } from '../../../../domain/entities/user/UpcomingEventsDetails';
 
 export class EventDisplayQueryRepository implements IEventDisplayQueryRepository {
   async findTrendingEvents(): Promise<EventDisplayEntity[]> {
@@ -59,8 +60,37 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
         },
       },
       {
+        $lookup: {
+          from: 'bookings',
+          let: { eventId: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$eventId', '$$eventId'] },
+                    { $eq: ['$status', 'confirmed'] },
+                  ],
+                },
+              },
+            },
+            { $unwind: '$tickets' },
+            {
+              $group: {
+                _id: null,
+                ticketsSold: { $sum: '$tickets.quantity' },
+              },
+            },
+          ],
+          as: 'bookingStats',
+        },
+      },
+
+      {
         $addFields: {
-          attendees: { $ifNull: ['$ticketing.ticketsSold', 0] },
+          attendees: {
+            $ifNull: [{ $arrayElemAt: ['$bookingStats.ticketsSold', 0] }, 0],
+          },
           price: {
             $min: {
               $map: {
@@ -164,6 +194,33 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       { $unwind: '$category' },
       { $unwind: '$organizer' },
       {
+        $lookup: {
+          from: 'bookings',
+          let: { eventId: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$eventId', '$$eventId'] },
+                    { $eq: ['$status', 'confirmed'] },
+                  ],
+                },
+              },
+            },
+            { $unwind: '$tickets' },
+            {
+              $group: {
+                _id: null,
+                ticketsSold: { $sum: '$tickets.quantity' },
+              },
+            },
+          ],
+          as: 'bookingStats',
+        },
+      },
+
+      {
         $addFields: {
           price: {
             $min: {
@@ -174,13 +231,40 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
               },
             },
           },
+          ticketsSold: {
+            $ifNull: [{ $arrayElemAt: ['$bookingStats.ticketsSold', 0] }, 0],
+          },
           ticketsLeft: {
-            $subtract: ['$totalCapacity', '$ticketing.ticketsSold'],
+            $subtract: [
+              '$totalCapacity',
+              {
+                $ifNull: [
+                  { $arrayElemAt: ['$bookingStats.ticketsSold', 0] },
+                  0,
+                ],
+              },
+            ],
           },
           availability: {
-            $multiply: [
-              { $divide: ['$ticketing.ticketsSold', '$totalCapacity'] },
-              100,
+            $cond: [
+              { $gt: ['$totalCapacity', 0] },
+              {
+                $multiply: [
+                  {
+                    $divide: [
+                      {
+                        $ifNull: [
+                          { $arrayElemAt: ['$bookingStats.ticketsSold', 0] },
+                          0,
+                        ],
+                      },
+                      '$totalCapacity',
+                    ],
+                  },
+                  100,
+                ],
+              },
+              0,
             ],
           },
           organizer: '$organizer.name',
@@ -390,6 +474,33 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
         },
       },
       { $unwind: '$ticketing' },
+
+      {
+        $lookup: {
+          from: 'bookings',
+          let: { eventId: '$_id' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$eventId', '$$eventId'] },
+                    { $eq: ['$status', 'confirmed'] },
+                  ],
+                },
+              },
+            },
+            { $unwind: '$tickets' },
+            {
+              $group: {
+                _id: null,
+                ticketsSold: { $sum: '$tickets.quantity' },
+              },
+            },
+          ],
+          as: 'bookingStats',
+        },
+      },
     ];
 
     /* ---------- CATEGORY FILTER ---------- */
@@ -429,19 +540,51 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       {
         $addFields: {
           price: { $min: '$ticketing.tickets.price' },
-          ticketsLeft: {
-            $subtract: ['$totalCapacity', '$ticketing.ticketsSold'],
+
+          ticketsSold: {
+            $ifNull: [{ $arrayElemAt: ['$bookingStats.ticketsSold', 0] }, 0],
           },
-          availability: {
-            $multiply: [
-              { $divide: ['$ticketing.ticketsSold', '$totalCapacity'] },
-              100,
+
+          ticketsLeft: {
+            $subtract: [
+              '$totalCapacity',
+              {
+                $ifNull: [
+                  { $arrayElemAt: ['$bookingStats.ticketsSold', 0] },
+                  0,
+                ],
+              },
             ],
           },
+
+          availability: {
+            $cond: [
+              { $gt: ['$totalCapacity', 0] },
+              {
+                $multiply: [
+                  {
+                    $divide: [
+                      {
+                        $ifNull: [
+                          { $arrayElemAt: ['$bookingStats.ticketsSold', 0] },
+                          0,
+                        ],
+                      },
+                      '$totalCapacity',
+                    ],
+                  },
+                  100,
+                ],
+              },
+              0,
+            ],
+          },
+
           organizer: '$organizer.name',
           category: '$category.name',
         },
       },
+
       {
         $project: {
           _id: 1,
@@ -479,4 +622,153 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       totalPages: Math.ceil((count[0]?.total ?? 0) / limit),
     };
   }
+async upcomingEvents(): Promise<UpcomingEventsDetails[]> {
+  const now = new Date();
+
+  const result = await EventModel.aggregate([
+    /* 1️⃣ Valid upcoming public events */
+    {
+      $match: {
+        startDate: { $gte: now },
+        isDeleted: false,
+        visibility: "public",
+        approvedStatus: "approved",
+        status: { $in: ["upcoming", "active"] },
+      },
+    },
+
+    /* 2️⃣ Ticketing */
+    {
+      $lookup: {
+        from: "eventticketings",
+        localField: "_id",
+        foreignField: "eventId",
+        as: "ticketing",
+      },
+    },
+    { $unwind: "$ticketing" },
+
+    /* 3️⃣ Organizer */
+    {
+      $lookup: {
+        from: "users",
+        localField: "organizerId",
+        foreignField: "_id",
+        as: "organizer",
+      },
+    },
+    {
+      $unwind: {
+        path: "$organizer",
+        preserveNullAndEmptyArrays: true,
+      },
+    },
+
+    /* 4️⃣ Real tickets sold */
+    {
+      $lookup: {
+        from: "bookings",
+        let: { eventId: "$_id" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$eventId", "$$eventId"] },
+                  { $eq: ["$status", "confirmed"] },
+                ],
+              },
+            },
+          },
+          { $unwind: "$tickets" },
+          {
+            $group: {
+              _id: null,
+              ticketsSold: { $sum: "$tickets.quantity" },
+            },
+          },
+        ],
+        as: "bookingStats",
+      },
+    },
+
+    /* 5️⃣ Derived fields */
+    {
+      $addFields: {
+        ticketsSold: {
+          $ifNull: [{ $arrayElemAt: ["$bookingStats.ticketsSold", 0] }, 0],
+        },
+        ticketsLeft: {
+          $subtract: [
+            "$totalCapacity",
+            {
+              $ifNull: [{ $arrayElemAt: ["$bookingStats.ticketsSold", 0] }, 0],
+            },
+          ],
+        },
+        availability: {
+          $cond: [
+            { $gt: ["$totalCapacity", 0] },
+            {
+              $multiply: [
+                {
+                  $divide: [
+                    {
+                      $ifNull: [
+                        { $arrayElemAt: ["$bookingStats.ticketsSold", 0] },
+                        0,
+                      ],
+                    },
+                    "$totalCapacity",
+                  ],
+                },
+                100,
+              ],
+            },
+            0,
+          ],
+        },
+        organizer: "$organizer.name",
+      },
+    },
+
+    /* 6️⃣ Hide sold-out */
+    {
+      $match: {
+        ticketsLeft: { $gt: 0 },
+      },
+    },
+
+    /* 7️⃣ Sort */
+    {
+      $sort: {
+        startDate: 1,
+        ticketsSold: -1,
+      },
+    },
+
+    /* 8️⃣ Limit */
+    { $limit: 6 },
+
+    /* 9️⃣ Final shape */
+    {
+      $project: {
+        eventId: { $toString: "$_id" },
+        title: 1,
+        description: 1,
+        startDate: 1,
+        location: "$location.venue",
+        images: 1,
+        category: 1,
+        ticketsLeft: 1,
+        availability: 1,
+        organizer: 1,
+      },
+    },
+  ]);
+
+  return result;
+}
+
+  
 }

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 import { IOrganizerDashboardRepository } from '../../../domain/repositories/organizer/IOrganizerDashboardRepository';
 import { BookingModel } from '../../db/models/user/BookingModel';
 import {
@@ -293,21 +293,15 @@ export class OrganizerDashboardRepository implements IOrganizerDashboardReposito
     };
   }
   async getSubscriptionSummary(
-    organizerId: string,
-    filter?: OrganizerDashboardFilter
+    organizerId: string
   ): Promise<IOrganizerSubscriptionSummary | null> {
-    const newFilter = filter ? filter : {};
-    //      const from = filter?.from ? new Date(filter.from) : new Date(0);
-    // const to = filter?.to ? new Date(filter.to) : new Date();
-    // to.setHours(23, 59, 59, 999);
     const sub = await OrganizerSubscriptionModel.findOne({
-      organizerId,
+      organizerId: new Types.ObjectId(organizerId),
       status: 'active',
-      newFilter,
     }).sort({ createdAt: -1 });
 
     if (!sub) return null;
-
+    console.log('subjext', sub);
     return {
       planName: sub.planName,
       price: sub.price || 0,
@@ -348,7 +342,7 @@ export class OrganizerDashboardRepository implements IOrganizerDashboardReposito
       isKycResubmitted: user.isKycResubmitted,
       documents: docs.map(d => ({
         type: d.type,
-        url: d.url,
+        url: d.cloudinaryPublicId,
         status: d.status, // Pending / Approved / Rejected
         reason: d.reason || '',
         uploadedAt: d.uploadedAt,

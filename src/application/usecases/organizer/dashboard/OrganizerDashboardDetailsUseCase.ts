@@ -29,7 +29,7 @@ export class OrganizerDashboardDetailsUseCase implements IOrganizerDashboardDeta
         this._earningsOverviewUseCase.execute(organizerId, filter),
         this._eventPerformanceUseCase.execute(organizerId, filter),
         this._payoutSummaryUseCase.execute(organizerId, filter),
-        this._getSubscriptionSummaryUseCase.execute(organizerId, filter),
+        this._getSubscriptionSummaryUseCase.execute(organizerId),
         this._getKycStatusUseCase.execute(organizerId),
       ]);
 

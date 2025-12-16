@@ -22,9 +22,13 @@ export const ErrorMessages = {
     CREATION_FAILED: 'Event details not saved',
     EVENT_ALREADY_CANCELLED: 'Event already  cancelled',
     FEATURED_EVENT_NOT_FOUND: 'featured events Not found',
+    UPCOMING_EVENT_NOT_FOUND : "Upcoming event details not found"
   },
   ERROR_CODES: {
     USER_BLOCKED: 'USER_BLOCKED',
+  },
+  EVENT_ANALYTICS: {
+    DETAILS_NOT_FOUND: 'Event analytics details not found',
   },
   SUBSCRIPTION_PLAN: {
     PLAN_NOT_FOUND: 'Subscription plan not found',

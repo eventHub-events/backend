@@ -14,6 +14,7 @@ export interface IBooking extends Document {
     quantity: number;
     price: number;
   }[];
+  _id: Types.ObjectId;
   totalAmount: number;
   status: BookingStatus;
   eventTitle: string;
@@ -42,6 +43,8 @@ export interface IBooking extends Document {
   refundStatus?: RefundStatus;
   paymentMethod?: PaymentMethod;
   refundDate?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const bookingSchema = new Schema<IBooking>(
