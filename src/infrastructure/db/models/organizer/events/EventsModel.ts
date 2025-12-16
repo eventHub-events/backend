@@ -40,6 +40,7 @@ export interface IEvent extends Document {
   visibility?: EventVisibility;
 
   tags?: string[];
+  payoutStripeAccountId :  string;
 
   reviews?: Types.ObjectId;
 }
@@ -56,6 +57,9 @@ const EventSchema = new Schema<IEvent>(
       type: String,
       required: true,
       trim: true,
+    },
+    payoutStripeAccountId : {
+        type : String
     },
     category: {
       type: String,
