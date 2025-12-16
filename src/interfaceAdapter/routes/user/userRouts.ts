@@ -91,7 +91,7 @@ router.patch(
 // events-display-related //
 router.get(
   '/events/upcoming',
-  
+
   (req: Request, res: Response, next: NextFunction) =>
     eventDisplayController.getUpcomingEvents(req, res, next)
 );

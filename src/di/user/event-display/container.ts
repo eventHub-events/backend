@@ -31,7 +31,9 @@ const searchEventsUseCase = new SearchEventsUseCase(
   eventDisplayQueryRepository,
   eventDisplayMapper
 );
-const getUpcomingEventUseCase = new GetUpcomingEventUseCase(eventDisplayQueryRepository);
+const getUpcomingEventUseCase = new GetUpcomingEventUseCase(
+  eventDisplayQueryRepository
+);
 export const eventDisplayController = new EventDisplayController(
   getTrendingEventUseCase,
   getFeaturedEventUseCase,

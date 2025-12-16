@@ -17,5 +17,5 @@ export interface IEventDisplayQueryRepository {
     filters: IEventSearchCriteria
   ): Promise<{ data: EventDisplayEntity[]; totalPages: number }>;
 
-  upcomingEvents() : Promise<UpcomingEventsDetails[]>;
+  upcomingEvents(): Promise<UpcomingEventsDetails[]>;
 }
