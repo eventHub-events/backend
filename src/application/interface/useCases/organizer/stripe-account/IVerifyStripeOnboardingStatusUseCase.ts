@@ -1,3 +1,3 @@
 export interface IVerifyStripeOnboardingStatusUseCase {
-  execute(organizerId: string): Promise<boolean>;
+  execute(stripeAccountId: string): Promise<boolean>;
 }

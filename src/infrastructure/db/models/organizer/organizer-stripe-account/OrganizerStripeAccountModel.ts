@@ -9,7 +9,7 @@ export interface IOrganizerStripeAccount extends Document  {
   label : string;
   isDefault : boolean;
   onboarded : boolean;
-  createdAt : Date;
+  createdAt? : Date;
 }
 
 const OrganizerStripeAccountSchema = new Schema({

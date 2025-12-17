@@ -7,6 +7,10 @@ import { StripeConnectController } from '../../../interfaceAdapter/controllers/o
 import { VerifyStripeOnboardingStatusUseCase } from '../../../application/useCases/organizer/stripe-account/verifyStripeOnboardingStatusUseCase';
 import { StripeOnboardingStatusController } from '../../../interfaceAdapter/controllers/organizer/stripeOnboardingStatusController';
 import { UserEntityFactory } from '../../../infrastructure/factories/user/UserEntityFactory';
+import { OrganizerStripeAccountRepository } from '../../../infrastructure/repositories/organizer/OrganizerStripeAccountRepository';
+import { StripeAccountEntityFactory } from '../../../infrastructure/factories/organizer/OrganizerStripeAccountEntityFactory';
+import { OrganizerStripeAccountMapper } from '../../../application/mapper/organizer/OrganizerStripeAccountMapper';
+import { GetStripeAccountsUseCase } from '../../../application/useCases/organizer/stripe-account/getStripeAccountUseCase';
 dotenv.config();
 
 const loggerService = new WinstonLoggerService();
@@ -15,15 +19,24 @@ const userRepository = new UserRepository(loggerService, userEntityFactory);
 const stripeConnectService = new StripeConnectService(
   process.env.STRIPE_SECRET_KEY!
 );
+
+const organizerStripeEntityFactory = new StripeAccountEntityFactory();
+const organizerStripeAccountRepository = new OrganizerStripeAccountRepository(organizerStripeEntityFactory);
+const organizerStripeAccountMapper = new OrganizerStripeAccountMapper();
+
 const createStripeAccountUseCase = new CreateStripeAccountUseCase(
   userRepository,
-  stripeConnectService
+  stripeConnectService,
+  organizerStripeAccountRepository,
+  organizerStripeAccountMapper
 );
+const getStripeAccountUseCase = new GetStripeAccountsUseCase(organizerStripeAccountRepository,organizerStripeAccountMapper);
 export const stripeConnectController = new StripeConnectController(
-  createStripeAccountUseCase
+  createStripeAccountUseCase,
+  getStripeAccountUseCase
 );
 
 const verifyStripeOnboardingStatusUseCase =
-  new VerifyStripeOnboardingStatusUseCase(userRepository, stripeConnectService);
+  new VerifyStripeOnboardingStatusUseCase( stripeConnectService,organizerStripeAccountRepository);
 export const stripeOnboardingStatusController =
   new StripeOnboardingStatusController(verifyStripeOnboardingStatusUseCase);

@@ -1,27 +1,31 @@
 import { ErrorMessages } from '../../../../constants/errorMessages';
 import { NotFoundError } from '../../../../domain/errors/common';
-import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
+import { IOrganizerStripeAccountRepository } from '../../../../domain/repositories/organizer/IOrganizerStripeAccountRepository';
+
 import { IVerifyStripeOnboardingStatusUseCase } from '../../../interface/useCases/organizer/stripe-account/IVerifyStripeOnboardingStatusUseCase';
 import { IStripeConnectService } from '../../../service/common/IStripeConnectService';
 
 export class VerifyStripeOnboardingStatusUseCase implements IVerifyStripeOnboardingStatusUseCase {
   constructor(
-    private _userRepository: IUserRepository,
-    private _stripeConnectService: IStripeConnectService
+ 
+    private _stripeConnectService: IStripeConnectService,
+    private _organizerStripeRepo : IOrganizerStripeAccountRepository
   ) {}
-  async execute(organizerId: string): Promise<boolean> {
-    const organizer = await this._userRepository.findUserById(organizerId);
-    if (!organizer || !organizer?.stripeAccountId)
-      throw new NotFoundError(ErrorMessages.ORGANIZER.NOT_FOUND);
+  async execute(stripeAccountId: string): Promise<boolean> {
+  
+     const accountEntity = await this._organizerStripeRepo.getStripeAccountByStripeId(stripeAccountId);
+
+      if (!accountEntity)
+      throw new NotFoundError(ErrorMessages.STRIPE.ACCOUNT_NOT_FOUND);
 
     const account = await this._stripeConnectService.retrieveAccount(
-      organizer.stripeAccountId!
+      stripeAccountId
     );
-    console.log('account is', account);
+   
 
     if (account.details_submitted && account.payouts_enabled) {
-      organizer.update({ stripeOnboarded: true });
-      await this._userRepository.updateUser(organizerId, organizer);
+         accountEntity.isOnboarded(true);
+        await this._organizerStripeRepo.updateStripeAccount(accountEntity.id!,accountEntity);
     } else {
       throw new Error(ErrorMessages.STRIPE.ON_BOARDING.VERIFICATION_FAILED);
     }

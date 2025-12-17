@@ -21,8 +21,8 @@ export class StripeConnectService implements IStripeConnectService {
   async createAccountLink(accountId: string): Promise<string> {
     const link = await this.stripe.accountLinks.create({
       account: accountId,
-      refresh_url: 'http://localhost:3000/organizer/onboarding/refresh',
-      return_url: 'http://localhost:3000/organizer/onboarding/success',
+       refresh_url: `http://localhost:3000/organizer/onboarding/refresh?account=${accountId}`,
+       return_url: `http://localhost:3000/organizer/onboarding/success?account=${accountId}`,
       type: 'account_onboarding',
     });
 

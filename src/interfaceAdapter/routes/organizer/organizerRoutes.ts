@@ -308,7 +308,7 @@ router.post(
   (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
     stripeOnboardingStatusController.verify(req, res, next)
 );
-
+router.get("/stripe-accounts/:organizerId",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),checkBlockedMiddleware.execute,organizerVerificationMiddleware.verify,(req : IAuthenticatedRequest, res :Response, next: NextFunction) => stripeConnectController.getAccounts(req, res, next));
 // chat//
 router.get(
   '/chat/event/:eventId',
