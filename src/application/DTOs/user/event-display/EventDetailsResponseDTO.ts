@@ -14,6 +14,7 @@ export interface EventDetailsResponseDTO {
   totalCapacity?: number;
   startDate: string;
   organizerId: string;
+  stripeAccountId: string;
   organizerStripeAccountId: string;
   tickets: Partial<ITicketTier>[];
 }

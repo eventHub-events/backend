@@ -1,7 +1,6 @@
 import Stripe from 'stripe';
 import { IStripeWebhookService } from '../../../application/service/common/IStripeWebhookService';
-import dotenv from 'dotenv';
-dotenv.config();
+import { ENV } from '../../config/common/env';
 
 export class StripeWebhookService implements IStripeWebhookService {
   private stripe: Stripe;
@@ -14,7 +13,7 @@ export class StripeWebhookService implements IStripeWebhookService {
     return this.stripe.webhooks.constructEvent(
       payload,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      ENV.STRIPE_WEBHOOK_SECRET!
     );
   }
 }

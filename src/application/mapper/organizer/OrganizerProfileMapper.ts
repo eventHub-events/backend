@@ -5,7 +5,7 @@ import { OrganizerProfileResponseDTO } from '../../DTOs/organizer/OrganizerProfi
 import { UpdatedOrganizerProfileFormResponseDTO } from '../../DTOs/organizer/OrganizerProfileFormDTO';
 // import { UserResponseDTO } from "../../../domain/dtos/user/UserResponseDTO";
 import { OrganizerProfile } from '../../../domain/entities/organizer/OrganizerProfile';
-import { User } from '../../../domain/entities/User';
+import { UserEntity } from '../../../domain/entities/User';
 
 export class OrganizerProfileMapper {
   static toDomainForUpdate(
@@ -38,16 +38,16 @@ export class OrganizerProfileMapper {
 
   static toResponse(
     profile: OrganizerProfile,
-    user: User
+    user: UserEntity
   ): OrganizerProfileResponseDTO {
     return {
       organizerId: {
         _id: user.id!,
         name: user.name,
         email: user.email,
-        phone: user.phone,
+        phone: user.phone!,
         isVerified: user.isVerified,
-        kycStatus: user.kycStatus,
+        kycStatus: user.kycStatus!,
       },
       location: profile.location,
       organization: profile.organization,
@@ -61,7 +61,7 @@ export class OrganizerProfileMapper {
   }
   static toUpdateForm(profile: OrganizerProfileDTO): {
     profileData: Partial<OrganizerProfile>;
-    organizerBasicData: Partial<User>;
+    organizerBasicData: Partial<UserEntity>;
   } {
     const profileData = {
       location: profile.location,
@@ -76,21 +76,21 @@ export class OrganizerProfileMapper {
       name: profile.name,
       email: profile.email,
       phone: Number(profile.phone),
-    } as Partial<User>;
+    } as Partial<UserEntity>;
 
     return { profileData, organizerBasicData };
   }
   static toUpdateResponseForm(
     updatedProfileData: OrganizerProfile,
-    updatedBasicData: User
+    updatedBasicData: UserEntity
   ): UpdatedOrganizerProfileFormResponseDTO {
     return {
       name: updatedBasicData.name,
       email: updatedBasicData.email,
-      phone: updatedBasicData.phone.toString(),
+      phone: updatedBasicData.phone!.toString(),
       id: updatedBasicData?.id,
-      role: updatedBasicData.role,
-      isBlocked: updatedBasicData.isBlocked,
+      role: updatedBasicData.role!,
+      isBlocked: updatedBasicData.isBlocked!,
       isVerified: updatedBasicData.isVerified,
       location: updatedProfileData.location,
       organization: updatedProfileData.organization,

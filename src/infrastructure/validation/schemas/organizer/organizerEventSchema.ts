@@ -82,6 +82,7 @@ export const organizerEventSchema = z.object({
         'Description must start with a capital letter and contain only letters, numbers',
     }),
   location: locationSchema,
+  stripeAccountId: z.string(),
   totalCapacity: z.coerce
     .number()
     .min(1, { message: 'Total capacity shall be at least 1' })

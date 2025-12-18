@@ -3,10 +3,10 @@ import { IStripePaymentService } from '../../../../application/service/common/IS
 import { BookingCheckoutDTO } from '../../../../application/DTOs/user/payment/BookingCheckoutDTO';
 
 export class StripePaymentService implements IStripePaymentService {
-  private stripe: Stripe;
+  private _stripe: Stripe;
 
   constructor(secretKey: string) {
-    this.stripe = new Stripe(secretKey);
+    this._stripe = new Stripe(secretKey);
   }
 
   async createSubscriptionCheckout(data: {
@@ -98,12 +98,12 @@ export class StripePaymentService implements IStripePaymentService {
       },
     };
 
-    const session = await this.stripe.checkout.sessions.create(params);
+    const session = await this._stripe.checkout.sessions.create(params);
     return session.url!;
   }
 
   async createBookingCheckout(dto: BookingCheckoutDTO): Promise<string> {
-    const session = await this.stripe.checkout.sessions.create({
+    const session = await this._stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'],
       line_items: [
@@ -133,7 +133,7 @@ export class StripePaymentService implements IStripePaymentService {
     return session.url!;
   }
   async refundPayment(paymentIntentId: string): Promise<void> {
-    await this.stripe.refunds.create({
+    await this._stripe.refunds.create({
       payment_intent: paymentIntentId,
     });
   }
@@ -141,7 +141,7 @@ export class StripePaymentService implements IStripePaymentService {
     paymentIntentId: string,
     amountInRupees?: number
   ): Promise<void> {
-    await this.stripe.refunds.create({
+    await this._stripe.refunds.create({
       payment_intent: paymentIntentId,
       ...(amountInRupees && { amount: amountInRupees * 100 }),
     });

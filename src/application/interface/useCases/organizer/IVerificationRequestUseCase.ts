@@ -1,4 +1,4 @@
-import { RequestVerificationDTO } from '../../../DTOs/organizer/verification/requestVerificationDTO';
+import { RequestVerificationDTO } from '../../../DTOs/organizer/verification/RequestVerificationDTO';
 
 export interface IVerificationRequestUseCase {
   requestVerification(

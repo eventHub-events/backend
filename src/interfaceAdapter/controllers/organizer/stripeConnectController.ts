@@ -11,7 +11,7 @@ import { IGetStripeAccountsUseCase } from '../../../application/interface/useCas
 export class StripeConnectController {
   constructor(
     private _createStripeAccountUseCase: ICreateStripeAccountUseCase,
-    private _getStripeAccountUseCase : IGetStripeAccountsUseCase
+    private _getStripeAccountUseCase: IGetStripeAccountsUseCase
   ) {}
 
   async onBoard(
@@ -20,7 +20,7 @@ export class StripeConnectController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const { organizerId, email,label } = req.body;
+      const { organizerId, email, label } = req.body;
 
       if (!organizerId || !email)
         throw new CustomError(
@@ -46,16 +46,31 @@ export class StripeConnectController {
       next(err);
     }
   }
-  async getAccounts(req :IAuthenticatedRequest, res :Response, next: NextFunction) : Promise<void> {
-    try{
-         const organizerId  = req.params.organizerId;
-         console.log("organzierId", typeof organizerId);
-          if(!organizerId) throw new CustomError(ErrorMessages.ORGANIZER.ID_REQUIRED,HttpStatusCode.BAD_REQUEST);
-        const accounts = await this._getStripeAccountUseCase.execute(organizerId);
-      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.STRIPE_ACCOUNTS.FETCH_SUCCESS,HttpStatusCode.OK, accounts));
-        
-    }catch(err){
-       next(err);
+  async getAccounts(
+    req: IAuthenticatedRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const organizerId = req.params.organizerId;
+      console.log('organzierId', typeof organizerId);
+      if (!organizerId)
+        throw new CustomError(
+          ErrorMessages.ORGANIZER.ID_REQUIRED,
+          HttpStatusCode.BAD_REQUEST
+        );
+      const accounts = await this._getStripeAccountUseCase.execute(organizerId);
+      res
+        .status(HttpStatusCode.OK)
+        .json(
+          ApiResponse.success(
+            ResponseMessages.STRIPE_ACCOUNTS.FETCH_SUCCESS,
+            HttpStatusCode.OK,
+            accounts
+          )
+        );
+    } catch (err) {
+      next(err);
     }
   }
 }

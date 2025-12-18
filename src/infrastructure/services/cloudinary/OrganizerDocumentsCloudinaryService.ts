@@ -1,8 +1,7 @@
 import { ICloudinaryGetSignatureResponseDTO } from '../../../application/DTOs/common/cloudinary/CloudinaryGetSignatureResponseDTO';
 import { IOrganizerDocumentsCloudinaryService } from '../../../domain/interface/services/IOrganizerDocumentsCloudinaryService';
+import { ENV } from '../../config/common/env';
 import cloudinary from './cloudinary';
-import dotenv from 'dotenv';
-dotenv.config();
 
 export class OrganizerDocumentsCloudinaryService implements IOrganizerDocumentsCloudinaryService {
   async generateUploadSignature(
@@ -19,14 +18,14 @@ export class OrganizerDocumentsCloudinaryService implements IOrganizerDocumentsC
 
     const signature = cloudinary.utils.api_sign_request(
       paramsToSign,
-      process.env.CLOUDINARY_API_SECRET!
+      ENV.CLOUDINARY_API_SECRET!
     );
 
     return {
       timestamp,
       signature,
-      apiKey: process.env.CLOUDINARY_API_KEY!,
-      cloudName: process.env.CLOUDINARY_CLOUD_NAME!,
+      apiKey: ENV.CLOUDINARY_API_KEY!,
+      cloudName: ENV.CLOUDINARY_CLOUD_NAME!,
       folder,
     };
   }

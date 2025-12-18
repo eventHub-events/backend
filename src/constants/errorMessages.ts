@@ -45,9 +45,9 @@ export const ErrorMessages = {
     PAID_REQUEST_ERROR: 'Only paid bookings can be cancelled',
     CANCEL_WINDOW_CLOSED: 'Cancellation window closed',
   },
-  STRIPE_ACCOUNT : {
-   ACCOUNT_ID_REQUIRED : "Stripe account id is required",
-   NOT_FOUND_ERROR : "Stripe account not found"
+  STRIPE_ACCOUNT: {
+    ACCOUNT_ID_REQUIRED: 'Stripe account id is required',
+    NOT_FOUND_ERROR: 'Stripe account not found',
   },
   AUTH: {
     UNAUTHORIZED: 'Unauthorized access',
@@ -161,7 +161,7 @@ export const ErrorMessages = {
       ON_ONBOARDING_FAILED: 'Stripe onBoarding failed',
       VERIFICATION_FAILED: 'Verification failed',
     },
-    ACCOUNT_NOT_FOUND : "Stripe account not found"
+    ACCOUNT_NOT_FOUND: 'Stripe account not found',
   },
   Transactions: {
     NOT_FOUND: 'Transactions not found',

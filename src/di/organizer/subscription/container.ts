@@ -1,6 +1,5 @@
 import { CreateSubscriptionCheckoutUseCase } from '../../../application/useCases/organizer/subscription/createSubscriptionCheckoutUseCase';
 import { StripePaymentService } from '../../../infrastructure/services/StripeWebhookService/Stripe-payment/StripePaymentService';
-import dotenv from 'dotenv';
 import { SubscriptionPaymentController } from '../../../interfaceAdapter/controllers/organizer/subscriptionPaymentController';
 import { OrganizerSubscriptionEntityFactory } from '../../../infrastructure/factories/organizer/OrganizerSubscriptionEntityFactory';
 import { OrganizerSubscriptionRepository } from '../../../infrastructure/repositories/organizer/OrganizerSubscriptionRepository';
@@ -14,12 +13,9 @@ import { FetchSubscriptionPlansForOrganizerUseCase } from '../../../application/
 import { SubscriptionEntityFactory } from '../../../infrastructure/factories/admin/SubscriptionEntityFactory';
 import { SubscriptionPlansRepository } from '../../../infrastructure/repositories/admin/SubscriptionPlansRepository';
 import { SubscriptionMapper } from '../../../application/mapper/admin/SubscriptionMapper';
+import { ENV } from '../../../infrastructure/config/common/env';
 
-dotenv.config();
-
-const stripePaymentService = new StripePaymentService(
-  process.env.STRIPE_SECRET_KEY!
-);
+const stripePaymentService = new StripePaymentService(ENV.STRIPE_SECRET_KEY!);
 const createSubscriptionCheckoutUseCase = new CreateSubscriptionCheckoutUseCase(
   stripePaymentService
 );

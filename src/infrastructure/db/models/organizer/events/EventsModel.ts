@@ -32,6 +32,7 @@ export interface IEvent extends Document {
   startTime?: string;
   endTime?: string;
 
+  stripeAccountId: string;
   createdAt?: Date;
   updatedAt?: Date;
   createdBy?: string;
@@ -40,7 +41,7 @@ export interface IEvent extends Document {
   visibility?: EventVisibility;
 
   tags?: string[];
-  payoutStripeAccountId :  string;
+  payoutStripeAccountId: string;
 
   reviews?: Types.ObjectId;
 }
@@ -58,10 +59,13 @@ const EventSchema = new Schema<IEvent>(
       required: true,
       trim: true,
     },
-    payoutStripeAccountId : {
-        type : String
+    payoutStripeAccountId: {
+      type: String,
     },
     category: {
+      type: String,
+    },
+    stripeAccountId: {
       type: String,
     },
     type: {

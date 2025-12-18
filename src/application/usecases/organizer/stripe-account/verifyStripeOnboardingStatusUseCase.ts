@@ -7,25 +7,27 @@ import { IStripeConnectService } from '../../../service/common/IStripeConnectSer
 
 export class VerifyStripeOnboardingStatusUseCase implements IVerifyStripeOnboardingStatusUseCase {
   constructor(
- 
     private _stripeConnectService: IStripeConnectService,
-    private _organizerStripeRepo : IOrganizerStripeAccountRepository
+    private _organizerStripeRepo: IOrganizerStripeAccountRepository
   ) {}
   async execute(stripeAccountId: string): Promise<boolean> {
-  
-     const accountEntity = await this._organizerStripeRepo.getStripeAccountByStripeId(stripeAccountId);
+    const accountEntity =
+      await this._organizerStripeRepo.getStripeAccountByStripeId(
+        stripeAccountId
+      );
 
-      if (!accountEntity)
+    if (!accountEntity)
       throw new NotFoundError(ErrorMessages.STRIPE.ACCOUNT_NOT_FOUND);
 
-    const account = await this._stripeConnectService.retrieveAccount(
-      stripeAccountId
-    );
-   
+    const account =
+      await this._stripeConnectService.retrieveAccount(stripeAccountId);
 
     if (account.details_submitted && account.payouts_enabled) {
-         accountEntity.isOnboarded(true);
-        await this._organizerStripeRepo.updateStripeAccount(accountEntity.id!,accountEntity);
+      accountEntity.isOnboarded(true);
+      await this._organizerStripeRepo.updateStripeAccount(
+        accountEntity.id!,
+        accountEntity
+      );
     } else {
       throw new Error(ErrorMessages.STRIPE.ON_BOARDING.VERIFICATION_FAILED);
     }

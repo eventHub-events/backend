@@ -27,4 +27,5 @@ export interface EventResponseDTO {
   tags?: string[];
   status?: EventStatus;
   category?: string;
+  stripeAccountId?: string;
 }

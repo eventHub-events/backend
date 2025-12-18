@@ -2,7 +2,6 @@ import { CreateStripeAccountUseCase } from '../../../application/useCases/organi
 import { UserRepository } from '../../../infrastructure/repositories/UserRepository';
 import { WinstonLoggerService } from '../../../infrastructure/services/logger/loggerService';
 import { StripeConnectService } from '../../../infrastructure/services/stripeConnectService/StripeConnectService';
-import dotenv from 'dotenv';
 import { StripeConnectController } from '../../../interfaceAdapter/controllers/organizer/stripeConnectController';
 import { VerifyStripeOnboardingStatusUseCase } from '../../../application/useCases/organizer/stripe-account/verifyStripeOnboardingStatusUseCase';
 import { StripeOnboardingStatusController } from '../../../interfaceAdapter/controllers/organizer/stripeOnboardingStatusController';
@@ -11,17 +10,17 @@ import { OrganizerStripeAccountRepository } from '../../../infrastructure/reposi
 import { StripeAccountEntityFactory } from '../../../infrastructure/factories/organizer/OrganizerStripeAccountEntityFactory';
 import { OrganizerStripeAccountMapper } from '../../../application/mapper/organizer/OrganizerStripeAccountMapper';
 import { GetStripeAccountsUseCase } from '../../../application/useCases/organizer/stripe-account/getStripeAccountUseCase';
-dotenv.config();
+import { ENV } from '../../../infrastructure/config/common/env';
 
 const loggerService = new WinstonLoggerService();
 const userEntityFactory = new UserEntityFactory();
 const userRepository = new UserRepository(loggerService, userEntityFactory);
-const stripeConnectService = new StripeConnectService(
-  process.env.STRIPE_SECRET_KEY!
-);
+const stripeConnectService = new StripeConnectService(ENV.STRIPE_SECRET_KEY!);
 
 const organizerStripeEntityFactory = new StripeAccountEntityFactory();
-const organizerStripeAccountRepository = new OrganizerStripeAccountRepository(organizerStripeEntityFactory);
+const organizerStripeAccountRepository = new OrganizerStripeAccountRepository(
+  organizerStripeEntityFactory
+);
 const organizerStripeAccountMapper = new OrganizerStripeAccountMapper();
 
 const createStripeAccountUseCase = new CreateStripeAccountUseCase(
@@ -30,13 +29,19 @@ const createStripeAccountUseCase = new CreateStripeAccountUseCase(
   organizerStripeAccountRepository,
   organizerStripeAccountMapper
 );
-const getStripeAccountUseCase = new GetStripeAccountsUseCase(organizerStripeAccountRepository,organizerStripeAccountMapper);
+const getStripeAccountUseCase = new GetStripeAccountsUseCase(
+  organizerStripeAccountRepository,
+  organizerStripeAccountMapper
+);
 export const stripeConnectController = new StripeConnectController(
   createStripeAccountUseCase,
   getStripeAccountUseCase
 );
 
 const verifyStripeOnboardingStatusUseCase =
-  new VerifyStripeOnboardingStatusUseCase( stripeConnectService,organizerStripeAccountRepository);
+  new VerifyStripeOnboardingStatusUseCase(
+    stripeConnectService,
+    organizerStripeAccountRepository
+  );
 export const stripeOnboardingStatusController =
   new StripeOnboardingStatusController(verifyStripeOnboardingStatusUseCase);

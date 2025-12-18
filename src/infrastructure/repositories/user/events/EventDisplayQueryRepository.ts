@@ -403,6 +403,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
           category: 1,
           tickets: 1,
           organizerName: 1,
+          stripeAccountId: 1,
           organizerStripeAccountId: 1,
         },
       },

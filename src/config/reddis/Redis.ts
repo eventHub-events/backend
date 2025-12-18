@@ -1,11 +1,9 @@
 import Redis from 'ioredis';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { ENV } from '../../infrastructure/config/common/env';
 
 const redis = new Redis({
-  host: process.env.REDIS_HOST,
-  port: Number(process.env.REDIS_PORT),
+  host: ENV.REDIS_HOST,
+  port: Number(ENV.REDIS_PORT),
 });
 redis.on('connect', () => console.log('✅ Redis connected'));
 redis.on('error', err => console.error('❌ Redis Error:', err));

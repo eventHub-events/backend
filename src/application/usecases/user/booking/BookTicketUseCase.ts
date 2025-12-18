@@ -7,13 +7,15 @@ import { IBookingMapper } from '../../../interface/mapper/user/IBookingMapper';
 import { IBookTicketUseCase } from '../../../interface/useCases/user/booking/IBookTicketUseCase';
 import { ErrorMessages } from '../../../../constants/errorMessages';
 import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
+import { IOrganizerStripeAccountRepository } from '../../../../domain/repositories/organizer/IOrganizerStripeAccountRepository';
+import { NotFoundError } from '../../../../domain/errors/common';
 
 export class BookTicketUseCase implements IBookTicketUseCase {
   constructor(
     private _ticketingRepository: IEventTicketingRepository,
     private _bookingRepository: IBookingRepository,
     private _bookingMapper: IBookingMapper,
-    private _userRepository: IUserRepository
+    private _stripeAccountRepo: IOrganizerStripeAccountRepository
   ) {}
 
   async execute(
@@ -28,11 +30,15 @@ export class BookTicketUseCase implements IBookTicketUseCase {
     if (!reserved)
       throw new Error(ErrorMessages.BOOKING.BOOKING_SEAT_NOT_AVAILABLE);
 
-    const organizer = await this._userRepository.findUserById(dto.organizerId);
-    const organizerStripeId = organizer?.stripeAccountId;
+    const organizerStripeAccount =
+      await this._stripeAccountRepo.getStripeAccountById(dto.stripeAccountId!);
+    if (!organizerStripeAccount)
+      throw new NotFoundError(ErrorMessages.STRIPE_ACCOUNT.NOT_FOUND_ERROR);
+
+    const organizerAccount = organizerStripeAccount.stripeAccountId;
     const bookingEntity = this._bookingMapper.toEntity({
       ...dto,
-      organizerStripeId,
+      organizerStripeId: organizerAccount,
     });
     const createdBookingEntity =
       await this._bookingRepository.createBooking(bookingEntity);

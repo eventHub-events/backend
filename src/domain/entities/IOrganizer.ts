@@ -1,6 +1,6 @@
-import { User } from './User';
+import { UserEntity } from './User';
 
-export interface IOrganizer extends User {
+export interface IOrganizer extends UserEntity {
   companyName: string;
   // kycStatus:string;
   totalEarnings: number;

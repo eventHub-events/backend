@@ -14,12 +14,17 @@ import { BookingRepository } from '../../../infrastructure/repositories/user/boo
 import { StripePaymentService } from '../../../infrastructure/services/StripeWebhookService/Stripe-payment/StripePaymentService';
 import { EventBookingController } from '../../../interfaceAdapter/controllers/user/EventBookingController';
 import { GetUserBookingsController } from '../../../interfaceAdapter/controllers/user/GetUserBookingsController';
-import dotenv from 'dotenv';
-import { userRepository } from '../../common/commonContainers';
-dotenv.config();
+import { StripeAccountEntityFactory } from '../../../infrastructure/factories/organizer/OrganizerStripeAccountEntityFactory';
+import { OrganizerStripeAccountRepository } from '../../../infrastructure/repositories/organizer/OrganizerStripeAccountRepository';
+import { ENV } from '../../../infrastructure/config/common/env';
 const bookingEntityFactory = new BookingEntityFactory();
 const bookingRepository = new BookingRepository(bookingEntityFactory);
 const bookingMapper = new BookingMapper();
+
+const organizerStripeEntityFactory = new StripeAccountEntityFactory();
+const organizerStripeAccountRepository = new OrganizerStripeAccountRepository(
+  organizerStripeEntityFactory
+);
 
 const eventTicketingEntityFactory = new EventTicketingEntityFactory();
 const ticketingRepository = new EventTicketingRepository(
@@ -30,7 +35,7 @@ const bookTicketUseCase = new BookTicketUseCase(
   ticketingRepository,
   bookingRepository,
   bookingMapper,
-  userRepository
+  organizerStripeAccountRepository
 );
 
 const getUserBookingsListUseCase = new GetUserBookingListUseCase(
@@ -58,9 +63,7 @@ const releaseExpiredBookingsUseCase = new ReleaseExpiredBookingsUseCase(
 export const bookingsExpirationScheduler = new BookingsExpirationScheduler(
   releaseExpiredBookingsUseCase
 );
-const stripePaymentService = new StripePaymentService(
-  process.env.STRIPE_SECRET_KEY!
-);
+const stripePaymentService = new StripePaymentService(ENV.STRIPE_SECRET_KEY!);
 const eventCancellationPolicy = new EventCancellationPolicy();
 const cancelPaidBookingUseCase = new CancelPaidBookingUseCase(
   bookingRepository,

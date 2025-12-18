@@ -7,6 +7,7 @@ import { UpdateEventUseCase } from '../../../application/useCases/organizer/even
 import { GetAllEventUseCase } from '../../../application/useCases/organizer/events/getAllEventUseCase';
 import { GetEventByIdUseCase } from '../../../application/useCases/organizer/events/getEventByIdUseCase';
 import { GetEventByOrganizerUseCase } from '../../../application/useCases/organizer/events/getEventByOrganizerUseCase';
+import { ENV } from '../../../infrastructure/config/common/env';
 import { EventModerationEntityFactory } from '../../../infrastructure/factories/admin/EventModerationEntityFactory';
 import { EventEntityFactory } from '../../../infrastructure/factories/organizer/EventEntityFactory';
 import { EventModerationRepository } from '../../../infrastructure/repositories/admin/EventModerationRepository';
@@ -15,8 +16,6 @@ import { StripePaymentService } from '../../../infrastructure/services/StripeWeb
 import { EventManagementController } from '../../../interfaceAdapter/controllers/organizer/eventManagementController';
 import { EventRetrievalController } from '../../../interfaceAdapter/controllers/organizer/eventRetrievalController';
 import { bookingRepository } from '../../common/commonContainers';
-import dotenv from 'dotenv';
-dotenv.config();
 
 const eventEntityFactory = new EventEntityFactory();
 const eventRepository = new EventRepository(eventEntityFactory);
@@ -33,9 +32,7 @@ const createEventUseCase = new CreateEventUseCase(
 const updateEventUseCase = new UpdateEventUseCase(eventRepository, eventMapper);
 const deleteEventUseCase = new DeleteEventUseCase(eventRepository);
 
-const stripePaymentService = new StripePaymentService(
-  process.env.STRIPE_SECRET_KEY!
-);
+const stripePaymentService = new StripePaymentService(ENV.STRIPE_SECRET_KEY!);
 const handleEventCancellationRefundUseCase =
   new HandleEventCancellationRefundUseCase(
     bookingRepository,

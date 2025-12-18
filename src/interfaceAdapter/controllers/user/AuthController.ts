@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { UserRegisterDTO } from '../../../application/DTOs/user/RegisterUserDTO';
 import { HttpStatusCode } from '../../../infrastructure/interface/enums/HttpStatusCode';
-import { IRegisterUserUseCase } from '../../../application/interface/useCases/user/IRegisterUserUsecase';
+import { IRegisterUserUseCase } from '../../../application/interface/useCases/user/IRegisterUserUseCase';
 import { IVerifyOtpUseCase } from '../../../application/interface/useCases/user/IVerifyOtpUseCase';
 import { ApiResponse } from '../../../infrastructure/commonResponseModel/ApiResponse';
 import { IResendOtpUseCase } from '../../../application/interface/useCases/user/IResendOtpUseCase';

@@ -19,7 +19,8 @@ export class StripeOnboardingStatusController {
           ErrorMessages.STRIPE_ACCOUNT.ACCOUNT_ID_REQUIRED,
           HttpStatusCode.BAD_REQUEST
         );
-      const result = await this._verifyOnboardingStatus.execute(stripeAccountId);
+      const result =
+        await this._verifyOnboardingStatus.execute(stripeAccountId);
       res
         .status(HttpStatusCode.OK)
         .json(

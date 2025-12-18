@@ -22,6 +22,7 @@ export interface EventCreationRequestDTO {
   createdBy?: string;
   approvedStatus: EventApprovalStatus;
   tags?: string[];
+  stripeAccountId: string;
   visibility?: EventVisibility;
   organizerEmail?: string;
   organizerPaymentId?: string;

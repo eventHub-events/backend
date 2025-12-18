@@ -23,5 +23,5 @@ export type OrganizerSubscriptionDbModel = IOrganizerSubscription & {
 };
 
 export type OrganizerStripeAccountDbModel = IOrganizerStripeAccount & {
-   _id : Types.ObjectId;
-}
+  _id: Types.ObjectId;
+};

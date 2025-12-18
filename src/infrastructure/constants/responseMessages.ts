@@ -27,8 +27,8 @@ export const ResponseMessages = {
   EVENT_ANALYTICS: {
     DETAILS_FETCH_SUCCESS: 'Details fetched successfully',
   },
-  STRIPE_ACCOUNTS : {
-   FETCH_SUCCESS : "Stripe accounts fetched successfully"
+  STRIPE_ACCOUNTS: {
+    FETCH_SUCCESS: 'Stripe accounts fetched successfully',
   },
   CLOUDINARY: {
     CLOUDINARY_SIGNATURE_CREATION_SUCCESS: 'Signature created successfully',

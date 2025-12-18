@@ -2,7 +2,7 @@ import { RedisCacheService } from '../infrastructure/services/otp/RedisCacheServ
 import { OtpService } from '../infrastructure/services/otp/OtpService';
 import { UserRepository } from '../infrastructure/repositories/UserRepository';
 import { GenerateOtpUseCase } from '../application/useCases/user/auth/GenerateOtpUseCase';
-import { RegisterUserUseCase } from '../application/useCases/user/auth/RegisterUserUsecase';
+
 import { VerifyOtpUseCase } from '../application/useCases/user/auth/VerifyOtpUseCase';
 
 import { AuthController } from '../interfaceAdapter/controllers/user/AuthController';
@@ -36,6 +36,7 @@ import { UserProfileCreator } from '../application/service/user/UserProfileCreat
 import { ErrorMapperService } from '../infrastructure/errors/userProfileErrorMapper';
 import { UserEntityFactory } from '../infrastructure/factories/user/UserEntityFactory';
 import { UserProfileEntityFactory } from '../infrastructure/factories/user/UserProfileEntityFactory';
+import { RegisterUserUseCase } from '../application/useCases/user/auth/RegisterUserUseCase';
 
 const cacheService = new RedisCacheService();
 export const loggerService = new WinstonLoggerService();

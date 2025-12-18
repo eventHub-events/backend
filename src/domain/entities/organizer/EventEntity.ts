@@ -34,6 +34,7 @@ export class EventEntity {
   public endTime?: string;
   public review?: Types.ObjectId;
   public category?: string;
+  public stripeAccountId: string;
 
   constructor(props: {
     organizerId: Types.ObjectId;
@@ -55,6 +56,7 @@ export class EventEntity {
     ticketsSold?: number;
     featured?: boolean;
     createdBy?: string;
+    stripeAccountId: string;
     tags?: string[];
     isDeleted?: boolean;
     organizerEmail?: string;
@@ -89,6 +91,7 @@ export class EventEntity {
     this.updatedAt = props.updatedAt;
     this.approvedStatus = props.approvedStatus;
     this.category = props.category;
+    this.stripeAccountId = props.stripeAccountId;
   }
 
   public delete() {

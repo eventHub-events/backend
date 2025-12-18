@@ -20,6 +20,7 @@ import { VerifyResetPasswordOtpUseCase } from '../../application/useCases/user/a
 import { ConfirmBookingUseCase } from '../../application/useCases/user/booking/ConfirmBookingUseCase';
 import { UserBlankProfileCreationUseCase } from '../../application/useCases/user/profile/UserBlankProfileCreationUseCase';
 import { GenerateTicketUseCase } from '../../application/useCases/user/ticketing/GenerateTicketUseCase';
+import { ENV } from '../../infrastructure/config/common/env';
 import { TokenConfig } from '../../infrastructure/config/user/tokenConfig';
 import { EventEntityFactory } from '../../infrastructure/factories/organizer/EventEntityFactory';
 import { OrganizerProfileEntityFactory } from '../../infrastructure/factories/organizer/OrganizerProfileEntityFactory';
@@ -54,8 +55,6 @@ import { GoogleAuthController } from '../../interfaceAdapter/controllers/common/
 import { StripeWebhookController } from '../../interfaceAdapter/controllers/common/StripWebhookController';
 import { PasswordController } from '../../interfaceAdapter/controllers/user/PasswordController';
 import { TokenController } from '../../interfaceAdapter/controllers/user/TokenController';
-import dotenv from 'dotenv';
-dotenv.config();
 
 const cacheService = new RedisCacheService();
 export const loggerService = new WinstonLoggerService();
@@ -149,7 +148,7 @@ export const googleAuthController = new GoogleAuthController(
 //
 
 export const stripeWebhookService = new StripeWebhookService(
-  process.env.STRIPE_SECRET_KEY!
+  ENV.STRIPE_SECRET_KEY!
 );
 const subscriptionEntityFactory = new OrganizerSubscriptionEntityFactory();
 const subscriptionRepository = new OrganizerSubscriptionRepository(

@@ -1,5 +1,5 @@
-import { StripeAccountResponseDTO } from "../../../../DTOs/organizer/stripe-account/StripeAccountResponseDTO";
+import { StripeAccountResponseDTO } from '../../../../DTOs/organizer/stripe-account/StripeAccountResponseDTO';
 
 export interface IGetStripeAccountsUseCase {
-  execute(organizerId :string) : Promise<StripeAccountResponseDTO[]>;
+  execute(organizerId: string): Promise<StripeAccountResponseDTO[]>;
 }

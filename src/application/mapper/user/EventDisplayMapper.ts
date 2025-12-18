@@ -44,6 +44,7 @@ export class EventDisplayMapper implements IEventDisplayMapper {
       organizerStripeAccountId: data.organizerStripeAccountId,
       category: data.category,
       organizerName: data.organizerName,
+      stripeAccountId: data.stripeAccountId,
       startDate: new Date(data.startDate).toLocaleDateString('en-GB', {
         day: '2-digit',
         month: 'short',
