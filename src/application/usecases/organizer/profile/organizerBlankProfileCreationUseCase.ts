@@ -26,11 +26,7 @@ export class OrganizerBlankProfileCreationUseCase implements IOrganizerBlankProf
     };
     const organizerEntityData = OrganizerProfileMapper.toDomain(blankProfile);
     const result = await this._profileRepo.createProfile(organizerEntityData);
-    //  return  OrganizerProfileMapper.toResponse(result)
-    // //  const final = OrganizerProfileMapper.toResponse( result as IOrganizerProfile & { organizerId: IUserMinimal })
-    //  console.log("ffffffff",  final)
-    //  return final
-    // //  return result
+
     if (!result) {
       throw new CustomError(
         ErrorMessages.ORGANIZER.PROFILE_CREATION_FAILED,

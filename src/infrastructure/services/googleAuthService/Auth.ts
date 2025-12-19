@@ -1,20 +1,19 @@
 import { OAuth2Client } from 'google-auth-library';
-import dotenv from 'dotenv';
 import { IGoogleAuthService } from '../../../application/service/common/IGoogleAuthService';
 import { ErrorMessages } from '../../../constants/errorMessages';
-dotenv.config();
+import { ENV } from '../../config/common/env';
 
 export class GoogleAuthService implements IGoogleAuthService {
   private _client: OAuth2Client;
 
   constructor() {
-    this._client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+    this._client = new OAuth2Client(ENV.GOOGLE_CLIENT_ID);
   }
 
   async verifyGoogleToken(idToken: string, role: string) {
     const ticket = await this._client.verifyIdToken({
       idToken,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: ENV.GOOGLE_CLIENT_ID,
     });
 
     const payload = ticket.getPayload();

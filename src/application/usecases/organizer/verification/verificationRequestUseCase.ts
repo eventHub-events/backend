@@ -1,5 +1,5 @@
-import { RequestVerificationDTO } from '../../../DTOs/organizer/verification/requestVerificationDTO';
-import { User } from '../../../../domain/entities/User';
+import { RequestVerificationDTO } from '../../../DTOs/organizer/verification/RequestVerificationDTO';
+import { UserEntity } from '../../../../domain/entities/User';
 import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
 import { CustomError } from '../../../../infrastructure/errors/errorClass';
 import { HttpStatusCode } from '../../../../infrastructure/interface/enums/HttpStatusCode';
@@ -20,7 +20,7 @@ export class VerificationRequestUseCase implements IVerificationRequestUseCase {
   ): Promise<string> {
     const updatedUser = await this._userRepo.updateUser(organizerId, {
       kycStatus: requestData.kycStatus,
-    } as Partial<User>);
+    } as Partial<UserEntity>);
     if (!updatedUser) {
       throw new CustomError(
         'request  for verification failed',

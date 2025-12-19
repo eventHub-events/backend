@@ -2,15 +2,11 @@ import { CreateTicketPaymentUseCase } from '../../../application/useCases/user/p
 import { BookingEntityFactory } from '../../../infrastructure/factories/user/BookingEntityFactory';
 import { BookingRepository } from '../../../infrastructure/repositories/user/booking/BookingRepository';
 import { StripePaymentService } from '../../../infrastructure/services/StripeWebhookService/Stripe-payment/StripePaymentService';
-import dotenv from 'dotenv';
 import { userRepository } from '../../common/commonContainers';
 import { BookingPaymentController } from '../../../interfaceAdapter/controllers/user/BookingPaymentController';
+import { ENV } from '../../../infrastructure/config/common/env';
 
-dotenv.config();
-
-const stripePaymentService = new StripePaymentService(
-  process.env.STRIPE_SECRET_KEY!
-);
+const stripePaymentService = new StripePaymentService(ENV.STRIPE_SECRET_KEY!);
 const bookingEntityFactory = new BookingEntityFactory();
 const bookingRepository = new BookingRepository(bookingEntityFactory);
 

@@ -8,7 +8,7 @@ import { ErrorMessages } from '../../../../constants/errorMessages';
 export class ProcessPayoutUseCase implements IProcessPayoutUseCase {
   constructor(
     private _bookingRepo: IBookingRepository,
-    private readonly stripe: Stripe
+    private readonly _stripe: Stripe
   ) {}
 
   async execute(): Promise<void> {
@@ -42,7 +42,7 @@ export class ProcessPayoutUseCase implements IProcessPayoutUseCase {
       { totalAmount, bookingIds },
     ] of organizerMap) {
       try {
-        await this.stripe.transfers.create({
+        await this._stripe.transfers.create({
           amount: Math.round(totalAmount * 100), // convert to paise
           currency: 'usd',
           destination: organizerStripeId,

@@ -1,0 +1,34 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
+export const ENV = {
+  REDIS_HOST: process.env.REDIS_HOST,
+  REDIS_PORT: process.env.REDIS_PORT,
+  PORT: process.env.PORT,
+
+  FRONTEND_URL: process.env.FRONTEND_URL,
+
+  SMTP_HOST: process.env.SMTP_HOST,
+  SMTP_PORT: process.env.SMTP_PORT,
+  SMTP_USER: process.env.SMTP_USER,
+  SMTP_PASS: process.env.SMTP_PASS,
+  JWT_SECRET: process.env.JWT_SECRET,
+  MONGO_URI: process.env.MONGO_URI,
+  JWT_EXPIRY: process.env.JWT_EXPIRY,
+  JWT_RESET_EXPIRY: process.env.JWT_RESET_EXPIRY,
+  JWT_REFRESH_TOKEN_EXPIRY: process.env.JWT_REFRESH_TOKEN_EXPIRY,
+  LOG_LEVEL: process.env.LOG_LEVEL,
+  ADMIN_EMAIL: process.env.ADMIN_EMAIL,
+  ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
+  ADMIN_NAME: process.env.ADMIN_NAME,
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
+
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
+
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+
+  NODE_ENV: process.env.NODE_ENV,
+};

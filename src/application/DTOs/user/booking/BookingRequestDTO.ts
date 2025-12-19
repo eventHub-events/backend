@@ -19,5 +19,6 @@ export interface BookingRequestDTO {
   organizerId: string;
   eventImages?: string[];
   userEmail?: string;
+  stripeAccountId?: string;
   organizerStripeId?: string;
 }

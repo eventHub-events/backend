@@ -403,6 +403,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
           category: 1,
           tickets: 1,
           organizerName: 1,
+          stripeAccountId: 1,
           organizerStripeAccountId: 1,
         },
       },
@@ -622,153 +623,154 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       totalPages: Math.ceil((count[0]?.total ?? 0) / limit),
     };
   }
-async upcomingEvents(): Promise<UpcomingEventsDetails[]> {
-  const now = new Date();
+  async upcomingEvents(): Promise<UpcomingEventsDetails[]> {
+    const now = new Date();
 
-  const result = await EventModel.aggregate([
-    /* 1️⃣ Valid upcoming public events */
-    {
-      $match: {
-        startDate: { $gte: now },
-        isDeleted: false,
-        visibility: "public",
-        approvedStatus: "approved",
-        status: { $in: ["upcoming", "active"] },
-      },
-    },
-
-    /* 2️⃣ Ticketing */
-    {
-      $lookup: {
-        from: "eventticketings",
-        localField: "_id",
-        foreignField: "eventId",
-        as: "ticketing",
-      },
-    },
-    { $unwind: "$ticketing" },
-
-    /* 3️⃣ Organizer */
-    {
-      $lookup: {
-        from: "users",
-        localField: "organizerId",
-        foreignField: "_id",
-        as: "organizer",
-      },
-    },
-    {
-      $unwind: {
-        path: "$organizer",
-        preserveNullAndEmptyArrays: true,
-      },
-    },
-
-    /* 4️⃣ Real tickets sold */
-    {
-      $lookup: {
-        from: "bookings",
-        let: { eventId: "$_id" },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $and: [
-                  { $eq: ["$eventId", "$$eventId"] },
-                  { $eq: ["$status", "confirmed"] },
-                ],
-              },
-            },
-          },
-          { $unwind: "$tickets" },
-          {
-            $group: {
-              _id: null,
-              ticketsSold: { $sum: "$tickets.quantity" },
-            },
-          },
-        ],
-        as: "bookingStats",
-      },
-    },
-
-    /* 5️⃣ Derived fields */
-    {
-      $addFields: {
-        ticketsSold: {
-          $ifNull: [{ $arrayElemAt: ["$bookingStats.ticketsSold", 0] }, 0],
+    const result = await EventModel.aggregate([
+      /* 1️⃣ Valid upcoming public events */
+      {
+        $match: {
+          startDate: { $gte: now },
+          isDeleted: false,
+          visibility: 'public',
+          approvedStatus: 'approved',
+          status: { $in: ['upcoming', 'active'] },
         },
-        ticketsLeft: {
-          $subtract: [
-            "$totalCapacity",
-            {
-              $ifNull: [{ $arrayElemAt: ["$bookingStats.ticketsSold", 0] }, 0],
-            },
-          ],
+      },
+
+      /* 2️⃣ Ticketing */
+      {
+        $lookup: {
+          from: 'eventticketings',
+          localField: '_id',
+          foreignField: 'eventId',
+          as: 'ticketing',
         },
-        availability: {
-          $cond: [
-            { $gt: ["$totalCapacity", 0] },
+      },
+      { $unwind: '$ticketing' },
+
+      /* 3️⃣ Organizer */
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'organizerId',
+          foreignField: '_id',
+          as: 'organizer',
+        },
+      },
+      {
+        $unwind: {
+          path: '$organizer',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+
+      /* 4️⃣ Real tickets sold */
+      {
+        $lookup: {
+          from: 'bookings',
+          let: { eventId: '$_id' },
+          pipeline: [
             {
-              $multiply: [
-                {
-                  $divide: [
-                    {
-                      $ifNull: [
-                        { $arrayElemAt: ["$bookingStats.ticketsSold", 0] },
-                        0,
-                      ],
-                    },
-                    "$totalCapacity",
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$eventId', '$$eventId'] },
+                    { $eq: ['$status', 'confirmed'] },
                   ],
                 },
-                100,
-              ],
+              },
             },
-            0,
+            { $unwind: '$tickets' },
+            {
+              $group: {
+                _id: null,
+                ticketsSold: { $sum: '$tickets.quantity' },
+              },
+            },
           ],
+          as: 'bookingStats',
         },
-        organizer: "$organizer.name",
       },
-    },
 
-    /* 6️⃣ Hide sold-out */
-    {
-      $match: {
-        ticketsLeft: { $gt: 0 },
+      /* 5️⃣ Derived fields */
+      {
+        $addFields: {
+          ticketsSold: {
+            $ifNull: [{ $arrayElemAt: ['$bookingStats.ticketsSold', 0] }, 0],
+          },
+          ticketsLeft: {
+            $subtract: [
+              '$totalCapacity',
+              {
+                $ifNull: [
+                  { $arrayElemAt: ['$bookingStats.ticketsSold', 0] },
+                  0,
+                ],
+              },
+            ],
+          },
+          availability: {
+            $cond: [
+              { $gt: ['$totalCapacity', 0] },
+              {
+                $multiply: [
+                  {
+                    $divide: [
+                      {
+                        $ifNull: [
+                          { $arrayElemAt: ['$bookingStats.ticketsSold', 0] },
+                          0,
+                        ],
+                      },
+                      '$totalCapacity',
+                    ],
+                  },
+                  100,
+                ],
+              },
+              0,
+            ],
+          },
+          organizer: '$organizer.name',
+        },
       },
-    },
 
-    /* 7️⃣ Sort */
-    {
-      $sort: {
-        startDate: 1,
-        ticketsSold: -1,
+      /* 6️⃣ Hide sold-out */
+      {
+        $match: {
+          ticketsLeft: { $gt: 0 },
+        },
       },
-    },
 
-    /* 8️⃣ Limit */
-    { $limit: 6 },
-
-    /* 9️⃣ Final shape */
-    {
-      $project: {
-        eventId: { $toString: "$_id" },
-        title: 1,
-        description: 1,
-        startDate: 1,
-        location: "$location.venue",
-        images: 1,
-        category: 1,
-        ticketsLeft: 1,
-        availability: 1,
-        organizer: 1,
+      /* 7️⃣ Sort */
+      {
+        $sort: {
+          startDate: 1,
+          ticketsSold: -1,
+        },
       },
-    },
-  ]);
 
-  return result;
-}
+      /* 8️⃣ Limit */
+      { $limit: 6 },
 
-  
+      /* 9️⃣ Final shape */
+      {
+        $project: {
+          eventId: { $toString: '$_id' },
+          title: 1,
+          description: 1,
+          startDate: 1,
+          location: '$location.venue',
+          images: 1,
+          category: 1,
+          ticketsLeft: 1,
+          availability: 1,
+          organizer: 1,
+        },
+      },
+    ]);
+
+    return result;
+  }
 }

@@ -12,14 +12,15 @@ export class StripeOnboardingStatusController {
   ) {}
   async verify(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { organizerId } = req.body;
+      const { stripeAccountId } = req.body;
 
-      if (!organizerId)
+      if (!stripeAccountId)
         throw new CustomError(
-          ErrorMessages.ORGANIZER.ID_REQUIRED,
+          ErrorMessages.STRIPE_ACCOUNT.ACCOUNT_ID_REQUIRED,
           HttpStatusCode.BAD_REQUEST
         );
-      const result = await this._verifyOnboardingStatus.execute(organizerId);
+      const result =
+        await this._verifyOnboardingStatus.execute(stripeAccountId);
       res
         .status(HttpStatusCode.OK)
         .json(

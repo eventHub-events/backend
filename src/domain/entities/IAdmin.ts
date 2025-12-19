@@ -1,3 +1,3 @@
-import { User } from './User';
+import { UserEntity } from './User';
 
-export interface admin extends User {}
+export interface admin extends UserEntity {}

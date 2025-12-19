@@ -5,7 +5,7 @@ import { CustomError } from '../../../../infrastructure/errors/errorClass';
 import { HttpStatusCode } from '../../../../infrastructure/interface/enums/HttpStatusCode';
 import { IEmailService } from '../../../interface/useCases/user/IEmailService';
 import { IGenerateOtpUseCase } from '../../../interface/useCases/user/IGenerateOtpUseCase';
-import { IRegisterUserUseCase } from '../../../interface/useCases/user/IRegisterUserUsecase';
+import { IRegisterUserUseCase } from '../../../interface/useCases/user/IRegisterUserUseCase';
 import { ResponseMessages } from '../../../../infrastructure/constants/responseMessages';
 import { ErrorMessages } from '../../../../constants/errorMessages';
 

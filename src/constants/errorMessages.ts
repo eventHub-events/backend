@@ -22,7 +22,7 @@ export const ErrorMessages = {
     CREATION_FAILED: 'Event details not saved',
     EVENT_ALREADY_CANCELLED: 'Event already  cancelled',
     FEATURED_EVENT_NOT_FOUND: 'featured events Not found',
-    UPCOMING_EVENT_NOT_FOUND : "Upcoming event details not found"
+    UPCOMING_EVENT_NOT_FOUND: 'Upcoming event details not found',
   },
   ERROR_CODES: {
     USER_BLOCKED: 'USER_BLOCKED',
@@ -45,7 +45,10 @@ export const ErrorMessages = {
     PAID_REQUEST_ERROR: 'Only paid bookings can be cancelled',
     CANCEL_WINDOW_CLOSED: 'Cancellation window closed',
   },
-
+  STRIPE_ACCOUNT: {
+    ACCOUNT_ID_REQUIRED: 'Stripe account id is required',
+    NOT_FOUND_ERROR: 'Stripe account not found',
+  },
   AUTH: {
     UNAUTHORIZED: 'Unauthorized access',
     INVALID_TOKEN: 'Invalid or expired token',
@@ -158,6 +161,7 @@ export const ErrorMessages = {
       ON_ONBOARDING_FAILED: 'Stripe onBoarding failed',
       VERIFICATION_FAILED: 'Verification failed',
     },
+    ACCOUNT_NOT_FOUND: 'Stripe account not found',
   },
   Transactions: {
     NOT_FOUND: 'Transactions not found',

@@ -11,7 +11,6 @@ export const ResponseMessages = {
     EVENT_UPDATE_SUCCESS: 'Event updated successfully',
     EVENT_DELETE_SUCCESS: 'Event deleted successfully',
     EVENT_CANCEL_SUCCESS: 'Event cancelled successfully',
-    
   },
   EVENT_MODERATION: {
     EVENT_MODERATION_UPDATE_SUCCESS: 'Moderation details Updated successfully',
@@ -27,6 +26,9 @@ export const ResponseMessages = {
   },
   EVENT_ANALYTICS: {
     DETAILS_FETCH_SUCCESS: 'Details fetched successfully',
+  },
+  STRIPE_ACCOUNTS: {
+    FETCH_SUCCESS: 'Stripe accounts fetched successfully',
   },
   CLOUDINARY: {
     CLOUDINARY_SIGNATURE_CREATION_SUCCESS: 'Signature created successfully',

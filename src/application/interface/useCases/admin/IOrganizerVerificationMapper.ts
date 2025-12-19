@@ -5,13 +5,13 @@ import { UploadDocumentUpdateDTO } from '../../../DTOs/admin/UploadDocumentUpdat
 import { CompleteOrganizerDetailResponseDTO } from '../../../DTOs/admin/UserWithOrganizerProfileDTO';
 import { UploadDocument } from '../../../../domain/entities/organizer/Document';
 import { OrganizerProfile } from '../../../../domain/entities/organizer/OrganizerProfile';
-import { User } from '../../../../domain/entities/User';
+import { UserEntity } from '../../../../domain/entities/User';
 import { OrganizerProfileWithUser } from '../../../../domain/types/OrganizerTypes';
 
 export interface IOrganizerVerificationMapper {
   toResponse(
     profile: OrganizerProfile,
-    user: User,
+    user: UserEntity,
     Docs: UploadDocument[]
   ): OrganizerVerificationResponseDTO;
   toOrganizerDetailsResponse(
@@ -22,7 +22,7 @@ export interface IOrganizerVerificationMapper {
   ): UpdatedUploadDocumentResponseDTO;
   toDomainForOverallVerification(
     data: UpdateOrganizerOverallVerificationStatusDTO
-  ): { user: Partial<User>; profile: Partial<OrganizerProfile> };
+  ): { user: Partial<UserEntity>; profile: Partial<OrganizerProfile> };
   toDomainForUploadDocumentStatus(
     documentData: UploadDocumentUpdateDTO
   ): Partial<UploadDocument>;

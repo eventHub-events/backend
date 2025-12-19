@@ -29,6 +29,7 @@ export class EventMapper implements IEventMapper {
       tags: dto.tags ?? [],
       visibility: dto.visibility,
       category: dto.category,
+      stripeAccountId: dto.stripeAccountId,
     });
   }
   toEntityForUpdate(dto: EventUpdateDTO): Partial<EventEntity> {
@@ -62,6 +63,7 @@ export class EventMapper implements IEventMapper {
       tags: entity.tags,
       status: entity.currentStatus,
       category: entity.category,
+      stripeAccountId: entity.stripeAccountId,
     };
   }
   toResponseDTOList(entities: EventEntity[]): EventResponseDTO[] {

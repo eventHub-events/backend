@@ -34,6 +34,7 @@ export class EventEntityFactory implements IEventsEntityFactory<
       visibility: dbModel.visibility,
       organizerEmail: dbModel.organizerEmail,
       category: dbModel.category,
+      stripeAccountId: dbModel.stripeAccountId,
     });
   }
   toDomainList(dbModel: EventsDbModel[]): EventEntity[] {

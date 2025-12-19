@@ -1,7 +1,6 @@
 import { ICloudinaryService } from '../../../domain/interface/services/ICloudinaryService';
+import { ENV } from '../../config/common/env';
 import cloudinary from './cloudinary';
-import dotenv from 'dotenv';
-dotenv.config();
 
 export class CloudinaryService implements ICloudinaryService {
   async generateUploadSignature(params: { folder: string }): Promise<{
@@ -19,14 +18,14 @@ export class CloudinaryService implements ICloudinaryService {
         timestamp,
         folder,
       },
-      process.env.CLOUDINARY_API_SECRET!
+      ENV.CLOUDINARY_API_SECRET!
     );
 
     return {
       timestamp,
       signature,
-      apiKey: process.env.CLOUDINARY_API_KEY!,
-      cloudName: process.env.CLOUDINARY_CLOUD_NAME!,
+      apiKey: ENV.CLOUDINARY_API_KEY!,
+      cloudName: ENV.CLOUDINARY_CLOUD_NAME!,
       folder,
     };
   }

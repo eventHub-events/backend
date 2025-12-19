@@ -18,7 +18,7 @@ export class EventDisplayController {
     private readonly _getEventDetailsUseCase: IGetEventDetailsUseCase,
     private readonly _getAllFeaturedEventUseCase: IGetAllFeaturedEventUseCase,
     private readonly _searchEventsUseCase: ISearchEventsUseCase,
-    private readonly _getUpcomingEventsUseCase : IGetUpcomingEventUseCase
+    private readonly _getUpcomingEventsUseCase: IGetUpcomingEventUseCase
   ) {}
 
   async getTrending(
@@ -130,13 +130,13 @@ export class EventDisplayController {
     }
   }
 
-   async getUpcomingEvents(
+  async getUpcomingEvents(
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
     try {
-      console.log("hello iam ")
+      console.log('hello iam ');
       const result = await this._getUpcomingEventsUseCase.execute();
       res
         .status(HttpStatusCode.OK)

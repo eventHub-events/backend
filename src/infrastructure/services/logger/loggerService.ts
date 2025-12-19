@@ -1,9 +1,8 @@
 import { createLogger, format, transports } from 'winston';
 import 'winston-daily-rotate-file'; // <-- import this
 import { ILoggerService } from '../../../application/interface/common/ILoggerService';
-import dotenv from 'dotenv';
 
-dotenv.config();
+import { ENV } from '../../config/common/env';
 
 export class WinstonLoggerService<
   TMeta = unknown,
@@ -16,7 +15,7 @@ export class WinstonLoggerService<
     });
 
     this.logger = createLogger({
-      level: process.env.LOG_LEVEL || 'info',
+      level: ENV.LOG_LEVEL || 'info',
       format: format.combine(
         format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
         logFormat

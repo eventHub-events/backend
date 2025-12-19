@@ -1,9 +1,7 @@
-import dotenv from 'dotenv';
 import { createTransport, Transporter } from 'nodemailer';
 import { IEmailService } from '../../../application/interface/useCases/user/IEmailService';
 import { ErrorMessages } from '../../../constants/errorMessages';
-
-dotenv.config();
+import { ENV } from '../../config/common/env';
 
 export class NodeMailerEmailService implements IEmailService {
   private mailTransporter: Transporter;
@@ -17,10 +15,10 @@ export class NodeMailerEmailService implements IEmailService {
   private SMTP_PORT;
 
   constructor() {
-    this.SMTP_USER = process.env.SMTP_USER || 'smtp.email.com';
-    this.SMTP_PASS = process.env.SMTP_PASS || '';
-    this.SMTP_HOST = process.env.SMTP_HOST;
-    this.SMTP_PORT = process.env.SMTP_PORT;
+    this.SMTP_USER = ENV.SMTP_USER || 'smtp.email.com';
+    this.SMTP_PASS = ENV.SMTP_PASS || '';
+    this.SMTP_HOST = ENV.SMTP_HOST;
+    this.SMTP_PORT = ENV.SMTP_PORT;
 
     if (!this.SMTP_USER || !this.SMTP_PASS) {
       throw new Error(ErrorMessages.EMAIL.CREDENTIALS_MISSING);
@@ -44,7 +42,7 @@ export class NodeMailerEmailService implements IEmailService {
 
   async sendMail(to: string, subject: string, body: string): Promise<void> {
     await this.mailTransporter.sendMail({
-      from: process.env.SMTP_USER,
+      from: ENV.SMTP_USER,
       to,
       subject,
       html: body,

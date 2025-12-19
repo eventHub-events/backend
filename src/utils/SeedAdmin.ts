@@ -3,12 +3,11 @@ import { ILoggerService } from '../application/interface/common/ILoggerService';
 import { IHashService } from '../application/interface/useCases/user/IHashService';
 import { DbConnection } from '../config/mongoose/DbConnection';
 import { IUserRepository } from '../domain/repositories/user/IUserRepository';
-import dotenv from 'dotenv';
-dotenv.config();
 
 import { UserRegisterDTO } from '../application/DTOs/user/RegisterUserDTO';
 import { UserEntity } from '../domain/entities/User';
 import { KycStatus } from '../infrastructure/db/models/user/UserModel';
+import { ENV } from '../infrastructure/config/common/env';
 
 export class SeedAdmin implements ISeedAdmin {
   private name: string;
@@ -20,9 +19,9 @@ export class SeedAdmin implements ISeedAdmin {
     private _hashService: IHashService,
     private _logger: ILoggerService
   ) {
-    this.name = process.env.ADMIN_NAME || '';
-    this.email = process.env.ADMIN_EMAIL || '';
-    this.password = process.env.ADMIN_PASSWORD || '';
+    this.name = ENV.ADMIN_NAME || '';
+    this.email = ENV.ADMIN_EMAIL || '';
+    this.password = ENV.ADMIN_PASSWORD || '';
   }
 
   async execute() {
