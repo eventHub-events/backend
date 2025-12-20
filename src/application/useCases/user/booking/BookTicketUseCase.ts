@@ -6,7 +6,6 @@ import { IBookingMapper } from '../../../interface/mapper/user/IBookingMapper';
 
 import { IBookTicketUseCase } from '../../../interface/useCases/user/booking/IBookTicketUseCase';
 import { ErrorMessages } from '../../../../constants/errorMessages';
-import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
 import { IOrganizerStripeAccountRepository } from '../../../../domain/repositories/organizer/IOrganizerStripeAccountRepository';
 import { NotFoundError } from '../../../../domain/errors/common';
 

@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
 import { IStripeConnectService } from '../../../application/service/common/IStripeConnectService';
+import { ENV } from '../../config/common/env';
 
 export class StripeConnectService implements IStripeConnectService {
   private stripe: Stripe;
@@ -21,8 +22,8 @@ export class StripeConnectService implements IStripeConnectService {
   async createAccountLink(accountId: string): Promise<string> {
     const link = await this.stripe.accountLinks.create({
       account: accountId,
-      refresh_url: `http://localhost:3000/organizer/onboarding/refresh?account=${accountId}`,
-      return_url: `http://localhost:3000/organizer/onboarding/success?account=${accountId}`,
+      refresh_url: `${ENV.NEXT_PUBLIC_STRIPE_ONBOARDING_REFRESH_URL}?account=${accountId}`,
+      return_url: `${ENV.NEXT_PUBLIC_STRIPE_ONBOARDING_SUCCESS_URL}?account=${accountId}`,
       type: 'account_onboarding',
     });
 
