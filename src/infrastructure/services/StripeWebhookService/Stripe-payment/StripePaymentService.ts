@@ -1,6 +1,7 @@
 import Stripe from 'stripe';
 import { IStripePaymentService } from '../../../../application/service/common/IStripePaymentService';
 import { BookingCheckoutDTO } from '../../../../application/DTOs/user/payment/BookingCheckoutDTO';
+import { ENV } from '../../../config/common/env';
 
 export class StripePaymentService implements IStripePaymentService {
   private _stripe: Stripe;
@@ -82,8 +83,8 @@ export class StripePaymentService implements IStripePaymentService {
           quantity: 1,
         },
       ],
-      success_url: `http://localhost:3000/organizer/subscription-plans/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:3000/organizer/subscription-plans/cancel`,
+      success_url: `${ENV.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${ENV.NEXT_PUBLIC_STRIPE_SUBSCRIPTION_CANCEL_URL}`,
       metadata: {
         organizerId,
         planId,
@@ -120,8 +121,8 @@ export class StripePaymentService implements IStripePaymentService {
         // ⚠️ No `transfer_data` here — funds stay with admin (platform)
         // optional; remove if you don’t take fees at this step
       },
-      success_url: `http://localhost:3000/user/make-payment/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `http://localhost:3000/user/make-payment/cancel`,
+      success_url: `${ENV.NEXT_PUBLIC_STRIPE_BOOKING_SUCCESS_URL}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${ENV.NEXT_PUBLIC_STRIPE_BOOKING_CANCEL_URL}`,
       metadata: {
         paymentType: 'ticket',
         bookingId: dto.bookingId,
