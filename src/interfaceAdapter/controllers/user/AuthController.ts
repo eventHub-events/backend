@@ -102,12 +102,12 @@ export class AuthController {
         await this._loginUserUseCase.loginUser(email, password);
 
       const authCookieOptions = CookieOptionsUtility.create(15 * 60 * 1000);
-      res.cookie( COOKIE_NAMES.AUTH_TOKEN, token, authCookieOptions);
+      res.cookie(COOKIE_NAMES.AUTH_TOKEN, token, authCookieOptions);
 
       const refreshCookieOption = CookieOptionsUtility.create(
         7 * 24 * 60 * 60 * 1000
       );
-      res.cookie( COOKIE_NAMES.REFRESH_TOKEN, refreshToken, refreshCookieOption);
+      res.cookie(COOKIE_NAMES.REFRESH_TOKEN, refreshToken, refreshCookieOption);
 
       res
         .status(HttpStatusCode.OK)
@@ -119,7 +119,8 @@ export class AuthController {
           )
         );
     } catch (err) {
-      if(err instanceof BadRequestError)throw new CustomError(err.message,HttpStatusCode.BAD_REQUEST);
+      if (err instanceof BadRequestError)
+        throw new CustomError(err.message, HttpStatusCode.BAD_REQUEST);
       next(err);
     }
   }
@@ -133,8 +134,8 @@ export class AuthController {
       const result = await this._logoutUserUseCase.execute();
 
       const cookieOptions = CookieOptionsUtility.create();
-      res.clearCookie( COOKIE_NAMES.AUTH_TOKEN, cookieOptions);
-      res.clearCookie( COOKIE_NAMES.REFRESH_TOKEN, cookieOptions);
+      res.clearCookie(COOKIE_NAMES.AUTH_TOKEN, cookieOptions);
+      res.clearCookie(COOKIE_NAMES.REFRESH_TOKEN, cookieOptions);
       res
         .status(HttpStatusCode.OK)
         .json(ApiResponse.success(result, HttpStatusCode.OK));

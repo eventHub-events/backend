@@ -47,6 +47,11 @@ export class EventQueryRepository implements IEventQueryRepository {
           preserveNullAndEmptyArrays: true,
         },
       },
+       {
+        $sort: {
+          createdAt: -1,
+        },
+      },
       {
         $project: {
           _id: 1,

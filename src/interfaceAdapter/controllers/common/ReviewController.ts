@@ -14,8 +14,8 @@ import { CustomError } from '../../../infrastructure/errors/errorClass';
 import { IGetRatingSummaryUseCase } from '../../../application/interface/common/useCase/review/common/IGetRatingSummaryUseCase';
 import { ReviewType } from '../../../infrastructure/types/review/review';
 import {
+  BadRequestError,
   NotFoundError,
-  UnauthorizedError,
 } from '../../../domain/errors/common';
 import { IGetOrganizerReviewsUseCase } from '../../../application/interface/useCases/organizer/review/IGetOrganizerReviewsUseCase';
 import { ErrorMessages } from '../../../constants/errorMessages';
@@ -52,7 +52,7 @@ export class ReviewController {
     } catch (err) {
       if (err instanceof NotFoundError)
         throw new CustomError(err.message, HttpStatusCode.BAD_REQUEST);
-      if (err instanceof UnauthorizedError)
+      if (err instanceof BadRequestError)
         throw new CustomError(err.message, HttpStatusCode.BAD_REQUEST);
       next(err);
     }
@@ -75,6 +75,10 @@ export class ReviewController {
           )
         );
     } catch (err) {
+         if (err instanceof NotFoundError)
+        throw new CustomError(err.message, HttpStatusCode.BAD_REQUEST);
+      if (err instanceof BadRequestError)
+        throw new CustomError(err.message, HttpStatusCode.BAD_REQUEST);
       next(err);
     }
   }
@@ -103,6 +107,8 @@ export class ReviewController {
           )
         );
     } catch (err) {
+        if (err instanceof NotFoundError)
+        throw new CustomError(err.message, HttpStatusCode.BAD_REQUEST);
       next(err);
     }
   }
@@ -130,6 +136,8 @@ export class ReviewController {
           )
         );
     } catch (err) {
+       if (err instanceof NotFoundError)
+        throw new CustomError(err.message, HttpStatusCode.BAD_REQUEST);
       next(err);
     }
   }

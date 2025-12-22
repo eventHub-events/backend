@@ -1,8 +1,8 @@
 import { ErrorMessages } from '../../../../../constants/errorMessages';
 import {
+  BadRequestError,
   CreationFailedError,
   NotFoundError,
-  UnauthorizedError,
 } from '../../../../../domain/errors/common';
 import { IBookingRepository } from '../../../../../domain/repositories/user/IBookingRepository';
 import { IReviewRepository } from '../../../../../domain/repositories/user/IReviewRepository';
@@ -34,7 +34,7 @@ export class AddOrganizerReviewUseCase implements IAddOrganizerReviewUseCase {
       ReviewType.ORGANIZER
     );
     if (existing)
-      throw new UnauthorizedError(
+      throw new BadRequestError(
         ErrorMessages.REVIEW.ALREADY_REVIEWED_ORGANIZER_ERROR
       );
 

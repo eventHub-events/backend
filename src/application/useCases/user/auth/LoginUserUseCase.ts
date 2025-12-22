@@ -31,7 +31,8 @@ export class LoginUserUseCase implements ILoginUserUseCase {
       hashedPassword!
     );
 
-    if (!isPasswordValid) throw new BadRequestError(ErrorMessages.AUTH.PASSWORD_INVALID);
+    if (!isPasswordValid)
+      throw new BadRequestError(ErrorMessages.AUTH.PASSWORD_INVALID);
     const payload: IUserTokenPayload = { id: userDoc.id!, role: userDoc.role! };
 
     const token = await this._tokenService.generateToken(payload);

@@ -3,7 +3,7 @@ import { EventAnalyticsFilter } from '../../../../../domain/interface/event-anal
 
 export interface IGetEventAnalyticsUseCase {
   execute(
-    organizerId: string,
-    filter: EventAnalyticsFilter
+    filter: EventAnalyticsFilter,
+    organizerId?: string,
   ): Promise<EventAnalyticsData>;
 }
