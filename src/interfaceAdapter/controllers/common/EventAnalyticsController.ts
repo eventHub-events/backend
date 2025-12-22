@@ -7,6 +7,7 @@ import { ResponseMessages } from '../../../infrastructure/constants/responseMess
 import { EventAnalyticsFilter } from '../../../domain/interface/event-analytics/eventAnalyticsFilter';
 import { NotFoundError } from '../../../domain/errors/common';
 import { CustomError } from '../../../infrastructure/errors/errorClass';
+import { UserRole } from '../../../domain/enums/user/userRoles';
 
 export class EventAnalyticsController {
   constructor(
@@ -19,12 +20,12 @@ export class EventAnalyticsController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const organizerId = req.user!.id;
+      const organizerId = req.user?.role === UserRole.ADMIN?undefined:req.user?.id;
       const filter = req.validatedQuery as EventAnalyticsFilter;
 
       const data = await this._getEventAnalyticsUseCase.execute(
+        filter,
         organizerId,
-        filter
       );
       res
         .status(HttpStatusCode.OK)

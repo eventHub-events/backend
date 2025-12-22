@@ -1,4 +1,5 @@
 import { ErrorMessages } from '../../../../constants/errorMessages';
+import { BadRequestError } from '../../../../domain/errors/common';
 import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
 import { IUserLoginResponse } from '../../../../domain/types/IUserLoginResponse';
 
@@ -30,7 +31,8 @@ export class LoginUserUseCase implements ILoginUserUseCase {
       hashedPassword!
     );
 
-    if (!isPasswordValid) throw new Error(ErrorMessages.AUTH.PASSWORD_INVALID);
+    if (!isPasswordValid)
+      throw new BadRequestError(ErrorMessages.AUTH.PASSWORD_INVALID);
     const payload: IUserTokenPayload = { id: userDoc.id!, role: userDoc.role! };
 
     const token = await this._tokenService.generateToken(payload);

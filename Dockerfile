@@ -1,14 +1,16 @@
-FROM node:18-alpine
+FROM node:18-bullseye
 
-RUN apk add --no-cache \
-    python3 \
-    make \
-    g++ \
-    cairo-dev \
-    pango-dev \
-    jpeg-dev \
-    giflib-dev \
-    pixman-dev
+RUN apt-get update && apt-get install -y \
+  python3 \
+  build-essential \
+  libcairo2-dev \
+  libpango1.0-dev \
+  libjpeg-dev \
+  libgif-dev \
+  librsvg2-dev \
+  fontconfig \
+  fonts-dejavu-core \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 

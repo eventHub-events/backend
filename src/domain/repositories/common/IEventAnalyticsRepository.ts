@@ -3,7 +3,7 @@ import { EventAnalyticsFilter } from '../../interface/event-analytics/eventAnaly
 
 export interface IEventAnalyticsRepository {
   getEventAnalytics(
-    organizerId: string,
-    filter: EventAnalyticsFilter
+    filter: EventAnalyticsFilter,
+    organizerId?: string,
   ): Promise<EventAnalyticsData>;
 }
