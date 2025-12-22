@@ -22,6 +22,7 @@ import {
   OrganizerPayoutSummary,
   OrganizerRevenueTimeline,
 } from '../../../../application/DTOs/organizer/dashboard/OrganizerDashboardDTO';
+import { buildDateRangeFilter } from '../../../../utils/dateRange';
 
 export class BookingRepository
   extends BaseRepository<IBooking>
@@ -44,11 +45,14 @@ export class BookingRepository
   async findAllWithFilter(
     filter: BookingFilterDTO
   ): Promise<{ bookings: BookingEntity[]; totalPages: number }> {
+
+
     const cleanFilter: FilterQuery<BookingEntity> = {};
     if (filter.organizerId) cleanFilter.organizerId = filter.organizerId;
     if (filter.eventId) cleanFilter.eventId = filter.eventId;
     if (filter.userId) cleanFilter.userId = filter.userId;
     if (filter.status) cleanFilter.status = filter.status;
+    if(filter.eventTitle) cleanFilter.eventTitle = { $regex: filter.eventTitle, $options: 'i' };
     if (filter.title)
       cleanFilter.eventTitle = { $regex: filter.title, $options: 'i' };
     if (filter.organizerName)
@@ -58,24 +62,12 @@ export class BookingRepository
       };
     if (filter.userName)
       cleanFilter.userName = { $regex: filter.userName, $options: 'i' };
-    if (filter.startDate) {
-      const formattedDate = new Date(filter.startDate).toLocaleDateString(
-        'en-GB',
-        {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric',
-        }
-      ); // => "31 Oct 2025"
+    
+     const dateRange = buildDateRangeFilter(filter.startDate, filter.endDate);
+if (dateRange) {
+  cleanFilter.createdAt = dateRange;
+}
 
-      cleanFilter.eventDate = { $regex: formattedDate, $options: 'i' };
-    }
-    if (filter.startDate && filter.endDate) {
-      cleanFilter.createdAt = {
-        $gte: new Date(filter.startDate),
-        $lte: new Date(filter.endDate),
-      };
-    }
     const page = filter.page ?? 1;
     const limit = filter.limit ?? 10;
 
