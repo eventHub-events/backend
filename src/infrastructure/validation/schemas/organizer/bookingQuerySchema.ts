@@ -4,7 +4,8 @@ import { BookingStatus } from '../../../../domain/enums/user/Booking';
 export const bookingQuerySchema = z.object({
   title: z.string().optional(),
   userName: z.string().optional(),
-
+  organizerName:z.string().optional(),
+eventTitle:z.string().optional(),
   status: z.preprocess(
     val => (val === '' ? undefined : val),
     z.nativeEnum(BookingStatus).optional()
