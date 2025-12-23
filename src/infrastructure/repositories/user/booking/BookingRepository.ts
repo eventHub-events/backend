@@ -41,6 +41,11 @@ export class BookingRepository
 
     return this._bookingEntityFactory.toDomain(booking);
   }
+  async findValid(organizerId :string,date: Date): Promise<BookingEntity[]> {
+
+      const bookings = await super.findAll({organizerId,date}) as BookingDbModel[];
+    return this._bookingEntityFactory.toDomainList(bookings);
+  }
 
   async findAllWithFilter(
     filter: BookingFilterDTO
