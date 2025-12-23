@@ -11,17 +11,17 @@ import { RefundStatus } from '../../../domain/enums/user/Booking';
 export class EventAnalyticsRepository implements IEventAnalyticsRepository {
   async getEventAnalytics(
     filter: EventAnalyticsFilter,
-    organizerId: string,
+    organizerId: string
   ): Promise<EventAnalyticsData> {
     console.log('filter is', filter);
     const match: Record<string, unknown> = {
       eventId: new Types.ObjectId(filter.eventId),
     };
 
-    if(organizerId) {
-      match.organizerId =  new Types.ObjectId(organizerId);
+    if (organizerId) {
+      match.organizerId = new Types.ObjectId(organizerId);
     }
-   
+
     if (filter.from || filter.to) {
       match.createdAt = {
         ...(filter.from && { $gte: new Date(filter.from) }),

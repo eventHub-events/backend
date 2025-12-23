@@ -4,6 +4,6 @@ import { EventAnalyticsFilter } from '../../../../../domain/interface/event-anal
 export interface IGetEventAnalyticsUseCase {
   execute(
     filter: EventAnalyticsFilter,
-    organizerId?: string,
+    organizerId?: string
   ): Promise<EventAnalyticsData>;
 }

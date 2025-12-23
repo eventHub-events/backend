@@ -20,12 +20,13 @@ export class EventAnalyticsController {
     next: NextFunction
   ): Promise<void> {
     try {
-      const organizerId = req.user?.role === UserRole.ADMIN?undefined:req.user?.id;
+      const organizerId =
+        req.user?.role === UserRole.ADMIN ? undefined : req.user?.id;
       const filter = req.validatedQuery as EventAnalyticsFilter;
 
       const data = await this._getEventAnalyticsUseCase.execute(
         filter,
-        organizerId,
+        organizerId
       );
       res
         .status(HttpStatusCode.OK)

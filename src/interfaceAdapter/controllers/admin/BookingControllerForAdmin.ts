@@ -21,7 +21,6 @@ export class BookingControllerForAdmin {
   ): Promise<void> {
     try {
       const filters = req.validatedQuery as BookingQueryFilter;
-    
 
       const { mappedBookings: bookings, totalPages } =
         await this._getAllBookingForAdminUseCase.execute(filters);

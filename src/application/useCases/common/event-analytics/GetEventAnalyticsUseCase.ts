@@ -15,14 +15,14 @@ export class GetEventAnalyticsUseCase implements IGetEventAnalyticsUseCase {
 
   async execute(
     filter: EventAnalyticsFilter,
-    organizerId?: string,
+    organizerId?: string
   ): Promise<EventAnalyticsData> {
     console.log('eventId', filter.eventId);
     console.log('eventId', organizerId);
     if (!filter.eventId) new BadRequestError(ErrorMessages.EVENT.ID_REQUIRED);
     const result = await this._eventAnalyticsRepository.getEventAnalytics(
       filter,
-      organizerId,
+      organizerId
     );
     console.log('result is', result);
 

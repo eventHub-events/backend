@@ -19,8 +19,7 @@ export class BaseRepository<T extends Document> {
   }
 
   async findAll(filter: FilterQuery<T> = {}): Promise<T[]> {
-    return this.model.find(filter).sort({ createdAt: -1 })
-.exec();
+    return this.model.find(filter).sort({ createdAt: -1 }).exec();
   }
   async updateMany(
     filter: FilterQuery<T>,

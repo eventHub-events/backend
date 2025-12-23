@@ -45,14 +45,13 @@ export class BookingRepository
   async findAllWithFilter(
     filter: BookingFilterDTO
   ): Promise<{ bookings: BookingEntity[]; totalPages: number }> {
-
-
     const cleanFilter: FilterQuery<BookingEntity> = {};
     if (filter.organizerId) cleanFilter.organizerId = filter.organizerId;
     if (filter.eventId) cleanFilter.eventId = filter.eventId;
     if (filter.userId) cleanFilter.userId = filter.userId;
     if (filter.status) cleanFilter.status = filter.status;
-    if(filter.eventTitle) cleanFilter.eventTitle = { $regex: filter.eventTitle, $options: 'i' };
+    if (filter.eventTitle)
+      cleanFilter.eventTitle = { $regex: filter.eventTitle, $options: 'i' };
     if (filter.title)
       cleanFilter.eventTitle = { $regex: filter.title, $options: 'i' };
     if (filter.organizerName)
@@ -62,11 +61,11 @@ export class BookingRepository
       };
     if (filter.userName)
       cleanFilter.userName = { $regex: filter.userName, $options: 'i' };
-    
-     const dateRange = buildDateRangeFilter(filter.startDate, filter.endDate);
-if (dateRange) {
-  cleanFilter.createdAt = dateRange;
-}
+
+    const dateRange = buildDateRangeFilter(filter.startDate, filter.endDate);
+    if (dateRange) {
+      cleanFilter.createdAt = dateRange;
+    }
 
     const page = filter.page ?? 1;
     const limit = filter.limit ?? 10;
