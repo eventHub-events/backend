@@ -15,4 +15,5 @@ export interface UserRegisterDTO {
   isBlocked: boolean;
   kycStatus: KycStatus;
   isKycResubmitted?: boolean;
+  hasPassword?: boolean;
 }

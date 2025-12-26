@@ -22,6 +22,7 @@ export interface IUserDocument extends Document {
   registrationMode?: RegistrationTypes;
   stripeAccountId?: string;
   stripeOnboarded?: boolean;
+  hasPassword?: boolean
 }
 
 const UserSchema: Schema<IUserDocument> = new Schema(
@@ -29,6 +30,9 @@ const UserSchema: Schema<IUserDocument> = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String },
+    hasPassword : {
+        type :String
+    },
     phone: { type: Number },
     isVerified: { type: Boolean, default: false },
     kycStatus: {

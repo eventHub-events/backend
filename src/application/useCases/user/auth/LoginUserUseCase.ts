@@ -1,5 +1,5 @@
 import { ErrorMessages } from '../../../../constants/errorMessages';
-import { BadRequestError } from '../../../../domain/errors/common';
+import { BadRequestError, NotFoundError } from '../../../../domain/errors/common';
 import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
 import { IUserLoginResponse } from '../../../../domain/types/IUserLoginResponse';
 
@@ -21,9 +21,9 @@ export class LoginUserUseCase implements ILoginUserUseCase {
   ): Promise<IUserLoginResponse> {
     const userDoc = await this._userRepository.verifyUser(email);
 
-    if (!userDoc) throw new Error(ErrorMessages.USER.NOT_FOUND);
+    if (!userDoc) throw new NotFoundError(ErrorMessages.USER.NOT_FOUND);
 
-    if (userDoc.isBlocked) throw new Error(ErrorMessages.USER.USER_BLOCK_ADMIN);
+    if (userDoc.isBlocked) throw new BadRequestError(ErrorMessages.USER.USER_BLOCK_ADMIN);
     const hashedPassword = userDoc.password;
 
     const isPasswordValid = await this._hashService.compare(
@@ -47,6 +47,7 @@ export class LoginUserUseCase implements ILoginUserUseCase {
       isVerified: userDoc.isVerified,
       isKycResubmitted: userDoc.isKycResubmitted,
       kycStatus: userDoc.kycStatus!,
+      hasPassword : userDoc.hasPassword,
       stripOnboarded: userDoc.stripeOnboarded,
     };
 

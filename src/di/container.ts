@@ -37,6 +37,7 @@ import { ErrorMapperService } from '../infrastructure/errors/userProfileErrorMap
 import { UserEntityFactory } from '../infrastructure/factories/user/UserEntityFactory';
 import { UserProfileEntityFactory } from '../infrastructure/factories/user/UserProfileEntityFactory';
 import { RegisterUserUseCase } from '../application/useCases/user/auth/RegisterUserUseCase';
+import { requestPasswordSetOTPUseCase, setPasswordWithOtpUseCase } from './common/password-set/container';
 
 const cacheService = new RedisCacheService();
 export const loggerService = new WinstonLoggerService();
@@ -134,7 +135,9 @@ const changePasswordUseCase = new ChangePasswordUseCase(
 export const passwordController = new PasswordController(
   forgetPasswordUseCase,
   verifyResetPasswordOtpUseCase,
-  changePasswordUseCase
+  changePasswordUseCase,
+  requestPasswordSetOTPUseCase,
+  setPasswordWithOtpUseCase
 );
 
 export const authController = new AuthController(

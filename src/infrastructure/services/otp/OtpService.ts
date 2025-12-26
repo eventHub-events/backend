@@ -11,7 +11,7 @@ export class OtpService implements IOtpService {
     private _hashService: IHashService
   ) {}
 
-  async generateOtp(email: string, data: UserRegisterDTO): Promise<string> {
+  async generateOtp(email: string, data?: UserRegisterDTO): Promise<string> {
     try {
       const otp = crypto.randomInt(100000, 999999).toString();
 

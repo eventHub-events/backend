@@ -29,10 +29,15 @@ export class BookTicketUseCase implements IBookTicketUseCase {
     if (!reserved)
       throw new Error(ErrorMessages.BOOKING.BOOKING_SEAT_NOT_AVAILABLE);
 
+    
+// this booking use case
+
     const organizerStripeAccount =
       await this._stripeAccountRepo.getStripeAccountById(dto.stripeAccountId!);
     if (!organizerStripeAccount)
       throw new NotFoundError(ErrorMessages.STRIPE_ACCOUNT.NOT_FOUND_ERROR);
+
+    
 
     const organizerAccount = organizerStripeAccount.stripeAccountId;
     const bookingEntity = this._bookingMapper.toEntity({
@@ -41,7 +46,7 @@ export class BookTicketUseCase implements IBookTicketUseCase {
     });
     const createdBookingEntity =
       await this._bookingRepository.createBooking(bookingEntity);
-    console.log('bookkk', createdBookingEntity);
+    
 
     return this._bookingMapper.toResponseDTO(createdBookingEntity);
   }

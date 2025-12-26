@@ -3,6 +3,8 @@ import { CustomError } from '../errors/errorClass';
 import { HttpStatusCode } from '../interface/enums/HttpStatusCode';
 import { ZodError } from 'zod';
 import jwt from 'jsonwebtoken';
+import { BadRequestError, CreationFailedError, NotFoundError } from '../../domain/errors/common';
+import { ForbiddenError } from '../../domain/errors/userProfile';
 
 export class ErrorHandlingMiddleware {
   static handleError(
@@ -23,6 +25,33 @@ export class ErrorHandlingMiddleware {
       });
     }
 
+       /* ---------------- Domain Errors ---------------- */
+    if (err instanceof NotFoundError) {
+      return res.status(HttpStatusCode.NOT_FOUND).json({
+        success: false,
+        statusCode: HttpStatusCode.NOT_FOUND,
+        message: err.message,
+        errors: [],
+      });
+    }
+
+     if (err instanceof BadRequestError) {
+      return res.status(HttpStatusCode.BAD_REQUEST).json({
+        success: false,
+        statusCode: HttpStatusCode.BAD_REQUEST,
+        message: err.message,
+        errors: [],
+      });
+    }
+     if (err instanceof CreationFailedError) {
+      return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+        success: false,
+        statusCode: HttpStatusCode.INTERNAL_SERVER_ERROR,
+        message: err.message,
+        errors: [],
+      });
+    }
+
     if (err instanceof jwt.TokenExpiredError) {
       return res.status(HttpStatusCode.UNAUTHORIZED).json({
         success: false,
@@ -30,11 +59,19 @@ export class ErrorHandlingMiddleware {
         code: 'TOKEN_EXPIRED',
       });
     }
-    if (err instanceof jwt.TokenExpiredError) {
-      return res.status(HttpStatusCode.UNAUTHORIZED).json({
+    if (err instanceof ForbiddenError) {
+      return res.status(HttpStatusCode.FORBIDDEN).json({
         success: false,
         message: 'Token has expired',
         code: 'TOKEN_EXPIRED',
+      });
+    }
+   if (err instanceof jwt.JsonWebTokenError) {
+      return res.status(HttpStatusCode.UNAUTHORIZED).json({
+        success: false,
+        statusCode: HttpStatusCode.UNAUTHORIZED,
+        message: "Invalid token",
+        code: "INVALID_TOKEN",
       });
     }
 

@@ -18,6 +18,7 @@ export class UserEntityFactory implements IUserEntityFactory<
       isBlocked: dbModel.isBlocked,
       isKycResubmitted: dbModel.isKycResubmitted,
       id: dbModel._id.toString(),
+      hasPassword : dbModel.hasPassword,
       createdAt: dbModel.createdAt,
       stripeAccountId: dbModel.stripeAccountId,
       stripeOnboarded: dbModel.stripeOnboarded,

@@ -62,4 +62,6 @@ export interface IBookingRepository {
   fetchBookingByPaymentIntentId(
     paymentIntentId: string
   ): Promise<BookingEntity>;
+
+ findValid(organizerId :string,date: Date): Promise<BookingEntity[]>
 }

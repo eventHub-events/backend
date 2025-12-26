@@ -59,6 +59,9 @@ export const ErrorMessages = {
     OTP_REQUIRED: 'OTP is required',
     OTP_EXPIRED_OR_INVALID: 'OTP expired or invalid',
     BLOCK_ERROR: 'Your account has been blocked. Contact support.',
+    PASSWORD_ERROR : "Password already exists",
+    OTP_GENERATION_ERROR : "Otp generation  failed",
+    TOKEN_NOT_FOUND : "Token not found"
   },
   COMMON: {
     INVALID_INPUT: 'Invalid input provided',
@@ -74,6 +77,9 @@ export const ErrorMessages = {
     FAILED_TO_SAVE: 'Failed to  save upload document',
     DOCUMENT_NOT_FOUND: 'Document not found or could not be deleted',
     UPDATE_FAILURE: 'Document  update failed',
+  },
+  TOKEN : {
+   CREATION_FAILED_ERROR : "Token Creation failed"
   },
   PROFILE: {
     DETAILS_EMPTY: 'Update profile details are empty',
