@@ -11,7 +11,7 @@ import { ILogoutUseCase } from '../../../application/interface/useCases/user/ILo
 import { ResponseMessages } from '../../../infrastructure/constants/responseMessages';
 import { ErrorMessages } from '../../../constants/errorMessages';
 import { CookieOptionsUtility } from '../../../utils/CookieOptions.utility';
-import { BadRequestError } from '../../../domain/errors/common';
+import { BadRequestError, NotFoundError } from '../../../domain/errors/common';
 import { CustomError } from '../../../infrastructure/errors/errorClass';
 import { COOKIE_NAMES } from '../../../infrastructure/constants/authentication/cookieNames';
 
@@ -121,6 +121,7 @@ export class AuthController {
     } catch (err) {
       if (err instanceof BadRequestError)
         throw new CustomError(err.message, HttpStatusCode.BAD_REQUEST);
+      if(err instanceof NotFoundError)throw new CustomError(err.message, HttpStatusCode.NOT_FOUND);
       next(err);
     }
   }

@@ -1,3 +1,5 @@
+import { RegistrationTypes } from "../../../domain/enums/user/Authentication";
+
 export interface UserResponseDTO {
   id?: string;
   name: string;
@@ -9,5 +11,7 @@ export interface UserResponseDTO {
   isKyCResubmitted?: string;
   isBlocked?: boolean;
   createdAt?: Date;
+  hasPassword?: boolean;
   stripeOnboarded?: boolean;
+  registrationMode?: RegistrationTypes;
 }

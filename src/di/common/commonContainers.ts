@@ -100,10 +100,27 @@ const changePasswordUseCase = new ChangePasswordUseCase(
   userMapper
 );
 
+import { PasswordSetOtpEmailTemplate } from '../../infrastructure/services/Templates/passwordSetOtpEmailTemplate';
+import { RequestPasswordSetOTPUseCase } from '../../application/useCases/common/password-reset/RequestPasswordSetOTPUseCase';
+import { SetPasswordWithOtpUseCase } from '../../application/useCases/common/password-reset/SetPasswordWithOtpUseCase';
+
 export const passwordController = new PasswordController(
   forgetPasswordUseCase,
   verifyResetPasswordOtpUseCase,
-  changePasswordUseCase
+  changePasswordUseCase,
+  new RequestPasswordSetOTPUseCase(
+    userRepository,
+    tokenService,
+    otpService,
+    emailService,
+    new PasswordSetOtpEmailTemplate()
+  ),
+  new SetPasswordWithOtpUseCase(
+    userRepository,
+    otpService,
+    tokenService,
+    hashService
+  )
 );
 
 const eventEntityFactory = new EventEntityFactory();

@@ -87,6 +87,8 @@ router.patch(
   (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
     userProfileController.updateUserProfile(req, res, next)
 );
+router.post("/profile/setPasswordOtp",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res :Response, next :NextFunction) => passwordController.sendPasswordSetOTP(req, res , next));
+router.post("/profile/setPassword",authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),(req: IAuthenticatedRequest, res :Response, next :NextFunction) => passwordController.setPasswordWithOtp(req, res , next));
 
 // events-display-related //
 router.get(

@@ -49,10 +49,11 @@ export class GoogleAuthUseCase implements IGoogleAuthUseCase {
         email: googleUser.email,
         googleId: googleUser.googleId,
         isVerified: googleUser.role === UserRole.USER ? true : false,
-        password: googleUser.googleId,
+        password: "",
         role: googleUser.role,
         registrationMode: RegistrationTypes.GoogleAuth,
         phone: undefined,
+        hasPassword : false,
         isBlocked: false,
         kycStatus:
           googleUser.role === UserRole.USER

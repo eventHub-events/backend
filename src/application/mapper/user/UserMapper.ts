@@ -2,6 +2,7 @@ import { UserRegisterDTO } from '../../DTOs/user/RegisterUserDTO';
 import { UserResponseDTO } from '../../DTOs/user/UserResponseDTO';
 import { UserEntity } from '../../../domain/entities/User';
 import { IUserMapper } from '../../interface/useCases/user/mapper/IUserMapper';
+import { RegistrationTypes } from '../../../domain/enums/user/Authentication';
 
 export class UserMapper implements IUserMapper {
   toEntity(dto: UserRegisterDTO): UserEntity {
@@ -15,6 +16,8 @@ export class UserMapper implements IUserMapper {
       isBlocked: dto.isBlocked,
       kycStatus: dto.kycStatus,
       isKycResubmitted: dto.isKycResubmitted,
+      hasPassword : dto.password? true: false,
+      registrationMode : dto.password?RegistrationTypes.Normal:RegistrationTypes.GoogleAuth
     });
   }
   toResponseDTO(entity: UserEntity): UserResponseDTO {
@@ -28,7 +31,10 @@ export class UserMapper implements IUserMapper {
       isBlocked: entity.isBlocked,
       kycStatus: entity.kycStatus,
       createdAt: entity.createdAt,
+      hasPassword : entity.hasPassword,
       stripeOnboarded: entity.stripeOnboarded,
+      registrationMode : entity.registrationMode
+      
     };
   }
   toResponseDTOList(entities: UserEntity[]): UserResponseDTO[] {

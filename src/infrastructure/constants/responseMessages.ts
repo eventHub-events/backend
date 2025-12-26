@@ -59,6 +59,7 @@ export const ResponseMessages = {
     PASSWORD: {
       PASSWORD_RESET_INITIALIZATION: 'Password reset initiated',
       PASSWORD_CHANGE_SUCCESS: 'Password change success',
+      PASSWORD_UPDATE_SUCCESS : "Password Updated successfully"
     },
     EMAIL: {
       REQUIRED: 'Email is required',

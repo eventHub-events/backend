@@ -10,12 +10,19 @@ import { ChangePasswordDTO } from '../../../application/DTOs/user/ChangePassword
 import { ErrorMessages } from '../../../constants/errorMessages';
 import { ResponseMessages } from '../../../infrastructure/constants/responseMessages';
 import { CookieOptionsUtility } from '../../../utils/CookieOptions.utility';
+import { IRequestPasswordSetOTPUseCase } from '../../../application/interface/useCases/common/password-set/IRequestPasswordSetOTPUseCase';
+import { ISetPasswordWithOtpUseCase } from '../../../application/interface/useCases/common/password-set/ISetPasswordWithOtpUseCase';
+
+
 
 export class PasswordController {
   constructor(
     private _forgetPasswordUseCase: IForgetPasswordUseCase,
     private _verifyResetPasswordUseCase: IVerifyResetPasswordOtpUseCase,
-    private _changePasswordUseCase: IChangePasswordUseCase
+    private _changePasswordUseCase: IChangePasswordUseCase,
+    private _requestPasswordSetOTPUseCase : IRequestPasswordSetOTPUseCase,
+    private _setPasswordWithOtpUseCase : ISetPasswordWithOtpUseCase
+
   ) {}
 
   requestForgetPassword = async (
@@ -66,7 +73,7 @@ export class PasswordController {
     } catch (err) {
       next(err);
     }
-  }
+  }    
   async changePassword(
     req: IAuthenticatedRequest,
     res: Response,
@@ -97,5 +104,40 @@ export class PasswordController {
     } catch (err) {
       next(err);
     }
+  }
+  async sendPasswordSetOTP(req :IAuthenticatedRequest, res :Response, next :NextFunction) : Promise<void> {
+    try{
+           const userId = req.user?.id;
+           if(!userId) throw new CustomError(ErrorMessages.USER.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
+
+         const { setPasswordToken }    = await this._requestPasswordSetOTPUseCase.execute(userId);
+          const resetTokenOptions = CookieOptionsUtility.create(2 * 60 * 1000);
+         res.cookie('passwordSetToken', setPasswordToken, resetTokenOptions);
+      res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.AUTHENTICATION.OTP.OTP_SENT_SUCCESS,HttpStatusCode.OK));
+      
+         
+    }catch(err){
+       next(err)
+    }
+  }
+  async setPasswordWithOtp(req : IAuthenticatedRequest, res :Response, next :NextFunction) : Promise<void> {
+     try{
+            const userId = req.user?.id;
+             if(!userId) throw new CustomError(ErrorMessages.USER.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
+
+             const {otp,newPassword} = req. body;
+             console.log("request body", req.body)
+
+             const token = req.cookies.passwordSetToken;
+             if(!token) throw new CustomError(ErrorMessages.AUTH.TOKEN_NOT_FOUND,HttpStatusCode.BAD_REQUEST);
+          
+             await this._setPasswordWithOtpUseCase.execute(token, otp,newPassword,userId);
+         res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.AUTHENTICATION.PASSWORD.PASSWORD_UPDATE_SUCCESS,HttpStatusCode.OK));
+          
+
+          
+     }catch(err){
+       next(err)
+     }
   }
 }

@@ -17,6 +17,7 @@ export class UserEntity {
   registrationMode?: RegistrationTypes;
   stripeAccountId?: string;
   stripeOnboarded?: boolean;
+  hasPassword?: boolean;
 
   constructor(props: {
     name: string;
@@ -33,6 +34,7 @@ export class UserEntity {
     stripeOnboarded?: boolean;
     createdAt?: Date;
     googleId?: string;
+    hasPassword?: boolean;
     registrationMode?: RegistrationTypes;
   }) {
     this.name = props.name;
@@ -44,6 +46,7 @@ export class UserEntity {
     this.isBlocked = props.isBlocked ?? false;
     this.isKycResubmitted = props.isKycResubmitted ?? false;
     this.id = props.id;
+    this.hasPassword = props.hasPassword;
     this.createdAt = props.createdAt;
     this.googleId = props.googleId;
     this.registrationMode = props.registrationMode;
