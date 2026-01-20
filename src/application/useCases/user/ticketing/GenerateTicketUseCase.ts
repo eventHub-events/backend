@@ -32,7 +32,7 @@ export class GenerateTicketUseCase implements IGenerateTicketUseCase {
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // ✅ DEFAULT FONT (no registerFont)
+     
       ctx.fillStyle = '#000000';
       ctx.font = 'bold 24px sans-serif';
       ctx.fillText(booking.eventName, 20, 40);

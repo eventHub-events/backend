@@ -34,7 +34,6 @@ export class OrganizerAccountSecurityController {
         .json(
           ApiResponse.success(
             ResponseMessages.PROFILE.PASSWORD_UPDATE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );

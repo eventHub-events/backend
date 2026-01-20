@@ -35,7 +35,6 @@ export class EventBookingController {
         .json(
           ApiResponse.success(
             ResponseMessages.BOOKING.BOOKING_SUCCESS,
-            HttpStatusCode.CREATED,
             bookingDetails
           )
         );

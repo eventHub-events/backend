@@ -23,7 +23,6 @@ export class SubscriptionPlansRetrievalController {
         .json(
           ApiResponse.success(
             SubscriptionPlans.SUBSCRIPTION_PLANS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             fetched
           )
         );

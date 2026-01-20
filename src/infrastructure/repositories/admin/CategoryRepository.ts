@@ -1,4 +1,5 @@
 import { ICategoryEntityFactory } from '../../../application/interface/factories/admin/ICategoryEntityFactory';
+import { ErrorMessages } from '../../../constants/errorMessages';
 import { CategoryEntity } from '../../../domain/entities/admin/Category';
 import { ICategoryRepository } from '../../../domain/repositories/admin/ICategoryRepository';
 import { categoryDbModel } from '../../../domain/types/AdminDbTypes';
@@ -24,7 +25,7 @@ export class CategoryRepository
   async createCategory(data: CategoryEntity): Promise<CategoryEntity> {
     const result = (await super.create(data)) as categoryDbModel;
 
-    if (!result) throw new Error('Category creation  failed');
+    if (!result) throw new Error( ErrorMessages.CATEGORY.CREATION_FAILED);
 
     return this._categoryEntityFactory.toDomain(result);
   }
@@ -37,7 +38,7 @@ export class CategoryRepository
       data
     )) as categoryDbModel;
 
-    if (!updatedDoc) throw new Error('Editing  category  details failed');
+    if (!updatedDoc) throw new Error(ErrorMessages.CATEGORY.CATEGORY_EDIT_FAILURE);
     return this._categoryEntityFactory.toDomain(updatedDoc);
   }
   async fetchAllCategories(
@@ -52,7 +53,7 @@ export class CategoryRepository
 
   async fetchCategoryById(categoryId: string): Promise<CategoryEntity | null> {
     const categoryDoc = (await super.findById(categoryId)) as categoryDbModel;
-    if (!categoryDoc) throw new Error('Category not found');
+    if (!categoryDoc) throw new Error(ErrorMessages.CATEGORY.NOT_FOUND);
     return this._categoryEntityFactory.toDomain(categoryDoc);
   }
 
@@ -60,6 +61,6 @@ export class CategoryRepository
     const deletedDoc = (await super.update(categoryId, {
       isDeleted: true,
     })) as categoryDbModel;
-    if (!deletedDoc) throw new Error('Category not found or already deleted');
+    if (!deletedDoc) throw new Error(ErrorMessages.CATEGORY.NOT_FOUND);
   }
 }

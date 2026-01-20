@@ -49,7 +49,6 @@ export class GetFinanceAndPayoutController {
         .json(
           ApiResponse.success(
             ResponseMessages.FINANCE_PAYOUT.FETCH_SUCCESS,
-            HttpStatusCode.OK,
             data
           )
         );
@@ -72,7 +71,6 @@ export class GetFinanceAndPayoutController {
         .json(
           ApiResponse.success(
             ResponseMessages.FINANCE_PAYOUT.FETCH_TRANSACTIONS_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -94,7 +92,6 @@ export class GetFinanceAndPayoutController {
         .json(
           ApiResponse.success(
             ResponseMessages.FINANCE_PAYOUT.FETCH_REFUND_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -116,7 +113,6 @@ export class GetFinanceAndPayoutController {
         .json(
           ApiResponse.success(
             ResponseMessages.FINANCE_PAYOUT.FETCH_REFUND_OVERVIEW_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -138,7 +134,6 @@ export class GetFinanceAndPayoutController {
         .json(
           ApiResponse.success(
             ResponseMessages.FINANCE_PAYOUT.FETCH_PAYOUTS_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -160,7 +155,6 @@ export class GetFinanceAndPayoutController {
         .json(
           ApiResponse.success(
             ResponseMessages.FINANCE_PAYOUT.FETCH_PAYOUTS_OVERVIEW_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -183,7 +177,6 @@ export class GetFinanceAndPayoutController {
           ApiResponse.success(
             ResponseMessages.FINANCE_PAYOUT
               .FETCH_SUBSCRIPTION_PLAN_REVENUE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -197,7 +190,7 @@ export class GetFinanceAndPayoutController {
     next: NextFunction
   ): Promise<void> {
     try {
-      console.log('filter is', req.query);
+      
       const filter = req.validatedQuery as SubscriptionOverviewFilter;
 
       const result = await this._getSubscriptionOverviewUseCase.execute(filter);
@@ -207,7 +200,6 @@ export class GetFinanceAndPayoutController {
           ApiResponse.success(
             ResponseMessages.FINANCE_PAYOUT
               .FETCH_SUBSCRIPTION_PLAN_OVERVIEW_DETAILS_SUCCESSFULLY,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -229,7 +221,6 @@ export class GetFinanceAndPayoutController {
         .json(
           ApiResponse.success(
             ResponseMessages.FINANCE_PAYOUT.FETCH_EVENT_REVENUE_SUMMARY_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );

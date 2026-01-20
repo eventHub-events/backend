@@ -30,7 +30,6 @@ export class TicketingManagementController {
         .json(
           ApiResponse.success(
             ResponseMessages.TICKETING.TICKETING_CREATION_SUCCESS,
-            HttpStatusCode.CREATED,
             createdTicketing
           )
         );
@@ -62,7 +61,6 @@ export class TicketingManagementController {
         .json(
           ApiResponse.success(
             ResponseMessages.TICKETING.TICKETING_UPDATE_SUCCESS,
-            HttpStatusCode.OK,
             updatedTicketing
           )
         );

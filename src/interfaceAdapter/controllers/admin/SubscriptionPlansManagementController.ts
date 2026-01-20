@@ -37,7 +37,6 @@ export class SubscriptionPlansManagementController {
         .json(
           ApiResponse.success(
             SubscriptionPlans.SUBSCRIPTION_PLAN_SUCCESS,
-            HttpStatusCode.CREATED,
             result
           )
         );
@@ -74,7 +73,6 @@ export class SubscriptionPlansManagementController {
         .json(
           ApiResponse.success(
             SubscriptionPlans.SUBSCRIPTION_PLANS_UPDATE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -108,7 +106,6 @@ export class SubscriptionPlansManagementController {
         .json(
           ApiResponse.success(
             SubscriptionPlans.SUBSCRIPTION_PLANS_UPDATE_STATUS_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );

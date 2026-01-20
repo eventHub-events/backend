@@ -10,16 +10,16 @@ export class ExpireSubscriptionUseCase implements IExpireSubscriptionUseCase {
       await this._subscriptionRepo.fetchExpiredSubscription(currentDate);
 
     if (!expiredSubscriptions.length) {
-      console.log(' No expired subscriptions found.');
+      
       return;
     }
-    console.log(` Found ${expiredSubscriptions.length} expired subscriptions.`);
+   
 
     for (const sub of expiredSubscriptions) {
       sub.markAsExpired();
       await this._subscriptionRepo.updateSubscription(sub.id!, sub);
     }
 
-    console.log(' All expired subscriptions have been updated.');
+    
   }
 }

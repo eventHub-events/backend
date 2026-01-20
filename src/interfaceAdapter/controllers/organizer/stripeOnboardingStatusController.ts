@@ -27,7 +27,6 @@ export class StripeOnboardingStatusController {
           ApiResponse.success(
             ResponseMessages.STRIP_CONNECT
               .ON_BOARDING_STATUS_VERIFICATION_SUCCESS,
-            HttpStatusCode.OK,
             { verified: result }
           )
         );

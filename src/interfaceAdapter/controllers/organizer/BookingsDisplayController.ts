@@ -39,7 +39,6 @@ export class BookingsDisplayController {
         .json(
           ApiResponse.success(
             ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS,
-            HttpStatusCode.OK,
             { bookings, totalPages }
           )
         );
@@ -67,7 +66,6 @@ export class BookingsDisplayController {
         .json(
           ApiResponse.success(
             ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS,
-            HttpStatusCode.OK,
             bookingDetails
           )
         );
@@ -99,7 +97,6 @@ export class BookingsDisplayController {
         .json(
           ApiResponse.success(
             ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS,
-            HttpStatusCode.OK,
             { bookings, totalPages }
           )
         );

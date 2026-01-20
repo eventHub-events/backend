@@ -29,7 +29,7 @@ export class DownloadPdfController {
         .json(
           ApiResponse.success(
             ResponseMessages.UPLOAD_DOCUMENT.DOWNLOAD_SUCCESS,
-            HttpStatusCode.NOT_FOUND
+            
           )
         );
     } catch (err) {

@@ -6,6 +6,8 @@ import { HttpStatusCode } from '../../../../infrastructure/interface/enums/HttpS
 import { IVerificationEmailTemplate } from '../../../../infrastructure/interface/IVerificationEmailtemplate';
 import { IVerificationRequestUseCase } from '../../../interface/useCases/organizer/IVerificationRequestUseCase';
 import { IEmailService } from '../../../interface/useCases/user/IEmailService';
+import { ErrorMessages } from '../../../../constants/errorMessages';
+import { ResponseMessages } from '../../../../infrastructure/constants/responseMessages';
 
 export class VerificationRequestUseCase implements IVerificationRequestUseCase {
   constructor(
@@ -23,7 +25,7 @@ export class VerificationRequestUseCase implements IVerificationRequestUseCase {
     } as Partial<UserEntity>);
     if (!updatedUser) {
       throw new CustomError(
-        'request  for verification failed',
+        ErrorMessages.ORGANIZER.REQUEST_FOR_VERIFICATION_FAILED,
         HttpStatusCode.INTERNAL_SERVER_ERROR
       );
     }
@@ -33,9 +35,10 @@ export class VerificationRequestUseCase implements IVerificationRequestUseCase {
     );
     await this._emailService.sendMail(
       updatedUser.email,
-      'Verification Request received',
+      
+      ResponseMessages.ORGANIZER_VERIFICATION.REQUEST_RECEIVED,
       html
     );
-    return 'verification request  submitted successfully';
+    return ResponseMessages.ORGANIZER_VERIFICATION.ORGANIZER_VERIFICATION_REQUEST_SUCCESS;
   }
 }

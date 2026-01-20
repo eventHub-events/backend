@@ -38,7 +38,6 @@ export class StripeConnectController {
         .json(
           ApiResponse.success(
             ResponseMessages.STRIP_CONNECT.ON_BOARDING_URL_SUCCESS,
-            HttpStatusCode.CREATED,
             { onBoardingUrl }
           )
         );
@@ -65,7 +64,6 @@ export class StripeConnectController {
         .json(
           ApiResponse.success(
             ResponseMessages.STRIPE_ACCOUNTS.FETCH_SUCCESS,
-            HttpStatusCode.OK,
             accounts
           )
         );

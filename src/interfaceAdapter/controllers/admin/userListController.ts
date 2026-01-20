@@ -33,7 +33,6 @@ export class UserListController {
         .json(
           ApiResponse.success(
             ResponseMessages.USER.USER_LIST.USER_LIST_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             { usersList, total }
           )
         );
@@ -54,7 +53,6 @@ export class UserListController {
         .json(
           ApiResponse.success(
             ResponseMessages.USER.USER_LIST.USER_DATA_UPDATE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );

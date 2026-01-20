@@ -35,7 +35,6 @@ export class OrganizerDocumentVerificationRequestController {
           ApiResponse.success(
             ResponseMessages.UPLOAD_DOCUMENT
               .DOCUMENT_VERIFICATION_REQUEST_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );

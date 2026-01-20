@@ -56,7 +56,6 @@ export class SubscriptionPaymentController {
           ApiResponse.success(
             ResponseMessages.ORGANIZER_SUBSCRIPTION
               .CHECKOUT_CREATION_URL_SUCCESS,
-            HttpStatusCode.OK,
             checkoutUrl
           )
         );

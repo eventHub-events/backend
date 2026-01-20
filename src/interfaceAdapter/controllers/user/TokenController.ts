@@ -4,6 +4,7 @@ import { IAuthenticatedRequest } from '../../../infrastructure/interface/IAuthen
 import { HttpStatusCode } from '../../../infrastructure/interface/enums/HttpStatusCode';
 import { ApiResponse } from '../../../infrastructure/commonResponseModel/ApiResponse';
 import { ResponseMessages } from '../../../infrastructure/constants/responseMessages';
+import { TokenTypes } from '../../../infrastructure/types/common/tokenTypes';
 
 export class TokenController {
   constructor(private _generateAccessTokenUseCase: IRefreshTokenUseCase) {}
@@ -21,7 +22,7 @@ export class TokenController {
           refreshToken
         );
 
-      res.cookie('authToken', accessToken, {
+      res.cookie(TokenTypes.AUTH_TOKEN, accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',

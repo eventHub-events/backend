@@ -40,7 +40,12 @@ export class VerifyResetPasswordOtpUseCase implements IVerifyResetPasswordOtpUse
 
     const user = await this._otpService.verifyOtp(email, otp);
 
-    const payload = { email, type: 'reset' };
+    const payload = { 
+      id: (user as any).id, 
+      email: user.email, 
+      role: user.role, 
+      type: 'reset' 
+    };
     const token = await this._tokenService.generateResetToken(payload);
 
     return { user, token };

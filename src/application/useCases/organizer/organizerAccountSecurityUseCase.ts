@@ -4,6 +4,8 @@ import { CustomError } from '../../../infrastructure/errors/errorClass';
 import { HttpStatusCode } from '../../../infrastructure/interface/enums/HttpStatusCode';
 import { IOrganizerAccountSecurityUseCase } from '../../interface/useCases/organizer/IOrganizerAccountSecurityUseCase';
 import { IHashService } from '../../interface/useCases/user/IHashService';
+import { ErrorMessages } from '../../../constants/errorMessages';
+import { ResponseMessages } from '../../../infrastructure/constants/responseMessages';
 
 export class OrganizerAccountSecurityUseCase implements IOrganizerAccountSecurityUseCase {
   constructor(
@@ -20,32 +22,33 @@ export class OrganizerAccountSecurityUseCase implements IOrganizerAccountSecurit
 
       if (!newPassword) {
         throw new CustomError(
-          'New password is required',
+          ErrorMessages.AUTH.NEW_PASSWORD_REQUIRED,
+          
           HttpStatusCode.BAD_REQUEST
         );
       }
 
-      // 1. Fetch the user
-      console.log('orrrr', organizerId);
+    
+      
       const organizer = await this._userRepository.findUserById(organizerId);
-      console.log('organizer is ', organizer);
+      
       if (!organizer) {
-        throw new CustomError('Organizer not found', HttpStatusCode.NOT_FOUND);
+        throw new CustomError(ErrorMessages.ORGANIZER.NOT_FOUND, HttpStatusCode.NOT_FOUND);
       }
 
-      // 2. Compare current password with stored hash
+      
       const isSame = await this._hashingService.compare(
         currentPassword,
         organizer.password!
       );
       if (!isSame) {
         throw new CustomError(
-          'Current password is incorrect',
+          ErrorMessages.AUTH.PASSWORD_INVALID,
           HttpStatusCode.UNAUTHORIZED
         );
       }
 
-      // 3. Check if new password is same as current one
+    
       const newHash = await this._hashingService.hash(newPassword);
       const isReused = await this._hashingService.compare(
         newPassword,
@@ -53,23 +56,24 @@ export class OrganizerAccountSecurityUseCase implements IOrganizerAccountSecurit
       );
       if (isReused) {
         throw new CustomError(
-          'Please use a different password',
+          ErrorMessages.AUTH.SAME_PASSWORD_ERROR,
+          
           HttpStatusCode.BAD_REQUEST
         );
       }
 
-      // 4. Update password
+     
       const updated = await this._userRepository.updateUser(organizerId, {
         password: newHash,
       });
       if (!updated) {
         throw new CustomError(
-          'Failed to update password',
+          ErrorMessages.AUTH.PASSWORD_UPDATE_ERROR,
           HttpStatusCode.INTERNAL_SERVER_ERROR
         );
       }
 
-      return 'Password updated successfully';
+      return ResponseMessages.AUTHENTICATION.PASSWORD.PASSWORD_UPDATE_SUCCESS;
     } catch (err: unknown) {
       if (err instanceof CustomError) {
         throw err;
@@ -83,7 +87,7 @@ export class OrganizerAccountSecurityUseCase implements IOrganizerAccountSecurit
       }
 
       throw new CustomError(
-        'Unknown error occurred',
+        ErrorMessages.AUTH.UNKNOWN_ERROR,
         HttpStatusCode.INTERNAL_SERVER_ERROR
       );
     }

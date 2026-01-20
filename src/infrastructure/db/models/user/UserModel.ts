@@ -31,7 +31,7 @@ const UserSchema: Schema<IUserDocument> = new Schema(
     email: { type: String, required: true },
     password: { type: String },
     hasPassword : {
-        type :String
+        type :Boolean
     },
     phone: { type: Number },
     isVerified: { type: Boolean, default: false },

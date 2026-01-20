@@ -24,7 +24,6 @@ export class CategoryController {
         .json(
           ApiResponse.success(
             ResponseMessages.CATEGORY.CATEGORY_CREATION_SUCCESS,
-            HttpStatusCode.CREATED,
             result
           )
         );
@@ -49,7 +48,6 @@ export class CategoryController {
         .json(
           ApiResponse.success(
             ResponseMessages.CATEGORY.CATEGORY_EDIT_SUCCESS,
-            HttpStatusCode.OK,
             updated
           )
         );
@@ -69,7 +67,7 @@ export class CategoryController {
       const result = await this._deleteCategoryUseCase.execute(categoryId);
       res
         .status(HttpStatusCode.OK)
-        .json(ApiResponse.success(result, HttpStatusCode.OK));
+        .json(ApiResponse.success(result));
     } catch (err) {
       next(err);
     }
@@ -86,7 +84,6 @@ export class CategoryController {
         .json(
           ApiResponse.success(
             ResponseMessages.CATEGORY.CATEGORIES_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -113,7 +110,6 @@ export class CategoryController {
         .json(
           ApiResponse.success(
             ResponseMessages.CATEGORY.CATEGORY_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             category
           )
         );
