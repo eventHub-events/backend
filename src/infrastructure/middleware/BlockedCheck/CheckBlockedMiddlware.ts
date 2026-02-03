@@ -36,7 +36,6 @@ export class CheckBlockedMiddleware {
         .json(
           ApiResponse.error(
             ErrorMessages.AUTH.BLOCK_ERROR,
-            HttpStatusCode.FORBIDDEN,
             ErrorMessages.ERROR_CODES.USER_BLOCKED,
             user.role
           )

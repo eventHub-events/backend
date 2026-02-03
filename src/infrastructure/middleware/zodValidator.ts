@@ -15,7 +15,7 @@ export class ZodPasswordValidator {
           result.error.issues[0]?.message || 'Validation failed';
         return res
           .status(HttpStatusCode.BAD_REQUEST)
-          .json(ApiResponse.error(errorMessage, HttpStatusCode.BAD_REQUEST));
+          .json(ApiResponse.error(errorMessage));
       }
       req.body = result.data;
       next();
