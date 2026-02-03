@@ -38,7 +38,6 @@ export class PasswordController {
           ApiResponse.success(
             ResponseMessages.AUTHENTICATION.PASSWORD
               .PASSWORD_RESET_INITIALIZATION,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -65,7 +64,6 @@ export class PasswordController {
           .json(
             ApiResponse.success(
               ResponseMessages.AUTHENTICATION.OTP.OTP_VERIFICATION_SUCCESS,
-              HttpStatusCode.OK,
               user
             )
           );
@@ -99,7 +97,6 @@ export class PasswordController {
         .json(
           ApiResponse.success(
             ResponseMessages.AUTHENTICATION.PASSWORD.PASSWORD_CHANGE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
