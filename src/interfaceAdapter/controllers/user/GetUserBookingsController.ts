@@ -34,7 +34,6 @@ export class GetUserBookingsController {
         .json(
           ApiResponse.success(
             ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS,
-            HttpStatusCode.OK,
             { bookingsList, totalPages }
           )
         );
@@ -64,7 +63,6 @@ export class GetUserBookingsController {
         .json(
           ApiResponse.success(
             ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS,
-            HttpStatusCode.OK,
             booking
           )
         );
@@ -92,7 +90,6 @@ export class GetUserBookingsController {
         .json(
           ApiResponse.success(
             ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS,
-            HttpStatusCode.OK,
             booking
           )
         );

@@ -35,7 +35,6 @@ export class EventRetrievalController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.EVENT_DETAILS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             event
           )
         );
@@ -65,7 +64,6 @@ export class EventRetrievalController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.EVENTS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             events
           )
         );
@@ -87,7 +85,6 @@ export class EventRetrievalController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.EVENTS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             events
           )
         );

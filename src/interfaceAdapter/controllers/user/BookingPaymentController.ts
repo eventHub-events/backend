@@ -30,7 +30,6 @@ export class BookingPaymentController {
         .json(
           ApiResponse.success(
             ResponseMessages.BOOKING.PAYMENT_SESSION,
-            HttpStatusCode.OK,
             { url }
           )
         );

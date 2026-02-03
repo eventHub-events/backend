@@ -37,7 +37,6 @@ export class DocumentController {
         .json(
           ApiResponse.success(
             ResponseMessages.UPLOAD_DOCUMENT.DOCUMENT_SAVE,
-            HttpStatusCode.CREATED,
             savedDoc
           )
         );
@@ -70,7 +69,6 @@ export class DocumentController {
         .json(
           ApiResponse.success(
             ResponseMessages.UPLOAD_DOCUMENT.FETCH_SUCCESS,
-            HttpStatusCode.OK,
             docs
           )
         );
@@ -102,7 +100,6 @@ export class DocumentController {
         .json(
           ApiResponse.success(
             ResponseMessages.UPLOAD_DOCUMENT.DOCUMENT_DELETE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -136,7 +133,6 @@ export class DocumentController {
         .json(
           ApiResponse.success(
             ResponseMessages.UPLOAD_DOCUMENT.DOCUMENT_UPDATE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );

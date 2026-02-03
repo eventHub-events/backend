@@ -35,7 +35,6 @@ export class TicketingRetrievalController {
         .json(
           ApiResponse.success(
             ResponseMessages.TICKETING.TICKETING_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             fetchedDetails
           )
         );
@@ -64,7 +63,6 @@ export class TicketingRetrievalController {
         .json(
           ApiResponse.success(
             ResponseMessages.TICKETING.TICKETING_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             fetchedData
           )
         );

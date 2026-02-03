@@ -1,7 +1,9 @@
 import { ILoggerService } from '../../application/interface/common/ILoggerService';
 import { IUploadDocumentFactory } from '../../application/interface/factories/IUploadDocumentFactory';
+import { ErrorMessages } from '../../constants/errorMessages';
 import { UploadDocument } from '../../domain/entities/organizer/Document';
 import { IUploadDocumentRepository } from '../../domain/repositories/organizer/IUploadDocumentRepository';
+import { ResponseMessages } from '../constants/responseMessages';
 import UploadDocumentModel, {
   IUploadDocument,
 } from '../db/models/organizer/profile/UploadDocument';
@@ -50,7 +52,7 @@ export class UploadDocumentRepository
     };
     if (!updatedDoc)
       throw new CustomError(
-        'Error in  updating document',
+        ErrorMessages.UPLOAD_DOCUMENT.UPDATE_FAILURE,
         HttpStatusCode.INTERNAL_SERVER_ERROR
       );
     return this._domainFactory.toDomain(updatedDoc);
@@ -58,6 +60,7 @@ export class UploadDocumentRepository
 
   async deleteDocument(documentId: string): Promise<string> {
     await super.delete(documentId);
-    return 'Document deleted successfully';
+    
+    return ResponseMessages.UPLOAD_DOCUMENT.DOCUMENT_DELETE_SUCCESS;
   }
 }

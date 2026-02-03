@@ -7,6 +7,7 @@ import { BaseRepository } from '../BaseRepository';
 import { IEventModerationEntityFactory } from '../../../application/interface/factories/admin/IEventModerationEntityFactory';
 import { EventModerationDbModel } from '../../../domain/types/AdminDbTypes';
 import { EventModerationEntity } from '../../../domain/entities/admin/EventModerationEntity';
+import { ErrorMessages } from '../../../constants/errorMessages';
 
 export class EventModerationRepository
   extends BaseRepository<IEventModeration>
@@ -24,7 +25,8 @@ export class EventModerationRepository
     data: Partial<EventModerationEntity>
   ): Promise<EventModerationEntity> {
     const createdDoc = (await super.create(data)) as EventModerationDbModel;
-    if (!createdDoc) throw new Error('Event moderation details not created');
+    
+    if (!createdDoc) throw new Error(ErrorMessages.EVENT_MODERATION.EVENT_MODERATION_DETAILS_NOT_CREATED);
     return this._eventModerationEntityFactory.toDomain(createdDoc);
   }
   async updateEventModeration(
@@ -36,7 +38,7 @@ export class EventModerationRepository
       data
     )) as EventModerationDbModel;
 
-    if (!updatedDoc) throw new Error('Event moderation details not created');
+    if (!updatedDoc) throw new Error(ErrorMessages.EVENT_MODERATION.EVENT_MODERATION_DETAILS_NOT_CREATED);
     return this._eventModerationEntityFactory.toDomain(updatedDoc);
   }
   async findEventModerationByEventId(
@@ -46,14 +48,14 @@ export class EventModerationRepository
       { eventId },
       []
     )) as EventModerationDbModel;
-    if (!doc) throw new Error('EventModeration  details not found');
+    if (!doc) throw new Error(ErrorMessages.EVENT_MODERATION.EVENT_MODERATION_DETAILS_NOT_FOUND);
     return this._eventModerationEntityFactory.toDomain(doc);
   }
   async findEventModerationById(
     moderationId: string
   ): Promise<EventModerationEntity> {
     const doc = (await super.findById(moderationId)) as EventModerationDbModel;
-    if (!doc) throw new Error('EventModeration  details not found');
+    if (!doc) throw new Error(ErrorMessages.EVENT_MODERATION.EVENT_MODERATION_DETAILS_NOT_FOUND);
     return this._eventModerationEntityFactory.toDomain(doc);
   }
 }

@@ -19,7 +19,7 @@ export class StripeWebhookController {
         .json(
           ApiResponse.success(
             ResponseMessages.WEBHOOK.RECEIVED,
-            HttpStatusCode.OK
+            
           )
         );
     } catch (err) {

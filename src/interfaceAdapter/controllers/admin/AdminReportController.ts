@@ -35,7 +35,6 @@ export class AdminReportController {
         .json(
           ApiResponse.success(
             ResponseMessages.REPORT.REPORTS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             data
           )
         );
@@ -58,7 +57,6 @@ export class AdminReportController {
         .json(
           ApiResponse.success(
             ResponseMessages.REPORT.REPORT_UPDATE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );

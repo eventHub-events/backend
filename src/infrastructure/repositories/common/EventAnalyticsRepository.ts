@@ -13,7 +13,7 @@ export class EventAnalyticsRepository implements IEventAnalyticsRepository {
     filter: EventAnalyticsFilter,
     organizerId: string
   ): Promise<EventAnalyticsData> {
-    console.log('filter is', filter);
+   
     const match: Record<string, unknown> = {
       eventId: new Types.ObjectId(filter.eventId),
     };

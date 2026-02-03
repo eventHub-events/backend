@@ -11,6 +11,7 @@ import {
   DataFetchError,
   UpdateFailedError,
 } from '../../../../domain/errors/userProfile';
+import { ErrorMessages } from '../../../../constants/errorMessages';
 
 /**
  * @class UserProfileRepository
@@ -39,7 +40,7 @@ export class UserProfileRepository
       user: new Types.ObjectId(data.user),
     };
     const result = (await super.create(doc)) as UserProfileDbModel;
-    if (!result) throw new Error('User profile creation  failed');
+    if (!result) throw new Error(ErrorMessages.PROFILE.CREATION_FAILED);
   }
   async updateProfile(
     profileId: string,
@@ -49,7 +50,7 @@ export class UserProfileRepository
       profileId,
       profileData
     )) as UserProfileDbModel;
-    if (!updatedData) throw new UpdateFailedError('User profile update failed');
+    if (!updatedData) throw new UpdateFailedError(ErrorMessages.PROFILE.UPDATE_FAILURE);
     return this._profileEntityFactory.toDomainFromDbModel(updatedData);
   }
   async fetchProfile(userId: string): Promise<UserProfileEntity> {
@@ -57,7 +58,7 @@ export class UserProfileRepository
       user: userId,
     })) as UserProfileDbModel;
     if (!result)
-      throw new DataFetchError('Error in  fetching user profile document');
+      throw new DataFetchError(ErrorMessages.PROFILE.PROFILE_FETCH_FAILURE);
 
     return this._profileEntityFactory.toDomainFromDbModel(result);
   }

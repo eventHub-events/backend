@@ -8,7 +8,7 @@ export class GetUpcomingEventUseCase implements IGetUpcomingEventUseCase {
   constructor(private _eventDisplayQueryRepo: IEventDisplayQueryRepository) {}
   async execute(): Promise<UpcomingEventsDetails[]> {
     const result = await this._eventDisplayQueryRepo.upcomingEvents();
-    console.log('hello', result);
+    
     if (!result)
       throw new NotFoundError(ErrorMessages.EVENT.UPCOMING_EVENT_NOT_FOUND);
     return result;

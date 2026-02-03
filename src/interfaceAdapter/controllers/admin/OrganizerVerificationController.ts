@@ -39,7 +39,6 @@ export class OrganizerVerificationController {
           ApiResponse.success(
             ResponseMessages.ORGANIZER_VERIFICATION
               .ORGANIZER_VERIFICATION_DETAILS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             organizerVerificationDetails
           )
         );
@@ -63,7 +62,6 @@ export class OrganizerVerificationController {
           ApiResponse.success(
             ResponseMessages.ORGANIZER_VERIFICATION
               .PENDING_ORGANIZERS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             pendingUsers
           )
         );
@@ -87,7 +85,6 @@ export class OrganizerVerificationController {
           ApiResponse.success(
             ResponseMessages.ORGANIZER_VERIFICATION
               .PENDING_ORGANIZERS_WITH_PROFILE_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             usersWithProfile
           )
         );
@@ -122,7 +119,6 @@ export class OrganizerVerificationController {
         .json(
           ApiResponse.success(
             ResponseMessages.UPLOAD_DOCUMENT.DOCUMENT_UPDATE_SUCCESS,
-            HttpStatusCode.OK,
             updatedDocs
           )
         );
@@ -159,7 +155,6 @@ export class OrganizerVerificationController {
           ApiResponse.success(
             ResponseMessages.ORGANIZER_VERIFICATION
               .ORGANIZER_OVERALL_VERIFICATION_STATUS_UPDATE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );

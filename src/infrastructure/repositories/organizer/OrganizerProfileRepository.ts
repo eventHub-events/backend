@@ -1,5 +1,6 @@
 import { ILoggerService } from '../../../application/interface/common/ILoggerService';
 import { IOrganizerProfileEntityFactory } from '../../../application/interface/factories/IDomainFactory';
+import { ErrorMessages } from '../../../constants/errorMessages';
 import { OrganizerProfile } from '../../../domain/entities/organizer/OrganizerProfile';
 
 import { IOrganizerProfileRepository } from '../../../domain/repositories/organizer/IOrganizerProfileRepository';
@@ -56,9 +57,9 @@ export class OrganizerProfileRepository
       organizerId: UserDbModel;
     };
     if (!profileDoc) {
-      throw new CustomError('Profile not found', HttpStatusCode.NOT_FOUND);
+      throw new CustomError(ErrorMessages.PROFILE.NOT_FOUND, HttpStatusCode.NOT_FOUND);
     }
-    console.log('updatedB Doc0', profileDoc);
+    
     return this._organizerProfileEntityFactory.toCompositeDomain(doc);
   }
   async getOrganizerProfile(organizerId: string): Promise<OrganizerProfile> {
@@ -81,7 +82,7 @@ export class OrganizerProfileRepository
 
     if (!updated) {
       this._logger.error(`No profile found with organizerId:${id}`);
-      throw new CustomError('Profile not found', HttpStatusCode.NOT_FOUND);
+      throw new CustomError(ErrorMessages.PROFILE.NOT_FOUND, HttpStatusCode.NOT_FOUND);
     }
 
     return this._organizerProfileEntityFactory.toDomain(updated);

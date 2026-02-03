@@ -29,7 +29,6 @@ export class BookingControllerForAdmin {
         .json(
           ApiResponse.success(
             ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS,
-            HttpStatusCode.OK,
             { bookings, totalPages }
           )
         );
@@ -57,7 +56,6 @@ export class BookingControllerForAdmin {
         .json(
           ApiResponse.success(
             ResponseMessages.BOOKING_DETAILS.BOOKING_DETAILS_SUCCESS,
-            HttpStatusCode.OK,
             booking
           )
         );

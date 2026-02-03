@@ -38,7 +38,6 @@ export class PasswordController {
           ApiResponse.success(
             ResponseMessages.AUTHENTICATION.PASSWORD
               .PASSWORD_RESET_INITIALIZATION,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -65,7 +64,6 @@ export class PasswordController {
           .json(
             ApiResponse.success(
               ResponseMessages.AUTHENTICATION.OTP.OTP_VERIFICATION_SUCCESS,
-              HttpStatusCode.OK,
               user
             )
           );
@@ -80,7 +78,9 @@ export class PasswordController {
     next: NextFunction
   ): Promise<Response | void> {
     try {
+
       const token = req.resetToken;
+     
       if (!token) {
         throw new CustomError(
           ErrorMessages.AUTH.INVALID_TOKEN,
@@ -97,7 +97,6 @@ export class PasswordController {
         .json(
           ApiResponse.success(
             ResponseMessages.AUTHENTICATION.PASSWORD.PASSWORD_CHANGE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -126,7 +125,7 @@ export class PasswordController {
              if(!userId) throw new CustomError(ErrorMessages.USER.ID_REQUIRED, HttpStatusCode.BAD_REQUEST);
 
              const {otp,newPassword} = req. body;
-             console.log("request body", req.body)
+            
 
              const token = req.cookies.passwordSetToken;
              if(!token) throw new CustomError(ErrorMessages.AUTH.TOKEN_NOT_FOUND,HttpStatusCode.BAD_REQUEST);

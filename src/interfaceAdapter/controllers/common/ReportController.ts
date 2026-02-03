@@ -34,7 +34,6 @@ export class ReportController {
         .json(
           ApiResponse.success(
             ResponseMessages.REPORT.REPORT_SUCCESS,
-            HttpStatusCode.CREATED,
             created
           )
         );
@@ -57,7 +56,6 @@ export class ReportController {
         .json(
           ApiResponse.success(
             ResponseMessages.REPORT.REPORT_SUCCESS,
-            HttpStatusCode.CREATED,
             created
           )
         );
@@ -80,7 +78,6 @@ export class ReportController {
         .json(
           ApiResponse.success(
             ResponseMessages.REPORT.REPORT_SUCCESS,
-            HttpStatusCode.CREATED,
             created
           )
         );

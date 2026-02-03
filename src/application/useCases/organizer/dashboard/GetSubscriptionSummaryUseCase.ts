@@ -9,7 +9,7 @@ export class GetSubscriptionSummaryUseCase implements IGetSubscriptionSummaryUse
     organizerId: string
   ): Promise<IOrganizerSubscriptionSummary | null> {
     const result = await this._repo.getSubscriptionSummary(organizerId);
-    console.log('resultttt', result);
+    
     return result;
   }
 }

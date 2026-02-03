@@ -23,6 +23,7 @@ import {
   OrganizerRevenueTimeline,
 } from '../../../../application/DTOs/organizer/dashboard/OrganizerDashboardDTO';
 import { buildDateRangeFilter } from '../../../../utils/dateRange';
+import { ErrorMessages } from '../../../../constants/errorMessages';
 
 export class BookingRepository
   extends BaseRepository<IBooking>
@@ -88,7 +89,7 @@ export class BookingRepository
   async findBookingById(bookingId: string): Promise<BookingEntity> {
     const booking = (await super.findById(bookingId)) as BookingDbModel;
 
-    if (!booking) throw new Error('Booking details not found');
+    if (!booking) throw new Error(ErrorMessages.BOOKING.BOOKINGS_NOT_FOUND);
 
     return this._bookingEntityFactory.toDomain(booking);
   }
@@ -97,7 +98,7 @@ export class BookingRepository
     entity: BookingEntity
   ): Promise<BookingEntity> {
     const updated = (await super.update(bookingId, entity)) as BookingDbModel;
-    if (!updated) throw new Error('Booking details not updated');
+    if (!updated) throw new Error(ErrorMessages.BOOKING.BOOKINGS_NOT_FOUND);
     return this._bookingEntityFactory.toDomain(updated);
   }
   async findBookingsDueForPayout(currentDate: Date): Promise<BookingEntity[]> {

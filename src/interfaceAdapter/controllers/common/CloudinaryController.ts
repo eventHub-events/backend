@@ -36,7 +36,6 @@ export class CloudinaryController {
         .json(
           ApiResponse.success(
             ResponseMessages.CLOUDINARY.CLOUDINARY_SIGNATURE_CREATION_SUCCESS,
-            HttpStatusCode.OK,
             data
           )
         );
@@ -65,7 +64,6 @@ export class CloudinaryController {
         .json(
           ApiResponse.success(
             ResponseMessages.CLOUDINARY.CLOUDINARY_SIGNATURE_CREATION_SUCCESS,
-            HttpStatusCode.OK,
             signatureData
           )
         );
@@ -80,8 +78,7 @@ export class CloudinaryController {
   ): Promise<void> {
     try {
       const { publicId } = req.query;
-      console.log('publi id is', publicId);
-
+    
       const signedUrl = await this._generateSignedDownloadUrlUseCase.execute(
         publicId as string
       );
@@ -90,7 +87,6 @@ export class CloudinaryController {
         .json(
           ApiResponse.success(
             ResponseMessages.CLOUDINARY.CLOUDINARY_DOWNLOAD_URL_SUCCESS,
-            HttpStatusCode.OK,
             signedUrl
           )
         );

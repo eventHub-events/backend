@@ -42,7 +42,6 @@ export class ReviewController {
         .json(
           ApiResponse.success(
             ResponseMessages.REVIEW.REVIEW_CREATION_SUCCESS,
-            HttpStatusCode.CREATED,
             result
           )
         );
@@ -67,7 +66,6 @@ export class ReviewController {
         .json(
           ApiResponse.success(
             ResponseMessages.REVIEW.REVIEW_CREATION_SUCCESS,
-            HttpStatusCode.CREATED,
             result
           )
         );
@@ -99,7 +97,6 @@ export class ReviewController {
         .json(
           ApiResponse.success(
             ResponseMessages.REVIEW.REVIEW_UPDATE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -171,7 +168,6 @@ export class ReviewController {
         .json(
           ApiResponse.success(
             ResponseMessages.REVIEW.REVIEWS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -196,7 +192,6 @@ export class ReviewController {
         .json(
           ApiResponse.success(
             ResponseMessages.REVIEW.REVIEW_SUMMARY_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -230,7 +225,6 @@ export class ReviewController {
         .json(
           ApiResponse.success(
             ResponseMessages.REVIEW.REVIEWS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );

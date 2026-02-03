@@ -46,7 +46,6 @@ export class GoogleAuthController {
         .json(
           ApiResponse.success(
             ResponseMessages.AUTHENTICATION.LOGIN.SUCCESS,
-            HttpStatusCode.OK,
             userData
           )
         );

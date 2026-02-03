@@ -31,7 +31,6 @@ export class OrganizerDashboardController {
         .json(
           ApiResponse.success(
             ResponseMessages.ORGANIZER_DASHBOARD.ON_SUCCESS,
-            HttpStatusCode.OK,
             data
           )
         );
@@ -58,7 +57,6 @@ export class OrganizerDashboardController {
         .json(
           ApiResponse.success(
             ResponseMessages.ORGANIZER_DASHBOARD.ON_SUCCESS,
-            HttpStatusCode.OK,
             data
           )
         );

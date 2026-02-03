@@ -35,7 +35,7 @@ export class AuthController {
 
       res
         .status(HttpStatusCode.OK)
-        .json(ApiResponse.success(result.message, HttpStatusCode.OK, result));
+        .json(ApiResponse.success(result.message, result));
     } catch (err) {
       next(err);
     }
@@ -53,7 +53,7 @@ export class AuthController {
 
       res
         .status(HttpStatusCode.OK)
-        .json(ApiResponse.success(result, HttpStatusCode.OK, result));
+        .json(ApiResponse.success(result, result));
     } catch (err) {
       next(err);
     }
@@ -74,7 +74,6 @@ export class AuthController {
         .json(
           ApiResponse.success(
             ResponseMessages.AUTHENTICATION.OTP.OTP_VERIFICATION_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -114,7 +113,6 @@ export class AuthController {
         .json(
           ApiResponse.success(
             ResponseMessages.AUTHENTICATION.LOGIN.SUCCESS,
-            HttpStatusCode.OK,
             user
           )
         );

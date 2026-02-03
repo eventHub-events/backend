@@ -48,7 +48,6 @@ export class OrganizerProfileController {
         .json(
           ApiResponse.success(
             ResponseMessages.PROFILE.PROFILE_CREATION_SUCCESS,
-            HttpStatusCode.CREATED,
             updatedProfileData
           )
         );
@@ -85,7 +84,6 @@ export class OrganizerProfileController {
         .json(
           ApiResponse.success(
             ResponseMessages.PROFILE.PROFILE_DATA_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             profileData
           )
         );

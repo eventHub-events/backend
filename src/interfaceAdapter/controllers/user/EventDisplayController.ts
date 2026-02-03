@@ -33,7 +33,6 @@ export class EventDisplayController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.TRENDING_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             events
           )
         );
@@ -54,7 +53,6 @@ export class EventDisplayController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.FEATURED_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             events
           )
         );
@@ -75,7 +73,6 @@ export class EventDisplayController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.FEATURED_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -99,7 +96,6 @@ export class EventDisplayController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.EVENT_DETAILS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             eventDetails
           )
         );
@@ -121,7 +117,6 @@ export class EventDisplayController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.EVENTS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -143,7 +138,6 @@ export class EventDisplayController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.EVENTS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );

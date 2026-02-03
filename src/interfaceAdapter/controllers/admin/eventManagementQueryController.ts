@@ -24,7 +24,6 @@ export class EventManagementQueryController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.EVENTS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             events
           )
         );

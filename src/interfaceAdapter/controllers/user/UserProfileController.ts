@@ -26,7 +26,6 @@ export class UserProfileController {
         .json(
           ApiResponse.success(
             ResponseMessages.USER.PROFILE.FETCH_SUCCESS,
-            HttpStatusCode.OK,
             userProfile
           )
         );
@@ -52,7 +51,6 @@ export class UserProfileController {
         .json(
           ApiResponse.success(
             ResponseMessages.USER.PROFILE.UPDATE_SUCCESS,
-            HttpStatusCode.OK,
             updatedProfile
           )
         );

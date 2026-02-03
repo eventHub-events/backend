@@ -6,6 +6,7 @@ export const ErrorMessages = {
     PENDING_ORGANIZER_NOT_EXIST: "Pending organizers doesn't exist",
     OVER_ALL_STATUS_UPDATE_SUCCESS: 'Over all status updated successfully',
     PROFILE_CREATION_FAILED: 'Organizer Profile creation failed',
+    REQUEST_FOR_VERIFICATION_FAILED:'request  for verification failed'
   },
   CLOUDINARY: {
     GENERATE_SIGNATURE_ERROR: 'Cloudinary signature creation failed',
@@ -40,6 +41,7 @@ export const ErrorMessages = {
     EVENT_MODERATION_UPDATE_DETAILS_REQUIRED:
       'Event moderation update details required',
     EVENT_MODERATION_DETAILS_NOT_FOUND: 'Event Moderation details not found',
+    EVENT_MODERATION_DETAILS_NOT_CREATED: 'Event Moderation details not created',
   },
   REFUND: {
     PAID_REQUEST_ERROR: 'Only paid bookings can be cancelled',
@@ -61,7 +63,12 @@ export const ErrorMessages = {
     BLOCK_ERROR: 'Your account has been blocked. Contact support.',
     PASSWORD_ERROR : "Password already exists",
     OTP_GENERATION_ERROR : "Otp generation  failed",
-    TOKEN_NOT_FOUND : "Token not found"
+    TOKEN_NOT_FOUND : "Token not found",
+    NEW_PASSWORD_REQUIRED:'New password is required',
+    UNAUTHORIZED_PASSWORD_RESET:'Unauthorized to reset password',
+    SAME_PASSWORD_ERROR:"Please use a different password",
+    PASSWORD_UPDATE_ERROR:"Failed to update password",
+    UNKNOWN_ERROR:'Unknown error occurred'
   },
   COMMON: {
     INVALID_INPUT: 'Invalid input provided',
@@ -79,12 +86,19 @@ export const ErrorMessages = {
     UPDATE_FAILURE: 'Document  update failed',
   },
   TOKEN : {
-   CREATION_FAILED_ERROR : "Token Creation failed"
+   CREATION_FAILED_ERROR : "Token Creation failed",
+   INVALID_TOKEN:"Invalid or expired token",
+   REFRESH_TOKEN_MISSING:"refreshToken missing",
+   REFRESH_TOKEN_INVALID:"Invalid or expired refresh token",
+   INVALID_TOKEN_PAYLOAD:"Invalid token payload",
+   TOKEN_DECODE_ERROR:"Error in decoding the token"
   },
   PROFILE: {
     DETAILS_EMPTY: 'Update profile details are empty',
     UPDATE_FAILURE: 'Failed to update profile',
     PROFILE_FETCH_FAILURE: 'Error in  fetching profile data',
+    NOT_FOUND: "Profile not found",
+    CREATION_FAILED:"Profile creation failed"
   },
   TICKETING: {
     ID_REQUIRED: 'Ticketing id is required',
@@ -136,6 +150,8 @@ export const ErrorMessages = {
   CATEGORY: {
     ID_REQUIRED: 'CategoryId is required',
     NOT_FOUND: 'Category not found',
+    CREATION_FAILED:"Category creation  failed",
+    CATEGORY_EDIT_FAILURE:'Editing  category  details failed'
   },
   SUBSCRIPTION: {
     ID_REQUIRED: 'Subscription id is required',

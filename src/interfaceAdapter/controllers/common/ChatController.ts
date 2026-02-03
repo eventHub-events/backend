@@ -24,7 +24,7 @@ export class ChatController {
     private _getEventChatForUserUseCase: IGetUserChatEventUseCase
   ) {}
 
-  // PRIVATE CHAT (User<> Organizer) //
+  
   async startPrivateChat(
     req: IAuthenticatedRequest,
     res: Response,
@@ -44,7 +44,6 @@ export class ChatController {
         .json(
           ApiResponse.success(
             ResponseMessages.CHAT.CHAT_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -74,7 +73,6 @@ export class ChatController {
         .json(
           ApiResponse.success(
             ResponseMessages.CHAT.COMMUNITY_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -105,7 +103,6 @@ export class ChatController {
         .json(
           ApiResponse.success(
             ResponseMessages.CHAT.MESSAGES_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             messages
           )
         );
@@ -131,7 +128,6 @@ export class ChatController {
         .json(
           ApiResponse.success(
             ResponseMessages.CHAT.MESSAGE_SAVE_SUCCESS,
-            HttpStatusCode.CREATED,
             result
           )
         );
@@ -165,7 +161,6 @@ export class ChatController {
         .json(
           ApiResponse.success(
             ResponseMessages.CHAT.CHAT_SUCCESS,
-            HttpStatusCode.OK,
             chats
           )
         );
@@ -197,7 +192,6 @@ export class ChatController {
         .json(
           ApiResponse.success(
             ResponseMessages.CHAT.CHAT_SUCCESS,
-            HttpStatusCode.OK,
             chats
           )
         );

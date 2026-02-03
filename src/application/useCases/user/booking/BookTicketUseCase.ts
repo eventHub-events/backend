@@ -30,7 +30,7 @@ export class BookTicketUseCase implements IBookTicketUseCase {
       throw new Error(ErrorMessages.BOOKING.BOOKING_SEAT_NOT_AVAILABLE);
 
     
-// this booking use case
+
 
     const organizerStripeAccount =
       await this._stripeAccountRepo.getStripeAccountById(dto.stripeAccountId!);

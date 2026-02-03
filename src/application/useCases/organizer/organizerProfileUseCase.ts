@@ -8,6 +8,7 @@ import { HttpStatusCode } from '../../../infrastructure/interface/enums/HttpStat
 import { organizerProfileSchema } from '../../../infrastructure/validation/schemas/organizer/organizerProfileSchema';
 import { IOrganizerProfileUseCase } from '../../interface/useCases/organizer/IOrganizerProfileUseCase';
 import { OrganizerProfileMapper } from '../../mapper/organizer/OrganizerProfileMapper';
+import { ErrorMessages } from '../../../constants/errorMessages';
 
 export class OrganizerProfileUseCase implements IOrganizerProfileUseCase {
   constructor(
@@ -34,7 +35,8 @@ export class OrganizerProfileUseCase implements IOrganizerProfileUseCase {
 
     if (!updatedData || !updatedBasicData) {
       throw new CustomError(
-        'Profile  update failed',
+        ErrorMessages.PROFILE.UPDATE_FAILURE
+        ,
         HttpStatusCode.INTERNAL_SERVER_ERROR
       );
     }
@@ -53,7 +55,8 @@ export class OrganizerProfileUseCase implements IOrganizerProfileUseCase {
 
     if (!profileData) {
       throw new CustomError(
-        'Failed to fetch organizer profile',
+        ErrorMessages.PROFILE.PROFILE_FETCH_FAILURE,
+        
         HttpStatusCode.INTERNAL_SERVER_ERROR
       );
     }

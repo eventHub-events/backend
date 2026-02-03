@@ -43,7 +43,7 @@ export class ProcessPayoutUseCase implements IProcessPayoutUseCase {
     ] of organizerMap) {
       try {
         await this._stripe.transfers.create({
-          amount: Math.round(totalAmount * 100), // convert to paise
+          amount: Math.round(totalAmount * 100), 
           currency: 'usd',
           destination: organizerStripeId,
         });

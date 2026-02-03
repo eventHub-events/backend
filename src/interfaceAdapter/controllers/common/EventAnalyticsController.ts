@@ -33,7 +33,6 @@ export class EventAnalyticsController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT_ANALYTICS.DETAILS_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             data
           )
         );

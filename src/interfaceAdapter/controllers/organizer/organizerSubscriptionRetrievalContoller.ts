@@ -34,7 +34,6 @@ export class OrganizerSubscriptionRetrievalController {
         .json(
           ApiResponse.success(
             Subscription.SUBSCRIPTION_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -57,7 +56,6 @@ export class OrganizerSubscriptionRetrievalController {
         .json(
           ApiResponse.success(
             Subscription.SUBSCRIPTION_PLANS_SUCCESS,
-            HttpStatusCode.OK,
             plans
           )
         );

@@ -119,6 +119,7 @@ export const ResponseMessages = {
     DOCUMENT_SAVE: 'Document saved successfully',
     DOCUMENT_DELETE_SUCCESS: 'Document  deleted successfully',
     DOCUMENT_UPDATE_SUCCESS: 'Document updated successfully',
+    
     DOCUMENT_VERIFICATION_REQUEST_SUCCESS:
       'Verification request sent  successfully',
     DOWNLOAD_SUCCESS: 'Document downloaded successfully',
@@ -167,9 +168,11 @@ export const ResponseMessages = {
   ORGANIZER_VERIFICATION: {
     ORGANIZER_VERIFICATION_DETAILS_FETCH_SUCCESS:
       'Organizer Verification  details fetched successfully',
+      ORGANIZER_VERIFICATION_REQUEST_SUCCESS:'verification request  submitted successfully',
     PENDING_ORGANIZERS_FETCH_SUCCESS: 'Pending organizers fetched successfully',
     PENDING_ORGANIZERS_WITH_PROFILE_FETCH_SUCCESS:
       'Pending organizers with profile fetched successfully',
+    REQUEST_RECEIVED:'Verification Request received',
     ORGANIZER_OVERALL_VERIFICATION_STATUS_UPDATE_SUCCESS:
       'Organizer overall verification status updated successfully',
   },

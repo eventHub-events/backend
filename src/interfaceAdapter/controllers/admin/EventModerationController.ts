@@ -38,7 +38,6 @@ export class EventModerationController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT_MODERATION.EVENT_MODERATION_CREATION_SUCCESS,
-            HttpStatusCode.CREATED,
             result
           )
         );
@@ -74,7 +73,6 @@ export class EventModerationController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT_MODERATION.EVENT_MODERATION_UPDATE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -102,7 +100,6 @@ export class EventModerationController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT_MODERATION.EVENT_MODERATION_FETCH_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );

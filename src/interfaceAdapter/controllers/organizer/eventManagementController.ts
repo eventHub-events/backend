@@ -41,7 +41,6 @@ export class EventManagementController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.EVENT_CREATION_SUCCESS,
-            HttpStatusCode.CREATED,
             eventData
           )
         );
@@ -70,7 +69,6 @@ export class EventManagementController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.EVENT_UPDATE_SUCCESS,
-            HttpStatusCode.OK,
             updatedEvent
           )
         );
@@ -95,7 +93,6 @@ export class EventManagementController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.EVENT_DELETE_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );
@@ -121,7 +118,6 @@ export class EventManagementController {
         .json(
           ApiResponse.success(
             ResponseMessages.EVENT.EVENT_CANCEL_SUCCESS,
-            HttpStatusCode.OK,
             result
           )
         );

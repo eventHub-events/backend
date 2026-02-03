@@ -26,7 +26,7 @@ export class AdminDashBoardController {
         .json(
           ApiResponse.success(
             ResponseMessages.ADMIN_DASHBOARD.ON_SUCCESS,
-            HttpStatusCode.OK,
+            
             dashboardData
           )
         );
