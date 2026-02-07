@@ -27,7 +27,7 @@ export class AuthenticationMiddleWare {
         res.cookie(TokenTypes.AUTH_TOKEN, token, {
           httpOnly: true,
           secure: process.env.NODE_ENV === 'production',
-          sameSite: 'strict',
+          sameSite: 'none',
           maxAge: 15 * 60 * 1000,
         });
 
