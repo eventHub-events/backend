@@ -5,7 +5,8 @@ export const ENV = {
   REDIS_HOST: process.env.REDIS_HOST,
   REDIS_PORT: process.env.REDIS_PORT,
   PORT: process.env.PORT,
-
+  REDIS_URL:process.env.REDIS_URL,
+  UPSTASH_REDIS_REST_TOKEN:process.env.UPSTASH_REDIS_REST_TOKEN,
   FRONTEND_URL: process.env.FRONTEND_URL,
 
   SMTP_HOST: process.env.SMTP_HOST,
