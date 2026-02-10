@@ -47,6 +47,7 @@ class RedisClient {
       console.log("🚀 Initializing Redis...");
 
       if (ENV.REDIS_URL) {
+        
         RedisClient.instance = new Redis(ENV.REDIS_URL, {
           tls: {},
           maxRetriesPerRequest: null,   // 🔥 stop retry error
@@ -54,6 +55,7 @@ class RedisClient {
           reconnectOnError: () => false // 🔥 no infinite reconnect
         });
       } else {
+         
         RedisClient.instance = new Redis({
           host: ENV.REDIS_HOST || "127.0.0.1",
           port: Number(ENV.REDIS_PORT) || 6379,
