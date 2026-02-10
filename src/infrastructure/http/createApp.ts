@@ -27,7 +27,7 @@ export function createApp() {
   app.use('/api/admin', adminRoutes);
   app.use('/api/chat', chatRoutes);
   app.use('/api/reviews', reviewRoutes);
-  app.use(ErrorHandlingMiddleware.handleError);
+  //app.use(ErrorHandlingMiddleware.handleError);
 
   return app;
 }
