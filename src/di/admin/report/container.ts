@@ -1,3 +1,4 @@
+import { Resend } from 'resend';
 import { ReportMapper } from '../../../application/mapper/common/report/ReportMapper';
 import { AdminActionTakenUseCase } from '../../../application/useCases/common/report/admin/AdminActionTakenUseCase';
 import { GetReportsUseCase } from '../../../application/useCases/common/report/admin/GetReportsUseCase';
@@ -7,14 +8,16 @@ import { ReportModerationEmailTemplate } from '../../../infrastructure/services/
 import { AdminReportController } from '../../../interfaceAdapter/controllers/admin/AdminReportController';
 import {
   eventRepository,
-  nodeMailerEmailService,
   userRepository,
 } from '../../common/commonContainers';
+import { ResendEmailService } from '../../../infrastructure/services/resendEmailService/ResendEmailService';
+import { ENV } from '../../../infrastructure/config/common/env';
 
 const reportEntityFactory = new ReportEntityFactory();
 const reportRepository = new ReportRepository(reportEntityFactory);
 const reportMapper = new ReportMapper();
-
+const resendClient  = new Resend(ENV.RESEND_API_KEY);
+const resentEmailService = new ResendEmailService(resendClient,ENV.EMAIL_FROM!)
 const reportModerationEmailTemplate = new ReportModerationEmailTemplate();
 
 const adminActionTakenUseCase = new AdminActionTakenUseCase(
@@ -22,7 +25,7 @@ const adminActionTakenUseCase = new AdminActionTakenUseCase(
   eventRepository,
   userRepository,
   reportModerationEmailTemplate,
-  nodeMailerEmailService
+ resentEmailService 
 );
 const getReportUseCase = new GetReportsUseCase(reportRepository, reportMapper);
 export const adminReportController = new AdminReportController(

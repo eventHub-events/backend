@@ -38,6 +38,9 @@ import { UserEntityFactory } from '../infrastructure/factories/user/UserEntityFa
 import { UserProfileEntityFactory } from '../infrastructure/factories/user/UserProfileEntityFactory';
 import { RegisterUserUseCase } from '../application/useCases/user/auth/RegisterUserUseCase';
 import { requestPasswordSetOTPUseCase, setPasswordWithOtpUseCase } from './common/password-set/container';
+import { Resend } from 'resend';
+import { ENV } from '../infrastructure/config/common/env';
+import { ResendEmailService } from '../infrastructure/services/resendEmailService/ResendEmailService';
 
 const cacheService = new RedisCacheService();
 export const loggerService = new WinstonLoggerService();
@@ -48,7 +51,10 @@ export const userRepository = new UserRepository(
   userEntityFactory
 );
 const nodeMailerEmailService = new NodeMailerEmailService();
-const emailService = new EmailService(nodeMailerEmailService);
+export const emailService = new EmailService(nodeMailerEmailService);
+
+const resendClient  = new Resend(ENV.RESEND_API_KEY);
+const resentEmailService = new ResendEmailService(resendClient,ENV.EMAIL_FROM!)
 
 // user profile related dependency  injection
 const userProfileMapper = new UserProfileMapper();
@@ -75,7 +81,7 @@ const generateOtpUseCase = new GenerateOtpUseCase(otpService);
 const registerUserUseCase = new RegisterUserUseCase(
   userRepository,
   generateOtpUseCase,
-  emailService
+  resentEmailService
 );
 const profileCreators = {
   organizer: new OrganizerProfileCreator(organizerBlankProfileCreationUseCase),
@@ -100,7 +106,7 @@ export const authenticationMiddleWare = new AuthenticationMiddleWare(
 
 const resendOtpUseCase = new ResendOtpUseCase(
   generateOtpUseCase,
-  nodeMailerEmailService
+  resentEmailService
 );
 const loginUserUseCase = new LoginUserUseCase(
   tokenService,
@@ -113,7 +119,7 @@ const forgetPasswordUseCase = new ForgetPasswordUseCase(
   generateOtpUseCase,
   userRepository,
   loggerService,
-  emailService,
+  resentEmailService,
   userMapper,
   cacheService
 );

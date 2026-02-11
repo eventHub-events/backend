@@ -1,3 +1,4 @@
+import { Resend } from "resend";
 import { RequestPasswordSetOTPUseCase } from "../../../application/useCases/common/password-reset/RequestPasswordSetOTPUseCase";
 import { SetPasswordWithOtpUseCase } from "../../../application/useCases/common/password-reset/SetPasswordWithOtpUseCase";
 import { UserEntityFactory } from "../../../infrastructure/factories/user/UserEntityFactory";
@@ -13,16 +14,20 @@ import { OtpService } from "../../../infrastructure/services/otp/OtpService";
 import { RedisCacheService } from "../../../infrastructure/services/otp/RedisCacheService";
 import { PasswordSetOtpEmailTemplate } from "../../../infrastructure/services/Templates/passwordSetOtpEmailTemplate";
 import { tokenConfig } from "../commonContainers";
+import { ENV } from "../../../infrastructure/config/common/env";
+import { ResendEmailService } from "../../../infrastructure/services/resendEmailService/ResendEmailService";
 
 const userEntityFactory = new UserEntityFactory();
 export const loggerService = new WinstonLoggerService();
+const resendClient  = new Resend(ENV.RESEND_API_KEY);
+const resentEmailService = new ResendEmailService(resendClient,ENV.EMAIL_FROM!)
 export const userRepository = new UserRepository(
   loggerService,
   userEntityFactory
 );
 const cacheService = new RedisCacheService();
-const nodeMailerEmailService = new NodeMailerEmailService();
-const emailService = new EmailService(nodeMailerEmailService);
+// const nodeMailerEmailService = new NodeMailerEmailService();
+// const emailService = new EmailService(nodeMailerEmailService);
 
 const bcryptHashService = new BcryptHashService();
 export const hashService = new HashService(bcryptHashService);
@@ -30,6 +35,6 @@ const otpService = new OtpService(cacheService, hashService);
 const jwtToken = new JWTToken(tokenConfig);
 const tokenService = new TokenService(jwtToken);
 const passwordSetOtpTemplate = new PasswordSetOtpEmailTemplate();
-export const requestPasswordSetOTPUseCase = new RequestPasswordSetOTPUseCase(userRepository,tokenService,otpService,emailService,passwordSetOtpTemplate);
+export const requestPasswordSetOTPUseCase = new RequestPasswordSetOTPUseCase(userRepository,tokenService,otpService,resentEmailService,passwordSetOtpTemplate);
 export const setPasswordWithOtpUseCase = new SetPasswordWithOtpUseCase(userRepository,otpService,tokenService,hashService);
 

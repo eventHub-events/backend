@@ -4,7 +4,7 @@ export class CookieOptionsUtility {
   static create(maxAge?: number): CookieOptions {
     return {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
       sameSite:'none',
       maxAge,
     };
