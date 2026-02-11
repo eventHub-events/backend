@@ -12,6 +12,7 @@ import { ResponseMessages } from '../../../infrastructure/constants/responseMess
 import { CookieOptionsUtility } from '../../../utils/CookieOptions.utility';
 import { IRequestPasswordSetOTPUseCase } from '../../../application/interface/useCases/common/password-set/IRequestPasswordSetOTPUseCase';
 import { ISetPasswordWithOtpUseCase } from '../../../application/interface/useCases/common/password-set/ISetPasswordWithOtpUseCase';
+import { TokenTypes } from '../../../infrastructure/types/common/tokenTypes';
 
 
 
@@ -57,7 +58,7 @@ export class PasswordController {
 
       if (user) {
         const resetTokenOptions = CookieOptionsUtility.create(5 * 60 * 1000);
-        res.cookie('resetToken', token, resetTokenOptions);
+        res.cookie(TokenTypes.RESET_TOKEN, token, resetTokenOptions);
 
         return res
           .status(HttpStatusCode.OK)
@@ -111,7 +112,7 @@ export class PasswordController {
 
          const { setPasswordToken }    = await this._requestPasswordSetOTPUseCase.execute(userId);
           const resetTokenOptions = CookieOptionsUtility.create(2 * 60 * 1000);
-         res.cookie('passwordSetToken', setPasswordToken, resetTokenOptions);
+         res.cookie(TokenTypes.PASSWORD_SET_TOKEN, setPasswordToken, resetTokenOptions);
       res.status(HttpStatusCode.OK).json(ApiResponse.success(ResponseMessages.AUTHENTICATION.OTP.OTP_SENT_SUCCESS,HttpStatusCode.OK));
       
          
