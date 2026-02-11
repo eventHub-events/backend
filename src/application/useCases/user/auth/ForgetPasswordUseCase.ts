@@ -59,7 +59,7 @@ export class ForgetPasswordUseCase implements IForgetPasswordUseCase {
 
     await this._emailService.sendMail(
       userDto.email,
-      'Your OTP code',
+      'Password Reset OTP',
       `<h2> your OTP is ${otp}</h2>`
     );
 

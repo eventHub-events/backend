@@ -1,3 +1,4 @@
+import { Resend } from 'resend';
 import { OrganizerUploadDocumentMapper } from '../../application/mapper/admin/OrganizerUploadDocumentMapper';
 import { UploadDocumentsMapper } from '../../application/mapper/admin/UploadDocumentsMapper';
 
@@ -19,13 +20,17 @@ import { DocumentController } from '../../interfaceAdapter/controllers/organizer
 import { OrganizerAccountSecurityController } from '../../interfaceAdapter/controllers/organizer/organizerAccountSecurityController';
 import { OrganizerDocumentVerificationRequestController } from '../../interfaceAdapter/controllers/organizer/organizerDocumentVerificationController';
 import { OrganizerProfileController } from '../../interfaceAdapter/controllers/organizer/profileController';
-import { emailService, hashService } from '../common/commonContainers';
+import {  hashService } from '../common/commonContainers';
+import { ENV } from '../../infrastructure/config/common/env';
+import { ResendEmailService } from '../../infrastructure/services/resendEmailService/ResendEmailService';
 
 const loggerService = new WinstonLoggerService();
 //  const userMapper = new UserMapper();
 const userEntityFactory = new UserEntityFactory();
 const userRepository = new UserRepository(loggerService, userEntityFactory);
 const organizerProfileEntityFactory = new OrganizerProfileEntityFactory();
+const resendClient  = new Resend(ENV.RESEND_API_KEY);
+const resentEmailService = new ResendEmailService(resendClient,ENV.EMAIL_FROM!)
 export const organizerProfileRepository = new OrganizerProfileRepository(
   loggerService,
   organizerProfileEntityFactory
@@ -62,7 +67,7 @@ export const organizerBlankProfileCreationUseCase =
 const verificationEmailTemplate = new VerificationEmailTemplate();
 const verificationRequestUseCase = new VerificationRequestUseCase(
   userRepository,
-  emailService,
+ resentEmailService,
   verificationEmailTemplate
 );
 export const documentVerificationRequestController =

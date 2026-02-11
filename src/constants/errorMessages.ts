@@ -135,6 +135,7 @@ export const ErrorMessages = {
   },
   EMAIL: {
     CREDENTIALS_MISSING: 'Email credentials are missing  from  env',
+    EMAIL_SERVICE_FAILED:"Email service failed"
   },
 
   BOOKING: {
