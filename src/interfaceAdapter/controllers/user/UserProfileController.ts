@@ -40,7 +40,7 @@ export class UserProfileController {
   ): Promise<Response | void> {
     try {
       const { profileId } = req.params;
-      console.log("request body is",req.body)
+      
 
       const updatedProfile = await this._userProfileUseCase.editProfileData(
         profileId,

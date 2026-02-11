@@ -52,7 +52,7 @@ export class StripeConnectController {
   ): Promise<void> {
     try {
       const organizerId = req.params.organizerId;
-      console.log('organzierId', typeof organizerId);
+     
       if (!organizerId)
         throw new CustomError(
           ErrorMessages.ORGANIZER.ID_REQUIRED,
