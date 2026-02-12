@@ -1,39 +1,4 @@
-// // import Redis from 'ioredis';
-// // import { ENV } from '../../infrastructure/config/common/env';
 
-// // const redis = new Redis({
-// //   host: ENV.REDIS_HOST,
-// //   port: Number(ENV.REDIS_PORT),
-// // });
-// // redis.on('connect', () => console.log('✅ Redis connected'));
-// // redis.on('error', err => console.error('❌ Redis Error:', err));
-
-// // export default redis;
-
-
-// import Redis from "ioredis";
-// import { ENV } from "../../infrastructure/config/common/env";
-
-// console.log("REDIS_URL from env =", ENV.REDIS_URL);
-
-// let redis: Redis;
-
-// if (ENV.REDIS_URL) {
-//    console.log(ENV.REDIS_URL)
-//   // 🔥 production (Render / cloud)
-//   redis = new Redis(ENV.REDIS_URL);
-// } else {
-//   // 🟢 local development
-//   redis = new Redis({
-//     host: ENV.REDIS_HOST,
-//     port: Number(ENV.REDIS_PORT),
-//   });
-// }
-
-// redis.on("connect", () => console.log("✅ Redis connected"));
-// redis.on("error", (err) => console.error("❌ Redis Error:", err));
-
-// export default redis;
 
 
 import Redis from "ioredis";
@@ -79,3 +44,41 @@ class RedisClient {
 }
 
 export default RedisClient.getInstance();
+
+
+// // import Redis from 'ioredis';
+// // import { ENV } from '../../infrastructure/config/common/env';
+
+// // const redis = new Redis({
+// //   host: ENV.REDIS_HOST,
+// //   port: Number(ENV.REDIS_PORT),
+// // });
+// // redis.on('connect', () => console.log('✅ Redis connected'));
+// // redis.on('error', err => console.error('❌ Redis Error:', err));
+
+// // export default redis;
+
+
+// import Redis from "ioredis";
+// import { ENV } from "../../infrastructure/config/common/env";
+
+// console.log("REDIS_URL from env =", ENV.REDIS_URL);
+
+// let redis: Redis;
+
+// if (ENV.REDIS_URL) {
+//    console.log(ENV.REDIS_URL)
+//   // 🔥 production (Render / cloud)
+//   redis = new Redis(ENV.REDIS_URL);
+// } else {
+//   // 🟢 local development
+//   redis = new Redis({
+//     host: ENV.REDIS_HOST,
+//     port: Number(ENV.REDIS_PORT),
+//   });
+// }
+
+// redis.on("connect", () => console.log("✅ Redis connected"));
+// redis.on("error", (err) => console.error("❌ Redis Error:", err));
+
+// export default redis;

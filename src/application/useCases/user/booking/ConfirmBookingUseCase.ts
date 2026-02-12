@@ -40,7 +40,8 @@ export class ConfirmBookingUseCase implements IConfirmBookingUseCase {
     const payoutStatus = PayoutStatus.PENDING;
 
     booking.applyCommission(subscription.commissionRate!);
-
+    
+    
     booking.update({
       status,
       payoutDueDate,
@@ -53,6 +54,7 @@ export class ConfirmBookingUseCase implements IConfirmBookingUseCase {
       bookingId,
       booking
     );
+  
     return this._bookingMapper.toUserResponseDTO(updated);
   }
 }
