@@ -16,4 +16,8 @@ export interface UserRegisterDTO {
   kycStatus: KycStatus;
   isKycResubmitted?: boolean;
   hasPassword?: boolean;
+  isKycSubmitted?: boolean,
+  isProfileCompleted?:boolean,
+  isSubscribed?:boolean,
+  isStripeConnected?:boolean
 }
