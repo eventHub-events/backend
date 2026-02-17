@@ -16,6 +16,10 @@ export class UserMapper implements IUserMapper {
       isBlocked: dto.isBlocked,
       kycStatus: dto.kycStatus,
       isKycResubmitted: dto.isKycResubmitted,
+      isKycSubmitted: dto.isKycSubmitted,
+      isProfileCompleted: dto.isProfileCompleted,
+      isSubscribed:dto.isSubscribed,
+      isStripeConnected: dto.isStripeConnected,
       hasPassword : dto.password? true: false,
       registrationMode : dto.password?RegistrationTypes.Normal:RegistrationTypes.GoogleAuth
     });
