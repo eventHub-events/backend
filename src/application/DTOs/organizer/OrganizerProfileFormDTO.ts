@@ -21,4 +21,8 @@ export type UpdatedOrganizerProfileFormResponseDTO = {
   bio: string;
   trustScore: number;
   totalEarnings: number;
+  isProfileCompleted?:boolean,
+  isKycSubmitted?:boolean,
+  isSubscribed?:boolean,
+  isStripeConnected?:boolean
 };

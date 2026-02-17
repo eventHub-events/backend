@@ -55,10 +55,12 @@ export class GoogleAuthUseCase implements IGoogleAuthUseCase {
         phone: undefined,
         hasPassword : false,
         isBlocked: false,
-        kycStatus:
-          googleUser.role === UserRole.USER
-            ? KycStatus.NotApplicable
-            : KycStatus.Pending,
+        isKycSubmitted:false,
+        isProfileCompleted: false,
+       isSubscribed:false,
+       isStripeConnected: false,
+      
+        kycStatus:KycStatus.NotApplicable
       };
       const userEntity = this._userMapper.toEntity(userData);
       user = await this._userRepository.createUser(userEntity);

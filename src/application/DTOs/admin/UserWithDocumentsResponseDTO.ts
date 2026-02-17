@@ -8,4 +8,11 @@ export interface UserWithDocumentsResponseDTO {
   kycStatus: KycStatus;
   isKycResubmitted?: boolean;
   documents: UploadDocumentResponseDTO[];
+  isBlocked?:boolean;
+  hasPassword?:boolean;
+  stripOnboarded?:boolean ,
+  isProfileCompleted?: boolean,
+  isKycSubmitted?:boolean,
+  isSubscribed?:boolean ,
+  isStripeConnected?: boolean
 }

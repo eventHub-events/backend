@@ -15,9 +15,16 @@ class RedisClient {
         
         RedisClient.instance = new Redis(ENV.REDIS_URL, {
           tls: {},
-          maxRetriesPerRequest: null,   // 🔥 stop retry error
-          retryStrategy: () => null,    // 🔥 stop reconnect spam
-          reconnectOnError: () => false // 🔥 no infinite reconnect
+          maxRetriesPerRequest: null,
+           enableReadyCheck: false,   // 🔥 stop retry error
+         retryStrategy: (times) => {
+            console.log("🔁 Redis retry attempt:", times);
+            return Math.min(times * 200, 2000); // auto retry
+          },   // 🔥 stop reconnect spam
+           reconnectOnError: (err) => {
+            console.log("🔄 Redis reconnect on error:", err.message);
+            return true;
+          },// 🔥 no infinite reconnect
         });
       } else {
          
@@ -32,6 +39,15 @@ class RedisClient {
 
       RedisClient.instance.once("connect", () => {
         console.log("✅ Redis connected");
+      });
+       RedisClient.instance.on("ready", () => {
+        console.log("✅ Redis ready");
+      });
+         RedisClient.instance.on("close", () => {
+        console.warn("⚠️ Redis connection closed");
+      });
+        RedisClient.instance.on("reconnecting", () => {
+        console.log("🔄 Redis reconnecting...");
       });
 
       RedisClient.instance.once("error", (err) => {

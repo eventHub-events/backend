@@ -20,7 +20,14 @@ export class UploadDocumentsMapper implements IUploadDocumentsMapper {
       isVerified: userData.isVerified,
       kycStatus: userData.kycStatus!,
       isKycResubmitted: userData.isKycResubmitted,
+      isBlocked: userData.isBlocked!,
       documents: userDocs,
+      hasPassword : userData.hasPassword,
+      stripOnboarded: userData.stripeOnboarded,
+      isProfileCompleted: userData.isProfileCompleted,
+      isKycSubmitted: userData.isKycSubmitted,
+      isSubscribed: userData.isSubscribed,
+      isStripeConnected: userData.isStripeConnected
     };
   }
 }

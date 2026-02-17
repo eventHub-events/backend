@@ -48,6 +48,13 @@ export class OrganizerProfileMapper {
         phone: user.phone!,
         isVerified: user.isVerified,
         kycStatus: user.kycStatus!,
+        role: user.role,
+        isKycResubmitted: user.isKycResubmitted,
+        isProfileCompleted: user.isProfileCompleted,
+          isKycSubmitted: user.isKycSubmitted,
+          isStripeConnected: user.isStripeConnected,
+          isSubscribed: user.isSubscribed,
+          hasPassword:user.hasPassword
       },
       location: profile.location,
       organization: profile.organization,
@@ -76,6 +83,7 @@ export class OrganizerProfileMapper {
       name: profile.name,
       email: profile.email,
       phone: Number(profile.phone),
+      isProfileCompleted:true
     } as Partial<UserEntity>;
 
     return { profileData, organizerBasicData };
@@ -100,6 +108,10 @@ export class OrganizerProfileMapper {
       trustScore: updatedProfileData.trustScore,
       totalEarnings: updatedProfileData.totalEarnings,
       organizerId: updatedBasicData.id,
+      isProfileCompleted:updatedBasicData.isProfileCompleted,
+      isKycSubmitted: updatedBasicData.isKycSubmitted,
+      isSubscribed: updatedBasicData.isSubscribed,
+      isStripeConnected:updatedBasicData.isStripeConnected
     };
   }
 }

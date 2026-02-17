@@ -23,6 +23,11 @@ export interface IUserDocument extends Document {
   stripeAccountId?: string;
   stripeOnboarded?: boolean;
   hasPassword?: boolean
+  isProfileCompleted?:boolean;
+  isKycSubmitted?:boolean;
+  isStripeConnected?: boolean;
+  isSubscribed?: boolean;
+
 }
 
 const UserSchema: Schema<IUserDocument> = new Schema(
@@ -53,6 +58,22 @@ const UserSchema: Schema<IUserDocument> = new Schema(
       type: Boolean,
       default: false,
     },
+    isSubscribed:{
+ type:Boolean,
+ default:false
+}
+,
+     isProfileCompleted: {
+  type: Boolean,
+  default: false,
+},
+isKycSubmitted: {
+  type: Boolean,
+  default: false,
+},isStripeConnected: {
+  type: Boolean,
+  default: false,
+},
     googleId: {
       type: String,
     },

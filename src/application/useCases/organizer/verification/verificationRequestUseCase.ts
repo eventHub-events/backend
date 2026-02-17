@@ -22,6 +22,7 @@ export class VerificationRequestUseCase implements IVerificationRequestUseCase {
   ): Promise<string> {
     const updatedUser = await this._userRepo.updateUser(organizerId, {
       kycStatus: requestData.kycStatus,
+      isKycSubmitted: true
     } as Partial<UserEntity>);
     if (!updatedUser) {
       throw new CustomError(

@@ -14,4 +14,9 @@ export interface UserResponseDTO {
   hasPassword?: boolean;
   stripeOnboarded?: boolean;
   registrationMode?: RegistrationTypes;
+   isKycSubmitted?:boolean,
+      isProfileCompleted?: boolean,
+      isSubscribed?: boolean,
+      isStripeConnected?: boolean
+      
 }

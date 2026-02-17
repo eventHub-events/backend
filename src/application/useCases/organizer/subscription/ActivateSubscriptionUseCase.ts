@@ -1,5 +1,6 @@
 import { SubscriptionStatus } from '../../../../domain/enums/organizer/subscription';
 import { IOrganizerSubscriptionRepository } from '../../../../domain/repositories/organizer/IOrganizerSubscriptionRepository';
+import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
 import { OrganizerSubscriptionRequestDTO } from '../../../DTOs/organizer/subscription/OrganizerSubscriptionRequestDTO';
 import { OrganizerSubscriptionResponseDTO } from '../../../DTOs/organizer/subscription/OrganizerSubscriptionResponseDTO';
 import { IOrganizerSubscriptionMapper } from '../../../interface/mapper/organizer/IOrganizerMapper';
@@ -8,7 +9,8 @@ import { IActivateSubscriptionUseCase } from '../../../interface/useCases/organi
 export class ActivateSubScriptionUseCase implements IActivateSubscriptionUseCase {
   constructor(
     private _subscriptionRepository: IOrganizerSubscriptionRepository,
-    private _subscriptionMapper: IOrganizerSubscriptionMapper
+    private _subscriptionMapper: IOrganizerSubscriptionMapper,
+    private _userRepository: IUserRepository
   ) {}
   async execute(
     dto: OrganizerSubscriptionRequestDTO
@@ -22,6 +24,7 @@ export class ActivateSubScriptionUseCase implements IActivateSubscriptionUseCase
     const subscriptionEntity = this._subscriptionMapper.toEntity(updatedDto);
     const created =
       await this._subscriptionRepository.createSubscription(subscriptionEntity);
+      await this._userRepository.updateUser(dto.organizerId,{isSubscribed: true})
     return this._subscriptionMapper.toResponseDTO(created);
   }
 }

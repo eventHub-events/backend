@@ -33,7 +33,11 @@ export class UserMapper implements IUserMapper {
       createdAt: entity.createdAt,
       hasPassword : entity.hasPassword,
       stripeOnboarded: entity.stripeOnboarded,
-      registrationMode : entity.registrationMode
+      registrationMode : entity.registrationMode,
+      isKycSubmitted: entity.isKycSubmitted,
+      isProfileCompleted: entity.isProfileCompleted,
+      isSubscribed: entity.isSubscribed,
+      isStripeConnected: entity.isStripeConnected
       
     };
   }

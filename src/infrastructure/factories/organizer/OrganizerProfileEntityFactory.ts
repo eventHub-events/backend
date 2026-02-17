@@ -60,6 +60,11 @@ export class OrganizerProfileEntityFactory implements IOrganizerProfileEntityFac
       isKycResubmitted: dbModel.organizerId.isKycResubmitted,
       id: dbModel.organizerId._id?.toString(),
       createdAt: dbModel.organizerId.createdAt,
+      isProfileCompleted: dbModel.organizerId.isProfileCompleted,
+      isKycSubmitted: dbModel.organizerId.isKycSubmitted,
+      isStripeConnected: dbModel.organizerId.isStripeConnected,
+      isSubscribed: dbModel.organizerId.isSubscribed,
+      hasPassword:dbModel.organizerId.hasPassword
     });
     return { profile, user };
   }

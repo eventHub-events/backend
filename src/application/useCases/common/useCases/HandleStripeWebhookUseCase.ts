@@ -19,11 +19,11 @@ export class HandleStripeWebhookUseCase {
   async execute(payload: Buffer, signature: string): Promise<void> {
     const event = this._stripeWebhookService.constructEvent(payload, signature);
     const session = event.data.object as Stripe.Checkout.Session;
-    console.log("session iddd",session)
+    
 
     const paymentIntentId = session.payment_intent as string;
     const metadata = session.metadata || {};
-    console.log();
+    
 
     switch (event.type) {
       case 'checkout.session.completed':

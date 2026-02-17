@@ -11,5 +11,9 @@ export interface IUserLoginResponse {
     isBlocked: boolean;
     kycStatus: KycStatus;
     isKycResubmitted?: boolean;
+     isProfileCompleted?: boolean
+      isKycSubmitted?:boolean
+      isSubscribed?:boolean
+      isStripeConnected?:boolean
   };
 }

@@ -41,7 +41,8 @@ export const stripeConnectController = new StripeConnectController(
 const verifyStripeOnboardingStatusUseCase =
   new VerifyStripeOnboardingStatusUseCase(
     stripeConnectService,
-    organizerStripeAccountRepository
+    organizerStripeAccountRepository,
+    userRepository
   );
 export const stripeOnboardingStatusController =
   new StripeOnboardingStatusController(verifyStripeOnboardingStatusUseCase);
