@@ -13,6 +13,11 @@ export class ErrorHandlingMiddleware {
     res: Response,
     _next: NextFunction
   ) {
+
+    console.log("TYPE:", err.constructor.name);
+console.log("INSTANCEOF CustomError:", err instanceof CustomError);
+console.log("FULL ERROR:", err);
+
     if (err instanceof CustomError) {
       console.log('error is', err);
       return res.status(err.statusCode).json({

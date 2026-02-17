@@ -1,6 +1,7 @@
 import { ErrorMessages } from '../../../../constants/errorMessages';
 import { NotFoundError } from '../../../../domain/errors/common';
 import { IOrganizerStripeAccountRepository } from '../../../../domain/repositories/organizer/IOrganizerStripeAccountRepository';
+import { IUserRepository } from '../../../../domain/repositories/user/IUserRepository';
 
 import { IVerifyStripeOnboardingStatusUseCase } from '../../../interface/useCases/organizer/stripe-account/IVerifyStripeOnboardingStatusUseCase';
 import { IStripeConnectService } from '../../../service/common/IStripeConnectService';
@@ -8,29 +9,39 @@ import { IStripeConnectService } from '../../../service/common/IStripeConnectSer
 export class VerifyStripeOnboardingStatusUseCase implements IVerifyStripeOnboardingStatusUseCase {
   constructor(
     private _stripeConnectService: IStripeConnectService,
-    private _organizerStripeRepo: IOrganizerStripeAccountRepository
+    private _organizerStripeRepo: IOrganizerStripeAccountRepository,
+    private _userRepository : IUserRepository
   ) {}
-  async execute(stripeAccountId: string): Promise<boolean> {
+  async execute(userId:string,stripeAccountId: string): Promise<boolean> {
     const accountEntity =
       await this._organizerStripeRepo.getStripeAccountByStripeId(
         stripeAccountId
       );
-
-    if (!accountEntity)
-      throw new NotFoundError(ErrorMessages.STRIPE.ACCOUNT_NOT_FOUND);
-
-    const account =
+      
+      if (!accountEntity)
+        throw new NotFoundError(ErrorMessages.STRIPE.ACCOUNT_NOT_FOUND);
+      
+      const account =
       await this._stripeConnectService.retrieveAccount(stripeAccountId);
+      
+      if (account.details_submitted && account.payouts_enabled) {
+        accountEntity.isOnboarded(true);
+       await Promise.all([
+       
+        this._userRepository.updateUser(userId, {
+          isStripeConnected: true,
+        }),
 
-    if (account.details_submitted && account.payouts_enabled) {
-      accountEntity.isOnboarded(true);
-      await this._organizerStripeRepo.updateStripeAccount(
-        accountEntity.id!,
-        accountEntity
-      );
+        
+        this._organizerStripeRepo.updateStripeAccount(
+          accountEntity.id!,
+          accountEntity
+        ),
+      ]);
     } else {
       throw new Error(ErrorMessages.STRIPE.ON_BOARDING.VERIFICATION_FAILED);
     }
+  
 
     return true;
   }

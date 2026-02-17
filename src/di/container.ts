@@ -9,7 +9,7 @@ import { AuthController } from '../interfaceAdapter/controllers/user/AuthControl
 import { BcryptHashService } from '../infrastructure/services/hashing/BcryptHashService';
 import { HashService } from '../infrastructure/services/hashing/HashService';
 import { NodeMailerEmailService } from '../infrastructure/services/nodeMailer/NodeMailerEmailService';
-import { EmailService } from '../infrastructure/services/nodeMailer/EmailService';
+// import { EmailService } from '../infrastructure/services/nodeMailer/EmailService';
 import { ResendOtpUseCase } from '../application/useCases/user/auth/ResendOtp';
 import { LoginUserUseCase } from '../application/useCases/user/auth/LoginUserUseCase';
 import { TokenService } from '../infrastructure/services/JwT/TokenService';
@@ -50,8 +50,8 @@ export const userRepository = new UserRepository(
   loggerService,
   userEntityFactory
 );
-const nodeMailerEmailService = new NodeMailerEmailService();
-export const emailService = new EmailService(nodeMailerEmailService);
+// const nodeMailerEmailService = new NodeMailerEmailService();
+// export const emailService = new EmailService(nodeMailerEmailService);
 
 const resendClient  = new Resend(ENV.RESEND_API_KEY);
 const resentEmailService = new ResendEmailService(resendClient,ENV.EMAIL_FROM!)

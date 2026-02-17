@@ -49,6 +49,10 @@ export class LoginUserUseCase implements ILoginUserUseCase {
       kycStatus: userDoc.kycStatus!,
       hasPassword : userDoc.hasPassword,
       stripOnboarded: userDoc.stripeOnboarded,
+      isProfileCompleted: userDoc.isProfileCompleted,
+      isKycSubmitted: userDoc.isKycSubmitted,
+      isSubscribed: userDoc.isSubscribed,
+      isStripeConnected: userDoc.isStripeConnected
     };
 
     return { token, refreshToken, user };

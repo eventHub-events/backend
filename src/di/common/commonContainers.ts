@@ -1,3 +1,5 @@
+
+
 import { EventMapper } from '../../application/mapper/organizer/EventMapper';
 import { OrganizerSubscriptionMapper } from '../../application/mapper/organizer/OrganizerSubscriptionMapper';
 import { BookingMapper } from '../../application/mapper/user/BookingMapper';
@@ -43,8 +45,8 @@ import { HashService } from '../../infrastructure/services/hashing/HashService';
 import { JWTToken } from '../../infrastructure/services/JwT/JWTToken';
 import { TokenService } from '../../infrastructure/services/JwT/TokenService';
 import { WinstonLoggerService } from '../../infrastructure/services/logger/loggerService';
-import { EmailService } from '../../infrastructure/services/nodeMailer/EmailService';
-import { NodeMailerEmailService } from '../../infrastructure/services/nodeMailer/NodeMailerEmailService';
+// import { EmailService } from '../../infrastructure/services/nodeMailer/EmailService';
+// import { NodeMailerEmailService } from '../../infrastructure/services/nodeMailer/NodeMailerEmailService';
 import { OtpService } from '../../infrastructure/services/otp/OtpService';
 import { RedisCacheService } from '../../infrastructure/services/otp/RedisCacheService';
 import { CloudinaryStorageService } from '../../infrastructure/services/storageService/CloudinaryStorageService';
@@ -55,6 +57,11 @@ import { GoogleAuthController } from '../../interfaceAdapter/controllers/common/
 import { StripeWebhookController } from '../../interfaceAdapter/controllers/common/StripWebhookController';
 import { PasswordController } from '../../interfaceAdapter/controllers/user/PasswordController';
 import { TokenController } from '../../interfaceAdapter/controllers/user/TokenController';
+import { PasswordSetOtpEmailTemplate } from '../../infrastructure/services/Templates/passwordSetOtpEmailTemplate';
+import { RequestPasswordSetOTPUseCase } from '../../application/useCases/common/password-reset/RequestPasswordSetOTPUseCase';
+import { SetPasswordWithOtpUseCase } from '../../application/useCases/common/password-reset/SetPasswordWithOtpUseCase';
+import { Resend } from 'resend';
+import { ResendEmailService } from '../../infrastructure/services/resendEmailService/ResendEmailService';
 
 const cacheService = new RedisCacheService();
 export const loggerService = new WinstonLoggerService();
@@ -67,10 +74,12 @@ export const tokenController = new TokenController(refreshTokenUseCase);
 
 export const hashService = new HashService(bcryptHashService);
 const otpService = new OtpService(cacheService, hashService);
-export const nodeMailerEmailService = new NodeMailerEmailService();
-export const emailService = new EmailService(nodeMailerEmailService);
+// export const nodeMailerEmailService = new NodeMailerEmailService();
+// export const emailService = new EmailService(nodeMailerEmailService);
 const generateOtpUseCase = new GenerateOtpUseCase(otpService);
 const userMapper = new UserMapper();
+const resendClient  = new Resend(ENV.RESEND_API_KEY);
+const resentEmailService = new ResendEmailService(resendClient,ENV.EMAIL_FROM!)
 
 const userEntityFactory = new UserEntityFactory();
 export const userRepository = new UserRepository(
@@ -82,7 +91,7 @@ const forgetPasswordUseCase = new ForgetPasswordUseCase(
   generateOtpUseCase,
   userRepository,
   loggerService,
-  emailService,
+  resentEmailService,
   userMapper,
   cacheService
 );
@@ -100,9 +109,7 @@ const changePasswordUseCase = new ChangePasswordUseCase(
   userMapper
 );
 
-import { PasswordSetOtpEmailTemplate } from '../../infrastructure/services/Templates/passwordSetOtpEmailTemplate';
-import { RequestPasswordSetOTPUseCase } from '../../application/useCases/common/password-reset/RequestPasswordSetOTPUseCase';
-import { SetPasswordWithOtpUseCase } from '../../application/useCases/common/password-reset/SetPasswordWithOtpUseCase';
+
 
 export const passwordController = new PasswordController(
   forgetPasswordUseCase,
@@ -112,7 +119,7 @@ export const passwordController = new PasswordController(
     userRepository,
     tokenService,
     otpService,
-    emailService,
+   resentEmailService,
     new PasswordSetOtpEmailTemplate()
   ),
   new SetPasswordWithOtpUseCase(
@@ -174,7 +181,8 @@ const subscriptionRepository = new OrganizerSubscriptionRepository(
 const organizerSubscriptionMapper = new OrganizerSubscriptionMapper();
 const activateSubscriptionUseCase = new ActivateSubScriptionUseCase(
   subscriptionRepository,
-  organizerSubscriptionMapper
+  organizerSubscriptionMapper,
+  userRepository
 );
 const upgradeSubscriptionUseCase = new UpgradeSubscriptionUseCase(
   subscriptionRepository,
@@ -200,7 +208,7 @@ const refundConfirmationTemplate = new RefundConfirmationEmailTemplate();
 const handleEventCancelledRefundUseCase = new HandleEventCancelledRefundUseCase(
   bookingRepository,
   refundConfirmationTemplate,
-  emailService
+  resentEmailService
 );
 
 const handleStripeWebhookUseCase = new HandleStripeWebhookUseCase(

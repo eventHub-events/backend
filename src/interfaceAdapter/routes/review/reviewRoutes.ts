@@ -3,6 +3,9 @@ import { authenticationMiddleWare } from '../../../di/container';
 import { IAuthenticatedRequest } from '../../../infrastructure/interface/IAuthenticatedRequest';
 import { reviewController } from '../../../di/common/review/container';
 import { checkBlockedMiddleware } from '../../../di/common/commonContainers';
+import { InputDataValidator } from '../../../infrastructure/middleware/zodMiddleware/inputDataValidator';
+import { userReviewSchema } from '../../../infrastructure/validation/schemas/user/reviewSchema';
+import { updateReviewSchema } from '../../../infrastructure/validation/schemas/user/updateReviewSchema';
 
 const router = express.Router();
 
@@ -10,6 +13,7 @@ router.post(
   '/event/:eventId',
   authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
   checkBlockedMiddleware.execute,
+   InputDataValidator.validate(userReviewSchema),
   (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
     reviewController.addEventReview(req, res, next)
 );
@@ -17,6 +21,7 @@ router.post(
   '/organizer/:organizerId',
   authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
   checkBlockedMiddleware.execute,
+  InputDataValidator.validate(userReviewSchema),
   (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
     reviewController.addOrganizerReview(req, res, next)
 );
@@ -24,6 +29,7 @@ router.put(
   '/:reviewId',
   authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
   checkBlockedMiddleware.execute,
+  InputDataValidator.validate(updateReviewSchema),
   (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
     reviewController.updateReview(req, res, next)
 );

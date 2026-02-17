@@ -36,6 +36,7 @@ export class ReviewController {
     try {
       const { eventId } = req.params;
       const dto: AddReviewDTO = req.body;
+     
       const result = await this._addEventReviewUseCase.execute(eventId, dto);
       res
         .status(HttpStatusCode.CREATED)
@@ -84,6 +85,7 @@ export class ReviewController {
   ): Promise<void> {
     try {
       const dto: UpdateReviewDTO = req.body;
+      
       const { reviewId } = req.params;
       if (!reviewId)
         throw new CustomError(

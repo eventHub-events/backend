@@ -22,6 +22,10 @@ export class UserEntityFactory implements IUserEntityFactory<
       createdAt: dbModel.createdAt,
       stripeAccountId: dbModel.stripeAccountId,
       stripeOnboarded: dbModel.stripeOnboarded,
+      isSubscribed: dbModel.isSubscribed,
+      isProfileCompleted: dbModel.isProfileCompleted,
+      isKycSubmitted:dbModel.isKycSubmitted,
+      isStripeConnected:dbModel.isStripeConnected
     });
   }
   toDomainList(dbModel: UserDbModel[]): UserEntity[] {
