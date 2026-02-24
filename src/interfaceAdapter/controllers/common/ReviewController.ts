@@ -145,24 +145,24 @@ export class ReviewController {
     try {
       const { targetId, targetType } = req.params;
       const { page = 1, limit = 5 } = req.query;
-      const userId = req.user?.id;
+      // const userId = req.user?.id;
       if (!targetId)
         throw new CustomError(
           ErrorMessages.REVIEW.TARGET_ID_REQUIRED,
           HttpStatusCode.BAD_REQUEST
         );
-      if (!userId)
-        throw new CustomError(
-          ErrorMessages.USER.ID_REQUIRED,
-          HttpStatusCode.BAD_REQUEST
-        );
+      // if (!userId)
+      //   throw new CustomError(
+      //     ErrorMessages.USER.ID_REQUIRED,
+      //     HttpStatusCode.BAD_REQUEST
+      //   );
 
       const result = await this._getReviewsUseCase.execute(
         targetId,
         targetType as ReviewType,
         page as string,
         limit as string,
-        userId
+        // userId
       );
 
       res
@@ -209,10 +209,10 @@ export class ReviewController {
     try {
       const { targetId, targetType } = req.params;
       const { page = 1, limit = 5 } = req.query;
-
+      
       if (!targetId)
         throw new CustomError(
-          ErrorMessages.REVIEW.TARGET_ID_REQUIRED,
+          ErrorMessages.REVIEW.TARGET_ID_REQUIRED,    
           HttpStatusCode.BAD_REQUEST
         );
       const result = await this._getReviewsForOrganizerUseCase.execute(
