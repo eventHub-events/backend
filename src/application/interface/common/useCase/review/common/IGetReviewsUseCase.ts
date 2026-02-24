@@ -7,6 +7,6 @@ export interface IGetReviewsUseCase {
     targetType: ReviewType,
     page: string,
     limit: string,
-    userId: string
+    // userId: string
   ): Promise<{ reviews: ReviewResponseDTO[]; hasMore: boolean }>;
 }

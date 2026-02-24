@@ -42,22 +42,22 @@ router.delete(
 );
 router.get(
   '/organizer/:targetType/:targetId',
-  authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
-  checkBlockedMiddleware.execute,
+  // authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
+  // checkBlockedMiddleware.execute,
   (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
     reviewController.fetchReviewsForOrganizerEvents(req, res, next)
 );
 router.get(
   '/:targetType/:targetId',
-  authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
-  checkBlockedMiddleware.execute,
+  // authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
+  // checkBlockedMiddleware.execute,
   (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
     reviewController.fetchReviews(req, res, next)
 );
 router.get(
   '/summary/:targetType/:targetId/',
-  authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
-  checkBlockedMiddleware.execute,
+  // authenticationMiddleWare.authenticateUser.bind(authenticationMiddleWare),
+  // checkBlockedMiddleware.execute,
   (req: IAuthenticatedRequest, res: Response, next: NextFunction) =>
     reviewController.getSummary(req, res, next)
 );

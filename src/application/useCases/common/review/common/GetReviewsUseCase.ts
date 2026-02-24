@@ -13,7 +13,8 @@ export class GetReviewsUseCase implements IGetReviewsUseCase {
     targetId: string,
     targetType: ReviewType,
     page: string,
-    limit: string
+    limit: string,
+    
   ): Promise<{ reviews: ReviewResponseDTO[]; hasMore: boolean }> {
     const { entity, hasMore } = await this._reviewRepo.getReviewsForTarget(
       targetId,
