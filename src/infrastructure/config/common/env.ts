@@ -8,7 +8,6 @@ export const ENV = {
   REDIS_URL:process.env.REDIS_URL,
   UPSTASH_REDIS_REST_TOKEN:process.env.UPSTASH_REDIS_REST_TOKEN,
   FRONTEND_URL: process.env.FRONTEND_URL,
-
   SMTP_HOST: process.env.SMTP_HOST,
   SMTP_PORT: process.env.SMTP_PORT,
   SMTP_USER: process.env.SMTP_USER,
@@ -42,7 +41,7 @@ export const ENV = {
 
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
   STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
-
+  MAX_LIMIT_PER_USER:process.env.MAX_LIMIT_PER_USER,
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
 
   NODE_ENV: process.env.NODE_ENV,

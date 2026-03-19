@@ -13,4 +13,5 @@ export interface IEventRepository {
     filter?: Partial<EventEntity>
   ): Promise<EventEntity[]>;
   findAllEvents(filter?: Partial<EventEntity>): Promise<EventEntity[]>;
+  updateEventStatus(now: Date): Promise<void> 
 }

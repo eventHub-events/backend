@@ -8,6 +8,7 @@ import { BaseRepository } from '../BaseRepository';
 import { IEventsEntityFactory } from '../../../application/interface/factories/organizer/IEventsEntityFactory';
 import { EventsDbModel } from '../../../domain/types/OrganizerTypes';
 import { ErrorMessages } from '../../../constants/errorMessages';
+import { EventStatus } from '../../../domain/enums/organizer/events';
 
 export class EventRepository
   extends BaseRepository<IEvent>
@@ -60,5 +61,31 @@ export class EventRepository
     const eventDoc = (await super.findById(eventId)) as EventsDbModel;
     if (!eventDoc) throw new Error(ErrorMessages.EVENT.NOT_FOUND);
     return this._eventEntityMapper.toDomain(eventDoc);
+  }
+  async updateEventStatus(now: Date): Promise<void> {
+      await super.updateMany(
+        {
+           startDate: {$lte: now},
+           endDate : {$gte: now},
+           status:{$ne: EventStatus.Active},
+           isDeleted: false
+        },
+        {
+          $set:{status: EventStatus.Active}
+        }
+      )
+
+       await super.updateMany(
+        {
+          endDate: {$lt : now},
+          status : { $ne: EventStatus.Completed},
+          isDeleted: false
+        },
+        {
+          $set: {
+            status:EventStatus.Completed
+          }
+        }
+       )
   }
 }

@@ -6,6 +6,7 @@ import { bookingsExpirationScheduler } from './di/user/booking/container';
 import { ENV } from './infrastructure/config/common/env';
 import { createSocketServer } from './infrastructure/websocket/socket-connection/createSocketServer';
 import { createApp } from './infrastructure/http/createApp';
+import { eventExpiryJob } from './di/organizer/events/container';
 
 const app = createApp();
 const server = http.createServer(app);
@@ -17,6 +18,7 @@ DbConnection.connect();
 subscriptionExpiryMonitor.startJob();
 bookingsExpirationScheduler.start();
 payoutSchedulerJob.start();
+eventExpiryJob.start()
 
 server.listen(ENV.PORT, () => {
   console.log('server is running ');

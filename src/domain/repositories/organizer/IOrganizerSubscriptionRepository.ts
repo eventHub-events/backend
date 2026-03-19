@@ -4,7 +4,7 @@ import { SubscriptionStatus } from '../../enums/organizer/subscription';
 
 // ---- Timeline ----
 export interface SubscriptionRevenueTimelineItem {
-  dateLabel: string; // "2025-01" / "2025-01-21" / "2025"
+  dateLabel: string; 
   revenue: number;
   subscriptions: number;
 }
@@ -66,4 +66,5 @@ export interface IOrganizerSubscriptionRepository {
   getPlanWiseAnalytics(): Promise<PlanSubscriptionAnalytics[]>;
   getOrganizerWiseAnalytics(): Promise<OrganizerSubscriptionAnalytics[]>;
   getStatusSummary(): Promise<SubscriptionStatusSummary>;
+  getSubscriptionByOrganizerId(organizerId: string,status?:SubscriptionStatus):Promise<OrganizerSubscriptionEntity>;
 }

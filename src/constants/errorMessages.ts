@@ -24,6 +24,10 @@ export const ErrorMessages = {
     EVENT_ALREADY_CANCELLED: 'Event already  cancelled',
     FEATURED_EVENT_NOT_FOUND: 'featured events Not found',
     UPCOMING_EVENT_NOT_FOUND: 'Upcoming event details not found',
+    MAX_CAPACITY_EXCEEDED:'Total ticket seats cannot exceed event total capacity',
+    ALREADY_COMPLETED:"Event has already ended",
+    CANCELLED:"Event already  cancelled",
+    BLOCKED:"Event Blocked"
   },
   ERROR_CODES: {
     USER_BLOCKED: 'USER_BLOCKED',
@@ -147,6 +151,8 @@ export const ErrorMessages = {
     USER_BOOKING_LIST_NOT_FOUND: 'User Booking List not Found',
     BOOKING_ALREADY_PROCESSED: 'Booking already processed',
     NO_DUE_BOOKINGS_FOUND: 'No due bookings found',
+    MAX_LIMIT_ERROR:"You can only book maximum",
+    TICKETS:"tickets"
   },
   CATEGORY: {
     ID_REQUIRED: 'CategoryId is required',
@@ -160,6 +166,7 @@ export const ErrorMessages = {
     PLAN_ID_REQUIRED: 'Plan id is required',
     SUBSCRIPTION_DETAILS: 'Subscription details is required',
     SUBSCRIPTION_NOT_FOUND: 'Subscription details not found',
+    SUBSCRIPTION_REQUIRED:"Active subscription is required"
   },
   CHAT: {
     NOT_ELIGIBLE_TO_REPORT_ORGANIZER:

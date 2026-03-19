@@ -13,6 +13,7 @@ export interface IEventMapper extends IBaseMapper<
   EventResponseDTO
 > {
   toResponseDTOList(entities: EventEntity[]): EventResponseDTO[];
+   toResponseDTO(entity: EventEntity): EventResponseDTO
   toBlankModerationEntity(
     eventId: Types.ObjectId,
     eventApprovalStatus: EventApprovalStatus
