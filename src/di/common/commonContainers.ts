@@ -62,6 +62,9 @@ import { RequestPasswordSetOTPUseCase } from '../../application/useCases/common/
 import { SetPasswordWithOtpUseCase } from '../../application/useCases/common/password-reset/SetPasswordWithOtpUseCase';
 import { Resend } from 'resend';
 import { ResendEmailService } from '../../infrastructure/services/resendEmailService/ResendEmailService';
+import { EventTicketingEntityFactory } from '../../infrastructure/factories/organizer/EventTicketingEntityFactory';
+import { EventTicketingRepository } from '../../infrastructure/repositories/organizer/EventTicketingRepository';
+import { TicketingMapper } from '../../application/mapper/organizer/TicketingMapper';
 
 const cacheService = new RedisCacheService();
 export const loggerService = new WinstonLoggerService();
@@ -71,7 +74,11 @@ const jwtToken = new JWTToken(tokenConfig);
 const tokenService = new TokenService(jwtToken);
 const refreshTokenUseCase = new RefreshTokenUseCase(tokenService);
 export const tokenController = new TokenController(refreshTokenUseCase);
-
+const eventTicketingEntityFactory = new EventTicketingEntityFactory();
+const ticketingRepository = new EventTicketingRepository(
+  eventTicketingEntityFactory
+);
+const ticketingMapper = new TicketingMapper();
 export const hashService = new HashService(bcryptHashService);
 const otpService = new OtpService(cacheService, hashService);
 // export const nodeMailerEmailService = new NodeMailerEmailService();
@@ -135,7 +142,10 @@ export const eventRepository = new EventRepository(eventEntityFactory);
 const eventMapper = new EventMapper();
 export const updatingEventUseCase = new UpdateEventUseCase(
   eventRepository,
-  eventMapper
+  eventMapper,
+  ticketingRepository,
+  ticketingMapper
+  
 );
 
 // google- login //
