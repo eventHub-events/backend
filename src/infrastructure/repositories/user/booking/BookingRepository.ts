@@ -136,6 +136,13 @@ export class BookingRepository
     const doc = (await super.findOne({ eventId, userId })) as BookingDbModel;
     return doc ? this._bookingEntityFactory.toDomain(doc) : null;
   }
+  async findAllBookingsByEventIdAndUserId(
+    eventId: string,
+    userId: string
+  ): Promise<BookingEntity[] | null> {
+    const doc = (await super.findAll({ eventId, userId })) as BookingDbModel[];
+    return doc ? this._bookingEntityFactory.toDomainList(doc) : null;
+  }
 
   async findBookingsByEventIdAndStatus(
     eventId: string,

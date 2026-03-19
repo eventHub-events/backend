@@ -32,6 +32,10 @@ export interface IBookingRepository {
     eventId: string,
     userId: string
   ): Promise<BookingEntity | null>;
+  findAllBookingsByEventIdAndUserId(
+    eventId: string,
+    userId: string
+  ): Promise<BookingEntity[] | null>;
   findBookingsByOrganizerIdAndUserId(
     organizerId: string,
     userId: string

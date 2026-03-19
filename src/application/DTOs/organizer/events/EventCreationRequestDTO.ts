@@ -4,6 +4,7 @@ import {
   EventVisibility,
 } from '../../../../domain/enums/organizer/events';
 import { ILocation } from '../../../../domain/valueObject/organizer/location';
+import { ITicketTier } from '../../../../domain/valueObject/organizer/ticketTier';
 
 export interface EventCreationRequestDTO {
   organizerId: string;
@@ -25,6 +26,10 @@ export interface EventCreationRequestDTO {
   stripeAccountId: string;
   visibility?: EventVisibility;
   organizerEmail?: string;
+  saleStartDate: Date;        
+  saleEndDate: Date;
+  tickets: ITicketTier[];
+  waitingListEnabled: boolean; 
   organizerPaymentId?: string;
   category?: string;
 }

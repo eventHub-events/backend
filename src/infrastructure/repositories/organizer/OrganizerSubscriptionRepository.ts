@@ -57,6 +57,15 @@ export class OrganizerSubscriptionRepository
     })) as OrganizerSubscriptionDbModel;
     return this._SubscriptionEntityFactory.toDomain(fetched);
   }
+  async getSubscriptionByOrganizerId(organizerId: string, status?: SubscriptionStatus): Promise<OrganizerSubscriptionEntity> {
+      
+    const fetched = await super.findOne({
+      organizerId,
+      status
+    }) as OrganizerSubscriptionDbModel;
+
+    return this._SubscriptionEntityFactory.toDomain(fetched)
+  }
   async fetchExpiredSubscription(
     currentDate: Date
   ): Promise<OrganizerSubscriptionEntity[]> {

@@ -7,24 +7,82 @@ import { IBookingMapper } from '../../../interface/mapper/user/IBookingMapper';
 import { IBookTicketUseCase } from '../../../interface/useCases/user/booking/IBookTicketUseCase';
 import { ErrorMessages } from '../../../../constants/errorMessages';
 import { IOrganizerStripeAccountRepository } from '../../../../domain/repositories/organizer/IOrganizerStripeAccountRepository';
-import { NotFoundError } from '../../../../domain/errors/common';
+import { BadRequestError, NotFoundError } from '../../../../domain/errors/common';
+import { IEventRepository } from '../../../../domain/repositories/organizer/IEventsRepository';
+import { ENV } from '../../../../infrastructure/config/common/env';
+import { EventStatus } from '../../../../domain/enums/organizer/events';
 
 export class BookTicketUseCase implements IBookTicketUseCase {
   constructor(
     private _ticketingRepository: IEventTicketingRepository,
     private _bookingRepository: IBookingRepository,
     private _bookingMapper: IBookingMapper,
-    private _stripeAccountRepo: IOrganizerStripeAccountRepository
+    private _stripeAccountRepo: IOrganizerStripeAccountRepository,
+    private _eventRepository : IEventRepository
   ) {}
 
   async execute(
     eventId: string,
     dto: BookingRequestDTO
   ): Promise<BookingResponseDTO> {
+
+
+     const maxLimit =Number(ENV.MAX_LIMIT_PER_USER);
+      const requestedTotal = dto.tickets.reduce(
+    (sum, t) => sum + t.quantity,
+    0
+  );
+    if (requestedTotal > maxLimit) {
+    throw new BadRequestError(`${ErrorMessages.BOOKING.MAX_LIMIT_ERROR} ${maxLimit} ${ErrorMessages.BOOKING.TICKETS}`);
+  }
+  
+   const existingBookings =
+    await this._bookingRepository.findAllBookingsByEventIdAndUserId(
+      dto.userId,
+      eventId
+    );
+
+     const alreadyBooked = existingBookings?.reduce((sum, booking) => {
+    return (
+      sum +
+      booking.tickets.reduce((s, t) => s + t.quantity, 0)
+    );
+  }, 0);
+
+  
+  if (alreadyBooked ?? 0 + requestedTotal > maxLimit) {
+    throw new BadRequestError(`${ErrorMessages.BOOKING.MAX_LIMIT_ERROR} ${maxLimit} ${ErrorMessages.BOOKING.TICKETS}`)
+  }
     const reserved = await this._ticketingRepository.reserveMultipleSeats(
       eventId,
       dto.tickets
     );
+
+    const event = await this._eventRepository.findEventById(eventId);
+
+if (!event) {
+  throw new NotFoundError(ErrorMessages.EVENT.NOT_FOUND);
+}
+
+const now = new Date();
+
+
+if (event.endDate && new Date(event.endDate) < now) {
+  throw new BadRequestError(ErrorMessages.EVENT.ALREADY_COMPLETED);
+}
+
+if (event.status === EventStatus.Completed) {
+  throw new BadRequestError(ErrorMessages.EVENT.ALREADY_COMPLETED);
+}
+
+
+if (event.status === EventStatus.Cancelled) {
+  throw new BadRequestError(ErrorMessages.EVENT.CANCELLED);
+}
+
+if (event.status === EventStatus.Blocked) {
+  throw new BadRequestError(ErrorMessages.EVENT.BLOCKED);
+}
 
     if (!reserved)
       throw new Error(ErrorMessages.BOOKING.BOOKING_SEAT_NOT_AVAILABLE);

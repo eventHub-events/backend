@@ -17,10 +17,13 @@ import { GetUserBookingsController } from '../../../interfaceAdapter/controllers
 import { StripeAccountEntityFactory } from '../../../infrastructure/factories/organizer/OrganizerStripeAccountEntityFactory';
 import { OrganizerStripeAccountRepository } from '../../../infrastructure/repositories/organizer/OrganizerStripeAccountRepository';
 import { ENV } from '../../../infrastructure/config/common/env';
+import { EventEntityFactory } from '../../../infrastructure/factories/organizer/EventEntityFactory';
+import { EventRepository } from '../../../infrastructure/repositories/organizer/EventsRepository';
 const bookingEntityFactory = new BookingEntityFactory();
 const bookingRepository = new BookingRepository(bookingEntityFactory);
 const bookingMapper = new BookingMapper();
-
+const eventEntityFactory = new EventEntityFactory();
+const eventRepository = new EventRepository(eventEntityFactory);
 const organizerStripeEntityFactory = new StripeAccountEntityFactory();
 const organizerStripeAccountRepository = new OrganizerStripeAccountRepository(
   organizerStripeEntityFactory
@@ -35,7 +38,8 @@ const bookTicketUseCase = new BookTicketUseCase(
   ticketingRepository,
   bookingRepository,
   bookingMapper,
-  organizerStripeAccountRepository
+  organizerStripeAccountRepository,
+  eventRepository
 );
 
 const getUserBookingsListUseCase = new GetUserBookingListUseCase(

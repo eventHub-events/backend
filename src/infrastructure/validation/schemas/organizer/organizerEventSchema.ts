@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { EventVisibility } from '../../../../domain/enums/organizer/events';
+import { ticketTierSchema } from './organizerTicketSchema';
 
 const titleRegex = /^[A-Z][A-Za-z0-9 ]{4,49}$/;
 const descriptionRegex = /^[A-Z][A-Za-z0-9 ,]{14,149}$/;
@@ -16,7 +17,7 @@ enum EventMode {
   Approved = 'offline',
 }
 
-// -----Location Validation -----//
+
 const locationSchema = z.object({
   venue: z
     .string()
@@ -111,7 +112,48 @@ export const organizerEventSchema = z.object({
         .regex(tagRegex, { message: 'Tags can  contain only letters' })
     )
     .optional(),
-});
+    waitingListEnabled: z.boolean().default(false),
+   tickets: z
+    .array(ticketTierSchema)
+    .min(1, { message: 'At least one ticket tier is required' }),
+    saleStartDate: z.coerce.date(),
+
+  saleEndDate: z.coerce.date(),
+  
+
+}) .superRefine((data, ctx) => {
+    if (data.endDate < data.startDate) {
+      ctx.addIssue({
+        path: ['endDate'],
+        code: z.ZodIssueCode.custom,
+        message: 'Event end date must be after start date',
+      });
+    }
+
+    if (data.saleEndDate < data.saleStartDate) {
+      ctx.addIssue({
+        path: ['saleEndDate'],
+        code: z.ZodIssueCode.custom,
+        message: 'Sale end date must be after sale start date',
+      });
+    }
+
+    if (data.saleStartDate > data.startDate) {
+      ctx.addIssue({
+        path: ['saleStartDate'],
+        code: z.ZodIssueCode.custom,
+        message: 'Sale cannot start after event start date',
+      });
+    }
+
+    if (data.saleEndDate > data.endDate) {
+      ctx.addIssue({
+        path: ['saleEndDate'],
+        code: z.ZodIssueCode.custom,
+        message: 'Sale cannot end after event end date',
+      });
+    }
+  });
 
 export type OrganizerEventSchemaType = z.infer<typeof organizerEventSchema>;
 export const organizerEventUpdateSchema = organizerEventSchema.partial();
