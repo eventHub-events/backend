@@ -27,7 +27,7 @@ The system focuses on real-world features such as secure authentication, Stripe 
 ### 🎟️ Event & Booking System
 - Event creation and management  
 - Booking system with tracking  
-- Advanced filtering (category, location, date, ticket type)  
+- Reporting user,events,chat messages  
 - Reviews and ratings  
 
 ---
@@ -86,9 +86,9 @@ The system focuses on real-world features such as secure authentication, Stripe 
 server/
 ├── src/
 │   ├── domain/          # Entities & interfaces
-│   ├── use-cases/       # Business logic
+│   ├── application/       # Business logic
 │   ├── infrastructure/  # DB & external services
-│   └── presentation/    # Routes & controllers
+│   └── interfaceAdapter/    # Routes & controllers
 ├── Dockerfile
 └── package.json
 ```
@@ -109,7 +109,7 @@ Create a `.env` file in the `server/` directory:
 
 ```env
 # App
-PORT=5000
+PORT=8000
 NODE_ENV=development
 
 # Database
@@ -197,10 +197,21 @@ npm run dev
 
 The backend is containerized using Docker.
 
-### Build and Run
+## 🐳 Docker Setup
+
+The project uses Docker Compose to run all services.
+
+### Services
+- **Backend:** Node.js API (port 8000)  
+- **MongoDB:** Database (port 27017)  
+- **Redis:** Caching (port 6379)  
+
+---
+
+### Run with Docker Compose
+
 ```bash
-docker build -t eventhub-backend .
-docker run -p 5000:5000 eventhub-backend
+docker-compose up --build
 ```
 ## 📌 Notes
 - Follows Clean Architecture for maintainability  
