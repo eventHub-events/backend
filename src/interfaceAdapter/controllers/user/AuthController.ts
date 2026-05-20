@@ -14,6 +14,7 @@ import { CookieOptionsUtility } from '../../../utils/CookieOptions.utility';
 import { BadRequestError, NotFoundError } from '../../../domain/errors/common';
 import { CustomError } from '../../../infrastructure/errors/errorClass';
 import { COOKIE_NAMES } from '../../../infrastructure/constants/authentication/cookieNames';
+import { ENV } from '../../../infrastructure/config/common/env';
 
 export class AuthController {
   constructor(
@@ -100,11 +101,11 @@ export class AuthController {
       const { token, refreshToken, user } =
         await this._loginUserUseCase.loginUser(email, password);
 
-      const authCookieOptions = CookieOptionsUtility.create(15 * 60 * 1000);
+      const authCookieOptions = CookieOptionsUtility.create(Number(ENV.ACCESS_TOKEN_TIME));
       res.cookie(COOKIE_NAMES.AUTH_TOKEN, token, authCookieOptions);
 
       const refreshCookieOption = CookieOptionsUtility.create(
-        7 * 24 * 60 * 60 * 1000
+        Number(ENV.REFRESH_TOKEN_TIME)
       );
       res.cookie(COOKIE_NAMES.REFRESH_TOKEN, refreshToken, refreshCookieOption);
 
