@@ -101,12 +101,19 @@ export class AuthController {
       const { token, refreshToken, user } =
         await this._loginUserUseCase.loginUser(email, password);
 
-      const authCookieOptions = CookieOptionsUtility.create(Number(ENV.ACCESS_TOKEN_TIME));
-      res.cookie(COOKIE_NAMES.AUTH_TOKEN, token, authCookieOptions);
+        console.log("ACCESS_TOKEN_TIME =", ENV.ACCESS_TOKEN_TIME);
+console.log("REFRESH_TOKEN_TIME =", ENV.REFRESH_TOKEN_TIME);
 
+console.log("ACCESS_TOKEN_TIME Number =", Number(ENV.ACCESS_TOKEN_TIME));
+console.log("REFRESH_TOKEN_TIME Number =", Number(ENV.REFRESH_TOKEN_TIME));
+      const authCookieOptions = CookieOptionsUtility.create(Number(ENV.ACCESS_TOKEN_TIME));
+      console.log(typeof authCookieOptions.maxAge);
+      res.cookie(COOKIE_NAMES.AUTH_TOKEN, token, authCookieOptions);
+      
       const refreshCookieOption = CookieOptionsUtility.create(
         Number(ENV.REFRESH_TOKEN_TIME)
       );
+      console.log(refreshCookieOption);
       res.cookie(COOKIE_NAMES.REFRESH_TOKEN, refreshToken, refreshCookieOption);
 
       res
