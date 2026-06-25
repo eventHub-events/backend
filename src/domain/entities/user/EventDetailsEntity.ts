@@ -1,3 +1,4 @@
+import { EventStatus } from '../../enums/organizer/events';
 import { ILocation } from '../../valueObject/organizer/location';
 import { ITicketTier } from '../../valueObject/organizer/ticketTier';
 
@@ -7,6 +8,10 @@ export interface EventDetailsEntity {
   images: string[];
   description: string;
   startDate: string;
+  endDate?:string;
+  status:EventStatus;
+  startTime:string;
+  endTime:string;
   tags: string[];
   category: string;
   venue: string;

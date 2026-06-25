@@ -84,21 +84,52 @@ export class GenerateTicketUseCase implements IGenerateTicketUseCase {
     ctx.font = "bold 18px sans-serif";
     ctx.fillText(`Total Tickets: ${totalTickets}`, 50, yPosition);
 
-    // Venue
-    yPosition += 35;
-    ctx.font = "16px sans-serif";
-    ctx.fillText(`Venue: ${booking.eventLocation}`, 50, yPosition);
+  // Venue
+yPosition += 35;
+ctx.font = "16px sans-serif";
+ctx.fillStyle = "#111827";
+ctx.fillText(`Venue: ${booking.eventLocation}`, 50, yPosition);
 
-    // Date
-    yPosition += 25;
-    ctx.fillText(`Date: ${booking.eventDate}`, 50, yPosition);
+// Attendance Date (Highlight)
+yPosition += 40;
 
-    // Booking ID
-    yPosition += 25;
-    ctx.fillStyle = "#6b7280";
-    ctx.font = "14px sans-serif";
-    ctx.fillText(`Booking ID: ${booking.bookingId}`, 50, yPosition);
+ctx.fillStyle = "#fef3c7";
+ctx.fillRect(45, yPosition - 22, 420, 42);
 
+ctx.strokeStyle = "#f59e0b";
+ctx.strokeRect(45, yPosition - 22, 420, 42);
+
+ctx.fillStyle = "#92400e";
+ctx.font = "bold 18px sans-serif";
+ctx.fillText(
+  `Attendance Date: ${booking.attendanceDate}`,
+  60,
+  yPosition + 5
+);
+
+// Event Time
+yPosition += 55;
+ctx.fillStyle = "#111827";
+ctx.font = "16px sans-serif";
+ctx.fillText(
+  `Time: ${booking.eventStartTime} - ${booking.eventEndTime}`,
+  50,
+  yPosition
+);
+
+// Event Duration
+yPosition += 28;
+ctx.fillText(
+  `Event Duration: ${booking.eventStartDate} - ${booking.eventEndDate}`,
+  50,
+  yPosition
+);
+
+// Booking ID
+yPosition += 30;
+ctx.fillStyle = "#6b7280";
+ctx.font = "14px sans-serif";
+ctx.fillText(`Booking ID: ${booking.bookingId}`, 50, yPosition);
     // Perforated divider
     ctx.setLineDash([6, 6]);
     ctx.beginPath();
@@ -120,14 +151,14 @@ export class GenerateTicketUseCase implements IGenerateTicketUseCase {
     const buffer = canvas.toBuffer('image/png');
     const fileName = `ticket-${booking.bookingId}.png`;
 
-    console.log("Uploading ticket...");
+    
 
     const url = await this._storageService.uploadBuffer(
       buffer,
       `tickets/${fileName}`
     );
 
-    console.log("Ticket URL", url);
+  
 
     ticketUrls.push(url);
 

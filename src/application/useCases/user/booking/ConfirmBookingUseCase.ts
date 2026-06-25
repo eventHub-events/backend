@@ -34,9 +34,9 @@ export class ConfirmBookingUseCase implements IConfirmBookingUseCase {
       throw new NotFoundError(ErrorMessages.BOOKING.BOOKING_NOT_FOUND);
 
     const status = BookingStatus.CONFIRMED;
-    const eventDate = new Date(booking.eventDate);
-    const payoutDueDate = new Date(eventDate);
-    payoutDueDate.setDate(eventDate.getDate() + payoutDelayDays);
+    const attendanceDate = new Date(booking.attendanceDate);
+    const payoutDueDate = new Date(attendanceDate);
+    payoutDueDate.setDate(attendanceDate.getDate() + payoutDelayDays);
     const payoutStatus = PayoutStatus.PENDING;
 
     booking.applyCommission(subscription.commissionRate!);
