@@ -14,7 +14,7 @@ export class GetEventDetailsUseCase implements IGetEventDetailsUseCase {
       await this._eventDisplayQueryRepository.findEventById(eventId);
 
     if (!event) throw new Error(ErrorMessages.EVENT.NOT_FOUND);
-
+  
     return this._eventMapper.toEventDetailsResponseDTO(event);
   }
 }

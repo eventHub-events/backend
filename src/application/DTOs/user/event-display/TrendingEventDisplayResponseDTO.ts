@@ -1,3 +1,5 @@
+import { EventStatus } from "../../../../domain/enums/organizer/events";
+
 export interface TrendingEventDisplayResponseDTO {
   id?: string;
   title: string;
@@ -6,7 +8,9 @@ export interface TrendingEventDisplayResponseDTO {
   location: string;
   attendees?: number;
   startDate: string;
+  endDate?: string;
   tags?: string[];
+  status:EventStatus;
   price: number;
   ticketsLeft?: number;
   availability?: number;

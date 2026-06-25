@@ -5,7 +5,11 @@ export interface UserBookingListResponseDTO {
   eventId: string;
   eventName: string;
   eventImages?: string[];
-  eventDate: string;
+  eventStartDate: string;
+  eventEndDate:string;
+  eventStartTime:string;
+  eventEndTime:string;
+  attendanceDate:string;
   eventLocation: string;
   organizerName: string;
   tickets: {

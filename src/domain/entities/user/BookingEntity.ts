@@ -18,7 +18,11 @@ export class BookingEntity {
   public status: BookingStatus;
   public createdAt?: Date;
   public eventTitle: string;
-  public eventDate: string;
+  public eventStartDate: string;
+  public eventEndDate: string;
+  public eventStartTime: string;
+  public eventEndTime: string;
+  public attendanceDate: string;
   public organizerName: string;
   public readonly eventVenue: string;
   public userName: string;
@@ -58,7 +62,11 @@ export class BookingEntity {
     status: BookingStatus;
     createdAt?: Date;
     eventTitle: string;
-    eventDate: string;
+    eventStartDate: string;
+   eventEndDate: string;
+   eventStartTime: string;
+   eventEndTime: string;
+   attendanceDate: string;
     payoutStatus?: PayoutStatus;
     payoutDueDate?: Date;
     payoutDate?: Date;
@@ -93,7 +101,11 @@ export class BookingEntity {
     this.eventTitle = props.eventTitle;
     this.eventVenue = props.eventVenue;
     this.organizerName = props.organizerName;
-    this.eventDate = props.eventDate;
+    this.eventStartDate = props.eventStartDate;
+    this.eventEndDate = props.eventEndDate;
+    this.eventStartTime = props.eventStartTime;
+    this.eventEndTime = props.eventEndTime;
+    this.attendanceDate = props.attendanceDate;
     this.totalAmount = props.totalAmount;
     this.id = props.id;
     this.eventImages = props.eventImages;

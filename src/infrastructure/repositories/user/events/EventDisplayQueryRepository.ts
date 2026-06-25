@@ -57,6 +57,8 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       {
         $match: {
           'moderation.eventApprovalStatus': 'approved',
+          status: { $in: ['upcoming', 'active'] },
+          isDeleted: false,
         },
       },
       {
@@ -118,6 +120,8 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
           category: '$category.name',
           tags: 1,
           startDate: 1,
+          endDate:1,
+          status:1,
           images: 1,
           location: '$location.venue',
           attendees: 1,
@@ -137,23 +141,26 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
   ): Promise<{ data: EventDisplayEntity[]; totalPages: number }> {
     const { title, location, category, page, limit } = filters;
 
-    // ✅ Default behavior: if no pagination => limit = 6 (landing page)
+  
     const effectiveLimit = limit ?? 6;
     const effectivePage = page ?? 1;
 
-    // ✅ Match stage (strongly typed)
+
     const matchStage: FilterQuery<IEvent> = {
       featured: true,
       isDeleted: false,
+       status: {
+    $in: ['upcoming', 'active'],
+  },
     };
 
     if (title) matchStage.title = { $regex: title, $options: 'i' };
     if (location)
       matchStage['location.venue'] = { $regex: location, $options: 'i' };
-    // if (category) matchStage["category.name"] = { $regex: category, $options: "i" };
+   
     if (category) matchStage.category = { $regex: category, $options: 'i' };
 
-    // ✅ Pipeline (typed as `Record<string, unknown>[]` instead of `any[]`)
+   
     const pipeline: PipelineStage[] = [
       {
         $lookup: {
@@ -277,9 +284,11 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
           title: 1,
           description: 1,
           startDate: 1,
+          endDate:1,
           location: '$location.venue',
           category: 1,
           tags: 1,
+          status:1,
           organizer: 1,
           ticketsLeft: 1,
           availability: 1,
@@ -289,7 +298,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       },
     ];
 
-    // ✅ Pagination logic (only if page/limit provided)
+  
     const skip = (effectivePage - 1) * effectiveLimit;
 
     const [data, countResult] = await Promise.all([
@@ -397,6 +406,10 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
           location: 1,
           tags: 1,
           startDate: 1,
+          status:1,
+          startTime:1,
+          endTime:1,
+          endDate:1,
           images: 1,
           organizerId: 1,
           totalCapacity: 1,
@@ -428,7 +441,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       matchEvent['location.venue'] = { $regex: location, $options: 'i' };
 
     const pipeline: PipelineStage[] = [
-      /* ---------------- Moderation ---------------- */
+    
       {
         $lookup: {
           from: 'eventmoderations',
@@ -440,10 +453,10 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       { $unwind: '$moderation' },
       { $match: { 'moderation.eventApprovalStatus': 'approved' } },
 
-      /* ---------------- Event Filters ---------------- */
+     
       { $match: matchEvent },
 
-      /* ---------------- Category ---------------- */
+     
       {
         $lookup: {
           from: 'categories',
@@ -454,7 +467,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       },
       { $unwind: '$category' },
 
-      /* ---------------- Organizer ---------------- */
+   
       {
         $lookup: {
           from: 'users',
@@ -465,7 +478,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       },
       { $unwind: '$organizer' },
 
-      /* ---------------- Ticketing ---------------- */
+      
       {
         $lookup: {
           from: 'eventticketings',
@@ -504,7 +517,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       },
     ];
 
-    /* ---------- CATEGORY FILTER ---------- */
+
     if (filters.category) {
       pipeline.push({
         $match: {
@@ -513,7 +526,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       });
     }
 
-    /* ---------- ORGANIZER FILTER ---------- */
+   
     if (filters.organizer) {
       pipeline.push({
         $match: {
@@ -522,7 +535,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       });
     }
 
-    /* ---------- GLOBAL SEARCH (HEADER SEARCH) ---------- */
+   
     if (filters.search) {
       pipeline.push({
         $match: {
@@ -536,7 +549,6 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       });
     }
 
-    /* ---------- FINAL TRANSFORM ---------- */
     pipeline.push(
       {
         $addFields: {
@@ -592,9 +604,11 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
           title: 1,
           description: 1,
           startDate: 1,
+          endDate:1,
           location: '$location.venue',
           category: 1,
           tags: 1,
+          status:1,
           organizer: 1,
           ticketsLeft: 1,
           availability: 1,
@@ -606,7 +620,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       { $limit: limit }
     );
 
-    /* ---------- COUNT ---------- */
+   
     const [data, count] = await Promise.all([
       EventModel.aggregate(pipeline),
       EventModel.aggregate([
@@ -627,7 +641,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
     const now = new Date();
 
     const result = await EventModel.aggregate([
-      /* 1️⃣ Valid upcoming public events */
+ 
       {
         $match: {
           startDate: { $gte: now },
@@ -638,7 +652,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
         },
       },
 
-      /* 2️⃣ Ticketing */
+  
       {
         $lookup: {
           from: 'eventticketings',
@@ -649,7 +663,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
       },
       { $unwind: '$ticketing' },
 
-      /* 3️⃣ Organizer */
+      
       {
         $lookup: {
           from: 'users',
@@ -665,7 +679,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
         },
       },
 
-      /* 4️⃣ Real tickets sold */
+    
       {
         $lookup: {
           from: 'bookings',
@@ -693,7 +707,7 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
         },
       },
 
-      /* 5️⃣ Derived fields */
+     
       {
         $addFields: {
           ticketsSold: {
@@ -736,14 +750,14 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
         },
       },
 
-      /* 6️⃣ Hide sold-out */
+   
       {
         $match: {
           ticketsLeft: { $gt: 0 },
         },
       },
 
-      /* 7️⃣ Sort */
+    
       {
         $sort: {
           startDate: 1,
@@ -751,22 +765,24 @@ export class EventDisplayQueryRepository implements IEventDisplayQueryRepository
         },
       },
 
-      /* 8️⃣ Limit */
+   
       { $limit: 6 },
 
-      /* 9️⃣ Final shape */
+      
       {
         $project: {
           eventId: { $toString: '$_id' },
           title: 1,
           description: 1,
           startDate: 1,
+          endDate:1,
           location: '$location.venue',
           images: 1,
           category: 1,
           ticketsLeft: 1,
           availability: 1,
           organizer: 1,
+          status:1
         },
       },
     ]);

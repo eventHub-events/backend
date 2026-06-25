@@ -11,7 +11,11 @@ export interface BookingRequestDTO {
   totalAmount?: number;
   status?: BookingStatus;
   eventTitle: string;
-  eventDate: string;
+  eventStartDate: string;
+  eventEndDate:string;
+  eventStartTime:string;
+  eventEndTime:string
+  attendanceDate:string;
   organizerName: string;
   userName: string;
   eventVenue: string;

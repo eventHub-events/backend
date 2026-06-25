@@ -1,3 +1,4 @@
+import { EventStatus } from '../../../../domain/enums/organizer/events';
 import { ILocation } from '../../../../domain/valueObject/organizer/location';
 import { ITicketTier } from '../../../../domain/valueObject/organizer/ticketTier';
 
@@ -13,6 +14,10 @@ export interface EventDetailsResponseDTO {
   organizerName: string;
   totalCapacity?: number;
   startDate: string;
+  endDate?:string;
+  status:EventStatus;
+  startTime:string;
+  endTime:string;
   organizerId: string;
   stripeAccountId: string;
   organizerStripeAccountId: string;

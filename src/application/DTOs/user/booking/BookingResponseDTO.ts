@@ -13,8 +13,12 @@ export interface BookingResponseDTO {
   status: BookingStatus;
   createdAt?: Date;
   eventTitle: string;
-  eventDate: string;
+  eventStartDate: string;
+  eventEndDate: string;
+  attendanceDate:string
   organizerName: string;
+  eventStartTime:string;
+  eventEndTime:string;
   eventVenue: string;
   userName: string;
   eventImages?: string[];

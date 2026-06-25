@@ -18,7 +18,11 @@ export interface IBooking extends Document {
   totalAmount: number;
   status: BookingStatus;
   eventTitle: string;
-  eventDate: string;
+  eventStartDate: string;
+  eventEndDate :string;
+  eventStartTime: string;
+  eventEndTime :string;
+  attendanceDate:string;
   userName: string;
   organizerName: string;
   eventVenue: string;
@@ -140,8 +144,20 @@ const bookingSchema = new Schema<IBooking>(
       type: Number,
     },
     eventImages: [{ type: String, required: true }],
-    eventDate: {
+    eventStartDate: {
       type: String,
+    },
+    eventEndDate: {
+      type: String,
+    },
+    eventStartTime: {
+      type: String,
+    },
+    eventEndTime: {
+      type: String,
+    },
+    attendanceDate:{
+       type :String
     },
     eventVenue: {
       type: String,
