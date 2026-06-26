@@ -26,6 +26,8 @@ export class BookingDetailsByIdMapper implements IBookingDetailsByIdMapper {
             hour12: true,
           })
         : undefined,
+        paymentMethod:data.paymentMethod,
+        paymentId:data.paymentId,
       totalAmount: data.totalAmount,
       tickets: tickets,
       event: {
@@ -41,6 +43,7 @@ export class BookingDetailsByIdMapper implements IBookingDetailsByIdMapper {
 
       user: {
         name: data.userName,
+        email:data.userEmail
       },
     };
   }
