@@ -29,11 +29,11 @@ export class CancelPaidBookingUseCase implements ICancelPaidBookingUseCase {
     if (booking.status !== BookingStatus.CONFIRMED)
       throw new BadRequestError(ErrorMessages.REFUND.PAID_REQUEST_ERROR);
 
-    const eventDate = new Date(booking.eventDate);
-    const allowed = this._cancellationPolicy.canUserCancelBooking(
-      eventDate,
-      new Date()
-    );
+    const attendanceDate = new Date(booking.attendanceDate);
+  const allowed = this._cancellationPolicy.canUserCancelBooking(
+  attendanceDate,
+  new Date()
+);
 
     if (!allowed)
       throw new BadRequestError(ErrorMessages.REFUND.CANCEL_WINDOW_CLOSED);

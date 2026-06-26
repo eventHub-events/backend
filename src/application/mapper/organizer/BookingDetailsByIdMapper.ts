@@ -29,11 +29,15 @@ export class BookingDetailsByIdMapper implements IBookingDetailsByIdMapper {
       totalAmount: data.totalAmount,
       tickets: tickets,
       event: {
-        eventId: data.eventId.toString(),
-        title: data.eventTitle,
-        date: data.eventDate,
-        venue: data.eventVenue,
-      },
+  eventId: data.eventId.toString(),
+  title: data.eventTitle,
+  startDate: data.eventStartDate,
+  endDate: data.eventEndDate,
+  attendanceDate: data.attendanceDate,
+  startTime: data.eventStartTime,
+  endTime: data.eventEndTime,
+  venue: data.eventVenue,
+},
 
       user: {
         name: data.userName,

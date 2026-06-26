@@ -18,7 +18,11 @@ export interface BookingDetailsByIdResponseDTO {
   event: {
     eventId: string;
     title: string;
-    date: string;
+    startDate: string;
+    endDate: string;
+    startTime: string;
+    endTime: string;
+    attendanceDate:string;
     time?: string;
     venue: string;
   };

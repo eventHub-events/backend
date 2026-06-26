@@ -236,7 +236,7 @@ export class BookingRepository
       organizerRevenue: row.organizerRevenue ?? 0,
       bookingsCount: row.bookingsCount ?? 0,
     }));
-    // ✅ Totals aggregation
+  
     const totalsRaw = await BookingModel.aggregate<{
       totalRevenue: number;
       platformRevenue: number;
@@ -360,7 +360,8 @@ export class BookingRepository
         $group: {
           _id: '$eventId',
           eventTitle: { $first: '$eventTitle' },
-          eventDate: { $first: '$eventDate' },
+          eventStartDate: { $first: '$eventStartDate' },
+          eventEndDate: { $first: '$eventEndDate' },
           totalTicketsSold: { $sum: '$tickets.quantity' },
           bookingsCount: { $sum: 1 },
           revenue: { $sum: '$organizerAmount' },
@@ -371,7 +372,8 @@ export class BookingRepository
           _id: 0,
           eventId: { $toString: '$_id' },
           eventTitle: 1,
-          eventDate: 1,
+          eventStartDate: 1,
+          eventEndDate: 1,
           totalTicketsSold: 1,
           bookingsCount: 1,
           revenue: 1,
@@ -439,7 +441,8 @@ export class BookingRepository
         $group: {
           _id: '$eventId',
           eventTitle: { $first: '$eventTitle' },
-          eventDate: { $first: '$eventDate' },
+          eventStartDate: { $first: '$eventStartDate' },
+          eventEndDate: { $first: '$eventEndDate' },
           bookingsCount: { $addToSet: '$_id' },
           totalTicketsSold: { $sum: '$tickets.quantity' },
           revenue: { $sum: '$tickets.price' },
@@ -450,13 +453,14 @@ export class BookingRepository
           _id: 0,
           eventId: { $toString: '$_id' },
           eventTitle: 1,
-          eventDate: 1,
+          eventStartDate: 1,
+          eventEndDate: 1,
           bookingsCount: { $size: '$bookingsCount' },
           totalTicketsSold: 1,
           revenue: 1,
         },
       },
-      { $sort: { eventDate: -1 } },
+      { $sort: { eventStartDate: -1 } },
       {
         $facet: {
           data: [{ $skip: skip }, { $limit: limit }],
