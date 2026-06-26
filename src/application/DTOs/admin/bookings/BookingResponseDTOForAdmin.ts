@@ -10,5 +10,10 @@ export interface BookingResponseDTOForAdmin {
   status: BookingStatus;
   eventVenue: string;
   totalAmount: number;
-  eventDate: string;
+  eventStartTime:string;
+  eventEndTime:string;
+  eventStartDate:string;
+  eventEndDate :string;
+  attendanceDate:string;
+ 
 }

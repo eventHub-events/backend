@@ -12,7 +12,11 @@ export class BookingMapperAdmin implements IBookingMapperAdmin {
       totalTickets: data.tickets.reduce((sum, t) => sum + t.quantity, 0),
       status: data.status,
       bookingDate: data.createdAt,
-      eventDate: data.eventDate,
+      eventStartDate: data.eventStartDate,
+      eventEndDate: data.eventEndDate,
+      attendanceDate:data.attendanceDate,
+      eventStartTime:data.eventStartTime,
+      eventEndTime:data.eventEndTime,
       eventVenue: data.eventVenue,
       totalAmount: data.totalAmount,
     };

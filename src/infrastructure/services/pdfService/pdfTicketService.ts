@@ -19,26 +19,32 @@ export class PdfTicketService implements IPdfTicketService {
       doc.on('data', chunk => chunks.push(chunk));
       doc.on('end', () => resolve(Buffer.concat(chunks)));
 
-      // ---- PDF CONTENT ----
+      
       doc.fontSize(18).text(booking.eventName, { align: 'center' });
       doc.moveDown();
 
       doc.fontSize(13).text(`Ticket Type: ${ticket.name}`);
       doc.text(`Quantity: ${ticket.quantity}`);
       doc.text(`Price: ₹${ticket.price}`);
-      doc.text(`Venue: ${booking.eventLocation}`);
-      doc.text(`Date : ${booking.eventDate}`);
-      doc.text(`Booked by: ${booking.userName}`);
-      doc.moveDown();
+     doc.text(`Venue: ${booking.eventLocation}`);
+doc.text(
+  `Event Duration: ${booking.eventStartDate} - ${booking.eventEndDate}`
+);
+doc.text(`Attendance Date: ${booking.attendanceDate}`);
+doc.text(
+  `Event Time: ${booking.eventStartTime} - ${booking.eventEndTime}`
+);
+doc.text(`Booked by: ${booking.userName}`);
+doc.moveDown();
 
-      // ---- QR CODE ----
+    
       const qrData = JSON.stringify({
         bookingId: booking.bookingId,
         ticketType: ticket.name,
         eventId: booking.eventId,
       });
 
-      // Wrap async QR generation safely
+     
       QRCode.toDataURL(qrData)
         .then(qrPng => {
           try {
